@@ -8,11 +8,12 @@ func _ready() -> void:
 	var sauvegarde_initialisee := _initialiser_sauvegarde_test()
 	_verifier(sauvegarde_initialisee, "La sauvegarde de test doit être initialisée.")
 	await _tester_transfert_simple()
-	await _tester_transfert_groupe()
+	await _tester_transfert_groupe_deux_jetons()
+	await _tester_transfert_groupe_trois_jetons()
 	await _tester_regles_et_compatibilite()
 	var compteur_final := SauvegardeBddJoueursService.lire_nombre_coups()
-	_verifier(compteur_final == 2,
-			"Deux transferts, dont un groupé, doivent compter exactement deux coups.")
+	_verifier(compteur_final == 3,
+			"Trois transferts, dont deux groupés, doivent compter exactement trois coups.")
 	SauvegardeBddJoueursService.annuler_creation_joueur(FICHIER_JOUEUR_TEST)
 	print("TEST_TRANSPORT_VARIANTES: ", "PASS" if succes else "FAIL")
 	get_tree().quit(0 if succes else 1)
@@ -37,7 +38,7 @@ func _tester_transfert_simple() -> void:
 			"Un transfert simple doit compter un seul coup.")
 	plateau.free()
 
-func _tester_transfert_groupe() -> void:
+func _tester_transfert_groupe_deux_jetons() -> void:
 	var plateau = _creer_plateau("BAA.   ")
 	var pile_depart: Pile = plateau.liste_piles[0]
 	var pile_arrivee: Pile = plateau.liste_piles[1]
@@ -62,16 +63,55 @@ func _tester_transfert_groupe() -> void:
 	_verifier(validite_avant and validite_apres,
 			"La validité du transfert doit être indépendante des variantes.")
 	_verifier(transfert, "Le transfert groupé doit réussir.")
-	_verifier(ordre_destination == [&"coeur", &"points"],
-			"Chaque couleur doit rester appariée à sa variante dans l'ordre historique.")
+	_verifier(ordre_destination == [&"points", &"coeur"],
+			"L'ordre relatif des deux variantes doit être conservé.")
 	_verifier(pile_arrivee.liste_jetons[0].indice_jeton == 0 \
 			and pile_arrivee.liste_jetons[1].indice_jeton == 0,
 			"Les couleurs du groupe doivent être conservées.")
 	_verifier(pile_depart.liste_jetons[1].id_variante_visuelle == &"" \
 			and pile_depart.liste_jetons[2].id_variante_visuelle == &"",
 			"Toutes les cases sources vidées doivent perdre leur variante.")
+	_verifier(pile_depart.liste_jetons[1].indice_jeton == Plateau.ESPACE \
+			and pile_depart.liste_jetons[2].indice_jeton == Plateau.ESPACE,
+			"Les deux cases sources déplacées doivent être vides.")
 	_verifier(coups_apres == coups_avant + 1,
 			"Un transfert groupé doit compter un seul coup.")
+	plateau.free()
+
+func _tester_transfert_groupe_trois_jetons() -> void:
+	var plateau = _creer_plateau("BAAA.    ")
+	var pile_depart: Pile = plateau.liste_piles[0]
+	var pile_arrivee: Pile = plateau.liste_piles[1]
+	pile_depart.liste_jetons[0].choisir_id_variante_visuelle(&"base")
+	pile_depart.liste_jetons[1].choisir_id_variante_visuelle(&"vagues")
+	pile_depart.liste_jetons[2].choisir_id_variante_visuelle(&"points")
+	pile_depart.liste_jetons[3].choisir_id_variante_visuelle(&"coeur")
+	var coups_avant := SauvegardeBddJoueursService.lire_nombre_coups()
+	var transfert: bool = plateau.regles.realiser_le_tansfert_de_pile(
+			plateau.liste_piles, 0, 1)
+	var coups_apres := SauvegardeBddJoueursService.lire_nombre_coups()
+	var ordre_destination := [
+		pile_arrivee.liste_jetons[0].id_variante_visuelle,
+		pile_arrivee.liste_jetons[1].id_variante_visuelle,
+		pile_arrivee.liste_jetons[2].id_variante_visuelle,
+	]
+	_verifier(transfert, "Le transfert groupé de trois jetons doit réussir.")
+	_verifier(ordre_destination == [&"vagues", &"points", &"coeur"],
+			"L'ordre relatif des trois variantes doit être conservé.")
+	_verifier(pile_arrivee.liste_jetons[0].indice_jeton == 0 \
+			and pile_arrivee.liste_jetons[1].indice_jeton == 0 \
+			and pile_arrivee.liste_jetons[2].indice_jeton == 0,
+			"Chaque variante doit rester appariée à la couleur déplacée.")
+	_verifier(pile_depart.liste_jetons[1].id_variante_visuelle == &"" \
+			and pile_depart.liste_jetons[2].id_variante_visuelle == &"" \
+			and pile_depart.liste_jetons[3].id_variante_visuelle == &"",
+			"Les trois cases sources vidées doivent perdre leur variante.")
+	_verifier(pile_depart.liste_jetons[1].indice_jeton == Plateau.ESPACE \
+			and pile_depart.liste_jetons[2].indice_jeton == Plateau.ESPACE \
+			and pile_depart.liste_jetons[3].indice_jeton == Plateau.ESPACE,
+			"Les trois cases sources déplacées doivent être vides.")
+	_verifier(coups_apres == coups_avant + 1,
+			"Un transfert de trois jetons doit compter un seul coup.")
 	plateau.free()
 
 func _tester_regles_et_compatibilite() -> void:
