@@ -11,14 +11,19 @@ var decodeur := PlateauDecodeurService.new()
 var regles := PlateauReglesDuJeuService.new()
 
 @export var pile_scene: PackedScene
+@export var theme_visuel_demande: StringName = Jeton.THEME_CLASSIQUE
 var liste_piles = []
 static var ESPACE = 32
+var theme_visuel_effectif: StringName = Jeton.THEME_CLASSIQUE
+var catalogue_variantes: Dictionary = Jeton.CATALOGUE_VARIANTES
 
 var sauvegarde_indice_pile_depart : int = -1
 
 func commencer_un_nouveau_plateau(plateau_texte : String) -> void:
 	if decodeur.est_valide(plateau_texte):
 		var plateau = decodeur.decoder_plateau(plateau_texte)
+		theme_visuel_effectif = determiner_theme_visuel_effectif(
+				theme_visuel_demande, plateau, catalogue_variantes)
 		_creer_un_plateau(plateau)
 	else:
 		plateau_invalide.emit()
@@ -32,6 +37,28 @@ func effacer_le_plateau() -> void:
 
 func est_valide(plateau_texte : String) -> bool:
 	return decodeur.est_valide(plateau_texte)
+
+static func determiner_theme_visuel_effectif(theme_demande: StringName,
+													piles: Array,
+													catalogue: Dictionary) -> StringName:
+	if theme_demande == Jeton.THEME_CLASSIQUE:
+		return Jeton.THEME_CLASSIQUE
+	var catalogue_theme: Dictionary = catalogue.get(theme_demande, {})
+	var couleurs_utilisees: Array[int] = []
+	for pile in piles:
+		for indice_couleur in pile:
+			if indice_couleur != ESPACE and indice_couleur not in couleurs_utilisees:
+				couleurs_utilisees.append(indice_couleur)
+	var couleurs_manquantes: Array[int] = []
+	for indice_couleur in couleurs_utilisees:
+		var variantes = catalogue_theme.get(indice_couleur, [])
+		if not variantes is Array or variantes.is_empty():
+			couleurs_manquantes.append(indice_couleur)
+	if not couleurs_manquantes.is_empty():
+		push_warning(("Thème visuel '%s' incomplet pour les couleurs %s : " \
+				+ "le plateau entier reste classique.") % [theme_demande, couleurs_manquantes])
+		return Jeton.THEME_CLASSIQUE
+	return theme_demande
 
 
 # ########
@@ -68,6 +95,8 @@ func _instancier_une_pile() -> Pile:
 func _initialiser_une_pile(pile: Pile, jetons_pile_texte) -> void:
 	# Initialiser la pile
 	var valide = pile.ajouter_les_jetons(jetons_pile_texte)
+	for jeton in pile.liste_jetons:
+		jeton.choisir_theme_visuel_effectif(theme_visuel_effectif)
 	# Traiter le cas d'une pile invalide.
 	if not valide:
 		# la pile est invalide, le plateau aussi

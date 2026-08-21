@@ -4,6 +4,14 @@ class_name Jeton
 
 signal clique_gauche(reference_parent)
 
+const THEME_CLASSIQUE: StringName = &"classique"
+const THEME_ORIGINEL_ROND_V1: StringName = &"originel_rond_v1"
+
+# Les variantes graphiques seront ajoutées dans une étape ultérieure.
+const CATALOGUE_VARIANTES: Dictionary = {
+	THEME_ORIGINEL_ROND_V1: {},
+}
+
 var _jetons = {
 	0: ['A', Color('RED')],
 	#0: [String.chr(0x1F3C6), Color('RED')],
@@ -38,6 +46,7 @@ var _jetons = {
 @export var indice_jeton = Plateau.ESPACE
 var _couleur
 var nom
+var theme_visuel: StringName = THEME_CLASSIQUE
 var position_initiale_carre : Vector2 #(0,0)
 var position_initiale_nom : Vector2 #(0,-16)
 var reference_parent # Reference pour que le parent identifie le jeton.
@@ -50,6 +59,9 @@ func _ready() -> void:
 
 func choisir_reference(reference : int) -> void:
 	reference_parent = reference
+
+func choisir_theme_visuel_effectif(nouveau_theme: StringName) -> void:
+	theme_visuel = nouveau_theme
 
 func choisir_jeton(indice : int, redimensionner : bool = false) -> void:
 	if indice in _jetons:
