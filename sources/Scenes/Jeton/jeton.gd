@@ -47,6 +47,7 @@ var _jetons = {
 var _couleur
 var nom
 var theme_visuel: StringName = THEME_CLASSIQUE
+var id_variante_visuelle: StringName = &""
 var position_initiale_carre : Vector2 #(0,0)
 var position_initiale_nom : Vector2 #(0,-16)
 var reference_parent # Reference pour que le parent identifie le jeton.
@@ -62,6 +63,9 @@ func choisir_reference(reference : int) -> void:
 
 func choisir_theme_visuel_effectif(nouveau_theme: StringName) -> void:
 	theme_visuel = nouveau_theme
+
+func choisir_id_variante_visuelle(nouvelle_variante: StringName) -> void:
+	id_variante_visuelle = nouvelle_variante
 
 func choisir_jeton(indice : int, redimensionner : bool = false) -> void:
 	if indice in _jetons:

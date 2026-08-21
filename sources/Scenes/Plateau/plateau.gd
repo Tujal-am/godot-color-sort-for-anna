@@ -2,6 +2,9 @@ extends Node
 
 class_name Plateau
 
+const FNV1A_OFFSET_BASIS_32: int = 2166136261
+const FNV1A_PRIME_32: int = 16777619
+
 signal victoire
 signal plateau_invalide
 signal abandon
@@ -16,11 +19,13 @@ var liste_piles = []
 static var ESPACE = 32
 var theme_visuel_effectif: StringName = Jeton.THEME_CLASSIQUE
 var catalogue_variantes: Dictionary = Jeton.CATALOGUE_VARIANTES
+var plateau_canonique_initial: String = ""
 
 var sauvegarde_indice_pile_depart : int = -1
 
 func commencer_un_nouveau_plateau(plateau_texte : String) -> void:
 	if decodeur.est_valide(plateau_texte):
+		plateau_canonique_initial = plateau_texte.to_upper()
 		var plateau = decodeur.decoder_plateau(plateau_texte)
 		theme_visuel_effectif = determiner_theme_visuel_effectif(
 				theme_visuel_demande, plateau, catalogue_variantes)
@@ -60,6 +65,43 @@ static func determiner_theme_visuel_effectif(theme_demande: StringName,
 		return Jeton.THEME_CLASSIQUE
 	return theme_demande
 
+static func determiner_id_variante_visuelle(theme_effectif: StringName,
+														plateau_canonique: String,
+														indice_couleur: int,
+														indice_pile_initiale: int,
+														indice_case_initiale: int,
+														catalogue: Dictionary) -> StringName:
+	if theme_effectif == Jeton.THEME_CLASSIQUE:
+		return &""
+	var variantes: Array = catalogue.get(theme_effectif, {}).get(indice_couleur, [])
+	if variantes.is_empty():
+		return &""
+	var graine := composer_graine_variante(theme_effectif,
+			plateau_canonique,
+			indice_couleur,
+			indice_pile_initiale,
+			indice_case_initiale)
+	return variantes[fnv1a_32(graine) % variantes.size()]
+
+static func composer_graine_variante(theme_effectif: StringName,
+											plateau_canonique: String,
+											indice_couleur: int,
+											indice_pile_initiale: int,
+											indice_case_initiale: int) -> String:
+	return "%s|%s|%d|%d|%d" % [
+		str(theme_effectif),
+		plateau_canonique,
+		indice_couleur,
+		indice_pile_initiale,
+		indice_case_initiale,
+	]
+
+static func fnv1a_32(texte: String) -> int:
+	var resultat: int = FNV1A_OFFSET_BASIS_32
+	for octet in texte.to_utf8_buffer():
+		resultat = ((resultat ^ octet) * FNV1A_PRIME_32) & 0xffffffff
+	return resultat
+
 
 # ########
 # Usine >>
@@ -68,7 +110,7 @@ func _creer_un_plateau(piles : Array) -> void:
 		# Créer une nouvelle instance de la scene 'Pile'.
 		var pile = _instancier_une_pile()
 		var indice_pile = len(liste_piles)-1
-		_initialiser_une_pile(pile, jetons_pile_courante)
+		_initialiser_une_pile(pile, jetons_pile_courante, indice_pile)
 		var position_pile = _positionner_une_pile(len(piles), indice_pile)
 		#LogService.log_debug("_creer_un_plateau : position_pile = ", position_pile)
 		pile.choisir_position( position_pile )
@@ -92,11 +134,21 @@ func _instancier_une_pile() -> Pile:
 	
 	return pile
 
-func _initialiser_une_pile(pile: Pile, jetons_pile_texte) -> void:
+func _initialiser_une_pile(pile: Pile,
+									jetons_pile_texte: Array,
+									indice_pile_initiale: int) -> void:
 	# Initialiser la pile
 	var valide = pile.ajouter_les_jetons(jetons_pile_texte)
-	for jeton in pile.liste_jetons:
+	for indice_case_initiale in range(pile.liste_jetons.size()):
+		var jeton = pile.liste_jetons[indice_case_initiale]
 		jeton.choisir_theme_visuel_effectif(theme_visuel_effectif)
+		jeton.choisir_id_variante_visuelle(determiner_id_variante_visuelle(
+				theme_visuel_effectif,
+				plateau_canonique_initial,
+				jetons_pile_texte[indice_case_initiale],
+				indice_pile_initiale,
+				indice_case_initiale,
+				catalogue_variantes))
 	# Traiter le cas d'une pile invalide.
 	if not valide:
 		# la pile est invalide, le plateau aussi

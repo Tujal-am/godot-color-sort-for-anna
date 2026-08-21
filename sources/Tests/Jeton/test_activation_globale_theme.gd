@@ -6,6 +6,7 @@ var succes := true
 
 func _ready() -> void:
 	_tester_decision_globale()
+	_tester_determinisme_pur()
 	await _tester_plateau_et_clavier()
 	print("TEST_ACTIVATION_GLOBALE_THEME: ", "PASS" if succes else "FAIL")
 	get_tree().quit(0 if succes else 1)
@@ -35,6 +36,31 @@ func _tester_decision_globale() -> void:
 			Jeton.THEME_ORIGINEL_ROND_V1, piles, _catalogue_complet()) \
 			== Jeton.THEME_ORIGINEL_ROND_V1,
 			"Un catalogue complet doit autoriser le thème demandé.")
+
+func _tester_determinisme_pur() -> void:
+	_verifier(Plateau.fnv1a_32("hello") == 1335831723,
+			"FNV-1a 32 bits doit respecter la valeur de référence connue.")
+	var graine := Plateau.composer_graine_variante(
+			Jeton.THEME_ORIGINEL_ROND_V1, PLATEAU_TEST, 0, 2, 1)
+	_verifier(graine == "originel_rond_v1|AB.CA.BC.  |0|2|1",
+			"La graine doit conserver explicitement tous ses composants.")
+	var graine_v2_test := Plateau.composer_graine_variante(
+			&"originel_rond_v2_test", PLATEAU_TEST, 0, 2, 1)
+	_verifier(graine != graine_v2_test \
+			and Plateau.fnv1a_32(graine) != Plateau.fnv1a_32(graine_v2_test),
+			"Un thème versionné différent doit produire une graine différente.")
+	var premiere_variante := Plateau.determiner_id_variante_visuelle(
+			Jeton.THEME_ORIGINEL_ROND_V1, PLATEAU_TEST, 0, 0, 0, _catalogue_complet())
+	var seconde_variante := Plateau.determiner_id_variante_visuelle(
+			Jeton.THEME_ORIGINEL_ROND_V1, PLATEAU_TEST, 0, 0, 0, _catalogue_complet())
+	_verifier(premiere_variante == seconde_variante,
+			"Une même position initiale doit toujours produire la même variante.")
+	_verifier(Plateau.determiner_id_variante_visuelle(
+			Jeton.THEME_CLASSIQUE, PLATEAU_TEST, 0, 0, 0, _catalogue_complet()) == &"",
+			"Le thème classique ne doit attribuer aucune variante.")
+	_verifier(_catalogue_complet()[Jeton.THEME_ORIGINEL_ROND_V1][0] \
+			== [&"coeur", &"points", &"vagues"],
+			"L'ordre des variantes du catalogue v1 doit rester explicite et figé.")
 
 func _tester_plateau_et_clavier() -> void:
 	var plateau_scene: PackedScene = load("res://Scenes/Plateau/plateau.tscn")
@@ -81,7 +107,21 @@ func _tester_plateau_et_clavier() -> void:
 	_verifier(absf(premiere_pile.liste_jetons[0].position().y \
 			- premiere_pile.liste_jetons[1].position().y) == 34,
 			"Le pas vertical doit rester de 34 pixels.")
+	var variantes_premiere_creation := _lire_variantes(plateau)
+	_verifier(premiere_pile.liste_jetons[0].id_variante_visuelle \
+			!= plateau.liste_piles[1].liste_jetons[1].id_variante_visuelle,
+			"Une même couleur à deux positions peut recevoir deux variantes différentes.")
 	plateau.free()
+
+	var second_plateau = plateau_scene.instantiate()
+	second_plateau.theme_visuel_demande = Jeton.THEME_ORIGINEL_ROND_V1
+	second_plateau.catalogue_variantes = _catalogue_complet()
+	add_child(second_plateau)
+	second_plateau.commencer_un_nouveau_plateau(PLATEAU_TEST)
+	await get_tree().process_frame
+	_verifier(_lire_variantes(second_plateau) == variantes_premiere_creation,
+			"Deux créations du même plateau doivent produire les mêmes variantes.")
+	second_plateau.free()
 
 	var clavier_scene: PackedScene = load("res://Scenes/MenuPrincipal/Clavier/clavier.tscn")
 	var clavier = clavier_scene.instantiate()
@@ -102,11 +142,19 @@ func _tester_plateau_et_clavier() -> void:
 func _catalogue_complet() -> Dictionary:
 	return {
 		Jeton.THEME_ORIGINEL_ROND_V1: {
-			0: [&"test_a"],
-			1: [&"test_b"],
-			2: [&"test_c"],
+			# L'ordre de chaque liste est immuable pour ce catalogue v1.
+			0: [&"coeur", &"points", &"vagues"],
+			1: [&"cible", &"etoile", &"fleur"],
+			2: [&"rayons", &"spirale", &"etincelle"],
 		},
 	}
+
+func _lire_variantes(plateau) -> Array[StringName]:
+	var variantes: Array[StringName] = []
+	for pile in plateau.liste_piles:
+		for jeton in pile.liste_jetons:
+			variantes.append(jeton.id_variante_visuelle)
+	return variantes
 
 func _verifier(condition: bool, message: String) -> void:
 	if not condition:
