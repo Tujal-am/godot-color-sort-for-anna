@@ -34,12 +34,14 @@ func realiser_le_tansfert_de_pile(liste_piles : Array, indice_pile_depart : int,
 	if est_valide_le_tansfert_de_pile(liste_piles, indice_pile_depart, indice_pile_arrivee):
 		var pile_depart = liste_piles[indice_pile_depart]
 		var pile_arrivee = liste_piles[indice_pile_arrivee]
-		var indice_jeton_depart = pile_depart.quelle_est_la_couleur_au_sommet()
 		var nb_jeton_depart = pile_depart.combien_de_jetons_identiques_au_sommet()
 
 		for i in range(nb_jeton_depart):
+			var indice_jeton_depart = pile_depart.quelle_est_la_couleur_au_sommet()
+			var id_variante_visuelle = pile_depart.lire_id_variante_visuelle_au_sommet()
 			pile_depart.retirer_le_dernier_jeton()
-			pile_arrivee.ajouter_le_jeton_dans_le_vide(indice_jeton_depart)
+			pile_arrivee.ajouter_le_jeton_dans_le_vide(
+					indice_jeton_depart, id_variante_visuelle)
 		# Enregistrer le coup
 		SauvegardeBddJoueursService.ajouter_un_nouveau_coup(indice_pile_depart, indice_pile_arrivee)
 		return true

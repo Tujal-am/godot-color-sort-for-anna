@@ -66,12 +66,14 @@ func ajouter_les_jetons(jetons : Array) -> bool:
 	_ajuster_position_fond()
 	return true # pile valide
 
-func ajouter_le_jeton_dans_le_vide(jeton_a_ajouter : int) -> bool:
+func ajouter_le_jeton_dans_le_vide(jeton_a_ajouter : int,
+											id_variante_visuelle: StringName = &"") -> bool:
 	var ajoute = false
 	if accepte_jeton(jeton_a_ajouter, 1):
 		for jeton_courant in liste_jetons:
 			if jeton_courant.est_vide():
 				jeton_courant.choisir_jeton(jeton_a_ajouter, false)
+				jeton_courant.choisir_id_variante_visuelle(id_variante_visuelle)
 				# Le jeton est mis au premier plan
 				move_child(jeton_courant, -1)
 				# TODO : Attention, le jeton 'J' posera un probleme !
@@ -89,6 +91,7 @@ func retirer_le_dernier_jeton() -> bool:
 	for jeton_courant in liste_inversee:
 		if not jeton_courant.est_vide():
 			jeton_courant.choisir_jeton(Plateau.ESPACE, false)
+			jeton_courant.choisir_id_variante_visuelle(&"")
 			# Le jeton est vide, le mettre en arriere plan devant '$Fond'(=0)
 			move_child(jeton_courant, 1)
 			# TODO : Attention, le jeton 'J' posera un probleme !
@@ -235,7 +238,16 @@ func quelle_est_la_couleur_au_sommet() -> int:
 			if jeton.indice_jeton != Plateau.ESPACE:
 				return jeton.indice_jeton
 	return Plateau.ESPACE
-	
+
+func lire_id_variante_visuelle_au_sommet() -> StringName:
+	if not est_vide():
+		var liste_inversee = liste_jetons.duplicate(true)
+		liste_inversee.reverse()
+		for jeton in liste_inversee:
+			if jeton.indice_jeton != Plateau.ESPACE:
+				return jeton.id_variante_visuelle
+	return &""
+
 func combien_de_jetons_identiques_au_sommet() -> int:
 	var nb_identique_sommet = 0
 	var jeton_sommet = null
