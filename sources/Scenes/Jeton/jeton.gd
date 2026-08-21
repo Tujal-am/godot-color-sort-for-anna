@@ -6,6 +6,8 @@ signal clique_gauche(reference_parent)
 
 const THEME_CLASSIQUE: StringName = &"classique"
 const THEME_ORIGINEL_ROND_V1: StringName = &"originel_rond_v1"
+const THEME_ORIGINEL_CUBE_V1: StringName = &"originel_cube_v1"
+const CATALOGUE_VISUEL = preload("res://Scenes/Jeton/catalogue_visuel_jetons.gd")
 
 # Les variantes graphiques seront ajoutées dans une étape ultérieure.
 const CATALOGUE_VARIANTES: Dictionary = {
@@ -48,6 +50,8 @@ var _couleur
 var nom
 var theme_visuel: StringName = THEME_CLASSIQUE
 var id_variante_visuelle: StringName = &""
+var _rendu_illustre_actif := false
+var _nom_visible_avant_rendu_illustre := true
 var position_initiale_carre : Vector2 #(0,0)
 var position_initiale_nom : Vector2 #(0,-16)
 var reference_parent # Reference pour que le parent identifie le jeton.
@@ -62,10 +66,39 @@ func choisir_reference(reference : int) -> void:
 	reference_parent = reference
 
 func choisir_theme_visuel_effectif(nouveau_theme: StringName) -> void:
+	if nouveau_theme == THEME_CLASSIQUE:
+		_desactiver_rendu_illustre()
 	theme_visuel = nouveau_theme
+	_mettre_a_jour_rendu_illustre()
 
 func choisir_id_variante_visuelle(nouvelle_variante: StringName) -> void:
 	id_variante_visuelle = nouvelle_variante
+	_mettre_a_jour_rendu_illustre()
+
+func _mettre_a_jour_rendu_illustre() -> void:
+	if theme_visuel == THEME_CLASSIQUE or indice_jeton == Plateau.ESPACE:
+		_desactiver_rendu_illustre()
+		return
+	var texture := CATALOGUE_VISUEL.obtenir_texture(
+			theme_visuel, indice_jeton, id_variante_visuelle)
+	if texture == null:
+		return
+	if not _rendu_illustre_actif:
+		_nom_visible_avant_rendu_illustre = $Nom.visible
+	_rendu_illustre_actif = true
+	$Carre.color = Color.TRANSPARENT
+	$Carre/Visuel.texture = texture
+	$Carre/Visuel.show()
+	$Nom.hide()
+
+func _desactiver_rendu_illustre() -> void:
+	if not _rendu_illustre_actif:
+		return
+	_rendu_illustre_actif = false
+	$Carre/Visuel.texture = null
+	$Carre/Visuel.hide()
+	$Carre.color = _couleur
+	$Nom.visible = _nom_visible_avant_rendu_illustre
 
 func choisir_jeton(indice : int, redimensionner : bool = false) -> void:
 	if indice in _jetons:
@@ -77,6 +110,7 @@ func choisir_jeton(indice : int, redimensionner : bool = false) -> void:
 		$Carre.color = _couleur
 		$SoudureBasse.color = _couleur.darkened(0.2)
 		$Nom.text = nom
+		_mettre_a_jour_rendu_illustre()
 		if redimensionner:
 			if nom == 'J':
 				# La lettre 'J' sort de son carré
