@@ -30,7 +30,10 @@ func est_valide_le_tansfert_de_pile(liste_piles : Array, indice_pile_depart : in
 		#LogService.log_debug("La pile d'arrivée refuse le(s) ", nb_jeton_depart, " jeton(s)")
 		return false
 
-func realiser_le_tansfert_de_pile(liste_piles : Array, indice_pile_depart : int, indice_pile_arrivee : int) -> bool:
+func realiser_le_tansfert_de_pile(liste_piles : Array,
+								indice_pile_depart : int,
+								indice_pile_arrivee : int,
+								enregistrer_coup := true) -> bool:
 	if est_valide_le_tansfert_de_pile(liste_piles, indice_pile_depart, indice_pile_arrivee):
 		var pile_depart = liste_piles[indice_pile_depart]
 		var pile_arrivee = liste_piles[indice_pile_arrivee]
@@ -47,8 +50,9 @@ func realiser_le_tansfert_de_pile(liste_piles : Array, indice_pile_depart : int,
 		for jeton_a_deplacer in jetons_a_deplacer:
 			pile_arrivee.ajouter_le_jeton_dans_le_vide(
 					jeton_a_deplacer[0], jeton_a_deplacer[1])
-		# Enregistrer le coup
-		SauvegardeBddJoueursService.ajouter_un_nouveau_coup(indice_pile_depart, indice_pile_arrivee)
+		if enregistrer_coup:
+			SauvegardeBddJoueursService.ajouter_un_nouveau_coup(
+					indice_pile_depart, indice_pile_arrivee)
 		return true
 	return false
 

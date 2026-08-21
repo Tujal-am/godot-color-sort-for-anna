@@ -58,15 +58,36 @@ offset_left = 20.0
 offset_top = 355.0
 offset_right = 460.0
 offset_bottom = 385.0
-text = "Transfert groupé — ordre du bloc conservé"
+text = "Animation du transfert — bloc rigide"
 horizontal_alignment = 1
+
+[node name="AnimerUnJeton" type="Button" parent="."]
+offset_left = 45.0
+offset_top = 395.0
+offset_right = 155.0
+offset_bottom = 435.0
+text = "1 jeton"
+
+[node name="AnimerDeuxJetons" type="Button" parent="."]
+offset_left = 185.0
+offset_top = 395.0
+offset_right = 295.0
+offset_bottom = 435.0
+text = "2 jetons"
+
+[node name="AnimerTroisJetons" type="Button" parent="."]
+offset_left = 325.0
+offset_top = 395.0
+offset_right = 435.0
+offset_bottom = 435.0
+text = "3 jetons"
 
 [node name="AvantGroupe" type="Label" parent="." unique_id=1091982096]
 offset_left = 60.0
-offset_top = 400.0
+offset_top = 450.0
 offset_right = 210.0
-offset_bottom = 428.0
-text = "AVANT"
+offset_bottom = 478.0
+text = "SOURCE"
 horizontal_alignment = 1
 
 [node name="FlecheGroupe" type="Label" parent="." unique_id=1580047384]
@@ -80,10 +101,10 @@ horizontal_alignment = 1
 
 [node name="ApresGroupe" type="Label" parent="." unique_id=1490081735]
 offset_left = 270.0
-offset_top = 400.0
+offset_top = 450.0
 offset_right = 420.0
-offset_bottom = 428.0
-text = "APRÈS"
+offset_bottom = 478.0
+text = "DESTINATION"
 horizontal_alignment = 1
 
 [node name="Note" type="Label" parent="." unique_id=1977237725]
@@ -94,3 +115,7 @@ offset_bottom = 700.0
 text = "Aucune sauvegarde · aucune campagne · thème demandé ici seulement"
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[connection signal="pressed" from="AnimerUnJeton" to="." method="_on_animer_un_jeton_pressed"]
+[connection signal="pressed" from="AnimerDeuxJetons" to="." method="_on_animer_deux_jetons_pressed"]
+[connection signal="pressed" from="AnimerTroisJetons" to="." method="_on_animer_trois_jetons_pressed"]

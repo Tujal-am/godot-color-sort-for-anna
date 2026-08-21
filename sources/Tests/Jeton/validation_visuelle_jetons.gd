@@ -5,6 +5,17 @@ const PILE_SCENE: PackedScene = preload("res://Scenes/Pile/pile.tscn")
 const CATALOGUE_VISUEL = preload("res://Scenes/Jeton/catalogue_visuel_jetons.gd")
 const COULEURS_DEMONSTRATION: Array[int] = [0, 1, 2, 3]
 const COULEUR_FOND_PILE_DEMONSTRATION := Color(0.78, 0.74, 0.66, 1)
+const HAUTEUR_MONTEE := 12.0
+const DUREE_MONTEE := 0.12
+const DUREE_TRANSLATION := 0.20
+const DUREE_DESCENTE := 0.12
+const COMPOSANTS_JETON := [
+	"Selection",
+	"SoudureHaute",
+	"Carre",
+	"SoudureBasse",
+	"Nom",
+]
 const CATALOGUE_VARIANTES_DEMONSTRATION: Dictionary = {
 	THEME_DEMONSTRATION: {
 		0: [&"cible", &"etoile", &"points"],
@@ -17,6 +28,16 @@ const CATALOGUE_VARIANTES_DEMONSTRATION: Dictionary = {
 var piles_de_demonstration: Array[Pile] = []
 var succes := true
 var theme_effectif_demonstration: StringName = Jeton.THEME_CLASSIQUE
+var animation_transfert_en_cours := false
+var pile_animation_depart: Pile
+var pile_animation_arrivee: Pile
+var tween_animation: Tween
+var composants_animes: Array[Control] = []
+var positions_finales_composants: Array[Vector2] = []
+var z_index_finaux: Array[int] = []
+var variantes_attendues_sommet_vers_bas: Array[StringName] = []
+var resultats_animation := {}
+var nombre_transferts_metier := 0
 
 func _ready() -> void:
 	theme_effectif_demonstration = _determiner_theme_effectif_demonstration()
@@ -43,30 +64,184 @@ func _ready() -> void:
 			Vector2(190, 270))
 	pile_selectionnee.selectionner()
 
-	# États visuels avant/après d'un déplacement simple, sans sauvegarde.
-	_creer_pile(
-			[1, 0, Plateau.ESPACE],
-			[&"cible", &"cible", &""],
-			Vector2(285, 270))
-	_creer_pile(
-			[1, 0, 0],
-			[&"cible", &"etoile", &"cible"],
-			Vector2(390, 270))
-
-	# États visuels avant/après d'un bloc ; l'ordre relatif est conservé.
-	_creer_pile(
-			[2, 0, 0, Plateau.ESPACE],
-			[&"rayons", &"etoile", &"cible", &""],
-			Vector2(118, 565))
-	_creer_pile(
-			[2, 0, 0],
-			[&"rayons", &"etoile", &"cible"],
-			Vector2(328, 565))
+	_preparer_cas_animation(1)
 
 	_verifier_scene_isolee()
 	if DisplayServer.get_name() == "headless":
+		await _tester_animations_headless()
 		print("VALIDATION_VISUELLE_JETONS: ", "PASS" if succes else "FAIL")
 		get_tree().quit(0 if succes else 1)
+
+func _on_animer_un_jeton_pressed() -> void:
+	_lancer_cas_animation(1)
+
+func _on_animer_deux_jetons_pressed() -> void:
+	_lancer_cas_animation(2)
+
+func _on_animer_trois_jetons_pressed() -> void:
+	_lancer_cas_animation(3)
+
+func _lancer_cas_animation(nombre_jetons: int) -> bool:
+	if animation_transfert_en_cours:
+		return false
+	_preparer_cas_animation(nombre_jetons)
+	return _animer_transfert_demo()
+
+func _preparer_cas_animation(nombre_jetons: int) -> void:
+	if pile_animation_depart != null:
+		piles_de_demonstration.erase(pile_animation_depart)
+		pile_animation_depart.free()
+	if pile_animation_arrivee != null:
+		piles_de_demonstration.erase(pile_animation_arrivee)
+		pile_animation_arrivee.free()
+
+	var couleurs_depart := [1, Plateau.ESPACE, Plateau.ESPACE, Plateau.ESPACE]
+	var variantes_depart: Array[StringName] = [&"cible", &"", &"", &""]
+	var variantes_bloc: Array[StringName] = [&"cible", &"etoile", &"points"]
+	for indice in range(nombre_jetons):
+		couleurs_depart[indice + 1] = 0
+		variantes_depart[indice + 1] = variantes_bloc[indice]
+
+	pile_animation_depart = _creer_pile(
+			couleurs_depart, variantes_depart, Vector2(118, 600))
+	pile_animation_arrivee = _creer_pile(
+			[0, Plateau.ESPACE, Plateau.ESPACE, Plateau.ESPACE],
+			[&"points", &"", &"", &""],
+			Vector2(328, 600))
+	pile_animation_depart.selectionner()
+
+func _animer_transfert_demo() -> bool:
+	if animation_transfert_en_cours:
+		return false
+	var regles := PlateauReglesDuJeuService.new()
+	var piles := [pile_animation_depart, pile_animation_arrivee]
+	if not regles.est_valide_le_tansfert_de_pile(piles, 0, 1):
+		return false
+
+	animation_transfert_en_cours = true
+	_definir_controles_animation_desactives(true)
+	var nombre_jetons := pile_animation_depart.combien_de_jetons_identiques_au_sommet()
+	var cases_vides_depart := pile_animation_depart.combien_de_cases_vides_au_sommet()
+	var premier_indice_bloc_depart := (
+			pile_animation_depart.liste_jetons.size()
+			- cases_vides_depart
+			- nombre_jetons)
+	var cases_vides_arrivee := pile_animation_arrivee.combien_de_cases_vides_au_sommet()
+	var premier_indice_bloc_arrivee := (
+			pile_animation_arrivee.liste_jetons.size() - cases_vides_arrivee)
+	var position_bloc_source: Vector2 = pile_animation_depart.liste_jetons[
+			premier_indice_bloc_depart].position()
+	variantes_attendues_sommet_vers_bas.clear()
+	for indice in range(nombre_jetons - 1, -1, -1):
+		variantes_attendues_sommet_vers_bas.append(
+				pile_animation_depart.liste_jetons[
+						premier_indice_bloc_depart + indice].id_variante_visuelle)
+
+	for jeton in pile_animation_depart.liste_jetons:
+		jeton.deselectionner()
+	pile_animation_depart.get_node("Fond").color = COULEUR_FOND_PILE_DEMONSTRATION
+
+	if not regles.realiser_le_tansfert_de_pile(piles, 0, 1, false):
+		_finaliser_animation(false, nombre_jetons)
+		return false
+	nombre_transferts_metier += 1
+
+	var jetons_animes: Array = []
+	for indice in range(nombre_jetons):
+		jetons_animes.append(pile_animation_arrivee.liste_jetons[
+				premier_indice_bloc_arrivee + indice])
+	var position_bloc_finale: Vector2 = jetons_animes[0].position()
+	var offset_initial := position_bloc_source - position_bloc_finale
+	_preparer_composants_animes(jetons_animes, offset_initial)
+
+	var appliquer_offset := func(offset: Vector2) -> void:
+		for indice in range(composants_animes.size()):
+			composants_animes[indice].position = positions_finales_composants[indice] + offset
+
+	var offset_haut := offset_initial + Vector2(0, -HAUTEUR_MONTEE)
+	var offset_destination_haut := Vector2(0, -HAUTEUR_MONTEE)
+	tween_animation = create_tween()
+	tween_animation.tween_method(
+			appliquer_offset, offset_initial, offset_haut, DUREE_MONTEE) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween_animation.tween_method(
+			appliquer_offset, offset_haut, offset_destination_haut, DUREE_TRANSLATION) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween_animation.tween_method(
+			appliquer_offset, offset_destination_haut, Vector2.ZERO, DUREE_DESCENTE) \
+			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
+	tween_animation.finished.connect(
+			func() -> void: _finaliser_animation(true, nombre_jetons),
+			CONNECT_ONE_SHOT)
+	return true
+
+func _preparer_composants_animes(jetons_animes: Array,
+								offset_initial: Vector2) -> void:
+	composants_animes.clear()
+	positions_finales_composants.clear()
+	z_index_finaux.clear()
+	for jeton in jetons_animes:
+		jeton.selectionner()
+		for chemin_composant in COMPOSANTS_JETON:
+			var composant: Control = jeton.get_node(chemin_composant)
+			composants_animes.append(composant)
+			positions_finales_composants.append(composant.position)
+			z_index_finaux.append(composant.z_index)
+			composant.z_index = 10
+			composant.position += offset_initial
+
+func _finaliser_animation(transfert_reussi: bool, nombre_jetons: int) -> void:
+	for indice in range(composants_animes.size()):
+		composants_animes[indice].position = positions_finales_composants[indice]
+		composants_animes[indice].z_index = z_index_finaux[indice]
+	for jeton in pile_animation_arrivee.liste_jetons:
+		jeton.deselectionner()
+	pile_animation_arrivee.get_node("Fond").color = COULEUR_FOND_PILE_DEMONSTRATION
+	resultats_animation[nombre_jetons] = transfert_reussi \
+			and _ordre_animation_est_conserve(nombre_jetons) \
+			and _positions_finales_sont_exactes()
+	animation_transfert_en_cours = false
+	_definir_controles_animation_desactives(false)
+
+func _ordre_animation_est_conserve(nombre_jetons: int) -> bool:
+	var variantes_finales_sommet_vers_bas: Array[StringName] = []
+	var nombre_cases_occupees := (
+			pile_animation_arrivee.liste_jetons.size()
+			- pile_animation_arrivee.combien_de_cases_vides_au_sommet())
+	for indice in range(
+			nombre_cases_occupees - 1,
+			nombre_cases_occupees - nombre_jetons - 1,
+			-1):
+		variantes_finales_sommet_vers_bas.append(
+				pile_animation_arrivee.liste_jetons[indice].id_variante_visuelle)
+	return variantes_finales_sommet_vers_bas == variantes_attendues_sommet_vers_bas
+
+func _positions_finales_sont_exactes() -> bool:
+	for indice in range(composants_animes.size()):
+		if composants_animes[indice].position != positions_finales_composants[indice]:
+			return false
+	return true
+
+func _definir_controles_animation_desactives(desactives: bool) -> void:
+	$AnimerUnJeton.disabled = desactives
+	$AnimerDeuxJetons.disabled = desactives
+	$AnimerTroisJetons.disabled = desactives
+
+func _tester_animations_headless() -> void:
+	var transferts_avant := nombre_transferts_metier
+	for nombre_jetons in [1, 2, 3]:
+		var lancement_reussi := _lancer_cas_animation(nombre_jetons)
+		var double_demande_bloquee := not _lancer_cas_animation(nombre_jetons)
+		_verifier(lancement_reussi,
+				"Le transfert de %d jeton(s) doit démarrer." % nombre_jetons)
+		_verifier(double_demande_bloquee,
+				"Une seconde demande doit être bloquée pendant l'animation.")
+		if tween_animation != null and tween_animation.is_running():
+			await tween_animation.finished
+		_verifier(resultats_animation.get(nombre_jetons, false),
+				"Le transfert animé de %d jeton(s) doit finir exactement." % nombre_jetons)
+	_verifier(nombre_transferts_metier == transferts_avant + 3,
+			"Chaque animation doit appliquer exactement un transfert métier.")
 
 func _determiner_theme_effectif_demonstration() -> StringName:
 	var piles_couleurs := [COULEURS_DEMONSTRATION]
@@ -125,7 +300,7 @@ func _verifier_scene_isolee() -> void:
 			CATALOGUE_VARIANTES_DEMONSTRATION)
 	_verifier(variante_deterministe_a == variante_deterministe_b,
 			"Un même plateau cube doit produire les mêmes variantes.")
-	_verifier(piles_de_demonstration.size() == 8,
+	_verifier(piles_de_demonstration.size() == 6,
 			"Tous les cas de démonstration doivent être présents.")
 	_verifier(piles_de_demonstration[0].liste_jetons[0].largeur() == 32 \
 			and piles_de_demonstration[0].liste_jetons[0].hauteur() == 32,
@@ -148,11 +323,6 @@ func _verifier_scene_isolee() -> void:
 										jeton.id_variante_visuelle) \
 						and not jeton.get_node("Nom").visible,
 						"Aucun jeton non vide ne doit rester en rendu classique.")
-	_verifier([
-		piles_de_demonstration[7].liste_jetons[1].id_variante_visuelle,
-		piles_de_demonstration[7].liste_jetons[2].id_variante_visuelle,
-	] == [&"etoile", &"cible"],
-			"L'état après transfert groupé doit conserver l'ordre du bloc.")
 	_verifier(piles_de_demonstration[0].liste_jetons[2].get_node("Selection").visible,
 			"La sélection du bloc supérieur doit être visible.")
 	_verifier(piles_de_demonstration[0].liste_jetons[1].get_node("SoudureHaute").visible,
