@@ -1,0 +1,96 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Tests/Jeton/validation_visuelle_jetons.gd" id="1"]
+
+[node name="ValidationVisuelleJetons" type="Node"]
+script = ExtResource("1")
+
+[node name="Fond" type="ColorRect" parent="."]
+offset_right = 480.0
+offset_bottom = 720.0
+mouse_filter = 2
+color = Color(0.12, 0.04, 0.14, 1)
+
+[node name="Titre" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 14.0
+offset_right = 460.0
+offset_bottom = 44.0
+theme_override_font_sizes/font_size = 22
+text = "Validation visuelle — Jetons Originel"
+horizontal_alignment = 1
+
+[node name="EtatCatalogue" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 50.0
+offset_right = 460.0
+offset_bottom = 78.0
+theme_override_colors/font_color = Color(1, 0.75, 0.25, 1)
+text = "CATALOGUE VISUEL : NON PRÊT"
+horizontal_alignment = 1
+
+[node name="TitreEmpilement" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 92.0
+offset_right = 250.0
+offset_bottom = 120.0
+text = "3 couleurs · variantes · sélection"
+
+[node name="TitreSimple" type="Label" parent="."]
+offset_left = 265.0
+offset_top = 92.0
+offset_right = 460.0
+offset_bottom = 120.0
+text = "Transfert simple"
+horizontal_alignment = 1
+
+[node name="FlecheSimple" type="Label" parent="."]
+offset_left = 330.0
+offset_top = 220.0
+offset_right = 370.0
+offset_bottom = 250.0
+theme_override_font_sizes/font_size = 22
+text = "→"
+horizontal_alignment = 1
+
+[node name="TitreGroupe" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 355.0
+offset_right = 460.0
+offset_bottom = 385.0
+text = "Transfert groupé — ordre du bloc conservé"
+horizontal_alignment = 1
+
+[node name="AvantGroupe" type="Label" parent="."]
+offset_left = 60.0
+offset_top = 400.0
+offset_right = 210.0
+offset_bottom = 428.0
+text = "AVANT"
+horizontal_alignment = 1
+
+[node name="FlecheGroupe" type="Label" parent="."]
+offset_left = 220.0
+offset_top = 500.0
+offset_right = 260.0
+offset_bottom = 530.0
+theme_override_font_sizes/font_size = 22
+text = "→"
+horizontal_alignment = 1
+
+[node name="ApresGroupe" type="Label" parent="."]
+offset_left = 270.0
+offset_top = 400.0
+offset_right = 420.0
+offset_bottom = 428.0
+text = "APRÈS"
+horizontal_alignment = 1
+
+[node name="Note" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 655.0
+offset_right = 460.0
+offset_bottom = 700.0
+text = "Aucune sauvegarde · aucune campagne · thème demandé ici seulement"
+horizontal_alignment = 1
+autowrap_mode = 2
