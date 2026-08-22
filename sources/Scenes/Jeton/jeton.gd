@@ -9,9 +9,17 @@ const THEME_ORIGINEL_ROND_V1: StringName = &"originel_rond_v1"
 const THEME_ORIGINEL_CUBE_V1: StringName = &"originel_cube_v1"
 const CATALOGUE_VISUEL = preload("res://Scenes/Jeton/catalogue_visuel_jetons.gd")
 
-# Les variantes graphiques seront ajoutées dans une étape ultérieure.
+# L'ordre des variantes d'un catalogue versionné est immuable.
 const CATALOGUE_VARIANTES: Dictionary = {
 	THEME_ORIGINEL_ROND_V1: {},
+	THEME_ORIGINEL_CUBE_V1: {
+		0: [&"cible", &"etoile", &"points"],
+		1: [&"cible", &"coeur", &"etincelle"],
+		2: [&"cible", &"points", &"rayons"],
+		3: [&"points", &"spirale", &"vagues"],
+		4: [&"coeur", &"cible", &"points"],
+		5: [&"vagues", &"spirale", &"etincelle"],
+	},
 }
 
 var _jetons = {

@@ -29,6 +29,16 @@ const TEXTURES: Dictionary = {
 			&"spirale": preload("res://Art/Images/Jetons/Originel/Cube/v1/cube_matiere_spirale_32.png"),
 			&"vagues": preload("res://Art/Images/Jetons/Originel/Cube/v1/cube_matiere_vagues_32.png"),
 		},
+		4: {
+			&"coeur": preload("res://Art/Images/Jetons/Originel/Cube/v1/cube_framboise_coeur_32.png"),
+			&"cible": preload("res://Art/Images/Jetons/Originel/Cube/v1/cube_framboise_cible_32.png"),
+			&"points": preload("res://Art/Images/Jetons/Originel/Cube/v1/cube_framboise_points_32.png"),
+		},
+		5: {
+			&"vagues": preload("res://Art/Images/Jetons/Originel/Cube/v1/cube_lagon_vagues_32.png"),
+			&"spirale": preload("res://Art/Images/Jetons/Originel/Cube/v1/cube_lagon_spirale_32.png"),
+			&"etincelle": preload("res://Art/Images/Jetons/Originel/Cube/v1/cube_lagon_etincelle_32.png"),
+		},
 	},
 }
 

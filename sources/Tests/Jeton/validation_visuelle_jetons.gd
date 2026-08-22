@@ -3,7 +3,7 @@ extends Node
 const THEME_DEMONSTRATION: StringName = Jeton.THEME_ORIGINEL_CUBE_V1
 const PILE_SCENE: PackedScene = preload("res://Scenes/Pile/pile.tscn")
 const CATALOGUE_VISUEL = preload("res://Scenes/Jeton/catalogue_visuel_jetons.gd")
-const COULEURS_DEMONSTRATION: Array[int] = [0, 1, 2, 3]
+const COULEURS_DEMONSTRATION: Array[int] = [0, 1, 2, 3, 4, 5]
 const COULEUR_FOND_PILE_DEMONSTRATION := Color(0.78, 0.74, 0.66, 1)
 const HAUTEUR_MONTEE := 12.0
 const DUREE_MONTEE := 0.12
@@ -16,14 +16,7 @@ const COMPOSANTS_JETON := [
 	"SoudureBasse",
 	"Nom",
 ]
-const CATALOGUE_VARIANTES_DEMONSTRATION: Dictionary = {
-	THEME_DEMONSTRATION: {
-		0: [&"cible", &"etoile", &"points"],
-		1: [&"cible", &"coeur", &"etincelle"],
-		2: [&"cible", &"points", &"rayons"],
-		3: [&"points", &"spirale", &"vagues"],
-	},
-}
+const CATALOGUE_VARIANTES_DEMONSTRATION: Dictionary = Jeton.CATALOGUE_VARIANTES
 
 var piles_de_demonstration: Array[Pile] = []
 var succes := true
@@ -45,7 +38,7 @@ func _ready() -> void:
 			"PRÊT" if theme_effectif_demonstration == THEME_DEMONSTRATION \
 			else "NON PRÊT — fallback global classique")
 
-	# Quatre couleurs, trois variantes par couleur, soudures et sélection visibles.
+	# Six couleurs, trois variantes par couleur, soudures et sélection visibles.
 	var pile_selectionnee := _creer_pile(
 			[0, 0, 0, Plateau.ESPACE],
 			[&"cible", &"etoile", &"points", &""],
@@ -62,6 +55,14 @@ func _ready() -> void:
 			[3, 3, 3, Plateau.ESPACE],
 			[&"points", &"spirale", &"vagues", &""],
 			Vector2(190, 270))
+	_creer_pile(
+			[4, 4, 4, Plateau.ESPACE],
+			[&"coeur", &"cible", &"points", &""],
+			Vector2(245, 270))
+	_creer_pile(
+			[5, 5, 5, Plateau.ESPACE],
+			[&"vagues", &"spirale", &"etincelle", &""],
+			Vector2(300, 270))
 	pile_selectionnee.selectionner()
 
 	_preparer_cas_animation(1)
@@ -300,7 +301,7 @@ func _verifier_scene_isolee() -> void:
 			CATALOGUE_VARIANTES_DEMONSTRATION)
 	_verifier(variante_deterministe_a == variante_deterministe_b,
 			"Un même plateau cube doit produire les mêmes variantes.")
-	_verifier(piles_de_demonstration.size() == 6,
+	_verifier(piles_de_demonstration.size() == 8,
 			"Tous les cas de démonstration doivent être présents.")
 	_verifier(piles_de_demonstration[0].liste_jetons[0].largeur() == 32 \
 			and piles_de_demonstration[0].liste_jetons[0].hauteur() == 32,

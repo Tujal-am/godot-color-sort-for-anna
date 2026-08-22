@@ -34,7 +34,7 @@ offset_left = 20.0
 offset_top = 92.0
 offset_right = 250.0
 offset_bottom = 120.0
-text = "4 groupes · variantes · sélection"
+text = "6 groupes · variantes · sélection"
 
 [node name="TitreSimple" type="Label" parent="." unique_id=525506431]
 offset_left = 265.0
