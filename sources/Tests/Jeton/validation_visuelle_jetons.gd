@@ -4,6 +4,7 @@ const THEME_DEMONSTRATION: StringName = Jeton.THEME_ORIGINEL_CUBE_V1
 const PILE_SCENE: PackedScene = preload("res://Scenes/Pile/pile.tscn")
 const CATALOGUE_VISUEL = preload("res://Scenes/Jeton/catalogue_visuel_jetons.gd")
 const COULEURS_DEMONSTRATION: Array[int] = [0, 1, 2, 3, 4, 5]
+const COULEUR_FOND_DEMONSTRATION := Color(0.94, 0.92, 0.86, 1)
 const COULEUR_FOND_PILE_DEMONSTRATION := Color(0.78, 0.74, 0.66, 1)
 const HAUTEUR_MONTEE := 12.0
 const DUREE_MONTEE := 0.12
@@ -145,6 +146,8 @@ func _animer_transfert_demo() -> bool:
 	if not regles.realiser_le_tansfert_de_pile(piles, 0, 1, false):
 		_finaliser_animation(false, nombre_jetons)
 		return false
+	_appliquer_couleur_cases_vides(pile_animation_depart)
+	_appliquer_couleur_cases_vides(pile_animation_arrivee)
 	nombre_transferts_metier += 1
 
 	var jetons_animes: Array = []
@@ -202,7 +205,9 @@ func _finaliser_animation(transfert_reussi: bool, nombre_jetons: int) -> void:
 			and _ordre_animation_est_conserve(nombre_jetons) \
 			and _positions_finales_sont_exactes() \
 			and _pile_est_monochrome(pile_animation_depart) \
-			and _pile_est_monochrome(pile_animation_arrivee)
+			and _pile_est_monochrome(pile_animation_arrivee) \
+			and _cases_vides_ont_la_couleur_du_fond(pile_animation_depart) \
+			and _cases_vides_ont_la_couleur_du_fond(pile_animation_arrivee)
 	animation_transfert_en_cours = false
 	_definir_controles_animation_desactives(false)
 
@@ -233,6 +238,18 @@ func _pile_est_monochrome(pile: Pile) -> bool:
 		if couleur == Plateau.ESPACE:
 			couleur = jeton.indice_jeton
 		elif jeton.indice_jeton != couleur:
+			return false
+	return true
+
+func _appliquer_couleur_cases_vides(pile: Pile) -> void:
+	for jeton in pile.liste_jetons:
+		if jeton.est_vide():
+			jeton.get_node("Carre").color = COULEUR_FOND_DEMONSTRATION
+
+func _cases_vides_ont_la_couleur_du_fond(pile: Pile) -> bool:
+	for jeton in pile.liste_jetons:
+		if jeton.est_vide() \
+				and jeton.get_node("Carre").color != COULEUR_FOND_DEMONSTRATION:
 			return false
 	return true
 
@@ -284,6 +301,7 @@ func _creer_pile(couleurs: Array,
 		var jeton = pile.liste_jetons[indice]
 		jeton.choisir_theme_visuel_effectif(theme_effectif_demonstration)
 		jeton.choisir_id_variante_visuelle(variantes[indice])
+	_appliquer_couleur_cases_vides(pile)
 	piles_de_demonstration.append(pile)
 	return pile
 
@@ -328,6 +346,8 @@ func _verifier_scene_isolee() -> void:
 	for pile in piles_de_demonstration:
 		_verifier(_pile_est_monochrome(pile),
 				"Chaque pile de démonstration doit rester monochrome.")
+		_verifier(_cases_vides_ont_la_couleur_du_fond(pile),
+				"Chaque case vide doit reprendre le beige du fond général.")
 		for jeton in pile.liste_jetons:
 			if not jeton.est_vide():
 				_verifier(jeton.theme_visuel == THEME_DEMONSTRATION \
