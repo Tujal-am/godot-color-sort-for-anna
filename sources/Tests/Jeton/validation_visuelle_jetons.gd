@@ -44,7 +44,7 @@ func _ready() -> void:
 			[&"cible", &"etoile", &"points", &""],
 			Vector2(25, 270))
 	_creer_pile(
-			[1, 1, 2, Plateau.ESPACE],
+			[1, 1, 1, Plateau.ESPACE],
 			[&"cible", &"coeur", &"cible", &""],
 			Vector2(80, 270))
 	_creer_pile(
@@ -96,12 +96,12 @@ func _preparer_cas_animation(nombre_jetons: int) -> void:
 		piles_de_demonstration.erase(pile_animation_arrivee)
 		pile_animation_arrivee.free()
 
-	var couleurs_depart := [1, Plateau.ESPACE, Plateau.ESPACE, Plateau.ESPACE]
-	var variantes_depart: Array[StringName] = [&"cible", &"", &"", &""]
+	var couleurs_depart := [Plateau.ESPACE, Plateau.ESPACE, Plateau.ESPACE, Plateau.ESPACE]
+	var variantes_depart: Array[StringName] = [&"", &"", &"", &""]
 	var variantes_bloc: Array[StringName] = [&"cible", &"etoile", &"points"]
 	for indice in range(nombre_jetons):
-		couleurs_depart[indice + 1] = 0
-		variantes_depart[indice + 1] = variantes_bloc[indice]
+		couleurs_depart[indice] = 0
+		variantes_depart[indice] = variantes_bloc[indice]
 
 	pile_animation_depart = _creer_pile(
 			couleurs_depart, variantes_depart, Vector2(118, 600))
@@ -200,7 +200,9 @@ func _finaliser_animation(transfert_reussi: bool, nombre_jetons: int) -> void:
 	pile_animation_arrivee.get_node("Fond").color = COULEUR_FOND_PILE_DEMONSTRATION
 	resultats_animation[nombre_jetons] = transfert_reussi \
 			and _ordre_animation_est_conserve(nombre_jetons) \
-			and _positions_finales_sont_exactes()
+			and _positions_finales_sont_exactes() \
+			and _pile_est_monochrome(pile_animation_depart) \
+			and _pile_est_monochrome(pile_animation_arrivee)
 	animation_transfert_en_cours = false
 	_definir_controles_animation_desactives(false)
 
@@ -220,6 +222,17 @@ func _ordre_animation_est_conserve(nombre_jetons: int) -> bool:
 func _positions_finales_sont_exactes() -> bool:
 	for indice in range(composants_animes.size()):
 		if composants_animes[indice].position != positions_finales_composants[indice]:
+			return false
+	return true
+
+func _pile_est_monochrome(pile: Pile) -> bool:
+	var couleur: int = Plateau.ESPACE
+	for jeton in pile.liste_jetons:
+		if jeton.est_vide():
+			continue
+		if couleur == Plateau.ESPACE:
+			couleur = jeton.indice_jeton
+		elif jeton.indice_jeton != couleur:
 			return false
 	return true
 
@@ -313,6 +326,8 @@ func _verifier_scene_isolee() -> void:
 			!= piles_de_demonstration[0].liste_jetons[1].id_variante_visuelle,
 			"Une même couleur doit présenter plusieurs variantes.")
 	for pile in piles_de_demonstration:
+		_verifier(_pile_est_monochrome(pile),
+				"Chaque pile de démonstration doit rester monochrome.")
 		for jeton in pile.liste_jetons:
 			if not jeton.est_vide():
 				_verifier(jeton.theme_visuel == THEME_DEMONSTRATION \
