@@ -8,6 +8,10 @@
 script = ExtResource("1_4bhsb")
 
 [node name="PlateauDeJeu" parent="." unique_id=34252562 instance=ExtResource("1_h65nu")]
+theme_visuel_demande = &"originel_cube_v1"
+couleur_fond_plateau = Color(0.94, 0.92, 0.86, 1)
+couleur_fond_pile = Color(0.78, 0.74, 0.66, 1)
+couleur_case_vide = Color(0.94, 0.92, 0.86, 1)
 
 [node name="MenuCampagne" parent="." unique_id=483873486 instance=ExtResource("2_7600w")]
 

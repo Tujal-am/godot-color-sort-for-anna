@@ -15,6 +15,9 @@ var regles := PlateauReglesDuJeuService.new()
 
 @export var pile_scene: PackedScene
 @export var theme_visuel_demande: StringName = Jeton.THEME_CLASSIQUE
+@export var couleur_fond_plateau := Color(0.34363, 8.53118e-05, 0.346463, 1)
+@export var couleur_fond_pile := Color("580058")
+@export var couleur_case_vide := Color("DARK_MAGENTA")
 var liste_piles = []
 static var ESPACE = 32
 var theme_visuel_effectif: StringName = Jeton.THEME_CLASSIQUE
@@ -22,6 +25,9 @@ var catalogue_variantes: Dictionary = Jeton.CATALOGUE_VARIANTES
 var plateau_canonique_initial: String = ""
 
 var sauvegarde_indice_pile_depart : int = -1
+
+func _ready() -> void:
+	$Fond.color = couleur_fond_plateau
 
 func commencer_un_nouveau_plateau(plateau_texte : String) -> void:
 	if decodeur.est_valide(plateau_texte):
@@ -123,6 +129,8 @@ func _instancier_une_pile() -> Pile:
 	# le constructeur '_ready' ait fait ses actions préalables.
 	add_child(pile)
 	liste_piles.append(pile)
+	pile.couleur_de_deselection = couleur_fond_pile
+	pile.get_node("Fond").color = couleur_fond_pile
 	
 	# Fournir l'indice de la pile comme reference
 	# Permet d'identifier de quelle pile provient un signal.
@@ -149,6 +157,7 @@ func _initialiser_une_pile(pile: Pile,
 				indice_pile_initiale,
 				indice_case_initiale,
 				catalogue_variantes))
+	_appliquer_couleur_cases_vides(pile)
 	# Traiter le cas d'une pile invalide.
 	if not valide:
 		# la pile est invalide, le plateau aussi
@@ -187,6 +196,8 @@ func on_pile_clique_gauche(indice_pile : int) -> void:
 	else:
 		$SelectionPile.stop()
 		if regles.realiser_le_tansfert_de_pile(liste_piles, sauvegarde_indice_pile_depart, indice_pile):
+			_appliquer_couleur_cases_vides(liste_piles[sauvegarde_indice_pile_depart])
+			_appliquer_couleur_cases_vides(pile_cible)
 			if pile_cible.est_termine():
 				pile_cible.bloquer()
 				# Vérifier si la partie est achevée
@@ -203,6 +214,11 @@ func on_pile_clique_gauche(indice_pile : int) -> void:
 		else:
 			AudioService.son_jeton_deplacer_echec()
 		_on_selection_pile_timeout()
+
+func _appliquer_couleur_cases_vides(pile: Pile) -> void:
+	for jeton in pile.liste_jetons:
+		if jeton.est_vide():
+			jeton.get_node("Carre").color = couleur_case_vide
 
 func _on_selection_pile_timeout() -> void:
 	# Deselecitonner toutes les piles
