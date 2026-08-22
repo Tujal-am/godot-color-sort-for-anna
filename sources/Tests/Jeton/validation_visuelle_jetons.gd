@@ -3,20 +3,11 @@ extends Node
 const THEME_DEMONSTRATION: StringName = Jeton.THEME_ORIGINEL_CUBE_V1
 const PILE_SCENE: PackedScene = preload("res://Scenes/Pile/pile.tscn")
 const CATALOGUE_VISUEL = preload("res://Scenes/Jeton/catalogue_visuel_jetons.gd")
+const ANIMATION_TRANSFERT_BLOC = preload(
+		"res://Scenes/Plateau/animation_transfert_bloc.gd")
 const COULEURS_DEMONSTRATION: Array[int] = [0, 1, 2, 3, 4, 5]
 const COULEUR_FOND_DEMONSTRATION := Color(0.94, 0.92, 0.86, 1)
 const COULEUR_FOND_PILE_DEMONSTRATION := Color(0.78, 0.74, 0.66, 1)
-const HAUTEUR_MONTEE := 12.0
-const DUREE_MONTEE := 0.12
-const DUREE_TRANSLATION := 0.20
-const DUREE_DESCENTE := 0.12
-const COMPOSANTS_JETON := [
-	"Selection",
-	"SoudureHaute",
-	"Carre",
-	"SoudureBasse",
-	"Nom",
-]
 const CATALOGUE_VARIANTES_DEMONSTRATION: Dictionary = Jeton.CATALOGUE_VARIANTES
 
 var piles_de_demonstration: Array[Pile] = []
@@ -26,9 +17,7 @@ var animation_transfert_en_cours := false
 var pile_animation_depart: Pile
 var pile_animation_arrivee: Pile
 var tween_animation: Tween
-var composants_animes: Array[Control] = []
-var positions_finales_composants: Array[Vector2] = []
-var z_index_finaux: Array[int] = []
+var animateur_transfert = ANIMATION_TRANSFERT_BLOC.new()
 var variantes_attendues_sommet_vers_bas: Array[StringName] = []
 var resultats_animation := {}
 var nombre_transferts_metier := 0
@@ -122,22 +111,14 @@ func _animer_transfert_demo() -> bool:
 
 	animation_transfert_en_cours = true
 	_definir_controles_animation_desactives(true)
-	var nombre_jetons := pile_animation_depart.combien_de_jetons_identiques_au_sommet()
-	var cases_vides_depart := pile_animation_depart.combien_de_cases_vides_au_sommet()
-	var premier_indice_bloc_depart := (
-			pile_animation_depart.liste_jetons.size()
-			- cases_vides_depart
-			- nombre_jetons)
-	var cases_vides_arrivee := pile_animation_arrivee.combien_de_cases_vides_au_sommet()
-	var premier_indice_bloc_arrivee := (
-			pile_animation_arrivee.liste_jetons.size() - cases_vides_arrivee)
-	var position_bloc_source: Vector2 = pile_animation_depart.liste_jetons[
-			premier_indice_bloc_depart].position()
+	var capture := animateur_transfert.capturer_transfert(
+			pile_animation_depart, pile_animation_arrivee)
+	var nombre_jetons: int = capture.nombre_jetons
 	variantes_attendues_sommet_vers_bas.clear()
 	for indice in range(nombre_jetons - 1, -1, -1):
 		variantes_attendues_sommet_vers_bas.append(
 				pile_animation_depart.liste_jetons[
-						premier_indice_bloc_depart + indice].id_variante_visuelle)
+						capture.premier_indice_depart + indice].id_variante_visuelle)
 
 	for jeton in pile_animation_depart.liste_jetons:
 		jeton.deselectionner()
@@ -150,54 +131,19 @@ func _animer_transfert_demo() -> bool:
 	_appliquer_couleur_cases_vides(pile_animation_arrivee)
 	nombre_transferts_metier += 1
 
-	var jetons_animes: Array = []
-	for indice in range(nombre_jetons):
-		jetons_animes.append(pile_animation_arrivee.liste_jetons[
-				premier_indice_bloc_arrivee + indice])
-	var position_bloc_finale: Vector2 = jetons_animes[0].position()
-	var offset_initial := position_bloc_source - position_bloc_finale
-	_preparer_composants_animes(jetons_animes, offset_initial)
-
-	var appliquer_offset := func(offset: Vector2) -> void:
-		for indice in range(composants_animes.size()):
-			composants_animes[indice].position = positions_finales_composants[indice] + offset
-
-	var offset_haut := offset_initial + Vector2(0, -HAUTEUR_MONTEE)
-	var offset_destination_haut := Vector2(0, -HAUTEUR_MONTEE)
-	tween_animation = create_tween()
-	tween_animation.tween_method(
-			appliquer_offset, offset_initial, offset_haut, DUREE_MONTEE) \
-			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
-	tween_animation.tween_method(
-			appliquer_offset, offset_haut, offset_destination_haut, DUREE_TRANSLATION) \
-			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
-	tween_animation.tween_method(
-			appliquer_offset, offset_destination_haut, Vector2.ZERO, DUREE_DESCENTE) \
-			.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
-	tween_animation.finished.connect(
+	for jeton in animateur_transfert.jetons_arrives(pile_animation_arrivee, capture):
+		jeton.selectionner()
+	tween_animation = animateur_transfert.animer(
+			self, pile_animation_arrivee, capture)
+	if tween_animation == null:
+		_finaliser_animation(false, nombre_jetons)
+		return false
+	animateur_transfert.animation_terminee.connect(
 			func() -> void: _finaliser_animation(true, nombre_jetons),
 			CONNECT_ONE_SHOT)
 	return true
 
-func _preparer_composants_animes(jetons_animes: Array,
-								offset_initial: Vector2) -> void:
-	composants_animes.clear()
-	positions_finales_composants.clear()
-	z_index_finaux.clear()
-	for jeton in jetons_animes:
-		jeton.selectionner()
-		for chemin_composant in COMPOSANTS_JETON:
-			var composant: Control = jeton.get_node(chemin_composant)
-			composants_animes.append(composant)
-			positions_finales_composants.append(composant.position)
-			z_index_finaux.append(composant.z_index)
-			composant.z_index = 10
-			composant.position += offset_initial
-
 func _finaliser_animation(transfert_reussi: bool, nombre_jetons: int) -> void:
-	for indice in range(composants_animes.size()):
-		composants_animes[indice].position = positions_finales_composants[indice]
-		composants_animes[indice].z_index = z_index_finaux[indice]
 	for jeton in pile_animation_arrivee.liste_jetons:
 		jeton.deselectionner()
 	pile_animation_arrivee.get_node("Fond").color = COULEUR_FOND_PILE_DEMONSTRATION
@@ -225,10 +171,7 @@ func _ordre_animation_est_conserve(nombre_jetons: int) -> bool:
 	return variantes_finales_sommet_vers_bas == variantes_attendues_sommet_vers_bas
 
 func _positions_finales_sont_exactes() -> bool:
-	for indice in range(composants_animes.size()):
-		if composants_animes[indice].position != positions_finales_composants[indice]:
-			return false
-	return true
+	return animateur_transfert.positions_finales_sont_exactes()
 
 func _pile_est_monochrome(pile: Pile) -> bool:
 	var couleur: int = Plateau.ESPACE

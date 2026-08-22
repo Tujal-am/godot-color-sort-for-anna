@@ -4,6 +4,8 @@ class_name Plateau
 
 const FNV1A_OFFSET_BASIS_32: int = 2166136261
 const FNV1A_PRIME_32: int = 16777619
+const ANIMATION_TRANSFERT_BLOC = preload(
+		"res://Scenes/Plateau/animation_transfert_bloc.gd")
 
 signal victoire
 signal plateau_invalide
@@ -18,6 +20,7 @@ var regles := PlateauReglesDuJeuService.new()
 @export var couleur_fond_plateau := Color(0.34363, 8.53118e-05, 0.346463, 1)
 @export var couleur_fond_pile := Color("580058")
 @export var couleur_case_vide := Color("DARK_MAGENTA")
+@export var animation_transfert_active := false
 var liste_piles = []
 static var ESPACE = 32
 var theme_visuel_effectif: StringName = Jeton.THEME_CLASSIQUE
@@ -25,6 +28,9 @@ var catalogue_variantes: Dictionary = Jeton.CATALOGUE_VARIANTES
 var plateau_canonique_initial: String = ""
 
 var sauvegarde_indice_pile_depart : int = -1
+var animation_transfert_en_cours := false
+var animateur_transfert = ANIMATION_TRANSFERT_BLOC.new()
+var tween_transfert: Tween
 
 func _ready() -> void:
 	$Fond.color = couleur_fond_plateau
@@ -176,6 +182,8 @@ func _positionner_une_pile(nb_piles_plateau: int, indice_pile: int) -> Vector2:
 
 func on_pile_clique_gauche(indice_pile : int) -> void:
 	# LogService.log_debug("clique sur la pile : ", indice_pile)
+	if animation_transfert_en_cours:
+		return
 	if not SauvegardeBddJoueursService.plateau_en_cours():
 		# Ignorer les cliques sur les jetons quand il n'y a pas de partie ne cours
 		return
@@ -195,25 +203,61 @@ func on_pile_clique_gauche(indice_pile : int) -> void:
 				liste_piles[pile_arrivee].selectionner_deplacement_valide()
 	else:
 		$SelectionPile.stop()
+		var pile_depart = liste_piles[sauvegarde_indice_pile_depart]
+		var capture_animation := {}
+		if animation_transfert_active \
+			and regles.est_valide_le_tansfert_de_pile(
+					liste_piles, sauvegarde_indice_pile_depart, indice_pile):
+			capture_animation = animateur_transfert.capturer_transfert(
+					pile_depart, pile_cible)
 		if regles.realiser_le_tansfert_de_pile(liste_piles, sauvegarde_indice_pile_depart, indice_pile):
-			_appliquer_couleur_cases_vides(liste_piles[sauvegarde_indice_pile_depart])
+			_appliquer_couleur_cases_vides(pile_depart)
 			_appliquer_couleur_cases_vides(pile_cible)
-			if pile_cible.est_termine():
-				pile_cible.bloquer()
-				# Vérifier si la partie est achevée
-				if regles.est_termine(liste_piles):
-					$BoutonAbandon.hide()
-					victoire.emit()
-					VibrationService.vibration_fin_de_plateau()
-				else:
-					VibrationService.vibration_fin_de_pile()
-					AudioService.son_jeton_deplacer_pile_pleine()
-			else:
-				VibrationService.vibration_de_jeton()
-				AudioService.son_jeton_deplacer_succes()
+			if animation_transfert_active:
+				_demarrer_animation_transfert(pile_cible, capture_animation)
+				return
+			_traiter_consequences_transfert_reussi(pile_cible)
 		else:
 			AudioService.son_jeton_deplacer_echec()
 		_on_selection_pile_timeout()
+
+func _demarrer_animation_transfert(pile_arrivee: Pile, capture: Dictionary) -> void:
+	animation_transfert_en_cours = true
+	for pile in liste_piles:
+		pile.deselectionner()
+	for jeton in animateur_transfert.jetons_arrives(pile_arrivee, capture):
+		jeton.selectionner()
+	tween_transfert = animateur_transfert.animer(self, pile_arrivee, capture)
+	if tween_transfert == null:
+		_terminer_animation_transfert(pile_arrivee)
+	else:
+		animateur_transfert.animation_terminee.connect(
+				func() -> void: _terminer_animation_transfert(pile_arrivee),
+				CONNECT_ONE_SHOT)
+
+func _terminer_animation_transfert(pile_arrivee: Pile) -> void:
+	animation_transfert_en_cours = false
+	if not is_instance_valid(pile_arrivee):
+		return
+	for jeton in pile_arrivee.liste_jetons:
+		jeton.deselectionner()
+	_on_selection_pile_timeout()
+	_traiter_consequences_transfert_reussi(pile_arrivee)
+
+func _traiter_consequences_transfert_reussi(pile_cible: Pile) -> void:
+	if pile_cible.est_termine():
+		pile_cible.bloquer()
+		# Vérifier si la partie est achevée
+		if regles.est_termine(liste_piles):
+			$BoutonAbandon.hide()
+			victoire.emit()
+			VibrationService.vibration_fin_de_plateau()
+		else:
+			VibrationService.vibration_fin_de_pile()
+			AudioService.son_jeton_deplacer_pile_pleine()
+	else:
+		VibrationService.vibration_de_jeton()
+		AudioService.son_jeton_deplacer_succes()
 
 func _appliquer_couleur_cases_vides(pile: Pile) -> void:
 	for jeton in pile.liste_jetons:
@@ -229,10 +273,14 @@ func _on_selection_pile_timeout() -> void:
 	# LogService.log_debug("Annulation du coup en cours")
 
 func _on_bouton_abandon_pressed() -> void:
+	if animation_transfert_en_cours:
+		return
 	$BoutonAbandon.hide()
 	abandon.emit()
 
 func _on_fond_gui_input(event: InputEvent) -> void:
+	if animation_transfert_en_cours:
+		return
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			# LogService.log_debug("Clique souris sur le fond du plateau")
