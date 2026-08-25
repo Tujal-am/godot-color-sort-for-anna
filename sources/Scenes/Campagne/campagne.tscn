@@ -1,15 +1,137 @@
-[gd_scene format=3 uid="uid://ocjm8ifi8b5e"]
+[gd_scene load_steps=9 format=3 uid="uid://ocjm8ifi8b5e"]
 
 [ext_resource type="Script" uid="uid://lr4yw7152woc" path="res://Scenes/Campagne/campagne.gd" id="1_4bhsb"]
 [ext_resource type="PackedScene" uid="uid://cfqcdseqsuy1l" path="res://Scenes/Plateau/plateau.tscn" id="1_h65nu"]
 [ext_resource type="PackedScene" uid="uid://xsrt777ms37l" path="res://Scenes/MenuCampagne/menu_campagne.tscn" id="2_7600w"]
+[ext_resource type="Texture2D" path="res://Art/UI/Validated/Originel/originel_top_locked.png" id="3_top"]
+[ext_resource type="Texture2D" path="res://Art/UI/Validated/Originel/originel_bottom_locked.png" id="4_bottom"]
+[ext_resource type="Texture2D" path="res://Art/UI/Validated/Originel/originel_left_decor_locked.png" id="5_left"]
+[ext_resource type="Texture2D" path="res://Art/UI/Validated/Originel/originel_right_decor_locked.png" id="6_right"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_central"]
+bg_color = Color(1, 0.968627, 0.898039, 0.94)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hitbox"]
 
 [node name="Campagne" type="Node" unique_id=1325573828]
 script = ExtResource("1_4bhsb")
 
+[node name="ZonePlateauOriginel" type="Panel" parent="."]
+offset_left = 40.0
+offset_top = 178.0
+offset_right = 440.0
+offset_bottom = 540.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_central")
+
+[node name="OriginelTopLocked" type="TextureRect" parent="."]
+offset_right = 480.0
+offset_bottom = 178.0
+mouse_filter = 2
+texture = ExtResource("3_top")
+expand_mode = 1
+
+[node name="OriginelLeftDecorLocked" type="TextureRect" parent="."]
+offset_top = 167.0
+offset_right = 52.0
+offset_bottom = 529.0
+mouse_filter = 2
+texture = ExtResource("5_left")
+expand_mode = 1
+
+[node name="OriginelRightDecorLocked" type="TextureRect" parent="."]
+offset_left = 426.0
+offset_top = 167.0
+offset_right = 480.0
+offset_bottom = 529.0
+mouse_filter = 2
+texture = ExtResource("6_right")
+expand_mode = 1
+
+[node name="OriginelBottomLocked" type="TextureRect" parent="."]
+offset_top = 523.0
+offset_right = 480.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("4_bottom")
+expand_mode = 1
+
 [node name="PlateauDeJeu" parent="." unique_id=34252562 instance=ExtResource("1_h65nu")]
 
+[node name="Fond" parent="PlateauDeJeu" index="0"]
+color = Color(1, 1, 1, 0)
+
+[node name="BoutonAbandon" parent="PlateauDeJeu" index="2"]
+anchors_preset = 0
+anchor_right = 0.0
+offset_left = 165.0
+offset_top = 605.0
+offset_right = 315.0
+offset_bottom = 650.0
+grow_horizontal = 1
+theme_override_font_sizes/font_size = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hitbox")
+text = ""
+
 [node name="MenuCampagne" parent="." unique_id=483873486 instance=ExtResource("2_7600w")]
+
+[node name="BoutonMenuPrincipal" parent="MenuCampagne" index="0"]
+anchors_preset = 0
+anchor_right = 0.0
+offset_left = 24.0
+offset_top = 12.0
+offset_right = 104.0
+offset_bottom = 60.0
+grow_horizontal = 1
+theme_override_font_sizes/font_size = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hitbox")
+text = ""
+
+[node name="BoutonStatistiques" parent="MenuCampagne" index="1"]
+anchors_preset = 0
+anchor_right = 0.0
+offset_left = 375.0
+offset_top = 12.0
+offset_right = 455.0
+offset_bottom = 60.0
+grow_horizontal = 1
+theme_override_font_sizes/font_size = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hitbox")
+text = ""
+
+[node name="InfosDuJoueur" parent="MenuCampagne" index="2"]
+modulate = Color(1, 1, 1, 0)
+
+[node name="BoutonCommencer" parent="MenuCampagne" index="4"]
+anchors_preset = 0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 155.0
+offset_top = 548.0
+offset_right = 325.0
+offset_bottom = 607.0
+grow_horizontal = 1
+grow_vertical = 1
+theme_override_font_sizes/font_size = 1
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_hitbox")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_hitbox")
+text = ""
 
 [connection signal="abandon" from="PlateauDeJeu" to="." method="_on_plateau_de_jeu_abandon"]
 [connection signal="plateau_invalide" from="PlateauDeJeu" to="." method="_on_plateau_de_jeu_plateau_invalide"]

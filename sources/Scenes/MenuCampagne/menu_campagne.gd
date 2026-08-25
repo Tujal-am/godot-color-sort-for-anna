@@ -37,8 +37,10 @@ func modifier_message_vertical_align(alignement : VerticalAlignment) -> void:
 
 
 func cacher_accueil():
-	$BoutonMenuPrincipal.hide()
-	$BoutonStatistiques.hide()
+	# Dans l'habillage Originel par défaut, Menu et Scores restent disponibles
+	# pendant le plateau via leurs hitboxes natives transparentes.
+	$BoutonMenuPrincipal.show()
+	$BoutonStatistiques.show()
 	$InfosDuJoueur.hide()
 	$Message.hide()
 	$BoutonCommencer.hide()
