@@ -1,5 +1,7 @@
 extends Control
 
+var delay_ms: int = 200
+var last_click_time: int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -63,7 +65,20 @@ func _mettre_a_jour_configuration():
 	$Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/VBoxContainer/BoutonVibrations.button_pressed = SauvegardeConfigurationService.vibrations_sont_actives()
 	$Version.text = SauvegardeConfigurationService.lire_la_version()
 
+func filtrer_click() -> bool:
+	var current_time = Time.get_ticks_msec()
+	if current_time - last_click_time < delay_ms:
+		print("filtrer_click() filtré ", current_time,"ms")
+		return true # Absorbe l'evenement qui ne sera pas trasnmis
+	else:
+		print("filtrer_click() accepté ", current_time,"ms")
+		last_click_time = current_time
+		return false
+
 func _on_bouton_musiques_toggled(toggled_on: bool) -> void:
+	if filtrer_click():
+		_mettre_a_jour_configuration() # Corriger le changement parasite
+		return
 	if toggled_on:
 		SauvegardeConfigurationService.activer_musiques()
 	else:
@@ -71,6 +86,9 @@ func _on_bouton_musiques_toggled(toggled_on: bool) -> void:
 	AudioService.son_menu_click()
 
 func _on_bouton_effets_sonores_toggled(toggled_on: bool) -> void:
+	if filtrer_click():
+		_mettre_a_jour_configuration() # Corriger le changement parasite
+		return
 	if toggled_on:
 		SauvegardeConfigurationService.activer_effets_sonores()
 	else:
@@ -78,6 +96,9 @@ func _on_bouton_effets_sonores_toggled(toggled_on: bool) -> void:
 	AudioService.son_menu_click()
 
 func _on_bouton_vibrations_toggled(toggled_on: bool) -> void:
+	if filtrer_click():
+		_mettre_a_jour_configuration() # Corriger le changement parasite
+		return
 	if toggled_on:
 		SauvegardeConfigurationService.activer_vibrations()
 	else:

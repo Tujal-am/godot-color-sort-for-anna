@@ -63,19 +63,16 @@ func _enregistrer_la_configuration() -> void:
 	LogService.log_debug("Configuration sauvegardée")
 
 func activer_musiques() -> void:
-	LogService.log_debug("configuration.gd : activer_musiques")
 	if not configuration_du_jeu.get('musiques', true):
 		configuration_du_jeu['musiques'] = true
 		_enregistrer_la_configuration()
 
 func activer_effets_sonores() -> void:
-	LogService.log_debug("configuration.gd : activer_effets_sonores")
 	if not configuration_du_jeu.get('effets sonores', true):
 		configuration_du_jeu['effets sonores'] = true
 		_enregistrer_la_configuration()
 
 func activer_vibrations() -> void:
-	LogService.log_debug("configuration.gd : activer_vibrations")
 	if not configuration_du_jeu.get('vibrations', true):
 		configuration_du_jeu['vibrations'] = true
 		_enregistrer_la_configuration()
