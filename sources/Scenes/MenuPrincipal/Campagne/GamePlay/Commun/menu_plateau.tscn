@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://bc7veft26tc06"]
+
+[ext_resource type="Script" uid="uid://bvobgf0gavp5h" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/menu_plateau.gd" id="1_bq683"]
+
+[node name="MenuPlateau" type="Node" unique_id=561806520]
+script = ExtResource("1_bq683")
+
+[node name="Fond" type="ColorRect" parent="." unique_id=1381802238]
+offset_right = 480.0
+offset_bottom = 720.0
+color = Color(0.34363, 8.53118e-05, 0.346463, 1)
+
+[node name="Top" type="FlowContainer" parent="." unique_id=1870961026]
+custom_maximum_size = Vector2(480, 170)
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme_override_constants/h_separation = 10
+alignment = 1
+
+[node name="Gameplay" type="Label" parent="Top" unique_id=317937162]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.99999994, 0.5674157, 0.9962366, 1)
+theme_override_font_sizes/font_size = 35
+text = "Classique"
+horizontal_alignment = 1
+
+[node name="Chrono" type="Label" parent="Top" unique_id=1493959023]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.5686275, 0.99607843, 1)
+theme_override_font_sizes/font_size = 50
+text = "3:02"
+
+[node name="Coups" type="Label" parent="Top" unique_id=363019818]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.5686275, 0.99607843, 1)
+theme_override_font_sizes/font_size = 35
+text = "7 Coups"
+
+[node name="BoutonAbandonner" type="Button" parent="Top" unique_id=2057181850]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.675529, 0.00038495, 0.685483, 1)
+theme_override_colors/font_hover_color = Color(0.994947, 0.331387, 1, 1)
+theme_override_font_sizes/font_size = 60
+text = "Abandonner"
+
+[node name="Chronometre" type="Timer" parent="." unique_id=144994944]
+
+[connection signal="gui_input" from="Fond" to="." method="_on_fond_gui_input"]
+[connection signal="pressed" from="Top/BoutonAbandonner" to="." method="_on_bouton_abandonner_pressed"]
+[connection signal="timeout" from="Chronometre" to="." method="_on_chronometre_timeout"]

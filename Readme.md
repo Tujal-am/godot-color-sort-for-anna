@@ -14,7 +14,7 @@ Listes des évolutions votées par les testeurs:
 
 Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités sont votées par les testeurs. L'attribution des fonctionnalités par versions ci-dessous devrait devenir obsolète pour préférer un classement global des testeurs. Cependant, les deux vont vivre pendant une phase de transition.
 
-## V0.4.4 : Travaux pour la prochaine version
+## V1.0.0 : Travaux pour la prochaine version
 
 ### Bugs
 
@@ -25,6 +25,38 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Définir une combinaison secrete pour declencher l'export des fichiers JSON.
 
 ### Jeu
+
+#### Changement d'architecture pour accueillir plusieurs gameplay
+- ~~Séparer la gestions du plateaux : plateau, pile et jeton~~
+- ~~Séparer les regles de vies des plateaux : creation plateau, deplacement de jetons~~
+- ~~Séparer les regles du plateau et les regles du jeu : condition de victoire appartient au gameplay~~
+- ~~Séparer la campagne des plateaux et interfacer le gameplay entre eux.~~
+- ~~Structurer le fichier 'Solutions_classees.json' pour incorporer le déroulé de la campagne (sequence plateaux et gameplay)~~
+  - ~~Le contenu devra être identique à la section "Campagne" du fichier vierge de sauvegarde d'un joueur.~~
+- ~~Structurer la sauvegarde 'sauvegarde_joueur_XX.json' pour incorporer la campagne~~
+  - ~~"ascensions" devient "enregistrement_campagne" pour les statistiques~~
+  - ~~Un plateau terminé en campagne devient accessible pour le jeu libre~~
+  - ~~La liste des plateaux de la campagne contient le gameplay de chacun + spécificités facultatives (coups_min, dico)~~
+- Associer les statistiques à la campagne
+- ~~Ajuster les decodages de fichiers plateaux : bdd_plateaux_service~~
+- Ajuster les decodages de fichiers de progression campagne : progression_campagne_service
+- ~~Effacer tous les outils d'initialisation libre de la campagne (jauge + nombre de plateau)~~
+- ~~Les enregistrements de campagne permettent de conserver plusieurs niveaux en cours. (exemple : Niveau_1 et Niveau_10)~~ ABANDON
+- ~~Comme tous les niveaux sont enregistrés dans la campagne, on pourrait commencer plusieurs niveaux sans avoir fini le précédent.~~ ABANDON
+- ~~On pourrait dire qu'un niveau passé à moitié ouvre l'accès au niveau suivant..~~ ABANDON
+- ~~Changement de vocable:~~
+  - ~~Notions globales:~~
+    - ~~Campagne = Campagne~~
+      - ~~Ascension => Niveau~~
+        - ~~Plateau => Plateau~~
+          - ~~Niveau => Difficulté~~
+          - ~~0 => Gameplay~~
+  - ~~fichier de sauvegarde:~~
+    - ~~ascension => enregistrement_campagne~~
+    - ~~plateaux => campagne~~
+    - ~~plateaux => plateaux_libres (peuplé par les plateaux de campagne terminés)~~
+
+#### Suggestions générales
 - (Faro) Aligner les piles sur la même ligne pour que ca soit plus facile à jouer (-1 Totol)
 - Sauvegarder l'état du plateau en cours après chaque coup. Le joueur qui quitte le jeu, reprend là où il était. Quand il revient, il commence avec son temps moyen sur ce type de niveau.
 - (Aleksandar): thème sur le fond du décors. Trop austère.
@@ -40,24 +72,12 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Ajouter un menu pour exporter les sauvegardes (avec chiffrage secret)
 - Ajouter un menu pour importer les sauvegardes chiffrées
 
-#### Ascensions
-- Gérer la difficulté relative des différentes 'ascensions':
-- Si un (ensemble de) niveau(x) elevé(s) est(sont) pauvres, les attribuer lors des dernieres ascensions
-- Qualifier les félicitations en fonction de la hauteur de l'ascension (pic du midi, ... mont blanc ... Everest).
-- Classement des ascensions :
-	- https://spherama.com/classements/montagnes/ascension/classement-des-montagnes-par-difficulte-ascension-monde.php
-	- https://climbfinder.com/fr/classement?l=415%3Fs%3Dhighest&s=cotacol
-- Prévoir un algo pour programmer l'ascension et la mémoriser.
-- Le nombre de coups minimum d'une solution est connu, il est possible de l'inclure dans le calcul du score.
+#### Niveaux
 - Prevoir une musique spéciale pour la réussite de la derniere ascension possible et le message de félicitations.
-- Calculer les populations restantes de chaque difficulté et attribuer un nombre de plateau par niveaux à réaliser par ascension au minimum. Le chemin se rallonge en cas d'echecs.
-- est ce qu'il faut limiter les ascensions (logo montagne) à une ascension maximum ?
 - Il faudrait prevoir un jeu libre avec choix de difficulté et choix de longueur d'ascension + La campagne qui orchestre les longueurs d'ascensions à faire (10 puis 20 ...)
 - TRICHE ANATOLE :
     - Quand anatole comme 'nom' on peux mettre n'importe quelle couleur sur n'importe quelle couleur et ça marche mais pas beaucoup de point
     - Il y aura un bouton gagner Ou quand tout les Block seront dans une case remplie
-- Campagne progressive qui impose les ascensions
-- Jeu libre avec les plateaux résolus en campagne (statistiques protégées de l'entrainement)
 
 #### Statistiques
 - Outils visuels:
@@ -129,6 +149,138 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 
 ## V1.0 : Pour une version long terme
 
+### Campagne
+
+- 1 campagne = Plusieurs niveaux
+- 1 niveau = Plusieurs plateaux de difficulté et gameplay différents
+- Les niveaux sont prédéfinis dans la campagne (pas d'ajustement selon le niveau des joueurs).
+- La campagne est un ensemble de plateaux séquencés et non aléatoires. Tout se déroule dans le même ordre et permet la comparaison des score d'un joueur à l'autre : __Jeu Compétitif__.
+- Un plateau non résolu est bloquant, le joueur doit le résoudre pour passer au suivant
+- Un __Plateau Rare__ est un plateau exceptionnel qui offre un défi unique et des récompenses spéciales:
+  - Il apparait en dernier plateau de la campagne.
+  - Son gameplay est unique.
+  - Son gain est affiché avant de commencer le plateau.
+  - S'il est gagné:
+    -  Il rapporte un gros bonus (1.000.000 points)
+    -  Il est reversé dans le jeu libre
+  - S'il est perdu:
+    -  La campagne passe au plateau suivant
+    -  Le plateau n'est pas reversé dans le jeu libre.
+  - Proposition : __Programmation Genius__
+
+### Jeu libre
+
+- Sont jouables tous les plateaux résolus de la campagne.
+- Selon le gameplay du plateau de la campagne, les modes accessibles seront:
+  - Groupe __Classique__:  
+    - Classique
+    - Tout En Tête
+    - Programmation
+    - Qui Perd Gagne
+    - Pile Ou Face
+  - Groupe __Nombre De Coups__:
+    - Au Plus Près
+    - Pile Poil
+  - Groupe __Poids Jeton__:
+    - Poids Plume
+  - Groupe __Mot__:
+    - Mot Caché
+  - Groupe __Plateau RARE__:
+    - Programmation Genius
+- Tous les plateaux d'un groupe seront jouable dans tous les gameplay de ce groupe.
+
+### Nouveaux styles de jeux:
+
+#### Noms
+
+  - Classique
+  - Au Plus Près
+  - Pile Poil
+  - Tout En Tête
+  - Programmation
+  - Programmation Genius
+  - Qui Perd Gagne
+  - Poids Plume
+  - Pile Ou Face
+  - Mot Caché
+
+#### Descriptions
+
+- Classique :
+  - Regle du jeu actuelle.
+- Au Plus Près :
+  - Pour les plateaux avec plusieurs longueur de solutions
+  - Indiquer la longueur de la solution la plus courte
+  - Un bonus est donné selon la logueur de la solution trouvée.
+  - Difficulté : faible
+- Pile Poil :
+  - Pour les plateaux avec plusieurs longueur de solutions
+  - Indiquer la longueur de la solution la plus courte
+  - La partie est perdue si la solution la plus courte n'est pas trouvée
+  - Afficher le compteur de coups actuel à coté de la cible
+  - Difficulté : élevée
+- Tout En Tête :
+  - Commencer le chrono quand le premier coup est joué.
+  - ??? Définir quel type de plateau conviendrait.
+  - Difficulté : faible
+- Programmation :
+  - Prévoir tous les coups jusqu'à la fin.
+  - Tout s'anime quand c'est fini. 
+  - ??? Définir quel type de plateau conviendrait.
+  - Difficulté : élevée
+- __Plateau RARE__ Programmation Genius :
+  - Prévoir tous les coups jusqu'à la fin.
+  - À chaque coup, les piles bougent sur l'interface.
+  - Le joueur doit mémoriser l'état courant du plateau après le mouvement.
+  - Tout s'anime quand c'est fini. 
+  - Difficulté : Ultra élevée
+- Qui Perd Gagne:
+  - Regle du jeu actuel inversée.
+  - Il faut trouver une position de plateau bloquée et non résolue
+- Poids Plume :
+  - Commencer le chrono quand le premier coup est joué.
+  - Résoudre le plateau avec le moins de déplacement de jeton
+  - Chaque jeton qui bouge augmente un "malus"
+  - 2 jetons qui bougent coutent plus de malus qu'1 seul jeton
+  - Afficher le malus en direct
+- Pile Ou Face :
+  - Présenter le plateau dans les 2 modes CLASSIQUE et QUI PERD GAGNE en simultané.
+  - Le joueur gagne en résolvant l'un des deux.
+  - À lui de choisir le plus avantageux.
+  - Adapté pour les plateaux avec peu de jetons (hauteur et largeur)
+- Mot Caché:
+  - la résolution du plateau forme un mot (ANNA, LOVE, SEXE ...).
+
+#### Interface Graphique
+
+- Classique :
+    - Afficher le chrono en haut à droite.
+- Au Plus Près :
+    - Afficher le nombre de coups courant à coté de la cible.
+- Pile Poil :
+    - Afficher le nombre de coups courant à coté de la cible.
+- Tout En Tête :
+    - Afficher le chrono en haut à droite figé avant le 1er coup.
+- Programmation :
+    - Afficher les coups avant leur déroulement
+    - Afficher un bouton "Dérouler"
+- Qui Perd Gagne:
+    - Afficher le chrono en haut à droite.
+- Poids Plume :
+    - Afficher le nombre de jetons déplacés.
+    - Afficher le chrono en haut à droite.
+- Pile Ou Face :
+    - Afficher le chrono.
+    - Afficher un panneau "Gagné" ou "Perdu" selon le mode.
+    - Le panneau s'illumine en cas de victoire.
+- Mot Caché:
+    - Afficher le mot à chercher
+- [GFX] STATS : faire apparaître le type de game play pour chaque min et max.
+- [GFX] CHRONO : le chrono est tout le temps visible sur l'écran.
+- [GFX] COUPS : le nombre de coups courant est tout le temps visible sur l'écran.
+
+## V2.0 : Pour une version long terme
+
 ### Divers
 - faire une animation du bloc qui se déplace
 - enregistrer dans les données immédiatement les déplacements, mais l'animation décide quand afficher/masquer les jetons selon son avancement. (idée, plusieurs coups sont enchaînés et joués même si l'animation n'est pas terminée. Le résultat donne une séquence d'animation magique)
@@ -144,45 +296,89 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - (Anna) Réaliser une version portugaise.
 
 ### Nouveaux styles de jeux:
+
+#### Noms
+
   - CLASSIQUE :
-    - Regle du jeu actuel.
-  - DÉFI DU GOSSE:
+  - DÉFI DU GOSSE => Au Plus Près
+  - DÉFI DU BOSS => Pile Poil
+  - MÉMOIRE => Tout En Tête
+  - Programmation
+  - QUI PERD GAGNE => Qui Perd Gagne
+  - FLEMMARD / ECOLOGIE => Poids Plume
+  - DOUBLE FACE => Pile Ou Face
+  - DICO => Mot Caché
+
+#### Descriptions
+
+  - Classique :
+    - Regle du jeu actuelle.
+  - Au Plus Près :
     - Pour les plateaux avec plusieurs longueur de solutions
     - Indiquer la longueur de la solution la plus courte
     - Un bonus est donné selon la logueur de la solution trouvée.
     - Difficulté : faible
-  - DÉFI DU BOSS:
+  - Pile Poil :
     - Pour les plateaux avec plusieurs longueur de solutions
     - Indiquer la longueur de la solution la plus courte
     - La partie est perdue si la solution la plus courte n'est pas trouvée
     - Afficher le compteur de coups actuel à coté de la cible
     - Difficulté : élevée
-  - MÉMOIRE :
+  - Tout En Tête :
     - Commencer le chrono quand le premier coup est joué.
-    - Prévoir tous les les coups jusqu'à le fin. 
+    - ??? Définir quel type de plateau conviendrait.
+    - Difficulté : faible
+  - Programmation :
+    - Prévoir tous les coups jusqu'à la fin.
     - Tout s'anime quand c'est fini. 
     - ??? Définir quel type de plateau conviendrait.
-  - QUI PERD GAGNE :
+    - Difficulté : élevée
+  - Qui Perd Gagne:
     - Regle du jeu actuel inversée.
     - Il faut trouver une position de plateau bloquée et non résolue
-  - FLEMMARD / ECOLOGIE :
+  - Poids Plume :
     - Commencer le chrono quand le premier coup est joué.
     - Résoudre le plateau avec le moins de déplacement de jeton
     - Chaque jeton qui bouge augmente un "malus"
     - 2 jetons qui bougent coutent plus de malus qu'1 seul jeton
     - Afficher le malus en direct
-  - DOUBLE FACE :
+  - Pile Ou Face :
     - Présenter le plateau dans les 2 modes CLASSIQUE et QUI PERD GAGNE en simultané.
     - Le joueur gagne en résolvant l'un des deux.
     - À lui de choisir le plus avantageux.
     - Adapté pour les plateaux avec peu de jetons (hauteur et largeur)
-  - DICO:
+  - Mot Caché:
     - la résolution du plateau forme un mot (ANNA, LOVE, SEXE ...).
+
+#### Interface Graphique
+
+  - Classique :
+      - Afficher le chrono en haut à droite.
+  - Au Plus Près :
+      - Afficher le nombre de coups courant à coté de la cible.
+  - Pile Poil :
+      - Afficher le nombre de coups courant à coté de la cible.
+  - Tout En Tête :
+      - Afficher le chrono en haut à droite figé avant le 1er coup.
+  - Programmation :
+      - Afficher les coups avant leur déroulement
+      - Afficher un bouton "Dérouler"
+  - Qui Perd Gagne:
+      - Afficher le chrono en haut à droite.
+  - Poids Plume :
+      - Afficher le nombre de jetons déplacés.
+      - Afficher le chrono en haut à droite.
+  - Pile Ou Face :
+      - Afficher le chrono.
+      - Afficher un panneau "Gagné" ou "Perdu" selon le mode.
+      - Le panneau s'illumine en cas de victoire.
+  - Mot Caché:
+      - Afficher le mot à chercher
   - [GFX] STATS : faire apparaître le type de game play pour chaque min et max.
   - [GFX] CHRONO : le chrono est tout le temps visible sur l'écran.
   - [GFX] COUPS : le nombre de coups courant est tout le temps visible sur l'écran.
 
-## V2.0 : Idées du futur:
+## V3.0 : Idées du futur:
 - Game play "Message" :
 	- Réaliser des tableaux dont la solution est un message (Anna.Loves.Sex).
 	- Réorganiser Jeton et construction de plateau pour arriver à ce résultat.
@@ -194,7 +390,7 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 	- des oiseaux qui passent
 	- des feuilles d'automne qui passent
 
-## V3.0 : Ascension émotionnelle plutot qu'une montagne
+## V4.0 : Ascension émotionnelle plutot qu'une montagne
 
 ### Campagne
 

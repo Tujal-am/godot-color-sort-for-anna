@@ -1,0 +1,763 @@
+{
+    "ascensions": [
+        {
+            "date_debut": 1786407216.866,
+            "date_fin": 0.0,
+            "longueur_detour": 25.0,
+            "longueur_initiale": 9.0,
+            "niveau_courant": 14,
+            "niveau_debut": 10.0,
+            "niveau_fin": 18.0,
+            "plateaux": [
+                {
+                    "coups joués": [],
+                    "date_debut": 1786407216.867,
+                    "date_fin": 1786407495.705,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DDA.CCB.AAB.   .DBC",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786407495.716,
+                    "date_fin": 1786407802.407,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DDA.CCB.AAB.   .DBC",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786407802.422,
+                    "date_fin": 1786407829.117,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786407829.134,
+                    "date_fin": 1786407915.733,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786407935.872,
+                    "date_fin": 1786408200.227,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.BC .AB .ACA.CD ",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786408200.245,
+                    "date_fin": 1786408301.581,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DAD.B  .CAB.DC .ACB",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786408301.591,
+                    "date_fin": 1786408304.732,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786408308.648,
+                    "date_fin": 1786408405.555,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DDA.CCB.AAB.   .DBC",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786408405.577,
+                    "date_fin": 1786409118.245,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DAD.B  .CAB.DC .ACB",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786409118.264,
+                    "date_fin": 1786409269.503,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786409269.518,
+                    "date_fin": 1786409290.277,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "AC .DB .CDA.BCB.AD ",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786409290.292,
+                    "date_fin": 1786409436.015,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.BC .AB .ACA.CD ",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786409436.016,
+                    "date_fin": 1786409461.36,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DC .ABC.BBA.C  .DAD",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786409461.383,
+                    "date_fin": 1786409733.605,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DDA.CCB.AAB.   .DBC",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786409733.608,
+                    "date_fin": 1786410602.48,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786410602.482,
+                    "date_fin": 1786410604.381,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786410635.238,
+                    "date_fin": 1786410638.642,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.BC .AB .ACA.CD ",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786411459.687,
+                    "date_fin": 1786411484.384,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DDA.CCB.AAB.   .DBC",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786411484.397,
+                    "date_fin": 1786411487.55,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786411501.987,
+                    "date_fin": 1786411887.553,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786411887.555,
+                    "date_fin": 1786411900.944,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786411900.945,
+                    "date_fin": 1786473173.085,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DDA.CCB.AAB.   .DBC",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786473173.088,
+                    "date_fin": 1786473174.844,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786473178.842,
+                    "date_fin": 1786473180.563,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "DDA.CCB.AAB.   .DBC",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1786473204.302,
+                    "date_fin": 1786473207.408,
+                    "duree": 0.0,
+                    "niveau": 10.0,
+                    "nom": "AC .DB .CDA.BCB.AD ",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 2.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        }
+                    ],
+                    "date_debut": 1786475156.766,
+                    "date_fin": 1786475174.868,
+                    "duree": 18035.0,
+                    "niveau": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {
+                        "duree": 665.0,
+                        "ratio_reussite": 40.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 6.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 6.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 5.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 5.0
+                        }
+                    ],
+                    "date_debut": 1786475611.736,
+                    "date_fin": 1786475626.862,
+                    "duree": 15098.0,
+                    "niveau": 11.0,
+                    "nom": "AC.BD.CD.EA.FB.FE.  ",
+                    "score": {
+                        "duree": 1020.0,
+                        "ratio_reussite": 77.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 4.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 3.0
+                        }
+                    ],
+                    "date_debut": 1786475677.814,
+                    "date_fin": 1786475700.517,
+                    "duree": 22680.0,
+                    "niveau": 12.0,
+                    "nom": "DC .BDA.CDA.BCB.A  ",
+                    "score": {
+                        "duree": 741.0,
+                        "ratio_reussite": 132.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 6,
+                            "depart": 5
+                        },
+                        {
+                            "arrivee": 6,
+                            "depart": 1
+                        },
+                        {
+                            "arrivee": 1,
+                            "depart": 0
+                        },
+                        {
+                            "arrivee": 0,
+                            "depart": 4
+                        },
+                        {
+                            "arrivee": 4,
+                            "depart": 5
+                        },
+                        {
+                            "arrivee": 5,
+                            "depart": 2
+                        },
+                        {
+                            "arrivee": 5,
+                            "depart": 3
+                        },
+                        {
+                            "arrivee": 3,
+                            "depart": 2
+                        }
+                    ],
+                    "date_debut": 1786475740.306,
+                    "date_fin": 1786475756.239,
+                    "duree": 15897,
+                    "niveau": 13,
+                    "nom": "AB.BC.DE.DE.FA.FC.  ",
+                    "score": {
+                        "duree": 1145,
+                        "ratio_reussite": 182
+                    },
+                    "statut": "reussi"
+                }
+            ],
+            "score": {}
+        }
+    ],
+    "nom": "lascar",
+    "nombre_de_parties": {
+        "10": 26.0,
+        "11": 1.0,
+        "12": 1.0,
+        "13": 1
+    },
+    "plateaux": {
+        "10": [
+            "DDA.CCB.AAB.   .DBC",
+            "DC .ABC.BBA.C  .DAD",
+            "DBD.BC .AB .ACA.CD ",
+            "AC .DB .CDA.BCB.AD ",
+            "DAD.B  .CAB.DC .ACB"
+        ],
+        "11": [
+            "AAC.CB .DB .DDC.BA ",
+            "AB .AA .DCC.BDC.DB ",
+            "ACB.ADA.DDC.CBB.   ",
+            "DDB.ACB.BDC.A  .CA ",
+            "DCB.A  .CD .ADA.CBB"
+        ],
+        "12": [
+            "DA .CDC.BA .BB .DCA",
+            "AC .DDC.BDA.ABB.C  ",
+            "ABC.BBD.CD .ACA.D  ",
+            "DA .CCD.A  .BDB.BCA",
+            "DA .CC .ADB.BD .BAC"
+        ],
+        "13": [
+            "BA.BF.CE.DA.EC.FD.  ",
+            "ABD.CBA.BC .DA .DC ",
+            "ACB.CA .DA .BDC.BD ",
+            "DAC.ABB.BAC.DCD.   "
+        ],
+        "14": [
+            "DCA.BAA.B  .CDD.CB ",
+            "ABD.BCA.B  .CAD.CD ",
+            "AD .BAD.CB .DBC.CA ",
+            "AB.CA.CB.  ",
+            "DBC.DC .B  .BAC.ADA",
+            "ACC.DAB.DDB.BA .C  "
+        ],
+        "15": [
+            "DC .A  .DBA.BDC.BAC",
+            "DDA.ADB.C  .ACB.BC ",
+            "DDC.BBA.BCA.CAD.   ",
+            "DAC.D  .ACC.BD .ABB"
+        ],
+        "16": [
+            "ABA.DCD.BC .BAC.D  ",
+            "DB .BDA.CA .CDC.BA ",
+            "AAC.DBD.ADC.CB .B  "
+        ],
+        "17": [
+            "AC .BAD.CA .DCB.BD ",
+            "DAD.CB .BCA.DC .AB ",
+            "DCC.DDA.BAC.   .BBA",
+            "DCC.CA .ABD.DB .BA ",
+            "DAB.BCA.DDA.CCB.   ",
+            "DB .ACA.BD .CDB.AC "
+        ],
+        "18": [
+            "ADD.AC .BC .CBD.BA ",
+            "DAC.CB .ADB.A  .DCB",
+            "DBC.BAD.BDC.AC .A  ",
+            "DAA.C  .BC .BAD.CBD"
+        ],
+        "19": [
+            "DA .DB .CA .ACB.CDB"
+        ],
+        "20": [
+            "ADB.DCD.CBA.ACB.   ",
+            "AD .BA .BBD.CCD.CA ",
+            "ADB.DBC.CAD.CAB.   ",
+            "DAD.AC .B  .DAB.CCB",
+            "AB.BE.CA.CE.D .D ",
+            "ADC.ACB.DBA.CDB.   "
+        ],
+        "21": [
+            "AAC.DCB.ABC.BDD.   ",
+            "DAB.ACB.DB .CA .CD ",
+            "DCB.DBA.CA .CDB.A  ",
+            "AC .CD .BAD.ABD.CB "
+        ],
+        "22": [
+            "AA .BC .DBC.DBD.CA ",
+            "DBA.A  .BDC.DCB.AC ",
+            "DBA.CAD.BA .BDC.C  ",
+            "DBA.   .ABA.DCC.CDB",
+            "DCD.ABD.   .BAC.ACB",
+            "ADC.ACD.BBD.CBA.   "
+        ],
+        "23": [
+            "DB .CCB.ADC.ADA.B  ",
+            "ABD.DBD.CAB.AC .C  ",
+            "DAA.CCB.DAD.   .BBC",
+            "B .B .CA.DC.ED.FA.FE"
+        ],
+        "24": [
+            "DBC.D  .BD .ACB.ACA",
+            "DCC.ADA.CB .B  .ADB"
+        ],
+        "25": [
+            "ACC.DB .DB .ACA.BD ",
+            "DAB.   .CDA.CDC.ABB",
+            "DA .CA .DDA.BCB.BC ",
+            "AAC.AB .BCC.B  ",
+            "ACC.DAD.BBD.CBA.   ",
+            "ACC.BBA.BCA.   "
+        ],
+        "26": [
+            "DCA.   .CAB.DCD.BBA"
+        ],
+        "27": [
+            "DCD.AD .CBB.C  .AAB",
+            "DAD.BBC.BC .DC .AA ",
+            "ACA.ACB.CBB.   ",
+            "DAC.   .BDD.CBA.CBA",
+            "ABD.C  .DCB.AAB.DC "
+        ],
+        "28": [
+            "DB .A  .CCA.CAB.DBD",
+            "DB .CCA.CDB.B  .DAA",
+            "DCD.DC .ABB.AC .BA ",
+            "ABD.CCB.DAB.CAD.   "
+        ],
+        "29": [
+            "AB .AC .CAB.CB ",
+            "DAD.ABB.CCB.DAC.   ",
+            "DD .BC .BAC.AAB.DC ",
+            "DC .CAA.AB .DB .CDB",
+            "DD .AAB.AC .DC .BBC"
+        ],
+        "30": [
+            "DC .BA .BCA.DBC.AD ",
+            "ABC.DB .CAB.AD .DC ",
+            "DC .CB .BDA.DA .BAC",
+            "DB .ADB.AD .CCB.CA "
+        ],
+        "31": [
+            "AAD.CD .ACB.BD .CB ",
+            "DCA.ACA.DDB.CB .B  ",
+            "ACB.BCA.DDA.DBC.   "
+        ],
+        "33": [
+            "DB .C  .ABC.AAB.DCD",
+            "DAC.BBA.BD .CAD.C  ",
+            "DBC.CAB.AAD.CDB.   ",
+            "DA .BCC.BBA.DA .CD ",
+            "ACC.BAB.BD .DAD.C  ",
+            "DDB.BAC.   .BAC.ACD"
+        ],
+        "34": [
+            "DDB.DBA.   .ACC.CBA",
+            "DCB.DA .ADC.BA .BC ",
+            "AAB.D  .ABC.DBC.CD "
+        ],
+        "35": [
+            "DA .DBA.CDB.A  .CCB"
+        ],
+        "36": [
+            "AC .CDB.CB .AAD.BD ",
+            "ADC.ABD.DBA.C  .BC ",
+            "DBA.CDA.DB .A  .CCB",
+            "AAC.ADB.DCB.BCD.   ",
+            "DAB.ABC.CAD.B  .DC ",
+            "ACA.BDC.DDB.BCA.   "
+        ],
+        "37": [
+            "DCB.ADA.B  .CB .ACD",
+            "ABA.BC .DBC.DAD.C  ",
+            "ACD.DDA.ACB.CB .B  ",
+            "DDC.B  .DCA.ACB.AB "
+        ],
+        "38": [
+            "DCB.CAD.DCB.BAA.   ",
+            "ACB.DC .BA .DDC.BA ",
+            "DDA.CAB.BBC.DAC.   "
+        ],
+        "40": [
+            "ACC.BDB.AAD.BDC.   ",
+            "DBD.BCA.ABC.   .DAC",
+            "ADA.ADD.CBC.B  .CB ",
+            "ABD.DBD.CAC.CAB.   "
+        ],
+        "42": [
+            "DAD.ACA.B  .CB .DBC",
+            "DAC.BAC.DD .C  .BAB",
+            "DAA.ABC.CB .DCD.B  ",
+            "DAB.DAD.CBA.CBC.   ",
+            "DBA.AD .CBC.B  .ACD"
+        ],
+        "43": [
+            "DBA.   .CAD.BAB.CCD"
+        ],
+        "44": [
+            "AAB.DBA.DCD.BC .C  ",
+            "ABD.CBD.ABA.C  .DC ",
+            "DCD.   .BAA.DCB.ACB"
+        ],
+        "45": [
+            "AAB.DCB.ACB.DCD.   ",
+            "DB .DAD.CAB.B  .CAC",
+            "DDC.C  .ABC.ABA.DB ",
+            "DDB.AC .B  .ACA.DCB"
+        ],
+        "46": [
+            "AB .DCA.DCD.ABC.B  ",
+            "DC .C  .DBD.CBA.BAA",
+            "DDC.CC .BAB.DA .BA "
+        ],
+        "47": [
+            "ABA.CBD.CBC.DAD.   ",
+            "DAD.BBC.DAB.CAC.   ",
+            "DCA.   .ACB.BBA.DCD"
+        ],
+        "50": [
+            "DBB.C  .BA .DAD.CCA",
+            "DCB.DBA.AAC.BCD.   ",
+            "DDC.ACB.BC .BAA.D  ",
+            "DCD.A  .CB .DBC.AAB",
+            "DDB.ABD.CAC.   .CBA"
+        ],
+        "52": [
+            "DBD.ADB.ACA.C  .BC ",
+            "ACA.BDB.BDC.ADC.   "
+        ],
+        "55": [
+            "DAD.ABB.CA .D  .CBC",
+            "ABC.DB .DD .ACA.BC ",
+            "DAC.BD .B  .CDB.CAA",
+            "ADC.CD .ABA.BDB.C  "
+        ],
+        "57": [
+            "ACD.DC .BBA.BC .DA ",
+            "ACB.DB .CD .AAD.CB "
+        ],
+        "58": [
+            "DBD.DAC.CBA.   .ABC",
+            "DCD.BCB.   .ADB.ACA",
+            "DAC.DBC.CBA.   .ABD"
+        ],
+        "60": [
+            "DDC.ACB.A  .BAD.BC ",
+            "AB .ACA.BCC.B  ",
+            "ABD.CAA.CDB.BDC.   ",
+            "DAC.   .BDB.CCD.BAA",
+            "DCC.BAD.   .CAB.DBA"
+        ],
+        "61": [
+            "DC .ABA.CBA.C  .DBD",
+            "DBD.B  .CAC.AB .DAC",
+            "ADA.BC .BDA.DCB.C  "
+        ],
+        "62": [
+            "DA .BDA.A  .BCC.DCB",
+            "DAC.ACA.DB .B  .BCD",
+            "ABC.BCD.DCB.DA .A  ",
+            "DA .DBD.CBC.A  .ACB"
+        ],
+        "63": [
+            "AD .CDA.BDC.CB .AB ",
+            "DBA.BA .AC .BC .DCD",
+            "DA .BAB.BC .CDD.CA "
+        ],
+        "64": [
+            "DBC.DAB.ACC.ABD.   ",
+            "DBA.CDB.DAA.   .CBC"
+        ],
+        "65": [
+            "AD .BA .CBA.BDC.CD "
+        ],
+        "66": [
+            "DBC.A  .CBB.AD .CAD",
+            "AD .DBC.CBB.CAA.D  ",
+            "DBA.B  .BC .DAD.CAC",
+            "DBA.CA .DCB.C  .BAD",
+            "DDB.BA .A  .ACC.BCD"
+        ],
+        "68": [
+            "DCB.CAB.B  .DA .CAD",
+            "ABD.BCA.ACD.BCD.   ",
+            "ADC.BD .ABC.BDA.C  "
+        ],
+        "69": [
+            "DB .ADC.DCC.B  .ABA",
+            "DDC.DB .ABA.AC .CB ",
+            "AB .DCC.DBA.ADC.B  "
+        ],
+        "71": [
+            "DB .AC .CBA.CD .ADB",
+            "DCA.CBC.AB .AD .DB ",
+            "DBC.ADD.AB .CB .CA ",
+            "DCA.AB .DB .BD .ACC",
+            "DA .CD .CA .BBC.DAB"
+        ],
+        "73": [
+            "DB .ADB.DC .AC .BCA",
+            "DC .DB .AB .CAC.ABD"
+        ],
+        "75": [
+            "DC .BAC.AC .AD .BDB",
+            "AC .BCA.BD .ABD.CD "
+        ],
+        "77": [
+            "ABD.AC .DC .DAB.CB ",
+            "DCB.BAC.BD .AD .AC "
+        ],
+        "81": [
+            "AD .BCA.BC .ABD.DC "
+        ]
+    }
+}

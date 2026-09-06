@@ -1,0 +1,289 @@
+{
+    "enregistrement_campagne": [
+        {
+            "niveau": "niveau_1",
+            "date_debut": 1786407216.866,
+            "date_fin": 0.0,
+            "plateaux": [
+                {
+                    "coups joués": [],
+                    "date_debut": 1786411887.555,
+                    "date_fin": 1786411900.944,
+                    "duree": 0.0,
+                    "difficulte": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 2.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        }
+                    ],
+                    "date_debut": 1786475156.766,
+                    "date_fin": 1786475174.868,
+                    "duree": 18035.0,
+                    "difficulte": 10.0,
+                    "nom": "DBD.CDB.   .AAB.CCA",
+                    "score": {
+                        "duree": 665.0,
+                        "ratio_reussite": 40.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 6.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 6.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 5.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 5.0
+                        }
+                    ],
+                    "date_debut": 1786475611.736,
+                    "date_fin": 1786475626.862,
+                    "duree": 15098.0,
+                    "difficulte": 11.0,
+                    "nom": "AC.BD.CD.EA.FB.FE.  ",
+                    "score": {
+                        "duree": 1020.0,
+                        "ratio_reussite": 77.0
+                    },
+                    "statut": "reussi"
+                }
+            ],
+            "score": {}
+        }
+    ],
+    "nom": "Alain Konu",
+    "nombre_de_parties": {},
+    "campagne_description_Campagne": "Sequence des niveaux de la campagne",
+    "campagne_description_gameplay": ["CLASSIQUE", "MEMOIRE", "DEFI_DU_GOSSE", "DEFI_DU_BOSS", "QUI_PERD_GAGNE", "FLEMMARD", "DOUBLE_FACE", "DICO"],
+    "campagne_description_coups_min": "[Facultatif] Longueur de resolution la plus courte",
+    "campagne_description_dico": "[Facultatif] Mot à réaliser pour le DICO",
+    "campagne": {
+        "niveau_2": [
+            {
+                "difficulte": 10,
+                "gameplay": "CLASSIQUE",
+                "nom": "DC .ABC.BBA.C  .DAD"
+            },
+            {
+                "difficulte": 11,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": " AAC.CB .DB .DDC.BA "
+            },
+            {
+                "difficulte": 12,
+                "gameplay": "CLASSIQUE",
+                "nom": "AC .DDC.BDA.ABB.C  "
+            },
+            {
+                "difficulte": 13,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ABD.CBA.BC .DA .DC "
+            },
+            {
+                "difficulte": 14,
+                "gameplay": "CLASSIQUE",
+                "nom": "ABD.BCA.B  .CAD.CD "
+            },
+            {
+                "difficulte": 15,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DDA.ADB.C  .ACB.BC "
+            },
+            {
+                "difficulte": 16,
+                "gameplay": "CLASSIQUE",
+                "nom": "DB .BDA.CA .CDC.BA "
+            },
+            {
+                "difficulte": 17,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAD.CB .BCA.DC .AB "
+            },
+            {
+                "difficulte": 18,
+                "gameplay": "CLASSIQUE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ADB.DCD.CBA.ACB.   "
+            }
+        ],
+        "niveau_3": [
+            {
+                "difficulte": 10,
+                "gameplay": "CLASSIQUE",
+                "nom": "DBD.CDB.   .AAB.CCA"
+            },
+            {
+                "difficulte": 11,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AB .AA .DCC.BDC.DB "
+            },
+            {
+                "difficulte": 12,
+                "gameplay": "CLASSIQUE",
+                "nom": "ABC.BBD.CD .ACA.D  "
+            },
+            {
+                "difficulte": 13,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ACB.CA .DA .BDC.BD "
+            },
+            {
+                "difficulte": 14,
+                "gameplay": "CLASSIQUE",
+                "nom": "AD .BAD.CB .DBC.CA "
+            },
+            {
+                "difficulte": 15,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DDC.BBA.BCA.CAD.   "
+            },
+            {
+                "difficulte": 16,
+                "gameplay": "CLASSIQUE",
+                "nom": "AAC.DBD.ADC.CB .B  "
+            },
+            {
+                "difficulte": 17,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DCC.DDA.BAC.   .BBA"
+            },
+            {
+                "difficulte": 18,
+                "gameplay": "CLASSIQUE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AD .BA .BBD.CCD.CA "
+            }
+        ],
+        "niveau_4": [
+            {
+                "difficulte": 10,
+                "gameplay": "CLASSIQUE",
+                "nom": "DBD.BC .AB .ACA.CD "
+            },
+            {
+                "difficulte": 11,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ACB.ADA.DDC.CBB.   "
+            },
+            {
+                "difficulte": 12,
+                "gameplay": "CLASSIQUE",
+                "nom": "DA .CCD.A  .BDB.BCA"
+            },
+            {
+                "difficulte": 13,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AB.BC.DE.DE.FA.FC.  "
+            },
+            {
+                "difficulte": 14,
+                "gameplay": "CLASSIQUE",
+                "nom": "AB.CA.CB.  "
+            },
+            {
+                "difficulte": 15,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAC.D  .ACC.BD .ABB"
+            },
+            {
+                "difficulte": 17,
+                "gameplay": "CLASSIQUE",
+                "nom": "DCC.CA .ABD.DB .BA "
+            },
+            {
+                "difficulte": 18,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20,
+                "gameplay": "CLASSIQUE",
+                "nom": "ADB.DBC.CAD.CAB.   "
+            },
+            {
+                "difficulte": 21,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AAC.DCB.ABC.BDD.   "
+            }
+        ]
+    },
+    "plateaux_libres_description": "Plateaux disponibles pour le jeu libre",
+    "plateaux_libres_description_coups_min": "Longueur de resolution la plus courte - Autorise les modes DEFI_DU_GOSSE et DEFI_DU_BOSS",
+    "plateaux_libres_description_dico": "Mot à réaliser pour le DICO - Autorise le mode DICO",
+    "plateaux_libres": {
+        "10": [{"nom": "DDA.CCB.AAB.   .DBC"}],
+        "11": [{"nom": "AC.BD.CD.EA.FB.FE.  "}],
+        "12": [{"nom": "DA .CDC.BA .BB .DCA"}],
+        "13": [{"nom": "BA.BF.CE.DA.EC.FD.  "}],
+        "14": [{"nom": "DCA.BAA.B  .CDD.CB "}],
+        "15": [{"nom": "DC .A  .DBA.BDC.BAC"}],
+        "16": [{"nom": "ABA.DCD.BC .BAC.D  "}],
+        "17": [{"nom": "AC .BAD.CA .DCB.BD "}],
+        "18": [{"nom": "ADD.AC .BC .CBD.BA "}],
+        "19": [{"nom": "DA .DB .CA .ACB.CDB"}]
+    }
+}

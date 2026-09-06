@@ -1,5 +1,17 @@
 # Liste des fonctionnalités
 
+## V0.4.6
+
+- Passage GODOT V4.7.2-stable
+- Nouveau menu principal.
+- Corrections de robustesse suggérés par ChatGPT.
+- Amélioration de la lisibilité de la selection des jetons.
+
+## V0.4.5 / V0.4.5.1
+
+- Passage GODOT V4.7.2-rc1
+- Version corrective demarrage android lent.
+
 ## V0.4.4
 
 ### Jeu

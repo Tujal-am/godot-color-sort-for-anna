@@ -1,8 +1,8 @@
-extends Node
+﻿extends Node
 
-signal progression_ascension
+signal progression_niveau
 signal detail_score_plateau(detail_score : Dictionary)
-signal fin_ascension
+signal fin_niveau
 # TODO : signal fin_campagne
 
 ####################################
@@ -11,7 +11,7 @@ signal fin_ascension
 func la_campagne_est_terminee_pour_joueur(nom_joueur : String) -> bool:
 	var succes: bool = _choisir_et_corriger_le_joueur(nom_joueur)
 	if succes:
-		return SauvegardeBddJoueursService.la_campagne_est_terminee()
+		return SauvegardeBddJoueursService.campagne_la_campagne_est_terminee()
 	return false
 
 func choisir_le_joueur_pour_la_campagne(nom_joueur : String) -> bool:
@@ -33,11 +33,11 @@ func _choisir_et_corriger_le_joueur(nom_joueur : String) -> bool:
 func liberer_le_joueur_pour_la_campagne():
 	SauvegardeBddJoueursService.liberer_le_joueur()
 
-func ajouter_un_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur : String) -> bool:
+func autoriser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur : String) -> bool:
 	return not SauvegardeListeJoueursService.le_joueur_existe(nom_nouveau_joueur)
 
 func initialiser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur : String) -> bool:
-	if not SauvegardeListeJoueursService.le_joueur_existe(nom_nouveau_joueur):
+	if autoriser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur):
 		# Ajouter le joueur dans la liste des joueurs
 		if SauvegardeListeJoueursService.ajouter_un_nouveau_joueur(nom_nouveau_joueur):
 			var nom_fichier = SauvegardeListeJoueursService.retourner_le_fichier_de_sauvegarde(nom_nouveau_joueur)
@@ -57,113 +57,64 @@ func initialiser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur : String)
 # Evenements de jeu du plateau
 ##############################
 
-func ascension_en_cours() -> bool:
-	return SauvegardeBddJoueursService.ascension_en_cours()
+func niveau_en_cours() -> bool:
+	return SauvegardeBddJoueursService.enregistrement_niveau_en_cours() \
+		and SauvegardeBddJoueursService.campagne_lire_prochain_plateau_pour_niveau_courant()
 
 func la_campagne_est_terminee() -> bool:
-	return SauvegardeBddJoueursService.la_campagne_est_terminee()
+	return SauvegardeBddJoueursService.campagne_la_campagne_est_terminee()
 
-func commencer_un_plateau(pourcentage_longueur : float) -> void:
-	if not SauvegardeBddJoueursService.ascension_en_cours():
-		initialiser_une_nouvelle_ascension(pourcentage_longueur)
-	if SauvegardeBddJoueursService.plateau_en_cours():
-		# Si un plateau était en cours, mais pas terminé, le considérer abandonné
+func commencer_un_plateau() -> void:
+	# Si un plateau était en cours, l'abandonner.
+	if SauvegardeBddJoueursService.enregistrement_plateau_en_cours():
 		abandonner_un_plateau()
 
-	# Ajouter le nouveau plateau et incrémenter le compteur de parties du niveau courant
+	# Premier niveau sans enregistrement => Initialiser un nouveau niveau
+	if not SauvegardeBddJoueursService.enregistrement_niveau_existe():
+		SauvegardeBddJoueursService.enregistrement_initialiser_un_nouveau_niveau()
+
+	# Le niveau en cours est achevé => Initialiser un nouveau niveau
+	if not SauvegardeBddJoueursService.enregistrement_niveau_en_cours():
+		SauvegardeBddJoueursService.enregistrement_initialiser_un_nouveau_niveau()
+
+	# Ajouter le nouveau plateau et incrémenter le compteur de parties de la difficulté courante
 	SauvegardeBddJoueursService.commencer_un_plateau()
-	LogService.log_debug("Nombre de parties = ", SauvegardeBddJoueursService.lire_nombre_de_parties_joueur_pour_niveau_courant())
+	LogService.log_debug("Nombre de parties = ", SauvegardeBddJoueursService.enregistrement_lire_nombre_plateaux_acheves())
 
-func gagner_un_plateau(duree_en_ms : int) -> void:
+func gagner_un_plateau() -> void:
 	# Valider le plateau courant (effacer de la liste des plateaux jouables)
-	SauvegardeBddJoueursService.gagner_un_plateau(duree_en_ms)
+	SauvegardeBddJoueursService.gagner_un_plateau()
 
-	# Calculer le niveau supérieur
-	var niveau_superieur = retourner_le_niveau_superieur()
-	# Déterminer si l'ascension est achevée (pas de niveau suivant)
-	if niveau_superieur == SauvegardeBddJoueursService.lire_niveau_joueur():
+	# Déterminer si l'ascension est achevée (pas de plateau suivant)
+	if not SauvegardeBddJoueursService.campagne_lire_prochain_plateau_pour_niveau_courant():
 		# BDD joueur + Préparer la jauge pour la prochaine ascension
-		fin_ascension.emit()
+		fin_niveau.emit()
 
-	# Calculer le score du plateau et l'enregistrer dans l'historique de l'ascension
-	var detail_score = ScoreService.mettre_a_jour_score_pour_victoire(duree_en_ms)
+	# Calculer le score du plateau et l'enregistrer dans l'historique du niveau
+	var detail_score = ScoreService.mettre_a_jour_score_pour_victoire()
 	detail_score_plateau.emit(detail_score)
 
-	# Passer au niveau suivant
-	if niveau_superieur > SauvegardeBddJoueursService.lire_niveau_joueur():
-		SauvegardeBddJoueursService.modifier_niveau_joueur(niveau_superieur)
-	
-	# Emmettre un signal de mise à jour de l'ascension
-	progression_ascension.emit() # Pour mise à jour des bandeaux d'infos
+	# Emmettre un signal de mise à jour du niveau
+	progression_niveau.emit() # Pour mise à jour des bandeaux d'infos
 	afficher_niveau_plateau_parties()
 
 func abandonner_un_plateau() -> void:
 	# En cas d'abandon, pas d'enrgistrement du temps.
 	SauvegardeBddJoueursService.abandonner_un_plateau()
-	
-	# Diminuer le niveau courant (si c'est possible)
-	var niveau_inferieur = retourner_le_niveau_inferieur()
-	if niveau_inferieur < SauvegardeBddJoueursService.lire_niveau_joueur():
-		SauvegardeBddJoueursService.modifier_niveau_joueur(niveau_inferieur)
-	progression_ascension.emit() # Pour mise à jour des bandeaux d'infos
-	afficher_niveau_plateau_parties()
-
-func initialiser_une_nouvelle_ascension(pourcentage_longueur : float):
-		var nb_niveaux = roundi(pourcentage_longueur / 100. * SauvegardeBddJoueursService.lire_nombre_de_niveaux_realisables())
-		var niveau_min = retourner_le_niveau_le_plus_bas()
-		var niveau_max = retourner_le_niveau_nieme(nb_niveaux)
-		SauvegardeBddJoueursService.initialiser_une_nouvelle_ascension(nb_niveaux, niveau_min, niveau_max)
+	# On reste sur le même plateau
+	# La campagne et le niveaux sont inchangés
 
 func afficher_niveau_plateau_parties():
-	LogService.log_debug("[Campagne] Niveau = ", str(SauvegardeBddJoueursService.lire_niveau_joueur()),
-	 " - Plateau = '", str(SauvegardeBddJoueursService.lire_nom_plateau()).replace(' ', '-'), "'",
-	 " - Pourcentage ascension = ", str(SauvegardeBddJoueursService.lire_pourcentage_ascension_realise()),"%")
+	LogService.log_debug("[Campagne] Niveau = ", str(SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()),
+	 " - Plateau = '", str(SauvegardeBddJoueursService.enregistrement_lire_nom_plateau()).replace(' ', '-'), "'",
+	 " - Pourcentage niveau = ", str(SauvegardeBddJoueursService.lire_pourcentage_niveau_realise()),"%")
 
 # Traitement de niveau
 ######################
 
 func retourner_le_niveau_le_plus_bas() -> int:
-	# Retourner le plus bas niveau réalisable
-	for niveau_le_plus_bas in range(0, 300):
-		# Vérifier qu'il reste des plateaux à réaliser par le joueur
-		if not SauvegardeBddJoueursService.le_niveau_est_termine(niveau_le_plus_bas):
+	# Retourner le premier niveau non terminé
+	for niveau_le_plus_bas in range(1, 300):
+		if not SauvegardeBddJoueursService.campagne_le_niveau_est_termine(niveau_le_plus_bas):
 			return niveau_le_plus_bas
-	return -1
-
-# TODO : Cette methode est inutilisée
-func retourner_le_niveau_le_plus_haut() -> int:
-	# Retourner le plus haut niveau réalisable
-	for niveau_le_plus_haut in range(300, -1, -1):
-		# Vérifier qu'il reste des plateaux à réaliser par le joueur
-		if not SauvegardeBddJoueursService.le_niveau_est_termine(niveau_le_plus_haut):
-			return niveau_le_plus_haut
-	return -1
-
-func retourner_le_niveau_nieme(nb_niveaux : int) -> int:
-	var niveau = -1
-	for niveau_le_plus_bas in range(0, 300):
-		# Vérifier qu'il reste des plateaux à réaliser par le joueur
-		if not SauvegardeBddJoueursService.le_niveau_est_termine(niveau_le_plus_bas):
-			nb_niveaux -= 1
-			niveau = niveau_le_plus_bas
-			if not nb_niveaux:
-				break
-	return niveau
-
-func retourner_le_niveau_superieur() -> int:
-	# Parcourir les niveaux supérieurs
-	var niveau_max = SauvegardeBddJoueursService.lire_niveau_fin_ascension()
-	for niveau_superieur in range(SauvegardeBddJoueursService.lire_niveau_joueur()+1, niveau_max+1):
-		# Vérifier qu'il reste des plateaux à réaliser par le joueur
-		if not SauvegardeBddJoueursService.le_niveau_est_termine(niveau_superieur):
-			return niveau_superieur
-	return SauvegardeBddJoueursService.lire_niveau_joueur()
-
-func retourner_le_niveau_inferieur() -> int:
-	# Parcourir les niveaux supérieurs
-	var niveau_min = SauvegardeBddJoueursService.lire_niveau_debut_ascension()
-	for niveau_inferieur in range(SauvegardeBddJoueursService.lire_niveau_joueur()-1, niveau_min-1, -1):
-		# Vérifier qu'il reste des plateaux à réaliser par le joueur
-		if not SauvegardeBddJoueursService.le_niveau_est_termine(niveau_inferieur):
-			return niveau_inferieur
-	return SauvegardeBddJoueursService.lire_niveau_joueur()
+	return 0

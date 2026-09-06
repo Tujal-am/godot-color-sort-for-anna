@@ -1,0 +1,9 @@
+.vscode
+
+# Godot 4+ specific ignores
+.godot/
+*.tmp
+android/
+
+# TU avec GUT
+addons/gut/

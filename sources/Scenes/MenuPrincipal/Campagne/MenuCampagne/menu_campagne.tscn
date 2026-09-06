@@ -1,0 +1,139 @@
+[gd_scene format=3 uid="uid://xsrt777ms37l"]
+
+[ext_resource type="Script" uid="uid://cvnvhf4dvkux3" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/menu_campagne.gd" id="1_v46tq"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4v47e"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2jhv"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11ehg"]
+bg_color = Color(0.996078, 0.333333, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j78cs"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1gckf"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apfrx"]
+content_margin_left = 10.0
+content_margin_right = 10.0
+bg_color = Color(0.13, 0.13, 0.13, 0.843137)
+corner_radius_top_left = 40
+corner_radius_bottom_right = 40
+
+[node name="MenuCampagne" type="CanvasLayer" unique_id=162026973]
+script = ExtResource("1_v46tq")
+
+[node name="BoutonMenuPrincipal" type="Button" parent="." unique_id=935163631]
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = -240.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+theme_override_colors/font_hover_color = Color(0.996078, 0.333333, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_4v47e")
+theme_override_styles/hover = SubResource("StyleBoxFlat_w2jhv")
+text = "Menu"
+
+[node name="BoutonStatistiques" type="Button" parent="." unique_id=1801002106]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 240.0
+offset_bottom = 100.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+theme_override_colors/font_hover_color = Color(0.996078, 0.333333, 1, 1)
+theme_override_font_sizes/font_size = 50
+theme_override_styles/normal = SubResource("StyleBoxFlat_4v47e")
+theme_override_styles/hover = SubResource("StyleBoxFlat_w2jhv")
+text = "Stats"
+
+[node name="InfosDuJoueur" type="VBoxContainer" parent="." unique_id=2056747543]
+visible = false
+offset_top = 100.0
+offset_right = 480.0
+offset_bottom = 200.0
+
+[node name="TexteInfosDuJoueur" type="RichTextLabel" parent="InfosDuJoueur" unique_id=2073583728]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_11ehg")
+bbcode_enabled = true
+text = "[center][font_size=30][b]infos joueur[/b][/font_size][/center]"
+fit_content = true
+
+[node name="Message" type="Label" parent="." unique_id=264140970]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.0
+offset_top = -160.0
+offset_right = 34.0
+offset_bottom = 240.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "Poursuivre le niveau!"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="BoutonCommencer" type="Button" parent="." unique_id=2037088046]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.675529, 0.00038495, 0.685483, 1)
+theme_override_colors/font_hover_color = Color(0.994947, 0.331387, 1, 1)
+theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxFlat_j78cs")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1gckf")
+text = "Commencer"
+
+[node name="MessageRiche" type="RichTextLabel" parent="." unique_id=630852021]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 90.0
+offset_top = -260.0
+offset_right = -90.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_apfrx")
+bbcode_enabled = true
+text = "[color=#ff98fd][font_size=30][center][b]Score[/b][/center][/font_size]
+[left][font_size=20][b]Temps[/b] :
+[ul] Référence = XXs[/ul]
+[ul] Réalisé = YYs[/ul]
+[ul] YY.XXX points[/ul]
+[b]Ratio[/b]
+[ul] Réalisé: YY%[/ul]
+[ul] YY.XXX points[/ul]
+[b]Niveau[/b]
+[ul] Longueur: XX plateaux[/ul]
+[ul] YY.XXX points[/ul]
+[b]Niveau sans détour[/b]
+[ul] Bonus: x2[/ul]
+[ul] YY.XXX points[/ul]
+[b]Campagne[/b]
+[ul] YY.XXX points[/ul]
+[/font_size][/left][font_size=30][center][b]Total : ZZ.YYY.XXX[/b][/center][/font_size][/color]"
+scroll_active = false
+language = "fr"
+
+[connection signal="pressed" from="BoutonMenuPrincipal" to="." method="_on_bouton_menu_principal_pressed"]
+[connection signal="pressed" from="BoutonStatistiques" to="." method="_on_bouton_statistiques_pressed"]
+[connection signal="pressed" from="BoutonCommencer" to="." method="_on_bouton_commencer_pressed"]
+[connection signal="gui_input" from="MessageRiche" to="." method="_on_message_riche_gui_input"]

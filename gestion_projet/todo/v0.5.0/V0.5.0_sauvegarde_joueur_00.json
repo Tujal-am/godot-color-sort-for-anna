@@ -1,0 +1,224 @@
+{
+    "enregistrement_campagne": [],
+    "nom": "Alain Konu",
+    "nombre_de_parties": {},
+    "campagne_description_Campagne": "Sequence des niveaux de la campagne",
+    "campagne_description_gameplay": ["CLASSIQUE", "MEMOIRE", "DEFI_DU_GOSSE", "DEFI_DU_BOSS", "QUI_PERD_GAGNE", "FLEMMARD", "DOUBLE_FACE", "DICO"],
+    "campagne_description_coups_min": "[Facultatif] Longueur de resolution la plus courte",
+    "campagne_description_dico": "[Facultatif] Mot à réaliser pour le DICO",
+    "campagne": {
+        "niveau_1": [
+            {
+                "difficulte": 10,
+                "gameplay": "CLASSIQUE",
+                "nom": "DDA.CCB.AAB.   .DBC"
+            },
+            {
+                "difficulte": 11,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AC.BD.CD.EA.FB.FE.  "
+            },
+            {
+                "difficulte": 12,
+                "gameplay": "CLASSIQUE",
+                "nom": "DA .CDC.BA .BB .DCA"
+            },
+            {
+                "difficulte": 13,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "BA.BF.CE.DA.EC.FD.  "
+            },
+            {
+                "difficulte": 14,
+                "gameplay": "CLASSIQUE",
+                "nom": "DCA.BAA.B  .CDD.CB "
+            },
+            {
+                "difficulte": 15,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DC .A  .DBA.BDC.BAC"
+            },
+            {
+                "difficulte": 16,
+                "gameplay": "CLASSIQUE",
+                "nom": "ABA.DCD.BC .BAC.D  "
+            },
+            {
+                "difficulte": 17,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AC .BAD.CA .DCB.BD "
+            },
+            {
+                "difficulte": 18,
+                "gameplay": "CLASSIQUE",
+                "nom": "ADD.AC .BC .CBD.BA "
+            },
+            {
+                "difficulte": 19,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DA .DB .CA .ACB.CDB"
+            }
+        ],
+        "niveau_2": [
+            {
+                "difficulte": 10,
+                "gameplay": "CLASSIQUE",
+                "nom": "DC .ABC.BBA.C  .DAD"
+            },
+            {
+                "difficulte": 11,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": " AAC.CB .DB .DDC.BA "
+            },
+            {
+                "difficulte": 12,
+                "gameplay": "CLASSIQUE",
+                "nom": "AC .DDC.BDA.ABB.C  "
+            },
+            {
+                "difficulte": 13,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ABD.CBA.BC .DA .DC "
+            },
+            {
+                "difficulte": 14,
+                "gameplay": "CLASSIQUE",
+                "nom": "ABD.BCA.B  .CAD.CD "
+            },
+            {
+                "difficulte": 15,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DDA.ADB.C  .ACB.BC "
+            },
+            {
+                "difficulte": 16,
+                "gameplay": "CLASSIQUE",
+                "nom": "DB .BDA.CA .CDC.BA "
+            },
+            {
+                "difficulte": 17,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAD.CB .BCA.DC .AB "
+            },
+            {
+                "difficulte": 18,
+                "gameplay": "CLASSIQUE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ADB.DCD.CBA.ACB.   "
+            }
+        ],
+        "niveau_3": [
+            {
+                "difficulte": 10,
+                "gameplay": "CLASSIQUE",
+                "nom": "DBD.CDB.   .AAB.CCA"
+            },
+            {
+                "difficulte": 11,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AB .AA .DCC.BDC.DB "
+            },
+            {
+                "difficulte": 12,
+                "gameplay": "CLASSIQUE",
+                "nom": "ABC.BBD.CD .ACA.D  "
+            },
+            {
+                "difficulte": 13,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ACB.CA .DA .BDC.BD "
+            },
+            {
+                "difficulte": 14,
+                "gameplay": "CLASSIQUE",
+                "nom": "AD .BAD.CB .DBC.CA "
+            },
+            {
+                "difficulte": 15,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DDC.BBA.BCA.CAD.   "
+            },
+            {
+                "difficulte": 16,
+                "gameplay": "CLASSIQUE",
+                "nom": "AAC.DBD.ADC.CB .B  "
+            },
+            {
+                "difficulte": 17,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DCC.DDA.BAC.   .BBA"
+            },
+            {
+                "difficulte": 18,
+                "gameplay": "CLASSIQUE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AD .BA .BBD.CCD.CA "
+            }
+        ],
+        "niveau_4": [
+            {
+                "difficulte": 10,
+                "gameplay": "CLASSIQUE",
+                "nom": "DBD.BC .AB .ACA.CD "
+            },
+            {
+                "difficulte": 11,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ACB.ADA.DDC.CBB.   "
+            },
+            {
+                "difficulte": 12,
+                "gameplay": "CLASSIQUE",
+                "nom": "DA .CCD.A  .BDB.BCA"
+            },
+            {
+                "difficulte": 13,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AB.BC.DE.DE.FA.FC.  "
+            },
+            {
+                "difficulte": 14,
+                "gameplay": "CLASSIQUE",
+                "nom": "AB.CA.CB.  "
+            },
+            {
+                "difficulte": 15,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAC.D  .ACC.BD .ABB"
+            },
+            {
+                "difficulte": 17,
+                "gameplay": "CLASSIQUE",
+                "nom": "DCC.CA .ABD.DB .BA "
+            },
+            {
+                "difficulte": 18,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20,
+                "gameplay": "CLASSIQUE",
+                "nom": "ADB.DBC.CAD.CAB.   "
+            },
+            {
+                "difficulte": 21,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AAC.DCB.ABC.BDD.   "
+            }
+        ]
+    },
+    "plateaux_libres_description": "Plateaux disponibles pour le jeu libre",
+    "plateaux_libres_description_coups_min": "Longueur de resolution la plus courte - Autorise les modes DEFI_DU_GOSSE et DEFI_DU_BOSS",
+    "plateaux_libres_description_dico": "Mot à réaliser pour le DICO - Autorise le mode DICO",
+    "plateaux_libres": {
+    }
+}
