@@ -1,53 +1,401 @@
-[gd_scene format=3 uid="uid://bc7veft26tc06"]
+[gd_scene load_steps=16 format=3 uid="uid://bc7veft26tc06"]
 
-[ext_resource type="Script" uid="uid://bvobgf0gavp5h" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/menu_plateau.gd" id="1_bq683"]
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/menu_plateau.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/BACKGROUND_CLASSIQUE_HEADER_SAFE_480x720.png" id="2_fond"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/REF_back_button_crop.png" id="3_back"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_clean/top_panel_classique_clean.png" id="4_top"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/icon_stacked_cubes.png" id="5_mode"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/icon_check_blue.png" id="6_check"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/06_HEART_CLASSIQUE_23x27.png" id="7_heart"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_clean/statistics_button_classique_clean.png" id="8_stats"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/05_RECOMMENCER_CLASSIQUE_244x60.png" id="9_restart"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/01_HEADER_CLASSIQUE_STATIC_365x58.png" id="12_banner"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/02_PLAYER_CARD_SHELL_165x56.png" id="13_card"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/03_BACK_CLASSIQUE_48x56.png" id="14_back_master"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/04_STATISTIQUES_CLASSIQUE_60x58.png" id="15_stats_master"]
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="10_regular"]
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="11_bold"]
 
-[node name="MenuPlateau" type="Node" unique_id=561806520]
-script = ExtResource("1_bq683")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_progress_track"]
+bg_color = Color(0.898039, 0.807843, 0.741176, 0.92)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.760784, 0.560784, 0.454902, 0.6)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
 
-[node name="Fond" type="ColorRect" parent="." unique_id=1381802238]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_header_rule"]
+bg_color = Color(0.886275, 0.690196, 0.584314, 0.55)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_player_card"]
+bg_color = Color(1, 0.956863, 0.909804, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.886275, 0.690196, 0.584314, 0.9)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.2, 0.1, 0.05, 0.18)
+shadow_size = 3
+
+[node name="MenuPlateau" type="Node"]
+script = ExtResource("1_script")
+
+[node name="Fond" type="TextureRect" parent="."]
+z_index = -10
 offset_right = 480.0
 offset_bottom = 720.0
-color = Color(0.34363, 8.53118e-05, 0.346463, 1)
+texture = ExtResource("2_fond")
+expand_mode = 1
+stretch_mode = 0
 
-[node name="Top" type="FlowContainer" parent="." unique_id=1870961026]
-custom_maximum_size = Vector2(480, 170)
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 150.0
-grow_horizontal = 2
-theme_override_constants/h_separation = 10
-alignment = 1
+[node name="BoutonRetour" type="TextureButton" parent="."]
+z_index = 20
+offset_left = 4.0
+offset_top = 137.0
+offset_right = 52.0
+offset_bottom = 193.0
+texture_normal = ExtResource("3_back")
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="Gameplay" type="Label" parent="Top" unique_id=317937162]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.99999994, 0.5674157, 0.9962366, 1)
-theme_override_font_sizes/font_size = 35
-text = "Classique"
+[node name="Top" type="Control" parent="."]
+z_index = 10
+offset_left = 51.0
+offset_top = 135.0
+offset_right = 416.0
+offset_bottom = 193.0
+
+[node name="TopPanel" type="TextureRect" parent="Top"]
+offset_right = 365.0
+offset_bottom = 58.0
+texture = ExtResource("12_banner")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="GameplayDivider" type="ColorRect" parent="Top"]
+offset_left = 181.0
+offset_top = 9.0
+offset_right = 182.0
+offset_bottom = 56.0
+color = Color(0.886275, 0.690196, 0.584314, 0.72)
+mouse_filter = 2
+
+[node name="ProgressionDivider" type="ColorRect" parent="Top"]
+offset_left = 294.0
+offset_top = 10.0
+offset_right = 295.0
+offset_bottom = 55.0
+color = Color(0.886275, 0.690196, 0.584314, 0.72)
+mouse_filter = 2
+
+[node name="PlayerDivider" type="ColorRect" parent="Top"]
+offset_left = 259.0
+offset_top = 9.0
+offset_right = 260.0
+offset_bottom = 56.0
+color = Color(0.886275, 0.690196, 0.584314, 0.72)
+mouse_filter = 2
+
+[node name="ModeIcon" type="TextureRect" parent="Top"]
+offset_left = 6.0
+offset_top = 14.0
+offset_right = 58.0
+offset_bottom = 52.0
+texture = ExtResource("5_mode")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Check" type="TextureRect" parent="Top"]
+offset_left = 62.0
+offset_top = 19.0
+offset_right = 82.0
+offset_bottom = 47.0
+texture = ExtResource("6_check")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Gameplay" type="Label" parent="Top"]
+offset_left = 88.0
+offset_top = 8.0
+offset_right = 182.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(0.0235294, 0.231373, 0.458824, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 14
+text = "CLASSIQUE"
 horizontal_alignment = 1
 
-[node name="Chrono" type="Label" parent="Top" unique_id=1493959023]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.5686275, 0.99607843, 1)
-theme_override_font_sizes/font_size = 50
-text = "3:02"
+[node name="Subtitle" type="Label" parent="Top"]
+offset_left = 88.0
+offset_top = 28.0
+offset_right = 182.0
+offset_bottom = 46.0
+theme_override_colors/font_color = Color(0.027451, 0.603922, 0.698039, 1)
+theme_override_fonts/font = ExtResource("10_regular")
+theme_override_font_sizes/font_size = 10
+text = "Empile les couleurs"
+horizontal_alignment = 1
 
-[node name="Coups" type="Label" parent="Top" unique_id=363019818]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 0.5686275, 0.99607843, 1)
-theme_override_font_sizes/font_size = 35
-text = "7 Coups"
+[node name="Progression" type="Label" parent="Top"]
+offset_left = 176.0
+offset_top = 10.0
+offset_right = 251.0
+offset_bottom = 28.0
+theme_override_colors/font_color = Color(0.0235294, 0.231373, 0.458824, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 15
+horizontal_alignment = 0
 
-[node name="BoutonAbandonner" type="Button" parent="Top" unique_id=2057181850]
-custom_minimum_size = Vector2(480, 0)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.675529, 0.00038495, 0.685483, 1)
-theme_override_colors/font_hover_color = Color(0.994947, 0.331387, 1, 1)
-theme_override_font_sizes/font_size = 60
-text = "Abandonner"
+[node name="ProgressPercent" type="Label" parent="Top"]
+offset_left = 260.0
+offset_top = 41.0
+offset_right = 292.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.0235294, 0.231373, 0.458824, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 14
+text = "0 %"
+horizontal_alignment = 2
+vertical_alignment = 1
+mouse_filter = 2
 
-[node name="Chronometre" type="Timer" parent="." unique_id=144994944]
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+[node name="ProgressionTrack" type="Panel" parent="Top"]
+offset_left = 187.0
+offset_top = 31.0
+offset_right = 255.0
+offset_bottom = 45.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_progress_track")
+mouse_filter = 2
+
+[node name="HeaderRule" type="Panel" parent="Top"]
+offset_left = 184.0
+offset_top = 63.0
+offset_right = 255.0
+offset_bottom = 64.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_header_rule")
+mouse_filter = 2
+
+[node name="ChronoLabel" type="Label" parent="Top"]
+offset_left = 294.0
+offset_top = 47.0
+offset_right = 338.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0.0235294, 0.231373, 0.458824, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 16
+text = "00:00"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="CoupsLabel" type="Label" parent="Top"]
+offset_left = 310.0
+offset_top = 47.0
+offset_right = 350.0
+offset_bottom = 63.0
+theme_override_colors/font_color = Color(0.0235294, 0.231373, 0.458824, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 16
+text = "0 coup"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+[node name="ChronoIcon" type="Label" parent="Top"]
+offset_left = 266.0
+offset_top = 10.0
+offset_right = 282.0
+offset_bottom = 29.0
+theme_override_colors/font_color = Color(0.941176, 0.301961, 0.235294, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 16
+text = "◷"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="CoupsTitle" type="Label" parent="Top"]
+offset_left = 300.0
+offset_top = 42.0
+offset_right = 337.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.941176, 0.301961, 0.235294, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 14
+text = "Coups"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="ProgressBarBackground" type="ColorRect" parent="Top"]
+offset_left = 190.0
+offset_top = 34.0
+offset_right = 252.0
+offset_bottom = 42.0
+color = Color(0.952941, 0.847059, 0.74902, 1)
+mouse_filter = 2
+
+[node name="ProgressBar" type="ColorRect" parent="Top"]
+offset_left = 190.0
+offset_top = 34.0
+offset_right = 252.0
+offset_bottom = 42.0
+color = Color(0.941176, 0.301961, 0.235294, 1)
+mouse_filter = 2
+
+[node name="Avatar" type="TextureRect" parent="Top"]
+visible = false
+offset_left = 245.0
+offset_top = 17.0
+offset_right = 275.0
+offset_bottom = 47.0
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="NomJoueur" type="Label" parent="Top"]
+offset_left = 275.0
+offset_top = 13.0
+offset_right = 315.0
+offset_bottom = 51.0
+theme_override_colors/font_color = Color(0.0235294, 0.231373, 0.458824, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Heart" type="TextureRect" parent="Top"]
+offset_left = 315.0
+offset_top = 22.0
+offset_right = 328.0
+offset_bottom = 44.0
+texture = ExtResource("7_heart")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="PlayerCard" type="Panel" parent="."]
+z_index = 12
+clip_contents = false
+offset_left = 158.0
+offset_top = 77.0
+offset_right = 323.0
+offset_bottom = 133.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_player_card")
+mouse_filter = 2
+
+[node name="CardBackground" type="TextureRect" parent="PlayerCard"]
+z_index = -1
+offset_right = 165.0
+offset_bottom = 56.0
+texture = ExtResource("13_card")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="CardAvatar" type="TextureRect" parent="PlayerCard"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 50.0
+offset_bottom = 49.0
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="CardName" type="Label" parent="PlayerCard"]
+offset_left = 50.0
+offset_top = 16.0
+offset_right = 132.0
+offset_bottom = 41.0
+theme_override_colors/font_color = Color(0.0235294, 0.231373, 0.458824, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="CardHeart" type="TextureRect" parent="PlayerCard"]
+offset_left = 136.0
+offset_top = 14.0
+offset_right = 164.0
+offset_bottom = 43.0
+texture = ExtResource("7_heart")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="BoutonAbandonner" type="TextureButton" parent="Top"]
+offset_left = 61.0
+offset_top = 456.0
+offset_right = 288.0
+offset_bottom = 514.0
+texture_normal = ExtResource("9_restart")
+modulate = Color(1, 1, 1, 1)
+self_modulate = Color(1, 1, 1, 1)
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="RestartLabel" type="Label" parent="Top/BoutonAbandonner"]
+offset_left = 82.0
+offset_right = 224.0
+offset_bottom = 58.0
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0.45, 0.08, 0.03, 0.85)
+theme_override_constants/outline_size = 2
+theme_override_colors/font_shadow_color = Color(0.55, 0.12, 0.06, 0.65)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "Recommencer"
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+
+[node name="BoutonStatistiques" type="TextureButton" parent="."]
+z_index = 10
+offset_left = 415.0
+offset_top = 135.0
+offset_right = 475.0
+offset_bottom = 193.0
+texture_normal = ExtResource("8_stats")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="StatistiquesLabel" type="Label" parent="BoutonStatistiques"]
+offset_top = 48.0
+offset_right = 72.0
+offset_bottom = 70.0
+theme_override_colors/font_color = Color(0.0392157, 0.215686, 0.396078, 1)
+theme_override_fonts/font = ExtResource("11_bold")
+theme_override_font_sizes/font_size = 11
+text = "Statistiques"
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="Chronometre" type="Timer" parent="."]
 
 [connection signal="gui_input" from="Fond" to="." method="_on_fond_gui_input"]
+[connection signal="pressed" from="BoutonRetour" to="." method="_on_bouton_retour_pressed"]
+[connection signal="pressed" from="BoutonStatistiques" to="." method="_on_bouton_statistiques_pressed"]
 [connection signal="pressed" from="Top/BoutonAbandonner" to="." method="_on_bouton_abandonner_pressed"]
 [connection signal="timeout" from="Chronometre" to="." method="_on_chronometre_timeout"]

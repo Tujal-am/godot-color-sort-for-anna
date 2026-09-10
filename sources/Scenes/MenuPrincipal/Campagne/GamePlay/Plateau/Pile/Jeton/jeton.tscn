@@ -22,11 +22,30 @@ offset_right = 32.0
 offset_bottom = 2.0
 color = Color(0.862745, 0.0784314, 0.235294, 1)
 
+[node name="Ombre" type="Panel" parent="."]
+mouse_filter = 2
+offset_left = 1.0
+offset_top = 3.0
+offset_right = 33.0
+offset_bottom = 35.0
+
+[node name="Surface" type="Panel" parent="."]
+mouse_filter = 2
+offset_right = 32.0
+offset_bottom = 32.0
+
 [node name="Carre" type="ColorRect" parent="." unique_id=1625441318]
 editor_description = "CRIMSON"
 offset_right = 32.0
 offset_bottom = 32.0
 color = Color(0.862745, 0.0784314, 0.235294, 1)
+
+[node name="Visuel" type="TextureRect" parent="."]
+mouse_filter = 2
+offset_right = 32.0
+offset_bottom = 32.0
+expand_mode = 1
+stretch_mode = 5
 
 [node name="SoudureBasse" type="ColorRect" parent="." unique_id=1473494594]
 editor_description = "CRIMSON"

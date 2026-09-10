@@ -13,6 +13,13 @@ var marge = 4
 
 var couleur_de_deselection = Color("580058")
 var couleur_de_deplacement_valide = Color("d800d8")
+var presentation_mode := "classique"
+var presentation_size := 56.0
+
+func configurer_presentation(mode: String, visual_size: float = 56.0) -> void:
+	presentation_mode = mode
+	presentation_size = visual_size
+	$Fond.color = Color.TRANSPARENT
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -36,6 +43,7 @@ func ajouter_les_jetons(jetons : Array) -> bool:
 		# Ajouter la nouvelle scene au plus tot pour que
 		# le constructeur '_ready' ait fait ses actions préalables.
 		add_child(jeton)
+		jeton.configurer_presentation(presentation_mode, presentation_size)
 		liste_jetons.append(jeton) 
 
 		# Fournir l'indice du jeton comme reference
@@ -148,7 +156,7 @@ func selectionner() -> void:
 func deselectionner() -> void:
 	if not est_termine():
 		# Deselection du déplacement valide
-		$Fond.color = couleur_de_deselection
+		$Fond.color = Color.TRANSPARENT if presentation_mode in ["classique", "qui_perd_gagne"] else couleur_de_deselection
 		# Deselection des jetons
 		for jeton_courant in liste_jetons:
 			jeton_courant.deselectionner()
