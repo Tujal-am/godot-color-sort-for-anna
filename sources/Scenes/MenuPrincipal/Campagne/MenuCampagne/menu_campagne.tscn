@@ -1,21 +1,55 @@
 [gd_scene format=3 uid="uid://xsrt777ms37l"]
 
 [ext_resource type="Script" uid="uid://cvnvhf4dvkux3" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/menu_campagne.gd" id="1_v46tq"]
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="2_regular"]
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="3_bold"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/01_BRAVO_STATIC_220x62.png" id="4_bravo"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/02_CARD_SCORE_STATIC_310x70.png" id="5_score"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/03_CARD_TEMPS_STATIC_310x86.png" id="6_temps"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/04_CARD_RATIO_STATIC_310x80.png" id="7_ratio"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/05_CARD_NIVEAU_STATIC_310x70.png" id="8_niveau"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/06_CARD_NIVEAU_SANS_DETOUR_STATIC_310x70.png" id="9_detour"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/07_CARD_BONUS_CAMPAGNE_STATIC_310x70.png" id="10_bonus"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/08_CONTINUER_244x60.png" id="11_continue"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/production_final/09_PANEL_RESULTS_9PATCH_128.png" id="12_panel"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/deterministic/03_RETOUR_MASTER.png" id="13_back_results"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/resultats_final/01_RESULTAT_INTERMEDIAIRE_OVERLAY_CLEAN.png" id="14_overlay_intermediate"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/resultats_final/02_FIN_CAMPAGNE_OVERLAY_CLEAN.png" id="15_overlay_final"]
+[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/MenuCampagne/resultats_final/03_PERDU_STATIC_OVERLAY.png" id="16_overlay_lost"]
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/results_visual_controller.gd" id="17_results_controller"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4v47e"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(1, 0.956863, 0.909804, 0.96)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.886275, 0.690196, 0.584314, 0.8)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w2jhv"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(1, 0.878431, 0.784314, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11ehg"]
-bg_color = Color(0.996078, 0.333333, 1, 1)
+bg_color = Color(1, 0.878431, 0.784314, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j78cs"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(1, 0.956863, 0.909804, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.886275, 0.690196, 0.584314, 0.8)
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1gckf"]
-bg_color = Color(0, 0, 0, 1)
+bg_color = Color(1, 0.878431, 0.784314, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_apfrx"]
 content_margin_left = 10.0
@@ -27,15 +61,35 @@ corner_radius_bottom_right = 40
 [node name="MenuCampagne" type="CanvasLayer" unique_id=162026973]
 script = ExtResource("1_v46tq")
 
+[node name="ResultsVisualLayer" type="Node" parent="."]
+script = ExtResource("17_results_controller")
+
+[node name="GameplayBackdropSnapshot" type="TextureRect" parent="ResultsVisualLayer"]
+visible = false
+offset_right = 480.0
+offset_bottom = 720.0
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+z_index = 90
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -10
+offset_right = 480.0
+offset_bottom = 720.0
+color = Color(0.984314, 0.890196, 0.815686, 1)
+mouse_filter = 2
+
 [node name="BoutonMenuPrincipal" type="Button" parent="." unique_id=935163631]
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = -240.0
 offset_bottom = 100.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
-theme_override_colors/font_hover_color = Color(0.996078, 0.333333, 1, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+theme_override_colors/font_hover_color = Color(0.941176, 0.301961, 0.235294, 1)
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_4v47e")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w2jhv")
 text = "Menu"
@@ -46,12 +100,25 @@ anchor_right = 1.0
 offset_left = 240.0
 offset_bottom = 100.0
 grow_horizontal = 2
-theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
-theme_override_colors/font_hover_color = Color(0.996078, 0.333333, 1, 1)
-theme_override_font_sizes/font_size = 50
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+theme_override_colors/font_hover_color = Color(0.941176, 0.301961, 0.235294, 1)
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 24
 theme_override_styles/normal = SubResource("StyleBoxFlat_4v47e")
 theme_override_styles/hover = SubResource("StyleBoxFlat_w2jhv")
 text = "Stats"
+
+[node name="BoutonCommencer" type="TextureButton" parent="." unique_id=2037088046]
+visible = false
+offset_left = 118.0
+offset_top = 630.0
+offset_right = 362.0
+offset_bottom = 690.0
+texture_normal = ExtResource("11_continue")
+ignore_texture_size = true
+stretch_mode = 0
+mouse_default_cursor_shape = 2
+modulate = Color(1, 1, 1, 0)
 
 [node name="InfosDuJoueur" type="VBoxContainer" parent="." unique_id=2056747543]
 visible = false
@@ -79,28 +146,15 @@ offset_right = 34.0
 offset_bottom = 240.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 60
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 30
 text = "Poursuivre le niveau!"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="BoutonCommencer" type="Button" parent="." unique_id=2037088046]
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -100.0
-grow_horizontal = 2
-grow_vertical = 0
-theme_override_colors/font_color = Color(0.675529, 0.00038495, 0.685483, 1)
-theme_override_colors/font_hover_color = Color(0.994947, 0.331387, 1, 1)
-theme_override_font_sizes/font_size = 60
-theme_override_styles/normal = SubResource("StyleBoxFlat_j78cs")
-theme_override_styles/hover = SubResource("StyleBoxFlat_1gckf")
-text = "Commencer"
-
 [node name="MessageRiche" type="RichTextLabel" parent="." unique_id=630852021]
+visible = false
 anchors_preset = 14
 anchor_top = 0.5
 anchor_right = 1.0
@@ -113,7 +167,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/normal = SubResource("StyleBoxFlat_apfrx")
 bbcode_enabled = true
-text = "[color=#ff98fd][font_size=30][center][b]Score[/b][/center][/font_size]
+text = "[color=#063b75][font_size=30][center][b]Score[/b][/center][/font_size]
 [left][font_size=20][b]Temps[/b] :
 [ul] Référence = XXs[/ul]
 [ul] Réalisé = YYs[/ul]
@@ -132,8 +186,745 @@ text = "[color=#ff98fd][font_size=30][center][b]Score[/b][/center][/font_size]
 [/font_size][/left][font_size=30][center][b]Total : ZZ.YYY.XXX[/b][/center][/font_size][/color]"
 scroll_active = false
 language = "fr"
+modulate = Color(1, 1, 1, 0)
+
+[node name="BoutonRetourFinCampagne" type="TextureButton" parent="."]
+visible = false
+offset_left = 18.0
+offset_top = 18.0
+offset_right = 66.0
+offset_bottom = 74.0
+texture_normal = ExtResource("13_back_results")
+ignore_texture_size = true
+stretch_mode = 0
+mouse_default_cursor_shape = 2
+z_index = 30
+modulate = Color(1, 1, 1, 0)
+
+[node name="ResultsPanel" type="NinePatchRect" parent="."]
+visible = false
+offset_left = 62.0
+offset_top = 10.0
+offset_right = 418.0
+offset_bottom = 610.0
+texture = ExtResource("12_panel")
+patch_margin_left = 48
+patch_margin_top = 48
+patch_margin_right = 48
+patch_margin_bottom = 48
+mouse_filter = 1
+modulate = Color(1, 1, 1, 0)
+
+[node name="ResultsContent" type="VBoxContainer" parent="ResultsPanel"]
+offset_left = 43.0
+offset_top = 12.0
+offset_right = 353.0
+offset_bottom = 590.0
+scale = Vector2(0.86, 0.86)
+theme_override_constants/separation = 8
+mouse_filter = 2
+
+[node name="FooterResults" type="Control" parent="ResultsPanel"]
+visible = false
+custom_minimum_size = Vector2(244, 68)
+offset_left = 56.0
+offset_top = 0.0
+offset_right = 300.0
+offset_bottom = 68.0
+mouse_filter = 2
+
+[node name="BoutonContinuer" type="TextureButton" parent="ResultsPanel/FooterResults"]
+offset_right = 244.0
+offset_bottom = 60.0
+texture_normal = ExtResource("11_continue")
+ignore_texture_size = true
+stretch_mode = 0
+mouse_default_cursor_shape = 2
+mouse_filter = 0
+z_index = 20
+
+
+[node name="Bravo" type="TextureRect" parent="ResultsPanel/ResultsContent"]
+custom_minimum_size = Vector2(310, 62)
+texture = ExtResource("4_bravo")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="ScoreCard" type="TextureRect" parent="ResultsPanel/ResultsContent"]
+custom_minimum_size = Vector2(310, 70)
+texture = ExtResource("5_score")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="ScoreArtifactMask" type="ColorRect" parent="ResultsPanel/ResultsContent/ScoreCard"]
+offset_left = 40.0
+offset_top = 22.0
+offset_right = 92.0
+offset_bottom = 62.0
+color = Color(0.992, 0.976, 0.941, 1)
+mouse_filter = 2
+
+[node name="ScoreLabel" type="Label" parent="ResultsPanel/ResultsContent/ScoreCard"]
+offset_left = 75.0
+offset_top = 37.0
+offset_right = 300.0
+offset_bottom = 67.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.035,0.231,0.459,1)
+text = "Score"
+mouse_filter = 2
+
+[node name="TempsCard" type="TextureRect" parent="ResultsPanel/ResultsContent"]
+custom_minimum_size = Vector2(310, 86)
+texture = ExtResource("6_temps")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="TempsLabel" type="Label" parent="ResultsPanel/ResultsContent/TempsCard"]
+offset_left = 82.0
+offset_top = 31.0
+offset_right = 304.0
+offset_bottom = 84.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.035,0.231,0.459,1)
+text = "Temps"
+mouse_filter = 2
+
+[node name="RatioCard" type="TextureRect" parent="ResultsPanel/ResultsContent"]
+custom_minimum_size = Vector2(310, 80)
+texture = ExtResource("7_ratio")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="RatioLabel" type="Label" parent="ResultsPanel/ResultsContent/RatioCard"]
+offset_left = 82.0
+offset_top = 30.0
+offset_right = 304.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.035,0.231,0.459,1)
+text = "Ratio Réussite"
+mouse_filter = 2
+
+[node name="RatioPercent" type="Label" parent="ResultsPanel/ResultsContent/RatioCard"]
+offset_left = 18.0
+offset_top = 29.0
+offset_right = 72.0
+offset_bottom = 58.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.035,0.231,0.459,1)
+horizontal_alignment = 1
+mouse_filter = 2
+
+[node name="NiveauCard" type="TextureRect" parent="ResultsPanel/ResultsContent"]
+visible = false
+custom_minimum_size = Vector2(310, 70)
+texture = ExtResource("8_niveau")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="NiveauLabel" type="Label" parent="ResultsPanel/ResultsContent/NiveauCard"]
+offset_left = 82.0
+offset_top = 34.0
+offset_right = 304.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.035,0.231,0.459,1)
+clip_text = true
+text = "Niveau"
+mouse_filter = 2
+
+[node name="DetourCard" type="TextureRect" parent="ResultsPanel/ResultsContent"]
+visible = false
+custom_minimum_size = Vector2(310, 70)
+texture = ExtResource("9_detour")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="DetourLabel" type="Label" parent="ResultsPanel/ResultsContent/DetourCard"]
+offset_left = 82.0
+offset_top = 34.0
+offset_right = 304.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.035,0.231,0.459,1)
+clip_text = true
+text = "Niveau sans détour"
+mouse_filter = 2
+
+[node name="BonusCard" type="TextureRect" parent="ResultsPanel/ResultsContent"]
+visible = false
+custom_minimum_size = Vector2(310, 70)
+texture = ExtResource("10_bonus")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="BonusLabel" type="Label" parent="ResultsPanel/ResultsContent/BonusCard"]
+offset_left = 82.0
+offset_top = 34.0
+offset_right = 304.0
+offset_bottom = 68.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.035,0.231,0.459,1)
+clip_text = true
+text = "Bonus campagne"
+mouse_filter = 2
+
+[node name="OverlayIntermediate" type="TextureRect" parent="."]
+visible = false
+offset_right = 480.0
+offset_bottom = 720.0
+texture = ExtResource("14_overlay_intermediate")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+z_index = 100
+position = Vector2(16.8, 25.2)
+scale = Vector2(0.93, 0.93)
+[node name="OverlayIntermediateScore" type="Label" parent="OverlayIntermediate"]
+offset_left = 92.0
+offset_top = 220.0
+offset_right = 388.0
+offset_bottom = 280.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateTime" type="Label" parent="OverlayIntermediate"]
+visible = false
+offset_left = 218.0
+offset_top = 370.0
+offset_right = 426.0
+offset_bottom = 432.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateRatio" type="Label" parent="OverlayIntermediate"]
+visible = false
+offset_left = 218.0
+offset_top = 500.0
+offset_right = 426.0
+offset_bottom = 565.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateRatioPercent" type="Label" parent="OverlayIntermediate"]
+offset_left = 84.0
+offset_top = 503.0
+offset_right = 160.0
+offset_bottom = 560.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 28
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateTimeReference" type="Label" parent="OverlayIntermediate"]
+offset_left = 300.0
+offset_top = 362.0
+offset_right = 407.0
+offset_bottom = 386.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateTimeRealized" type="Label" parent="OverlayIntermediate"]
+offset_left = 300.0
+offset_top = 393.0
+offset_right = 407.0
+offset_bottom = 417.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateRatioRealized" type="Label" parent="OverlayIntermediate"]
+offset_left = 300.0
+offset_top = 503.0
+offset_right = 407.0
+offset_bottom = 528.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateRatioPoints" type="Label" parent="OverlayIntermediate"]
+offset_left = 300.0
+offset_top = 535.0
+offset_right = 407.0
+offset_bottom = 560.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateTimeReferenceLabel" type="Label" parent="OverlayIntermediate"]
+offset_left = 223.0
+offset_top = 362.0
+offset_right = 295.0
+offset_bottom = 386.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Référence"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateTimeRealizedLabel" type="Label" parent="OverlayIntermediate"]
+offset_left = 223.0
+offset_top = 393.0
+offset_right = 295.0
+offset_bottom = 417.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Réalisé"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateRatioRealizedLabel" type="Label" parent="OverlayIntermediate"]
+offset_left = 223.0
+offset_top = 503.0
+offset_right = 295.0
+offset_bottom = 528.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Réalisé"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateRatioPointsLabel" type="Label" parent="OverlayIntermediate"]
+offset_left = 223.0
+offset_top = 535.0
+offset_right = 295.0
+offset_bottom = 560.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Points"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayIntermediateContinueHitbox" type="Button" parent="OverlayIntermediate"]
+offset_left = 118.0
+offset_top = 580.0
+offset_right = 362.0
+offset_bottom = 640.0
+flat = true
+focus_mode = 0
+mouse_filter = 1
+z_index = 110
+text = ""
+[node name="OverlayFinal" type="TextureRect" parent="."]
+visible = false
+offset_right = 480.0
+offset_bottom = 720.0
+texture = ExtResource("15_overlay_final")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+z_index = 100
+[node name="OverlayFinalScore" type="Label" parent="OverlayFinal"]
+offset_left = 138.0
+offset_top = 154.0
+offset_right = 385.0
+offset_bottom = 202.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalTime" type="Label" parent="OverlayFinal"]
+visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 1.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 1
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalRatio" type="Label" parent="OverlayFinal"]
+visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 1.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 1
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalNiveau" type="Label" parent="OverlayFinal"]
+visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 1.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 1
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalDetour" type="Label" parent="OverlayFinal"]
+visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 1.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 1
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalBonus" type="Label" parent="OverlayFinal"]
+visible = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1.0
+offset_bottom = 1.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 1
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalRatioPercent" type="Label" parent="OverlayFinal"]
+offset_left = 78.0
+offset_top = 321.0
+offset_right = 166.0
+offset_bottom = 384.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalTimeReference" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 249.0
+offset_right = 388.0
+offset_bottom = 267.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalTimeRealized" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 272.0
+offset_right = 388.0
+offset_bottom = 291.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalRatioRealized" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 343.0
+offset_right = 388.0
+offset_bottom = 361.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalRatioPoints" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 367.0
+offset_right = 388.0
+offset_bottom = 385.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalNiveauValue" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 437.0
+offset_right = 388.0
+offset_bottom = 454.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalNiveauPoints" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 460.0
+offset_right = 388.0
+offset_bottom = 477.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalDetourValue" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 529.0
+offset_right = 388.0
+offset_bottom = 547.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalDetourPoints" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 552.0
+offset_right = 388.0
+offset_bottom = 570.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalBonusValue" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 619.0
+offset_right = 388.0
+offset_bottom = 636.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 1
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalBonusPoints" type="Label" parent="OverlayFinal"]
+offset_left = 285.0
+offset_top = 642.0
+offset_right = 395.0
+offset_bottom = 660.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 19
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = ""
+horizontal_alignment = 2
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalTimeReferenceLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 249.0
+offset_right = 308.0
+offset_bottom = 267.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Référence"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalTimeRealizedLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 272.0
+offset_right = 308.0
+offset_bottom = 291.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Réalisé"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalRatioRealizedLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 343.0
+offset_right = 308.0
+offset_bottom = 361.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Réalisé"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalRatioPointsLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 367.0
+offset_right = 308.0
+offset_bottom = 385.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Points"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalNiveauValueLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 437.0
+offset_right = 308.0
+offset_bottom = 454.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Atteint"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalNiveauPointsLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 460.0
+offset_right = 308.0
+offset_bottom = 477.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Points"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalDetourValueLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 529.0
+offset_right = 308.0
+offset_bottom = 547.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Réalisé"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalDetourPointsLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 552.0
+offset_right = 308.0
+offset_bottom = 570.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Points"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalBonusValueLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 619.0
+offset_right = 308.0
+offset_bottom = 636.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Bonus"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalBonusPointsLabel" type="Label" parent="OverlayFinal"]
+offset_left = 238.0
+offset_top = 642.0
+offset_right = 270.0
+offset_bottom = 660.0
+theme_override_fonts/font = ExtResource("3_bold")
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.0352941, 0.231373, 0.458824, 1)
+text = "Points"
+horizontal_alignment = 0
+vertical_alignment = 1
+mouse_filter = 2
+[node name="OverlayFinalReturnHitbox" type="Button" parent="OverlayFinal"]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 110.0
+offset_bottom = 100.0
+flat = true
+focus_mode = 0
+mouse_filter = 0
+text = ""
+[node name="OverlayLost" type="TextureRect" parent="."]
+visible = false
+offset_right = 480.0
+offset_bottom = 720.0
+texture = ExtResource("16_overlay_lost")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+z_index = 100
+[node name="OverlayLostContinueHitbox" type="Button" parent="OverlayLost"]
+offset_left = 62.0
+offset_top = 488.0
+offset_right = 418.0
+offset_bottom = 578.0
+flat = true
+focus_mode = 0
+mouse_filter = 1
+z_index = 110
+text = ""
+[connection signal="pressed" from="OverlayIntermediate/OverlayIntermediateContinueHitbox" to="." method="_on_resultats_continue_requested"]
+[connection signal="pressed" from="OverlayFinal/OverlayFinalReturnHitbox" to="." method="_on_bouton_retour_fin_campagne_pressed"]
+[connection signal="pressed" from="OverlayLost/OverlayLostContinueHitbox" to="." method="_on_resultats_continue_requested"]
+
+[connection signal="gui_input" from="ResultsPanel" to="." method="_on_results_panel_gui_input"]
 
 [connection signal="pressed" from="BoutonMenuPrincipal" to="." method="_on_bouton_menu_principal_pressed"]
 [connection signal="pressed" from="BoutonStatistiques" to="." method="_on_bouton_statistiques_pressed"]
-[connection signal="pressed" from="BoutonCommencer" to="." method="_on_bouton_commencer_pressed"]
+[connection signal="pressed" from="BoutonCommencer" to="." method="_on_resultats_continue_requested"]
+[connection signal="pressed" from="BoutonRetourFinCampagne" to="." method="_on_bouton_retour_fin_campagne_pressed"]
 [connection signal="gui_input" from="MessageRiche" to="." method="_on_message_riche_gui_input"]

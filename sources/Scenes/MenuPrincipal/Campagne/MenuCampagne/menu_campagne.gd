@@ -5,6 +5,7 @@ class_name MenuCampagne
 var formatter := FormatterMenuCampagne.new()
 var _message_riche_verrouille := false # Semaphore sur l'affichage de message riche
 var _on_message_riche_gui_input_verouille := false
+var _resultat_terminal := false
 
 # Notifie la scene `Plateau` que le bouton est pressé
 signal commencer_plateau
@@ -15,6 +16,12 @@ func _ready() -> void:
 	# Connecter les signaux attendus
 	var pcs = get_node("/root/ProgressionCampagneService")
 	pcs.detail_score_plateau.connect(_on_progression_campagne_service_detail_score_plateau)
+	# L’écran d’accueil ne doit jamais exposer le gabarit de message/résultat.
+	$ResultsPanel.hide()
+	$MessageRiche.hide()
+
+func afficher_background() -> void:
+	$Background.show()
 
 func mettre_a_jour_infos_joueur() -> void:
 	$InfosDuJoueur/TexteInfosDuJoueur.bbcode_text = formatter.formater_infos_joueur()
@@ -27,12 +34,53 @@ func modifier_message_riche(message_bbcode: Dictionary) -> void:
 	$MessageRiche.show()
 
 func afficher_detail_score(detail_score : Dictionary) -> void:
-	var score_bbcode: Dictionary = formatter.formater_detail_score(detail_score)
 	while _message_riche_verrouille:
-		await fin_message_riche # Attendre que le message riche soit libéré
-	_message_riche_verrouille = true # Reservation du message riche
-	modifier_message_riche(score_bbcode)
-	# _message_riche_verrouille = false # Géré avec le signal 'fin_message_riche'
+		await fin_message_riche
+	_message_riche_verrouille = true
+	$MessageRiche.hide()
+	$ResultsVisualLayer.capture_backdrop()
+	_mettre_a_jour_cartes_resultat(detail_score)
+	$ResultsPanel.show()
+
+func _nombre(value) -> String:
+	return SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(value, '.')
+
+func _mettre_a_jour_cartes_resultat(detail_score: Dictionary) -> void:
+	var duree: Dictionary = detail_score.get('duree', {})
+	var ratio: Dictionary = detail_score.get('ratio_reussite', {})
+	var niveau: Dictionary = detail_score.get('niveau', {})
+	var detour: Dictionary = detail_score.get('niveau_sans_detour', {})
+	var campagne: Dictionary = detail_score.get('campagne', {})
+	var score_total = duree.get('points', 0) + ratio.get('points', 0)
+	score_total += niveau.get('points', 0) + detour.get('points', 0) + campagne.get('points', 0)
+	$ResultsPanel/ResultsContent/ScoreCard/ScoreLabel.text = _nombre(score_total) + " points"
+	$ResultsPanel/ResultsContent/TempsCard/TempsLabel.text = "• Référence : " + str(duree.get('reference', 0)) + "s\n• Réalisé : " + str(snapped(duree.get('realise', 0), 0.1)) + "s\n• " + _nombre(duree.get('points', 0)) + " points"
+	$ResultsPanel/ResultsContent/RatioCard/RatioLabel.text = "• Réalisé : " + str(ratio.get('ratio', 0)) + "%\n• " + _nombre(ratio.get('points', 0)) + " points"
+	$ResultsPanel/ResultsContent/RatioCard/RatioPercent.text = str(ratio.get('ratio', 0)) + "%"
+	$ResultsPanel/ResultsContent/NiveauCard.visible = not niveau.is_empty()
+	$ResultsPanel/ResultsContent/NiveauCard/NiveauLabel.text = "• Niveau " + str(niveau.get('longueur', 0)) + "\n• " + _nombre(niveau.get('points', 0)) + " points"
+	$ResultsPanel/ResultsContent/DetourCard.visible = not detour.is_empty()
+	$ResultsPanel/ResultsContent/DetourCard/DetourLabel.text = "• Réalisé : " + ("Oui" if detour.get('bonus', 0) else "Non") + "\n• " + _nombre(detour.get('points', 0)) + " points"
+	$ResultsPanel/ResultsContent/BonusCard.visible = not campagne.is_empty()
+	$ResultsPanel/ResultsContent/BonusCard/BonusLabel.text = "• " + _nombre(campagne.get('points', 0)) + " points"
+	_ajuster_results_layout()
+
+func _ajuster_results_layout() -> void:
+	var content = $ResultsPanel/ResultsContent
+	var visible_cards := 0
+	for child in content.get_children():
+		if child.visible:
+			visible_cards += 1
+	var content_height := 0.0
+	for child in content.get_children():
+		if child.visible:
+			content_height += child.custom_minimum_size.y
+	if visible_cards > 1:
+		content_height += float(visible_cards - 1) * content.get_theme_constant("separation")
+	var panel_height: float = content_height * content.scale.y + 24.0
+	$ResultsPanel.size.y = panel_height
+	$ResultsPanel/ResultsContent.position.y = 12.0
+	$BoutonCommencer.position.y = $ResultsPanel.position.y + panel_height + 8.0
 
 func afficher_message_simple(message : String, tempo : float = 1.0) -> void:
 	if message != "":
@@ -40,6 +88,7 @@ func afficher_message_simple(message : String, tempo : float = 1.0) -> void:
 		while _message_riche_verrouille:
 			await fin_message_riche # Attendre que le message riche soit libéré
 		_message_riche_verrouille = true # Reservation du message riche
+		$ResultsPanel.hide()
 		modifier_message_riche(message_bbcode)
 		await get_tree().create_timer(tempo).timeout # Persistence message
 		$MessageRiche.hide()
@@ -54,30 +103,34 @@ func afficher_des_messages_simples(les_message : Array[String], tempo : float = 
 			while _message_riche_verrouille:
 				await fin_message_riche
 
-func afficher_plateau_suivant(texte : String = ""):
-	$BoutonMenuPrincipal.show()
-	$BoutonStatistiques.show()
-	mettre_a_jour_infos_joueur()
-	$InfosDuJoueur.show()
-
-	if texte != "":
-		afficher_message_simple(texte, 0.5)
-		# Attendre l'affichage du texte
-		await fin_message_riche
+func _afficher_resultat_et_continuer() -> void:
+	_resultat_terminal = false
+	$BoutonMenuPrincipal.hide()
+	$BoutonStatistiques.hide()
+	$InfosDuJoueur.hide()
+	$Message.hide()
+	$MessageRiche.hide()
+	$ResultsPanel.show()
+	$ResultsPanel.mouse_filter = Control.MOUSE_FILTER_STOP
 	$BoutonCommencer.show()
-	if texte != "":
-		afficher_message_simple(texte, 0.5)
-		# Attendre l'affichage du texte à 50%
-		await fin_message_riche
+	$ResultsVisualLayer.show_intermediate()
 
+func afficher_plateau_suivant(_texte: String = ""):
+	# Le panneau de résultats reste l'écran de transition unique.
+	_afficher_resultat_et_continuer()
 
 func cacher_accueil():
+	_resultat_terminal = false
+	$Background.hide()
 	$BoutonMenuPrincipal.hide()
 	$BoutonStatistiques.hide()
 	$InfosDuJoueur.hide()
 	$Message.hide()
 	$BoutonCommencer.hide()
+	$BoutonRetourFinCampagne.hide()
 	$MessageRiche.hide()
+	$ResultsPanel.hide()
+	$ResultsVisualLayer.hide_all()
 
 func afficher_accueil_nouveau_niveau():
 	afficher_plateau_suivant("Nouveau Niveau !")
@@ -85,21 +138,16 @@ func afficher_accueil_nouveau_niveau():
 func afficher_accueil_niveau_en_cours():
 	afficher_plateau_suivant("Poursuivre Le Niveau !")
 
-func _on_bouton_commencer_pressed() -> void:
+func _on_resultats_continue_requested() -> void:
+	if _resultat_terminal:
+		return
 	AudioService.son_menu_click()
-	var date_debut_campagne = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
-	if Time.get_unix_time_from_system() < date_debut_campagne:
-		var datetime_debut_campagne = Time.get_datetime_dict_from_unix_time( date_debut_campagne )
-		var annee = datetime_debut_campagne.get('year')
-		var mois = datetime_debut_campagne.get('month')
-		var jour = datetime_debut_campagne.get('day')
-		# var heure = datetime_debut_campagne.get('hour')
-		# var minute = datetime_debut_campagne.get('minute')
-		var message = "Soyez patient, la campagne commence le " \
-			+ str(jour).pad_zeros(2) +"/"+str(mois).pad_zeros(2)+"/"+str(annee)+"."
-		afficher_message_simple(message, 5.)
-	else:
-		commencer_plateau.emit()
+	# Libère le verrou de l'ancien écran de score avant de relancer le plateau.
+	fin_message_riche.emit()
+	$ResultsPanel.hide()
+	$BoutonCommencer.hide()
+	$ResultsVisualLayer.hide_all()
+	commencer_plateau.emit()
 
 func _on_bouton_menu_principal_pressed() -> void:
 	AudioService.son_menu_click()
@@ -116,71 +164,40 @@ func afficher_plateau_invalide():
 	pass
 
 func afficher_abandonner_un_plateau():
-	$BoutonMenuPrincipal.show()
-	$BoutonStatistiques.show()
-	mettre_a_jour_infos_joueur()
-	$InfosDuJoueur.show()
-	
-	var message : Array[String] = [ "Perdu !",
-					"Fin De Partie",
-					"Plateau Suivant !"]
-	afficher_des_messages_simples(message)
-	# Attendre l'affichage des messages
-	for attente in message.size():
-		await fin_message_riche
-
-	$BoutonCommencer.show()
+	$ResultsVisualLayer.capture_backdrop()
+	$ResultsVisualLayer.show_lost()
+	$BoutonMenuPrincipal.hide()
+	$BoutonStatistiques.hide()
+	$InfosDuJoueur.hide()
+	$MessageRiche.hide()
+	$BoutonCommencer.hide()
 
 func afficher_gagner_un_plateau() -> void:
-	# TODO : Voir si l'affiche doit toujours être lancé d'ailleurs
-	# Affichage minimum de 1s pour le detail du score
-	await get_tree().create_timer(1.0).timeout
-	await fin_message_riche
 	_message_riche_verrouille = false # Libération du message riche
 	$MessageRiche.hide()
-
-	afficher_plateau_suivant("Plateau Suivant !")
+	_afficher_resultat_et_continuer()
 
 func afficher_fin_niveau():
 	# TODO : Voir si l'affiche doit toujours être lancé d'ailleurs
 	# Affichage minimum de 1s pour le detail du score
 	await get_tree().create_timer(1.0).timeout
-	await fin_message_riche
 	_message_riche_verrouille = false # Libération du message riche
 	$MessageRiche.hide()
-
-	var message : Array[String] = [ "Bravo !",
-					"C'était Le Dernier Plateau.",
-					"Vous êtes au TOP !"]
-	afficher_des_messages_simples(message, 3.0)
-	# Attendre l'affichage des messages
-	for attente in message.size():
-		await fin_message_riche
-
-	afficher_plateau_suivant("Découvrez Le Niveau Suivant !")
+	_afficher_resultat_et_continuer()
 
 func afficher_fin_campagne():
-	# TODO : Voir si l'affiche doit toujours être lancé d'ailleurs
-	# Affichage minimum de 1s pour le detail du score
-	await get_tree().create_timer(1.0).timeout
-	await fin_message_riche
-	_message_riche_verrouille = false # Libération du message riche
-	await get_tree().process_frame
+	_afficher_resultat_et_continuer()
+	_resultat_terminal = true
+	$ResultsPanel.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	$MessageRiche.hide()
-
-
-	var message : Array[String] = [ "Félicitation !",
-					"C'était le dernier plateau...",
-					"...du dernier niveau.",
-					"Vous êtes incroyable !",
-					"Rien ne vous arrête."]
-	afficher_des_messages_simples(message, 5.0)
-	# Attendre l'affichage des messages
-	for attente in message.size():
-		await fin_message_riche
-
-	afficher_plateau_suivant()
 	$BoutonCommencer.hide()
+	$BoutonRetourFinCampagne.show()
+	$ResultsVisualLayer.show_final()
+
+func _on_bouton_retour_fin_campagne_pressed() -> void:
+	AudioService.son_menu_click()
+	$ResultsVisualLayer.hide_all()
+	get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/menu_principal.tscn")
 
 func _on_progression_campagne_service_detail_score_plateau(detail_score: Dictionary):
 	afficher_detail_score(detail_score)
@@ -196,3 +213,9 @@ func _on_message_riche_gui_input(_event: InputEvent) -> void:
 	# Limiter l'occurence de l'evenement avant la disparition
 	await get_tree().create_timer(1.0).timeout
 	_on_message_riche_gui_input_verouille = false
+
+func _on_results_panel_gui_input(event: InputEvent) -> void:
+	if _resultat_terminal:
+		return
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_on_resultats_continue_requested()
