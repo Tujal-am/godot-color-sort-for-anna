@@ -1,6 +1,12 @@
 extends Control
 
+const GradePresentationScript = preload("res://Scenes/MenuPrincipal/Grades/grade_presentation.gd")
 const A := "res://Art/UI/IntegrationV3/"
+
+static func avatar_path_for_player(player_name: String) -> String:
+	if player_name == "Alain Konu": return A + "accueil/avatar_alain_32x32.png"
+	if player_name == "Anna": return A + "accueil/avatar_anna_32x32.png"
+	return ""
 var expanded := false
 var underlay: TextureRect
 var player_area: VBoxContainer
@@ -167,9 +173,7 @@ func _create_players_icon() -> Control:
 	return icon
 
 func _add_player_avatar(button: Button, player_name: String) -> void:
-	var avatar_path := ""
-	if player_name == "Alain Konu": avatar_path = A + "accueil/avatar_alain_32x32.png"
-	elif player_name == "Anna": avatar_path = A + "accueil/avatar_anna_32x32.png"
+	var avatar_path := GradePresentationScript.texture_path_for_player(player_name)
 	if avatar_path.is_empty():
 		var neutral := Panel.new()
 		neutral.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -279,14 +283,19 @@ func _on_bouton_references_pressed(): get_tree().change_scene_to_file("res://Sce
 func _on_bouton_scores_pressed(): get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/Scores/scores.tscn"); AudioService.son_menu_click()
 func _on_joueurs_campagne_pressed(nom: String):
 	if not SauvegardeListeJoueursService.le_joueur_existe(nom): return
-	if ProgressionCampagneService.choisir_le_joueur_pour_la_campagne(nom):
+	if ProgressionCampagneService.la_campagne_est_terminee_pour_joueur(nom):
+		AudioService.son_menu_click()
+		get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/statistiques.tscn")
+	elif ProgressionCampagneService.choisir_le_joueur_pour_la_campagne(nom):
 		_refresh_player_selection()
 		AudioService.son_menu_click()
+		get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/Campagne/campagne.tscn")
 func _on_nouveau_joueur_text_submitted(nom: String):
 	_on_clavier_pseudo_annule()
 	if ScoreService.nouveau_joueur_est_nom_anna_triche(nom): nom = ScoreService.lire_nom_anna_triche()
-	if ProgressionCampagneService.ajouter_un_nouveau_joueur_pour_la_campagne(nom):
-		ProgressionCampagneService.initialiser_le_nouveau_joueur_pour_la_campagne(nom); _reload_players()
+	if ProgressionCampagneService.initialiser_le_nouveau_joueur_pour_la_campagne(nom):
+		_reload_players()
+		_on_joueurs_campagne_pressed(nom)
 func _on_bouton_musiques_toggled(on: bool):
 	if on: SauvegardeConfigurationService.activer_musiques()
 	else: SauvegardeConfigurationService.desactiver_musiques()

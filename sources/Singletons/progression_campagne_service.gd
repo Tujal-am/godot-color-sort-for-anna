@@ -16,7 +16,8 @@ func la_campagne_est_terminee_pour_joueur(nom_joueur : String) -> bool:
 
 func choisir_le_joueur_pour_la_campagne(nom_joueur : String) -> bool:
 	# Choisir le joueur pour la campagne
-	return _choisir_et_corriger_le_joueur(nom_joueur)
+	var resultat := _choisir_et_corriger_le_joueur(nom_joueur)
+	return resultat
 
 func _choisir_et_corriger_le_joueur(nom_joueur : String) -> bool:
 	# Charge le joueur et l'efface de la liste en cas de probleme.

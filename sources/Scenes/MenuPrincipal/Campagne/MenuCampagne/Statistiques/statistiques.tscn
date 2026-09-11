@@ -1,195 +1,836 @@
-[gd_scene format=3 uid="uid://ce35s8h6fj434"]
+[gd_scene format=3]
+[ext_resource type="FontFile" path="res://assets/stats/texgyreadventor-regular.otf" id="regular"]
+[ext_resource type="FontFile" path="res://assets/stats/texgyreadventor-bold.otf" id="bold"]
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/statistiques.gd" id="controller"]
+[ext_resource type="Texture2D" path="res://assets/stats/background.png" id="background"]
+[ext_resource type="Texture2D" path="res://assets/stats/avatar_alain_32x32.png" id="avatar"]
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/mode_statistiques_card.tscn" id="mode"]
+[ext_resource type="Texture2D" path="res://assets/stats/normalized/cube_campagne_34x34_normalized.png" id="cube_c"]
+[ext_resource type="Texture2D" path="res://assets/stats/normalized/cube_niveau_34x34_normalized.png" id="cube_n"]
+[ext_resource type="Texture2D" path="res://assets/stats/normalized/cube_plateau_34x34_normalized.png" id="cube_p"]
+[ext_resource type="Texture2D" path="res://assets/stats/picto_modes_de_jeu_40x30.png" id="modes_i"]
+[sub_resource type="AtlasTexture" id="body"]
+atlas = ExtResource("background")
+region = Rect2(0, 135, 1024, 1401)
+[sub_resource type="AtlasTexture" id="head"]
+atlas = ExtResource("background")
+region = Rect2(0, 0, 1024, 135)
 
-[ext_resource type="Script" uid="uid://d213tcxl8hfw3" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/statistiques.gd" id="1_y2h7b"]
-[ext_resource type="Texture2D" uid="uid://tc7fhacmys11" path="res://Art/Images/fond_statistiques_480x720.png" id="2_se7pp"]
-[ext_resource type="PackedScene" uid="uid://bgsyo7w2m28pi" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/kpi.tscn" id="2_xsdck"]
-[ext_resource type="PackedScene" uid="uid://c8uyx36tscdpp" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/diagramme_en_barres.tscn" id="3_se7pp"]
-[ext_resource type="Script" uid="uid://dv22g4vxsw80c" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/jauge.gd" id="3_xsdck"]
-[ext_resource type="PackedScene" uid="uid://bi52323mrj54t" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/courbe.tscn" id="4_7ukwp"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_se7pp"]
-bg_color = Color(0, 0, 0, 1)
-
-[node name="Statistiques" type="Control" unique_id=1259945932]
+[sub_resource type="StyleBoxFlat" id="outer"]
+bg_color = Color(0.98824, 0.92157, 0.85490, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93725, 0.76863, 0.62353, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_left = 20
+corner_radius_bottom_right = 20
+[sub_resource type="StyleBoxFlat" id="inner"]
+bg_color = Color(1.00000, 0.97255, 0.92941, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93725, 0.76863, 0.62353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+[sub_resource type="StyleBoxFlat" id="cell"]
+bg_color = Color(0.98039, 0.92157, 0.84314, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93725, 0.76863, 0.62353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_left = 10
+corner_radius_bottom_right = 10
+[node name="StatistiquesPreview" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("1_y2h7b")
-
-[node name="Fond" type="TextureRect" parent="." unique_id=692706206]
+script = ExtResource("controller")
+[node name="Scroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+[node name="Content" type="Control" parent="Scroll"]
+custom_minimum_size = Vector2(480, 1144)
+layout_mode = 2
+mouse_filter = 2
+[node name="Background" type="TextureRect" parent="Scroll/Content"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("2_se7pp")
-
-[node name="Marge" type="MarginContainer" parent="." unique_id=1049362949]
+offset_left = 0.0
+offset_top = 63.0
+offset_right = 480.0
+offset_bottom = 1144.0
+mouse_filter = 2
+texture = SubResource("body")
+expand_mode = 1
+stretch_mode = 0
+[node name="Header" type="TextureRect" parent="Scroll/Content"]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Marge" unique_id=662571738]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 480.0
+offset_bottom = 63.0
+mouse_filter = 2
+texture = SubResource("head")
+expand_mode = 1
+stretch_mode = 0
+[node name="Retour" type="Button" parent="Scroll/Content"]
+offset_left = 18.0
+offset_top = 10.0
+offset_right = 68.0
+offset_bottom = 61.0
+flat = true
+focus_mode = 0
+tooltip_text = "Fermer la preview"
+[node name="Player" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 65.0
+offset_right = 416.0
+offset_bottom = 141.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("inner")
+[node name="PlayerIdentityRow" type="HBoxContainer" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 73.0
+offset_right = 400.0
+offset_bottom = 129.0
+theme_override_constants/separation = 8
+alignment = 0
+mouse_filter = 2
+[node name="Avatar" type="TextureRect" parent="Scroll/Content/PlayerIdentityRow"]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Marge/HBoxContainer" unique_id=2137175012]
+mouse_filter = 2
+texture = ExtResource("avatar")
+expand_mode = 1
+stretch_mode = 5
+[node name="GradeName" type="Label" parent="Scroll/Content/PlayerIdentityRow"]
+custom_minimum_size = Vector2(62, 32)
 layout_mode = 2
-alignment = 1
-
-[node name="SEPARATEUR VIDE7" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=181207416]
+mouse_filter = 2
+text = "Bronze"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="SeparatorSlot" type="HBoxContainer" parent="Scroll/Content/PlayerIdentityRow"]
+custom_minimum_size = Vector2(29, 32)
 layout_mode = 2
-text = " "
-
-[node name="Nom_Joueur" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1063890067]
+theme_override_constants/separation = 0
+mouse_filter = 2
+[node name="MarginLeft" type="Control" parent="Scroll/Content/PlayerIdentityRow/SeparatorSlot"]
+custom_minimum_size = Vector2(14, 32)
 layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 0.20392157, 1)
-theme_override_font_sizes/font_size = 34
-theme_override_styles/normal = SubResource("StyleBoxFlat_se7pp")
-text = "Toto"
+mouse_filter = 2
+[node name="Line" type="ColorRect" parent="Scroll/Content/PlayerIdentityRow/SeparatorSlot"]
+custom_minimum_size = Vector2(1, 32)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.06275, 0.16863, 0.31373, 0.45)
+[node name="MarginRight" type="Control" parent="Scroll/Content/PlayerIdentityRow/SeparatorSlot"]
+custom_minimum_size = Vector2(14, 32)
+layout_mode = 2
+mouse_filter = 2
+[node name="PlayerName" type="Label" parent="Scroll/Content/PlayerIdentityRow"]
+custom_minimum_size = Vector2(0, 43)
+size_flags_horizontal = 3
+layout_mode = 2
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+clip_text = true
+[node name="MainPanel" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 151.0
+offset_right = 425.0
+offset_bottom = 695.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("outer")
+[node name="ModesPanel" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 687.0
+offset_right = 425.0
+offset_bottom = 1128.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("outer")
+[node name="CampaignTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 155.0
+offset_right = 397.0
+offset_bottom = 190.0
+mouse_filter = 2
+text = "Campagne"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 23
+theme_override_colors/font_color = Color(0.92941, 0.15686, 0.08235, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="Completion" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 198.0
+offset_right = 234.0
+offset_bottom = 260.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+[node name="CompletionTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 198.0
+offset_right = 234.0
+offset_bottom = 218.0
+mouse_filter = 2
+text = "Complétion"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 horizontal_alignment = 1
+vertical_alignment = 1
+[node name="CompletionValue" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 217.0
+offset_right = 234.0
+offset_bottom = 259.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 27
+theme_override_colors/font_color = Color(0.92941, 0.15686, 0.08235, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="Time" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 198.0
+offset_right = 399.0
+offset_bottom = 260.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+[node name="TimeTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 198.0
+offset_right = 399.0
+offset_bottom = 218.0
+mouse_filter = 2
+text = "Temps"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="TimeValue" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 217.0
+offset_right = 399.0
+offset_bottom = 259.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 25
+theme_override_colors/font_color = Color(0.92941, 0.15686, 0.08235, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="Success" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 267.0
+offset_right = 234.0
+offset_bottom = 329.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+[node name="SuccessTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 267.0
+offset_right = 234.0
+offset_bottom = 287.0
+mouse_filter = 2
+text = "Réussite"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="SuccessValue" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 286.0
+offset_right = 234.0
+offset_bottom = 328.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 27
+theme_override_colors/font_color = Color(0.92941, 0.15686, 0.08235, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="Streak" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 267.0
+offset_right = 399.0
+offset_bottom = 329.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+[node name="StreakTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 267.0
+offset_right = 399.0
+offset_bottom = 287.0
+mouse_filter = 2
+text = "Série max."
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="StreakValue" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 286.0
+offset_right = 399.0
+offset_bottom = 328.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 27
+theme_override_colors/font_color = Color(0.92941, 0.15686, 0.08235, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelPanel" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 338.0
+offset_right = 409.0
+offset_bottom = 495.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("inner")
+[node name="LevelTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 339.0
+offset_right = 397.0
+offset_bottom = 374.0
+mouse_filter = 2
+text = "Niveau"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 23
+theme_override_colors/font_color = Color(0.00000, 0.63922, 0.63137, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="CurrentLevel" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 382.0
+offset_right = 235.0
+offset_bottom = 422.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+[node name="CurrentLevelTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 382.0
+offset_right = 235.0
+offset_bottom = 402.0
+mouse_filter = 2
+text = "En cours"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="CurrentLevelValue" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 401.0
+offset_right = 235.0
+offset_bottom = 421.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.00000, 0.63922, 0.63137, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelCompletion" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 382.0
+offset_right = 399.0
+offset_bottom = 422.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+[node name="LevelCompletionTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 382.0
+offset_right = 399.0
+offset_bottom = 402.0
+mouse_filter = 2
+text = "Complétion"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelCompletionValue" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 241.0
+offset_top = 401.0
+offset_right = 399.0
+offset_bottom = 421.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.00000, 0.63922, 0.63137, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelHead0" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 428.0
+offset_right = 203.0
+offset_bottom = 446.0
+mouse_filter = 2
+text = "Repère"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 9
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelHead1" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 428.0
+offset_right = 296.0
+offset_bottom = 446.0
+mouse_filter = 2
+text = "Réussite"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 9
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelHead2" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 428.0
+offset_right = 399.0
+offset_bottom = 446.0
+mouse_filter = 2
+text = "Niveau"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 9
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelLine0" type="ColorRect" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 446.0
+offset_right = 399.0
+offset_bottom = 447.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+[node name="LevelR0C0" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 446.0
+offset_right = 203.0
+offset_bottom = 470.0
+mouse_filter = 2
+text = "Minimum"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="LevelR0C1" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 446.0
+offset_right = 296.0
+offset_bottom = 470.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.00000, 0.63922, 0.63137, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelR0C2" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 446.0
+offset_right = 399.0
+offset_bottom = 470.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.00000, 0.63922, 0.63137, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelLine1" type="ColorRect" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 470.0
+offset_right = 399.0
+offset_bottom = 471.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+[node name="LevelR1C0" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 470.0
+offset_right = 203.0
+offset_bottom = 494.0
+mouse_filter = 2
+text = "Maximum"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="LevelR1C1" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 470.0
+offset_right = 296.0
+offset_bottom = 494.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.00000, 0.63922, 0.63137, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="LevelR1C2" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 470.0
+offset_right = 399.0
+offset_bottom = 494.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.00000, 0.63922, 0.63137, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardPanel" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 68.0
+offset_top = 502.0
+offset_right = 409.0
+offset_bottom = 688.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("inner")
+[node name="BoardTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 502.0
+offset_right = 397.0
+offset_bottom = 537.0
+mouse_filter = 2
+text = "Plateau"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 23
+theme_override_colors/font_color = Color(0.47451, 0.18824, 0.73333, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="MeanTime" type="Panel" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 545.0
+offset_right = 399.0
+offset_bottom = 585.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+[node name="MeanTimeTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 545.0
+offset_right = 399.0
+offset_bottom = 565.0
+mouse_filter = 2
+text = "Temps moyen"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="MeanTimeValue" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 564.0
+offset_right = 399.0
+offset_bottom = 584.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 17
+theme_override_colors/font_color = Color(0.47451, 0.18824, 0.73333, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardHead0" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 591.0
+offset_right = 203.0
+offset_bottom = 609.0
+mouse_filter = 2
+text = "Performance"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 9
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardHead1" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 591.0
+offset_right = 296.0
+offset_bottom = 609.0
+mouse_filter = 2
+text = "Résultat"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 9
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardHead2" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 591.0
+offset_right = 399.0
+offset_bottom = 609.0
+mouse_filter = 2
+text = "Difficulté"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 9
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardLine0" type="ColorRect" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 609.0
+offset_right = 399.0
+offset_bottom = 610.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+[node name="BoardR0C0" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 609.0
+offset_right = 203.0
+offset_bottom = 633.0
+mouse_filter = 2
+text = "Plus rapide"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="BoardR0C1" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 609.0
+offset_right = 296.0
+offset_bottom = 633.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.47451, 0.18824, 0.73333, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardR0C2" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 609.0
+offset_right = 399.0
+offset_bottom = 633.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.47451, 0.18824, 0.73333, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardLine1" type="ColorRect" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 633.0
+offset_right = 399.0
+offset_bottom = 634.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+[node name="BoardR1C0" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 633.0
+offset_right = 203.0
+offset_bottom = 657.0
+mouse_filter = 2
+text = "Plus lent"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="BoardR1C1" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 633.0
+offset_right = 296.0
+offset_bottom = 657.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.47451, 0.18824, 0.73333, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardR1C2" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 633.0
+offset_right = 399.0
+offset_bottom = 657.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.47451, 0.18824, 0.73333, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardLine2" type="ColorRect" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 657.0
+offset_right = 399.0
+offset_bottom = 658.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+[node name="BoardR2C0" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 82.0
+offset_top = 657.0
+offset_right = 203.0
+offset_bottom = 681.0
+mouse_filter = 2
+text = "Plus galère"
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 11
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="BoardR2C1" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 203.0
+offset_top = 657.0
+offset_right = 296.0
+offset_bottom = 681.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.47451, 0.18824, 0.73333, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="BoardR2C2" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 296.0
+offset_top = 657.0
+offset_right = 399.0
+offset_bottom = 681.0
+mouse_filter = 2
+text = ""
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.47451, 0.18824, 0.73333, 1)
+horizontal_alignment = 1
+vertical_alignment = 1
+[node name="ModesTitle" type="Label" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 110.0
+offset_top = 698.0
+offset_right = 399.0
+offset_bottom = 733.0
+mouse_filter = 2
+text = "Modes de jeu"
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(0.87451, 0.50196, 0.00000, 1)
+horizontal_alignment = 0
+vertical_alignment = 1
+[node name="Classique" parent="Scroll/Content" instance=ExtResource("mode")]
+layout_mode = 0
+offset_left = 73.0
+offset_top = 741.0
+offset_right = 409.0
+offset_bottom = 905.0
+[node name="QuiPerdGagne" parent="Scroll/Content" instance=ExtResource("mode")]
+layout_mode = 0
+offset_left = 73.0
+offset_top = 917.0
+offset_right = 409.0
+offset_bottom = 1081.0
 
-[node name="SEPARATEUR VIDE5" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=623163726]
-layout_mode = 2
-text = " "
-
-[node name="Titre Campagne" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2052748395 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-titre = "Campagne"
-taille_minimum = Vector2(240, 25)
-
-[node name="KPI_Campagne" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=432943734]
-layout_mode = 2
-
-[node name="KPI_Completion" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=29165500 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Temps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=440793166 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_TauxReussite" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=1901828116 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_SerieMaximumSucces" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=463177272 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="Charts" type="VBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=756865397]
-visible = false
-layout_mode = 2
-
-[node name="WinLossBarChart" parent="Marge/HBoxContainer/VBoxContainer/Charts" unique_id=2076977796 instance=ExtResource("3_se7pp")]
-layout_mode = 2
-
-[node name="PlaytimeLineChart" parent="Marge/HBoxContainer/VBoxContainer/Charts" unique_id=348957592 instance=ExtResource("4_7ukwp")]
-layout_mode = 2
-
-[node name="SEPARATEUR VIDE1" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1795960122]
-layout_mode = 2
-text = " "
-
-[node name="Titre Niveau" parent="Marge/HBoxContainer/VBoxContainer" unique_id=779359739 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-titre = "Niveau"
-couleur_fond = Color(0, 0.6559956, 0.9749271, 1)
-taille_minimum = Vector2(240, 25)
-
-[node name="KPI_Niveau" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=33257685]
-layout_mode = 2
-
-[node name="KPI_Completion" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau" unique_id=1137873945 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Terminees" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau" unique_id=936457462 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Longueur" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau" unique_id=1822369981 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Niveau2" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2057883709]
-layout_mode = 2
-
-[node name="KPI_MinMax_Titre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau2" unique_id=609447550 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Taux_Min" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau2" unique_id=1911297063 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Taux_Max" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau2" unique_id=366345603 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="SEPARATEUR VIDE2" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=567384229]
-layout_mode = 2
-text = " "
-
-[node name="Titre Difficulte" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1741599339 instance=ExtResource("2_xsdck")]
-visible = false
-layout_mode = 2
-titre = "Niveau"
-couleur_fond = Color(0.6918974, 0.40343967, 0.93590915, 1)
-taille_minimum = Vector2(240, 25)
-
-[node name="MonthlyPlaytimeGauge" type="TextureProgressBar" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2143170709]
-visible = false
-layout_mode = 2
-script = ExtResource("3_xsdck")
-
-[node name="SEPARATEUR VIDE3" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=621214377]
-visible = false
-layout_mode = 2
-text = " "
-
-[node name="Titre Plateau" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2053825642 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-titre = "Plateau"
-couleur_fond = Color(0.6918974, 0.40343967, 0.93590915, 1)
-taille_minimum = Vector2(240, 25)
-
-[node name="KPI_Plateau3" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2012876940]
-layout_mode = 2
-
-[node name="KPI_MoyenTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau3" unique_id=773187118 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_MoyenTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau3" unique_id=1783929674 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Plateau" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=275559493]
-layout_mode = 2
-
-[node name="KPI_RapideTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1220866114 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_RapideTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1740054190 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_RapideDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1986273272 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Plateau2" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=241720690]
-layout_mode = 2
-
-[node name="KPI_LentTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1821332118 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_LentTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1911115208 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_LentDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1770414664 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Plateau4" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=933919058]
-layout_mode = 2
-
-[node name="KPI_GalereTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=1729205537 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_GalereEssais" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=988900093 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_GalereDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=102818887 instance=ExtResource("2_xsdck")]
-layout_mode = 2
+[node name="CampaignIcon" type="TextureRect" parent="Scroll/Content"]
+offset_left=68.0
+offset_top=155.0
+offset_right=102.0
+offset_bottom=189.0
+texture=ExtResource("cube_c")
+mouse_filter=2
+[node name="LevelIcon" type="TextureRect" parent="Scroll/Content"]
+offset_left=68.0
+offset_top=339.0
+offset_right=102.0
+offset_bottom=373.0
+texture=ExtResource("cube_n")
+mouse_filter=2
+[node name="BoardIcon" type="TextureRect" parent="Scroll/Content"]
+offset_left=68.0
+offset_top=502.0
+offset_right=102.0
+offset_bottom=536.0
+texture=ExtResource("cube_p")
+mouse_filter=2
+[node name="ModesIcon" type="TextureRect" parent="Scroll/Content"]
+offset_left=68.0
+offset_top=700.0
+offset_right=108.0
+offset_bottom=730.0
+texture=ExtResource("modes_i")
+mouse_filter=2

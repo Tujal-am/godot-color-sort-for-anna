@@ -38,12 +38,17 @@ func _ready() -> void:
 
 	cacher_les_gameplays()
 	$MenuCampagne.cacher_accueil()
-	$MenuCampagne.show()
-	$MenuCampagne.afficher_accueil_niveau_en_cours()
+	call_deferred("_demarrer_premier_plateau")
 
-func _on_menu_commencer_plateau() -> void:
+func _demarrer_premier_plateau() -> void:
+	# Le parcours automatique doit effectuer la même initialisation que le
+	# bouton Commencer avant de construire le premier plateau. Sans cela,
+	# la sauvegarde reste inactive et Plateau ignore les premiers clics.
 	ProgressionCampagneService.commencer_un_plateau()
 	_lancer_plateau_de_campagne()
+
+func _on_menu_commencer_plateau() -> void:
+	_demarrer_premier_plateau()
 
 func _lancer_plateau_de_campagne() -> void:
 	var plateau : String = SauvegardeBddJoueursService.enregistrement_lire_nom_plateau()
@@ -60,6 +65,7 @@ func _lancer_plateau_de_campagne() -> void:
 	else:
 		_on_classique_plateau_invalide()
 
+
 func _on_classique_plateau_invalide() -> void:
 	# Pas de plateau invalide en campagne
 	LogService.log_erreur("_on_classique_plateau_invalide pour la campagne IMPOSSIBLE ! WTF !")
@@ -67,7 +73,10 @@ func _on_classique_plateau_invalide() -> void:
 func _on_classique_victoire() -> void:
 	ProgressionCampagneService.gagner_un_plateau()
 	$MenuCampagne.show()
+	$MenuCampagne.afficher_background()
 	if ProgressionCampagneService.la_campagne_est_terminee():
+		$Classique.hide()
+		$QuiPerdGagne.hide()
 		$MenuCampagne.afficher_fin_campagne()
 	elif not ProgressionCampagneService.niveau_en_cours():
 		$MenuCampagne.afficher_fin_niveau()
@@ -81,6 +90,7 @@ func _on_classique_abandon() -> void:
 	ProgressionCampagneService.abandonner_un_plateau()
 	cacher_les_gameplays()
 	$MenuCampagne.show()
+	$MenuCampagne.afficher_background()
 	$MenuCampagne.afficher_abandonner_un_plateau()
 	AudioService.son_abandonner_un_plateau()
 	AudioService.arreter_la_musique()

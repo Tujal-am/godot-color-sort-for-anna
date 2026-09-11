@@ -6,6 +6,7 @@ var formatter := FormatterMenuCampagne.new()
 var _message_riche_verrouille := false # Semaphore sur l'affichage de message riche
 var _on_message_riche_gui_input_verouille := false
 var _resultat_terminal := false
+var _fin_campagne_en_attente := false
 
 # Notifie la scene `Plateau` que le bouton est pressé
 signal commencer_plateau
@@ -105,6 +106,7 @@ func afficher_des_messages_simples(les_message : Array[String], tempo : float = 
 
 func _afficher_resultat_et_continuer() -> void:
 	_resultat_terminal = false
+	_fin_campagne_en_attente = false
 	$BoutonMenuPrincipal.hide()
 	$BoutonStatistiques.hide()
 	$InfosDuJoueur.hide()
@@ -121,6 +123,7 @@ func afficher_plateau_suivant(_texte: String = ""):
 
 func cacher_accueil():
 	_resultat_terminal = false
+	_fin_campagne_en_attente = false
 	$Background.hide()
 	$BoutonMenuPrincipal.hide()
 	$BoutonStatistiques.hide()
@@ -142,6 +145,16 @@ func _on_resultats_continue_requested() -> void:
 	if _resultat_terminal:
 		return
 	AudioService.son_menu_click()
+	if _fin_campagne_en_attente:
+		_fin_campagne_en_attente = false
+		fin_message_riche.emit()
+		$ResultsPanel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		$MessageRiche.hide()
+		$BoutonCommencer.hide()
+		$BoutonRetourFinCampagne.show()
+		$ResultsVisualLayer.show_final()
+		_resultat_terminal = true
+		return
 	# Libère le verrou de l'ancien écran de score avant de relancer le plateau.
 	fin_message_riche.emit()
 	$ResultsPanel.hide()
@@ -187,12 +200,7 @@ func afficher_fin_niveau():
 
 func afficher_fin_campagne():
 	_afficher_resultat_et_continuer()
-	_resultat_terminal = true
-	$ResultsPanel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	$MessageRiche.hide()
-	$BoutonCommencer.hide()
-	$BoutonRetourFinCampagne.show()
-	$ResultsVisualLayer.show_final()
+	_fin_campagne_en_attente = true
 
 func _on_bouton_retour_fin_campagne_pressed() -> void:
 	AudioService.son_menu_click()
@@ -207,7 +215,6 @@ func _on_message_riche_gui_input(_event: InputEvent) -> void:
 		return
 	_on_message_riche_gui_input_verouille = true
 
-	print('click score !!!')
 	fin_message_riche.emit()
 
 	# Limiter l'occurence de l'evenement avant la disparition

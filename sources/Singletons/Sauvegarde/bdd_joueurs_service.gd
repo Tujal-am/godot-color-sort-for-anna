@@ -91,9 +91,14 @@ func ajouter_un_nouveau_joueur(nom_nouveau_joueur : String, nom_nouveau_fichier 
 	_enregistrer_sauvegarde_joueur()
 	return true
 
+func _nouvel_identifiant_campagne() -> String:
+	return '%s-%s' % [str(Time.get_unix_time_from_system()), str(Time.get_ticks_usec())]
+
 func sauvegarde_vierge(nom_nouveau_joueur : String) -> Dictionary:
 	return {
 		'nom': nom_nouveau_joueur,
+		'campagne_id': _nouvel_identifiant_campagne(),
+		'campagnes_terminees': [],
 		'campagne': {  },
 		'nombre_de_parties': {  },
 		'enregistrement_campagne': [ ],
@@ -101,7 +106,8 @@ func sauvegarde_vierge(nom_nouveau_joueur : String) -> Dictionary:
 	}
 
 func choisir_le_joueur(nom : String, fichier : String) -> bool:
-	return  _lire_sauvegarde_joueur(fichier) and nom == lire_nom_joueur()
+	var resultat := _lire_sauvegarde_joueur(fichier) and nom == lire_nom_joueur()
+	return resultat
 
 func liberer_le_joueur():
 	fichier_sauvegarde = ""
@@ -132,20 +138,44 @@ func remplacer_campagne_des_joueurs():
 		enregistrement_terminer_plateau()
 		enregistrement_terminer_niveau()
 		# Remplacer les plateaux residuels d'une ancienne campagne.
-		# avec les plateaux de la nouvelle campagne
+		# avec les plateaux de la nouvelle campagne. Le registre historique reste intact.
 		sauvegarde_joueur['campagne'] = SauvegardeBddPlateauxService.plateau_liste_niveaux_duplicate()
+		sauvegarde_joueur['campagne_id'] = _nouvel_identifiant_campagne()
 		# Enregistrer les changements
 		_enregistrer_sauvegarde_joueur()
 		liberer_le_joueur()
 		LogService.log_debug("Remplacement de campagne pour le joueur :", nom_joueur)
 
+func _enregistrer_campagne_terminee() -> void:
+	# Une campagne n'est enregistrée qu'après la validation d'un vrai plateau.
+	# L'identifiant rend l'opération idempotente en cas de double appel.
+	var campagne_id := str(sauvegarde_joueur.get('campagne_id', ''))
+	if campagne_id.is_empty():
+		campagne_id = _nouvel_identifiant_campagne()
+		sauvegarde_joueur['campagne_id'] = campagne_id
+	if not sauvegarde_joueur.has('campagnes_terminees'):
+		sauvegarde_joueur['campagnes_terminees'] = []
+	for entree in sauvegarde_joueur['campagnes_terminees']:
+		if str(entree.get('id', '')) == campagne_id:
+			return
+	sauvegarde_joueur['campagnes_terminees'].append({
+		'id': campagne_id,
+		'date_fin': Time.get_unix_time_from_system()
+	})
+	_enregistrer_sauvegarde_joueur()
+
 func gagner_un_plateau() -> void:
-	# Valider le plateau courant (effacer de la liste des plateaux jouables)
-	campagne_supprimer_plateau_courant()
+	# Refuser un second appel : seul un plateau réellement en cours peut être validé.
+	if not le_joueur_existe() or enregistrement_lire_statut_plateau() != 'en cours':
+		return
+	if not campagne_supprimer_plateau_courant():
+		return
 
 	# Ajouter le temps de jeu dans le niveau courant
 	enregistrement_modifier_statut_plateau('reussi')
 	enregistrement_terminer_plateau()
+	if campagne_la_campagne_est_terminee():
+		_enregistrer_campagne_terminee()
 
 func abandonner_un_plateau() -> void:
 	# En cas d'abandon, pas d'enrgistrement du temps.
@@ -174,6 +204,16 @@ func _lire_sauvegarde_joueur(fichier : String) -> bool:
 	if lecture_sauvegarde_joueur:
 		fichier_sauvegarde = fichier
 		sauvegarde_joueur = lecture_sauvegarde_joueur.duplicate(true)
+		# Backfill only the current campaign identity; do not infer old completions.
+		var needs_write := false
+		if not sauvegarde_joueur.has('campagne_id') or str(sauvegarde_joueur.get('campagne_id', '')).is_empty():
+			sauvegarde_joueur['campagne_id'] = _nouvel_identifiant_campagne()
+			needs_write = true
+		if not sauvegarde_joueur.has('campagnes_terminees'):
+			sauvegarde_joueur['campagnes_terminees'] = []
+			needs_write = true
+		if needs_write:
+			_enregistrer_sauvegarde_joueur()
 		_print_bdd_joueurs()
 		return true
 	else:

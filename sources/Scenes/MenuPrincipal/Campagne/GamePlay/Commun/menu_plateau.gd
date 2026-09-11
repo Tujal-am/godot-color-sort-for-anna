@@ -10,6 +10,7 @@ const ASSET_ROOT := "res://Art/UI/IntegrationV4/Gameplay/"
 const FONT_REGULAR := preload("res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf")
 const FONT_BOLD := preload("res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf")
 const MENU_PRINCIPAL_SCRIPT := preload("res://Scenes/MenuPrincipal/menu_principal.gd")
+const GradePresentationScript = preload("res://Scenes/MenuPrincipal/Grades/grade_presentation.gd")
 const AVATAR_FALLBACK := preload("res://Art/UI/IntegrationV4/Gameplay/classique/production_final/AVATAR_FALLBACK_TEST_64x64.png")
 @export var presentation_mode := ""
 func _ready() -> void:
@@ -228,7 +229,8 @@ func _build_top_contents(qpg: bool) -> void:
 		$Top/CoupsLabel.hide()
 
 func _avatar_path(player_name: String) -> String:
-	return MENU_PRINCIPAL_SCRIPT.avatar_path_for_player(player_name)
+	# Gameplay identity uses the active player's grade medal; no portrait fallback.
+	return GradePresentationScript.texture_path_for_stats_player(player_name)
 
 func _on_bouton_retour_pressed() -> void:
 	AudioService.son_menu_click()
