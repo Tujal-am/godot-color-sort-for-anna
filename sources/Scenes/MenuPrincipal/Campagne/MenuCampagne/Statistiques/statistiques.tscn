@@ -58,6 +58,46 @@ horizontal_alignment = 1
 layout_mode = 2
 text = " "
 
+[node name="Titre Score" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1096352937 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Détail du score"
+titre = "Score"
+couleur_fond = Color(1, 0.54901963, 0, 1)
+taille_minimum = Vector2(240, 25)
+
+[node name="KPI_Score" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=588114198]
+layout_mode = 2
+
+[node name="KPI_Rapidite" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=1201166130 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Part du score liée à
+la rapidité de la solution"
+
+[node name="KPI_Taux" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=487951484 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Part du score liée au
+taux de réussite"
+
+[node name="KPI_Niveau" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=1883332523 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Part du score liée à
+l'achèvement d'un niveau"
+
+[node name="KPI_Niveau_Parfait" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=1886085365 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Part du score liée à
+l'achèvement d'un
+niveau sans échec"
+
+[node name="KPI_Fin_Campagne" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=2025263451 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Part du score liée à
+l'achèvement de la campagne"
+
+[node name="SEPARATEUR VIDE0" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2065108963]
+layout_mode = 2
+text = " "
+
 [node name="Titre Campagne" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2052748395 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 titre = "Campagne"

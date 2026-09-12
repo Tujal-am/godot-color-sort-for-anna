@@ -4,6 +4,7 @@ func _ready():
 	set_process_input(true) # Pour retourner dans le menu de campagne.
 	var nom_joueur = $Marge/HBoxContainer/VBoxContainer/Nom_Joueur
 	nom_joueur.text = StatsService.campagne_nom_joueur()
+	score()
 	campagne()
 	niveaux()
 	difficultes()
@@ -35,6 +36,56 @@ func _input(event):
 			# Retour au menu de campagne
 			get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/Campagne/campagne.tscn")
 
+
+func score():
+	# Identifier le joueur
+	# Consulter la BDD pour obtenir les indicateurs à afficher
+	var valeur
+	# TODO : score : diagrammes et courbes
+	
+	# Largeur du titre 'Campagne'
+	$"Marge/HBoxContainer/VBoxContainer/Titre Score".set_minimum_size(Vector2(430,25))
+
+	# KPI
+	var KPI_Rapidite = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Rapidite
+	KPI_Rapidite.set_title("Rapidité")
+	valeur = StatsService.campagne_taux_completion()
+	valeur = str_arrondir_pourcentage(valeur)
+	KPI_Rapidite.set_value(valeur)
+	KPI_Rapidite.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
+	KPI_Rapidite.set_minimum_size(Vector2(83,50))
+
+	var KPI_Taux = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Taux
+	KPI_Taux.set_title("Réussite")
+	valeur = StatsService.campagne_taux_completion()
+	valeur = str_arrondir_pourcentage(valeur)
+	KPI_Taux.set_value(valeur)
+	KPI_Taux.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
+	KPI_Taux.set_minimum_size(Vector2(83,50))
+
+	var KPI_Niveau = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Niveau
+	KPI_Niveau.set_title("Niveau")
+	valeur = StatsService.campagne_taux_completion()
+	valeur = str_arrondir_pourcentage(valeur)
+	KPI_Niveau.set_value(valeur)
+	KPI_Niveau.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
+	KPI_Niveau.set_minimum_size(Vector2(83,50))
+
+	var KPI_NiveauParfait = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Niveau_Parfait
+	KPI_NiveauParfait.set_title("Parfait")
+	valeur = StatsService.campagne_taux_completion()
+	valeur = str_arrondir_pourcentage(valeur)
+	KPI_NiveauParfait.set_value(valeur)
+	KPI_NiveauParfait.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
+	KPI_NiveauParfait.set_minimum_size(Vector2(83,50))
+
+	var KPI_Fin_Campagne = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Fin_Campagne
+	KPI_Fin_Campagne.set_title("Campagne")
+	valeur = StatsService.campagne_taux_completion()
+	valeur = str_arrondir_pourcentage(valeur)
+	KPI_Fin_Campagne.set_value(valeur)
+	KPI_Fin_Campagne.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
+	KPI_Fin_Campagne.set_minimum_size(Vector2(83,50))
 
 func campagne():
 	# Identifier le joueur
@@ -262,12 +313,12 @@ func str_arrondir_temps_en_s(temps: float) -> String:
 		return str(roundi(temps)) + 's'
 	elif temps < (60. * 60.): # < 1 h
 		# En minutes + secondes (arrondi)
-		var min = floori(temps/60.)
+		var mins = floori(temps/60.)
 		var sec = roundi(fmod(temps, 60.))
-		return str(min) + 'min ' + str(sec) + 's'
+		return str(mins) + 'min ' + str(sec) + 's'
 	else:
 		# En heure + minutes + secondes (arrondi)
 		var heure = floori(temps/3600.)
-		var min = floori((temps - heure * 3600.) / 60.)
+		var mins = floori((temps - heure * 3600.) / 60.)
 		var sec = roundi(fmod(temps, 60.))
-		return str(heure) + 'h ' + str(min) + 'min' + str(sec) + 's'
+		return str(heure) + 'h ' + str(mins) + 'min' + str(sec) + 's'
