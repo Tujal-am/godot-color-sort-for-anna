@@ -44,12 +44,14 @@ func score():
 	# TODO : score : diagrammes et courbes
 	
 	# Largeur du titre 'Campagne'
+	var KPI_Score = StatsService.score().replace('.', ' ')
+	$"Marge/HBoxContainer/VBoxContainer/Titre Score".set_title("Score : " + KPI_Score)
 	$"Marge/HBoxContainer/VBoxContainer/Titre Score".set_minimum_size(Vector2(430,25))
 
 	# KPI
 	var KPI_Rapidite = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Rapidite
 	KPI_Rapidite.set_title("Rapidité")
-	valeur = StatsService.campagne_taux_completion()
+	valeur = StatsService.score_pourcentage_rapidite()
 	valeur = str_arrondir_pourcentage(valeur)
 	KPI_Rapidite.set_value(valeur)
 	KPI_Rapidite.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
@@ -57,7 +59,7 @@ func score():
 
 	var KPI_Taux = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Taux
 	KPI_Taux.set_title("Réussite")
-	valeur = StatsService.campagne_taux_completion()
+	valeur = StatsService.score_pourcentage_reussite()
 	valeur = str_arrondir_pourcentage(valeur)
 	KPI_Taux.set_value(valeur)
 	KPI_Taux.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
@@ -65,7 +67,7 @@ func score():
 
 	var KPI_Niveau = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Niveau
 	KPI_Niveau.set_title("Niveau")
-	valeur = StatsService.campagne_taux_completion()
+	valeur = StatsService.score_pourcentage_niveau()
 	valeur = str_arrondir_pourcentage(valeur)
 	KPI_Niveau.set_value(valeur)
 	KPI_Niveau.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
@@ -73,7 +75,7 @@ func score():
 
 	var KPI_NiveauParfait = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Niveau_Parfait
 	KPI_NiveauParfait.set_title("Parfait")
-	valeur = StatsService.campagne_taux_completion()
+	valeur = StatsService.score_pourcentage_niveau_parfait()
 	valeur = str_arrondir_pourcentage(valeur)
 	KPI_NiveauParfait.set_value(valeur)
 	KPI_NiveauParfait.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
@@ -81,7 +83,7 @@ func score():
 
 	var KPI_Fin_Campagne = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Fin_Campagne
 	KPI_Fin_Campagne.set_title("Campagne")
-	valeur = StatsService.campagne_taux_completion()
+	valeur = StatsService.score_pourcentage_fin_campagne()
 	valeur = str_arrondir_pourcentage(valeur)
 	KPI_Fin_Campagne.set_value(valeur)
 	KPI_Fin_Campagne.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
