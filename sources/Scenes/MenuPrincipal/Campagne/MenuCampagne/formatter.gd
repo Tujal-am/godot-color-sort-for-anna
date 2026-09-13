@@ -74,16 +74,16 @@ func formater_detail_score(detail_score : Dictionary) -> Dictionary:
 		score_total += detail_score.get('niveau').get('points')
 		size_y += 80
 
-	# niveau_sans_detour
-	if detail_score.get('niveau_sans_detour'):
+	# niveau_parfait
+	if detail_score.get('niveau_parfait'):
 		var bbcode_niveau_sans_detour = """[b]Niveau sans détour[/b]
 [ul] Bonus: #asc_detour_bonus#[/ul]
 [ul] #asc_detour_pts# points[/ul]"""
-		bbcode_niveau_sans_detour = bbcode_niveau_sans_detour.replace('#asc_detour_bonus#', str(detail_score.get('niveau_sans_detour').get('bonus')))
-		points_txt = SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score.get('niveau_sans_detour').get('points'), '.')
+		bbcode_niveau_sans_detour = bbcode_niveau_sans_detour.replace('#asc_detour_bonus#', str(detail_score.get('niveau_parfait').get('bonus')))
+		points_txt = SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score.get('niveau_parfait').get('points'), '.')
 		bbcode_niveau_sans_detour = bbcode_niveau_sans_detour.replace('#asc_detour_pts#', points_txt)
 		bbcode_complet += bbcode_niveau_sans_detour
-		score_total += detail_score.get('niveau_sans_detour').get('points')
+		score_total += detail_score.get('niveau_parfait').get('points')
 		size_y += 80
 
 	# campagne

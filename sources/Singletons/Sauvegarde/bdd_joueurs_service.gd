@@ -354,7 +354,7 @@ func lire_nombre_de_parties_pour_difficulte_courante() -> int:
 # 			'niveau': 20,
 #			'date_debut': 1748785865.997,
 # 			'date_fin': 0.,
-# 			'score': { 'niveau': 500000, 'niveau_sans_detour': 500000},
+# 			'score': { 'niveau': 500000, 'niveau_parfait': 500000},
 # 			'plateaux': [
 # 				{
 # 					'nom': "AA .BB .AB ",
@@ -499,7 +499,7 @@ func enregistrment_lire_ratio_reussite_niveau() -> int:
 
 ###############################################
 # Niveaux / Score / Niveau et Niveau sans détour
-# 'score': { 'niveau': 500000, 'niveau_sans_detour': 500000},
+# 'score': { 'niveau': 500000, 'niveau_parfait': 500000},
 ###############################################
 
 func enregistrement_modifier_score_niveau(score : int) -> void:
@@ -515,7 +515,7 @@ func enregistrement_modifier_score_niveau_sans_detour(score : int) -> void:
 	if niveau_courant:
 		if 'score' not in niveau_courant:
 			niveau_courant['score'] = {}
-		niveau_courant['score']['niveau_sans_detour'] = score
+		niveau_courant['score']['niveau_parfait'] = score
 		_enregistrer_sauvegarde_joueur()
 
 func enregistrement_lire_score_niveau() -> int:

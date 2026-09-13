@@ -8,7 +8,7 @@ extends Node
 
 # Dico : {'caracteristique': reglage}
 var configuration_du_jeu = {
-	'version': 'V1.0.0-rc5',
+	'version': 'V1.0.0-rc6',
 	'date_debut_campagne': "2026-09-01 00:00:00",
 	'musiques': true,
 	'effets sonores': true,

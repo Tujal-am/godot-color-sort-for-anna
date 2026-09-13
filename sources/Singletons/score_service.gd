@@ -5,14 +5,14 @@ func mettre_a_jour_score_pour_victoire() -> Dictionary:
 	var score_duree = mettre_a_jour_score_duree() 
 	var score_ratio_reussite = mettre_a_jour_score_ratio_reussite()
 	var score_niveau = mettre_a_jour_score_niveau()
-	var score_niveau_sans_detour = mettre_a_jour_score_niveau_sans_detour()
+	var score_niveau_parfait = mettre_a_jour_score_niveau_parfait()
 	var score_campagne = mettre_a_jour_score_campagne()
 
 	var score_global = {
 					'duree': score_duree,
 					'ratio_reussite': score_ratio_reussite,
 					'niveau': score_niveau,
-					'niveau_sans_detour': score_niveau_sans_detour,
+					'niveau_parfait': score_niveau_parfait,
 					'campagne': score_campagne
 					}
 
@@ -97,7 +97,7 @@ func mettre_a_jour_score_niveau() -> Dictionary:
 		return {'type':'niveau', 'longueur': niveau_longueur_totale, 'points': bonus_niveau}
 	return{}
 
-func mettre_a_jour_score_niveau_sans_detour() -> Dictionary:
+func mettre_a_jour_score_niveau_parfait() -> Dictionary:
 	"Calculer le score suite à un niveau parfaitement achevé (sans détour)"
 	var bonus_niveau_sans_detour = 0
 	var lg_niveau = SauvegardeBddJoueursService.lire_longueur_niveau_courant()
@@ -108,7 +108,7 @@ func mettre_a_jour_score_niveau_sans_detour() -> Dictionary:
 		bonus_niveau_sans_detour = SauvegardeBddJoueursService.enregistrement_lire_score_niveau()
 		SauvegardeBddJoueursService.enregistrement_modifier_score_niveau_sans_detour(bonus_niveau_sans_detour)
 		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_niveau_sans_detour)
-		return {'type':'niveau_sans_detour', 'bonus': 'x2', 'points': bonus_niveau_sans_detour}
+		return {'type':'niveau_parfait', 'bonus': 'x2', 'points': bonus_niveau_sans_detour}
 	return{}
 
 func mettre_a_jour_score_campagne() -> Dictionary:

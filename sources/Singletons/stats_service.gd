@@ -128,14 +128,14 @@ func detail_score_cumule() -> Dictionary:
 	var score_niveau_parfait: int = 0
 	var score_fin_campagne: int = 0
 
-	if SauvegardeBddJoueursService.sauvegarde_joueur.get("ascensions", null):
-		for ascension in SauvegardeBddJoueursService.sauvegarde_joueur.get("ascensions"):
-			if "score" in ascension:
-				score_niveau += ascension.get("score").get('ascension', 0)
-				score_niveau_parfait += ascension.get("score").get('ascension_sans_detour', 0)
+	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
+		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
+			if "score" in niveau:
+				score_niveau += niveau.get("score").get('niveau', 0)
+				score_niveau_parfait += niveau.get("score").get('niveau_parfait', 0)
 			# Comptabiliser les plateaux reussis
-			if "plateaux" in ascension:
-				for plateau_joue in ascension.get("plateaux"):
+			if "plateaux" in niveau:
+				for plateau_joue in niveau.get("plateaux"):
 					if plateau_joue.get("date_debut") > date_debut_campagne \
 						and 'score' in plateau_joue:
 						score_rapidite += plateau_joue.get("score").get('duree', 0)
