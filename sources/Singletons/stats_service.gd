@@ -7,6 +7,27 @@ extends Node
 	##ProgressionCampagneService.choisir_le_joueur_pour_la_campagne("Anna")
 
 # ########
+# Score
+func score() -> String:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	return SauvegardeTableauDesScoresService.lire_score_txt_joueur(joueur)
+
+func score_pourcentage_rapidite() -> float:
+	return score_total_pourcentage_rapidite()
+
+func score_pourcentage_reussite() -> float:
+	return score_total_pourcentage_reussite()
+
+func score_pourcentage_niveau() -> float:
+	return score_total_pourcentage_niveau()
+
+func score_pourcentage_niveau_parfait() -> float:
+	return score_total_pourcentage_niveau_parfait()
+
+func score_pourcentage_fin_campagne() -> float:
+	return score_total_pourcentage_fin_campagne()
+
+# ########
 # Campagne
 func campagne_nom_joueur() -> String:
 	return SauvegardeBddJoueursService.lire_nom_joueur()
@@ -56,6 +77,72 @@ func plateau_plus_galere_infos() -> Dictionary:
 
 # ####################
 # Calculs Statistiques
+func detail_score_cumule() -> Dictionary:
+	"Taux de complétion de l'ascension en cours"
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var date_debut_campagne = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
+	# Scores cumulés
+	var score_rapidite: int = 0
+	var score_reussite: int = 0
+	var score_niveau: int = 0
+	var score_niveau_parfait: int = 0
+	var score_fin_campagne: int = 0
+
+	if SauvegardeBddJoueursService.sauvegarde_joueur.get("ascensions", null):
+		for ascension in SauvegardeBddJoueursService.sauvegarde_joueur.get("ascensions"):
+			if "score" in ascension:
+				score_niveau += ascension.get("score").get('ascension', 0)
+				score_niveau_parfait += ascension.get("score").get('ascension_sans_detour', 0)
+			# Comptabiliser les plateaux reussis
+			if "plateaux" in ascension:
+				for plateau_joue in ascension.get("plateaux"):
+					if plateau_joue.get("date_debut") > date_debut_campagne \
+						and 'score' in plateau_joue:
+						score_rapidite += plateau_joue.get("score").get('duree', 0)
+						score_reussite += plateau_joue.get("score").get('ratio_reussite', 0)
+
+	if SauvegardeBddJoueursService.la_campagne_est_terminee():
+		score_fin_campagne = 2_000_000
+
+	return {
+		'joueur': joueur,
+		'rapidite': score_rapidite,
+		'reussite': score_reussite,
+		'niveau': score_niveau,
+		'niveau_parfait': score_niveau_parfait,
+		'fin_campagne': score_fin_campagne,
+	}
+
+func score_total_pourcentage_rapidite() -> float:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	var score_rapidite :int = detail_score_cumule().get('rapidite', 0)
+	return 1. * score_rapidite / score_total
+
+func score_total_pourcentage_reussite() -> float:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	var score_reussite :int = detail_score_cumule().get('reussite', 0)
+	return 1. * score_reussite / score_total
+
+func score_total_pourcentage_niveau() -> float:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	var score_niveau :int = detail_score_cumule().get('niveau', 0)
+	return 1. * score_niveau / score_total
+
+func score_total_pourcentage_niveau_parfait() -> float:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	var score_niveau_parfait :int = detail_score_cumule().get('niveau_parfait', 0)
+	return 1. * score_niveau_parfait / score_total
+
+func score_total_pourcentage_fin_campagne() -> float:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	var score_fin_campagne :int = detail_score_cumule().get('fin_campagne', 0)
+	return 1. * score_fin_campagne / score_total
+
 func nombre_de_plateau_inacheves() -> int:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 	# Nombre de plateau inachevés
@@ -194,7 +281,7 @@ func longueur_max_ascension_terminee() -> int:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 	var date_debut_campagne = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
 	# Nombre de plateau reussis
-	var longueur_max_ascension_terminee: int = 0
+	var val_longueur_max_ascension_terminee: int = 0
 	# Parcourir la liste des ascensions
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("ascensions", null):
 		for ascension in SauvegardeBddJoueursService.sauvegarde_joueur.get("ascensions"):
@@ -209,10 +296,10 @@ func longueur_max_ascension_terminee() -> int:
 					var echecs = ascension.get("longueur_detour", null)
 					var realises = ascension.get("plateaux", null).size()
 					longueur_ascension_initiale = realises - (2 * echecs)
-				if longueur_ascension_initiale > longueur_max_ascension_terminee:
-					longueur_max_ascension_terminee = longueur_ascension_initiale
-	LogService.log_debug("joueur:",joueur, ' longueur_max_ascension_terminee=', longueur_max_ascension_terminee)
-	return longueur_max_ascension_terminee
+				if longueur_ascension_initiale > val_longueur_max_ascension_terminee:
+					val_longueur_max_ascension_terminee = longueur_ascension_initiale
+	LogService.log_debug("joueur:",joueur, ' val_longueur_max_ascension_terminee=', val_longueur_max_ascension_terminee)
+	return val_longueur_max_ascension_terminee
 
 func ascension_taux_reussite_les_infos() -> Dictionary:
 	"Retourne le nombre d'ascensions parfaites et la longueur de la plus longue"
