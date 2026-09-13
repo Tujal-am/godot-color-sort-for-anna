@@ -43,6 +43,8 @@ layout_mode = 2
 alignment = 1
 
 [node name="SEPARATEUR VIDE7" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=181207416]
+visible = false
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -55,6 +57,7 @@ text = "Toto"
 horizontal_alignment = 1
 
 [node name="SEPARATEUR VIDE5" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=623163726]
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -95,6 +98,7 @@ tooltip_text = "Part du score liée à
 l'achèvement de la campagne"
 
 [node name="SEPARATEUR VIDE0" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2065108963]
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -138,6 +142,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SEPARATEUR VIDE1" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1795960122]
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -186,6 +191,7 @@ en ascension
 et sa longueur."
 
 [node name="SEPARATEUR VIDE2" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=567384229]
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -203,6 +209,7 @@ script = ExtResource("3_xsdck")
 
 [node name="SEPARATEUR VIDE3" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=621214377]
 visible = false
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
