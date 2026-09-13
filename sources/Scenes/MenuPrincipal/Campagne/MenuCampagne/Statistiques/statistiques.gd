@@ -2,38 +2,40 @@ extends Control
 
 func _ready():
 	set_process_input(true) # Pour retourner dans le menu de campagne.
-	var nom_joueur = $Marge/HBoxContainer/VBoxContainer/Nom_Joueur
+	var nom_joueur = $Marge/HBoxContainer/VBox/VBoxTitre/Nom_Joueur
 	nom_joueur.text = StatsService.campagne_nom_joueur()
 	score()
 	campagne()
 	niveaux()
 	difficultes()
 	plateaux()
+	classique()
+	qui_perd_gagne()
 
 	# TODO : Poursuivre les statistiques
 	## Graphiques
-	#var WinLossBarChart = $Marge/HBoxContainer/VBoxContainer/Charts/WinLossBarChart
+	#var WinLossBarChart = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Charts/WinLossBarChart
 	#WinLossBarChart.wins = 15
 	#WinLossBarChart.losses = 7
 	#WinLossBarChart.queue_redraw()
 #
-	#var PlaytimeLineChart = $Marge/HBoxContainer/VBoxContainer/Charts/PlaytimeLineChart
+	#var PlaytimeLineChart = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Charts/PlaytimeLineChart
 	#PlaytimeLineChart.monthly_minutes = [120, 90, 150, 200, 180, 220]
 	#PlaytimeLineChart.queue_redraw()
 #
 	## Jauge
-	#$Marge/HBoxContainer/VBoxContainer/MonthlyPlaytimeGauge.set_progress(120, 300)
+	#$Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/MonthlyPlaytimeGauge.set_progress(120, 300)
 
 
 func _on_retour_pressed() -> void:
-		AudioService.son_menu_click()
-		VibrationService.vibration_click()
+	AudioService.son_menu_click()
+	VibrationService.vibration_click()
 	if ProgressionCampagneService.la_campagne_est_terminee():
-			# Retour au menu principal
-			get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/menu_principal.tscn")
-		else:
-			# Retour au menu de campagne
-			get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/Campagne/campagne.tscn")
+		# Retour au menu principal
+		get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/menu_principal.tscn")
+	else:
+		# Retour au menu de campagne
+		get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/Campagne/campagne.tscn")
 
 
 func score():
@@ -44,11 +46,11 @@ func score():
 	
 	# Largeur du titre 'Campagne'
 	var KPI_Score = StatsService.score().replace('.', ' ')
-	$"Marge/HBoxContainer/VBoxContainer/Titre Score".set_title("Score : " + KPI_Score)
-	$"Marge/HBoxContainer/VBoxContainer/Titre Score".set_minimum_size(Vector2(430,25))
+	$"Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Titre Score".set_title("Score : " + KPI_Score)
+	$"Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Titre Score".set_minimum_size(Vector2(432,25))
 
 	# KPI
-	var KPI_Rapidite = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Rapidite
+	var KPI_Rapidite = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score/KPI_Rapidite
 	KPI_Rapidite.set_title("Rapidité")
 	valeur = StatsService.score_pourcentage_rapidite()
 	valeur = str_arrondir_pourcentage(valeur)
@@ -56,7 +58,7 @@ func score():
 	KPI_Rapidite.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
 	KPI_Rapidite.set_minimum_size(Vector2(83,50))
 
-	var KPI_Taux = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Taux
+	var KPI_Taux = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score/KPI_Taux
 	KPI_Taux.set_title("Réussite")
 	valeur = StatsService.score_pourcentage_reussite()
 	valeur = str_arrondir_pourcentage(valeur)
@@ -64,7 +66,7 @@ func score():
 	KPI_Taux.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
 	KPI_Taux.set_minimum_size(Vector2(83,50))
 
-	var KPI_Niveau = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Niveau
+	var KPI_Niveau = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score/KPI_Niveau
 	KPI_Niveau.set_title("Niveau")
 	valeur = StatsService.score_pourcentage_niveau()
 	valeur = str_arrondir_pourcentage(valeur)
@@ -72,7 +74,7 @@ func score():
 	KPI_Niveau.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
 	KPI_Niveau.set_minimum_size(Vector2(83,50))
 
-	var KPI_NiveauParfait = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Niveau_Parfait
+	var KPI_NiveauParfait = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score/KPI_Niveau_Parfait
 	KPI_NiveauParfait.set_title("Parfait")
 	valeur = StatsService.score_pourcentage_niveau_parfait()
 	valeur = str_arrondir_pourcentage(valeur)
@@ -80,7 +82,7 @@ func score():
 	KPI_NiveauParfait.set_color(Color("ffe6f3ff"), Color('DARK_ORANGE'))
 	KPI_NiveauParfait.set_minimum_size(Vector2(83,50))
 
-	var KPI_Fin_Campagne = $Marge/HBoxContainer/VBoxContainer/KPI_Score/KPI_Fin_Campagne
+	var KPI_Fin_Campagne = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score/KPI_Fin_Campagne
 	KPI_Fin_Campagne.set_title("Campagne")
 	valeur = StatsService.score_pourcentage_fin_campagne()
 	valeur = str_arrondir_pourcentage(valeur)
@@ -95,10 +97,10 @@ func campagne():
 	# TODO : campagne : diagrammes et courbes
 	
 	# Largeur du titre 'Campagne'
-	$"Marge/HBoxContainer/VBoxContainer/Titre Campagne".set_minimum_size(Vector2(430,25))
+	$"Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Titre Campagne".set_minimum_size(Vector2(432,25))
 
 	# KPI
-	var KPI_Completion = $Marge/HBoxContainer/VBoxContainer/KPI_Campagne/KPI_Completion
+	var KPI_Completion = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Campagne/KPI_Completion
 	KPI_Completion.set_title("Complétion")
 	valeur = StatsService.campagne_taux_completion()
 	valeur = str_arrondir_pourcentage(valeur)
@@ -106,7 +108,7 @@ func campagne():
 	KPI_Completion.set_color(Color("ffe6f3ff"), Color('DEEP_PINK'))
 	KPI_Completion.set_minimum_size(Vector2(105,50))
 
-	var KPI_Temps = $Marge/HBoxContainer/VBoxContainer/KPI_Campagne/KPI_Temps
+	var KPI_Temps = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Campagne/KPI_Temps
 	KPI_Temps.set_title("Temps")
 	valeur = StatsService.campagne_temps_total_en_s()
 	valeur = str_arrondir_temps_en_s(valeur)
@@ -114,7 +116,7 @@ func campagne():
 	KPI_Temps.set_color(Color("ffe6f3ff"), Color('DEEP_PINK'))
 	KPI_Temps.set_minimum_size(Vector2(105,50))
 
-	var KPI_TauxReussite = $Marge/HBoxContainer/VBoxContainer/KPI_Campagne/KPI_TauxReussite
+	var KPI_TauxReussite = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Campagne/KPI_TauxReussite
 	KPI_TauxReussite.set_title("Réussite")
 	valeur = StatsService.campagne_taux_reussite()
 	valeur = str_arrondir_pourcentage(valeur)
@@ -122,7 +124,7 @@ func campagne():
 	KPI_TauxReussite.set_color(Color("ffe6f3ff"), Color('DEEP_PINK'))
 	KPI_TauxReussite.set_minimum_size(Vector2(105,50))
 
-	var KPI_SerieMaximumSucces = $Marge/HBoxContainer/VBoxContainer/KPI_Campagne/KPI_SerieMaximumSucces
+	var KPI_SerieMaximumSucces = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Campagne/KPI_SerieMaximumSucces
 	KPI_SerieMaximumSucces.set_title("Série Max.")
 	valeur = StatsService.campagne_serie_max_reussite()
 	KPI_SerieMaximumSucces.set_value(valeur)
@@ -136,11 +138,11 @@ func niveaux():
 	# TODO : niveaux : diagrammes et courbes
 
 	# Largeur du titre 'Niveau'
-	$"Marge/HBoxContainer/VBoxContainer/Titre Niveau".set_minimum_size(Vector2(365,25))
+	$"Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Titre Niveau".set_minimum_size(Vector2(368,25))
 
 	# KPI
 	# Ligne 1
-	var KPI_Completion = $Marge/HBoxContainer/VBoxContainer/KPI_Niveau/KPI_Completion
+	var KPI_Completion = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau/KPI_Completion
 	KPI_Completion.set_title("Complétion")
 	valeur = StatsService.niveau_taux_completion()
 	valeur = str_arrondir_pourcentage(valeur)
@@ -148,14 +150,14 @@ func niveaux():
 	KPI_Completion.set_color(Color("WHITE"), Color('00a7f9'))
 	KPI_Completion.set_minimum_size(Vector2(120,50))
 
-	var KPI_Terminees = $Marge/HBoxContainer/VBoxContainer/KPI_Niveau/KPI_Terminees
+	var KPI_Terminees = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau/KPI_Terminees
 	KPI_Terminees.set_title("Terminées")
 	valeur = StatsService.niveau_terminees()
 	KPI_Terminees.set_value(valeur)
 	KPI_Terminees.set_color(Color("WHITE"), Color('00a7f9'))
 	KPI_Terminees.set_minimum_size(Vector2(120,50))
 
-	var KPI_Longueur = $Marge/HBoxContainer/VBoxContainer/KPI_Niveau/KPI_Longueur
+	var KPI_Longueur = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau/KPI_Longueur
 	KPI_Longueur.set_title("Longueur Max.")
 	valeur = StatsService.niveau_longueur_max()
 	KPI_Longueur.set_value(valeur)
@@ -163,13 +165,13 @@ func niveaux():
 	KPI_Longueur.set_minimum_size(Vector2(120,50))
 
 	# Ligne 2
-	var KPI_MinMax_Titre = $Marge/HBoxContainer/VBoxContainer/KPI_Niveau2/KPI_MinMax_Titre
+	var KPI_MinMax_Titre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau2/KPI_MinMax_Titre
 	KPI_MinMax_Titre.set_title("Réussite Min/Max")
 	KPI_MinMax_Titre.set_value("Longueur")
 	KPI_MinMax_Titre.set_color(Color("WHITE"), Color('00a7f9'))
 	KPI_MinMax_Titre.set_minimum_size(Vector2(160,50))
 
-	var KPI_Taux_Min = $Marge/HBoxContainer/VBoxContainer/KPI_Niveau2/KPI_Taux_Min
+	var KPI_Taux_Min = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau2/KPI_Taux_Min
 	var taux_reussite = StatsService.niveau_taux_reussite_infos()
 	valeur = str_arrondir_pourcentage(taux_reussite.get('taux_min'))
 	KPI_Taux_Min.set_title(valeur)
@@ -177,7 +179,7 @@ func niveaux():
 	KPI_Taux_Min.set_color(Color("WHITE"), Color('00a7f9'))
 	KPI_Taux_Min.set_minimum_size(Vector2(100,50))
 
-	var KPI_Taux_Max = $Marge/HBoxContainer/VBoxContainer/KPI_Niveau2/KPI_Taux_Max
+	var KPI_Taux_Max = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau2/KPI_Taux_Max
 	valeur = str_arrondir_pourcentage(taux_reussite.get('taux_max'))
 	KPI_Taux_Max.set_title(valeur)
 	KPI_Taux_Max.set_value(taux_reussite.get('taux_max_lg'))
@@ -200,17 +202,17 @@ func plateaux():
 	# TODO : plateaux : diagrammes et courbes
 
 	# Largeur du titre 'Plateau'
-	$"Marge/HBoxContainer/VBoxContainer/Titre Plateau".set_minimum_size(Vector2(245,25))
+	$"Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Titre Plateau".set_minimum_size(Vector2(245,25))
 
 	# KPI
 	# Ligne 1
-	var KPI_MoyenTitre = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau3/KPI_MoyenTitre
+	var KPI_MoyenTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau3/KPI_MoyenTitre
 	KPI_MoyenTitre.set_title("Temps")
 	KPI_MoyenTitre.set_value("Moyen")
 	KPI_MoyenTitre.set_color(Color("WHITE"), Color('b067ef'))
 	KPI_MoyenTitre.set_minimum_size(Vector2(120,50))
 
-	var KPI_MoyenTemps = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau3/KPI_MoyenTemps
+	var KPI_MoyenTemps = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau3/KPI_MoyenTemps
 	KPI_MoyenTemps.set_title("Temps")
 	var temps_moyen = StatsService.plateau_temps_moyen_en_s()
 	valeur = str_arrondir_temps_en_s(temps_moyen)
@@ -219,13 +221,13 @@ func plateaux():
 	KPI_MoyenTemps.set_minimum_size(Vector2(120,50))
 	
 	# Ligne 2
-	var KPI_RapideTitre = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau/KPI_RapideTitre
+	var KPI_RapideTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau/KPI_RapideTitre
 	KPI_RapideTitre.set_title("Le Plus")
 	KPI_RapideTitre.set_value("Rapide")
 	KPI_RapideTitre.set_color(Color("WHITE"), Color('b067ef'))
 	KPI_RapideTitre.set_minimum_size(Vector2(120,50))
 
-	var KPI_RapideTemps = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau/KPI_RapideTemps
+	var KPI_RapideTemps = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau/KPI_RapideTemps
 	KPI_RapideTemps.set_title("Temps")
 	var plus_rapide = StatsService.plateau_plus_rapide_infos()
 	valeur = str_arrondir_temps_en_s(plus_rapide.get('temps_en_s'))
@@ -233,7 +235,7 @@ func plateaux():
 	KPI_RapideTemps.set_color(Color("WHITE"), Color('b067ef'))
 	KPI_RapideTemps.set_minimum_size(Vector2(120,50))
 
-	var KPI_RapideDifficulte = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau/KPI_RapideDifficulte
+	var KPI_RapideDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau/KPI_RapideDifficulte
 	KPI_RapideDifficulte.set_title("Difficulté")
 	valeur = plus_rapide.get('difficulte')
 	KPI_RapideDifficulte.set_value(valeur)
@@ -241,13 +243,13 @@ func plateaux():
 	KPI_RapideDifficulte.set_minimum_size(Vector2(120,50))
 	
 	# Ligne 3
-	var KPI_LentTitre = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau2/KPI_LentTitre
+	var KPI_LentTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau2/KPI_LentTitre
 	KPI_LentTitre.set_title("Le Plus")
 	KPI_LentTitre.set_value("Lent")
 	KPI_LentTitre.set_color(Color("WHITE"), Color('b067ef'))
 	KPI_LentTitre.set_minimum_size(Vector2(120,50))
 
-	var KPI_LentTemps = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau2/KPI_LentTemps
+	var KPI_LentTemps = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau2/KPI_LentTemps
 	KPI_LentTemps.set_title("Temps")
 	var plus_lent = StatsService.plateau_plus_lent_infos()
 	valeur = str_arrondir_temps_en_s(plus_lent.get('temps_en_s'))
@@ -255,7 +257,7 @@ func plateaux():
 	KPI_LentTemps.set_color(Color("WHITE"), Color('b067ef'))
 	KPI_LentTemps.set_minimum_size(Vector2(120,50))
 
-	var KPI_LentDifficulte = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau2/KPI_LentDifficulte
+	var KPI_LentDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau2/KPI_LentDifficulte
 	KPI_LentDifficulte.set_title("Difficulté")
 	valeur = plus_lent.get('difficulte')
 	KPI_LentDifficulte.set_value(valeur)
@@ -263,13 +265,13 @@ func plateaux():
 	KPI_LentDifficulte.set_minimum_size(Vector2(120,50))
 	
 	# Ligne 4
-	var KPI_GalereTitre = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau4/KPI_GalereTitre
+	var KPI_GalereTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau4/KPI_GalereTitre
 	KPI_GalereTitre.set_title("Le Plus")
 	KPI_GalereTitre.set_value("Galère")
 	KPI_GalereTitre.set_color(Color("WHITE"), Color('b067ef'))
 	KPI_GalereTitre.set_minimum_size(Vector2(120,50))
 
-	var KPI_GalereEssais = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau4/KPI_GalereEssais
+	var KPI_GalereEssais = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau4/KPI_GalereEssais
 	KPI_GalereEssais.set_title("Essais")
 	var plus_galere = StatsService.plateau_plus_galere_infos()
 	valeur = plus_galere.get('essais')
@@ -277,11 +279,215 @@ func plateaux():
 	KPI_GalereEssais.set_color(Color("WHITE"), Color('b067ef'))
 	KPI_GalereEssais.set_minimum_size(Vector2(120,50))
 
-	var KPI_GalereDifficulte = $Marge/HBoxContainer/VBoxContainer/KPI_Plateau4/KPI_GalereDifficulte
+	var KPI_GalereDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau4/KPI_GalereDifficulte
 	KPI_GalereDifficulte.set_title("Difficulté")
 	valeur = plus_galere.get('difficulte')
 	KPI_GalereDifficulte.set_value(valeur)
 	KPI_GalereDifficulte.set_color(Color("WHITE"), Color('b067ef'))
+	KPI_GalereDifficulte.set_minimum_size(Vector2(120,50))
+	
+	# TODO : representer le plateau en miniature
+
+func classique():
+	# Identifier le joueur
+	# Consulter la BDD pour obtenir les indicateurs à afficher
+	var valeur
+	# TODO : plateaux : diagrammes et courbes
+
+	# Largeur du titre 'Plateau'
+	$"Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Titre Classique".set_minimum_size(Vector2(368,25))
+
+	# KPI
+	# Ligne 1
+	var KPI_Nombre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique1/KPI_Nombre
+	KPI_Nombre.set_title("Nombre")
+	valeur = StatsService.classique_nombre_de_plateaux_joues()
+	KPI_Nombre.set_value(valeur)
+	KPI_Nombre.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_Nombre.set_minimum_size(Vector2(120,50))
+	
+	var KPI_Taux = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique1/KPI_Taux
+	KPI_Taux.set_title("Réussite")
+	valeur = StatsService.classique_taux_de_reussite()
+	valeur = str_arrondir_pourcentage(valeur)
+	KPI_Taux.set_value(valeur)
+	KPI_Taux.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_Taux.set_minimum_size(Vector2(120,50))
+	
+	var KPI_Moyenne = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique1/KPI_Moyenne
+	KPI_Moyenne.set_title("Moyenne")
+	var temps_moyen = StatsService.classique_temps_moyen_en_s()
+	valeur = str_arrondir_temps_en_s(temps_moyen)
+	KPI_Moyenne.set_value(valeur)
+	KPI_Moyenne.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_Moyenne.set_minimum_size(Vector2(120,50))
+	
+	# Ligne 2
+	var KPI_RapideTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique2/KPI_RapideTitre
+	KPI_RapideTitre.set_title("Le Plus")
+	KPI_RapideTitre.set_value("Rapide")
+	KPI_RapideTitre.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_RapideTitre.set_minimum_size(Vector2(120,50))
+
+	var KPI_RapideTemps = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique2/KPI_RapideTemps
+	KPI_RapideTemps.set_title("Temps")
+	var plus_rapide = StatsService.classique_plus_rapide_infos()
+	valeur = str_arrondir_temps_en_s(plus_rapide.get('temps_en_s'))
+	KPI_RapideTemps.set_value(valeur)
+	KPI_RapideTemps.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_RapideTemps.set_minimum_size(Vector2(120,50))
+
+	var KPI_RapideDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique2/KPI_RapideDifficulte
+	KPI_RapideDifficulte.set_title("Difficulté")
+	valeur = plus_rapide.get('difficulte')
+	KPI_RapideDifficulte.set_value(valeur)
+	KPI_RapideDifficulte.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_RapideDifficulte.set_minimum_size(Vector2(120,50))
+	
+	# Ligne 3
+	var KPI_LentTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique3/KPI_LentTitre
+	KPI_LentTitre.set_title("Le Plus")
+	KPI_LentTitre.set_value("Lent")
+	KPI_LentTitre.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_LentTitre.set_minimum_size(Vector2(120,50))
+
+	var KPI_LentTemps = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique3/KPI_LentTemps
+	KPI_LentTemps.set_title("Temps")
+	var plus_lent = StatsService.classique_plus_lent_infos()
+	valeur = str_arrondir_temps_en_s(plus_lent.get('temps_en_s'))
+	KPI_LentTemps.set_value(valeur)
+	KPI_LentTemps.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_LentTemps.set_minimum_size(Vector2(120,50))
+
+	var KPI_LentDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique3/KPI_LentDifficulte
+	KPI_LentDifficulte.set_title("Difficulté")
+	valeur = plus_lent.get('difficulte')
+	KPI_LentDifficulte.set_value(valeur)
+	KPI_LentDifficulte.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_LentDifficulte.set_minimum_size(Vector2(120,50))
+	
+	# Ligne 4
+	var KPI_GalereTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique4/KPI_GalereTitre
+	KPI_GalereTitre.set_title("Le Plus")
+	KPI_GalereTitre.set_value("Galère")
+	KPI_GalereTitre.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_GalereTitre.set_minimum_size(Vector2(120,50))
+
+	var KPI_GalereEssais = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique4/KPI_GalereEssais
+	KPI_GalereEssais.set_title("Essais")
+	var plus_galere = StatsService.classique_plus_galere_infos()
+	valeur = plus_galere.get('essais')
+	KPI_GalereEssais.set_value(valeur)
+	KPI_GalereEssais.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_GalereEssais.set_minimum_size(Vector2(120,50))
+
+	var KPI_GalereDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique4/KPI_GalereDifficulte
+	KPI_GalereDifficulte.set_title("Difficulté")
+	valeur = plus_galere.get('difficulte')
+	KPI_GalereDifficulte.set_value(valeur)
+	KPI_GalereDifficulte.set_color(Color("WHITE"), Color('DARK_ORANGE'))
+	KPI_GalereDifficulte.set_minimum_size(Vector2(120,50))
+	
+	# TODO : representer le plateau en miniature
+
+func qui_perd_gagne():
+	# Identifier le joueur
+	# Consulter la BDD pour obtenir les indicateurs à afficher
+	var valeur
+	# TODO : plateaux : diagrammes et courbes
+
+	# Largeur du titre 'Plateau'
+	$"Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Titre QuiPerdGagne".set_minimum_size(Vector2(368,25))
+
+	# KPI
+	# Ligne 1
+	var KPI_Nombre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne1/KPI_Nombre
+	KPI_Nombre.set_title("Nombre")
+	valeur = StatsService.qui_perd_gagne_nombre_de_plateaux_joues()
+	KPI_Nombre.set_value(valeur)
+	KPI_Nombre.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_Nombre.set_minimum_size(Vector2(120,50))
+	
+	var KPI_Taux = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne1/KPI_Taux
+	KPI_Taux.set_title("Réussite")
+	valeur = StatsService.qui_perd_gagne_taux_de_reussite()
+	valeur = str_arrondir_pourcentage(valeur)
+	KPI_Taux.set_value(valeur)
+	KPI_Taux.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_Taux.set_minimum_size(Vector2(120,50))
+	
+	var KPI_Moyenne = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne1/KPI_Moyenne
+	KPI_Moyenne.set_title("Moyenne")
+	var temps_moyen = StatsService.qui_perd_gagne_temps_moyen_en_s()
+	valeur = str_arrondir_temps_en_s(temps_moyen)
+	KPI_Moyenne.set_value(valeur)
+	KPI_Moyenne.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_Moyenne.set_minimum_size(Vector2(120,50))
+	
+	# Ligne 2
+	var KPI_RapideTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne2/KPI_RapideTitre
+	KPI_RapideTitre.set_title("Le Plus")
+	KPI_RapideTitre.set_value("Rapide")
+	KPI_RapideTitre.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_RapideTitre.set_minimum_size(Vector2(120,50))
+
+	var KPI_RapideTemps = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne2/KPI_RapideTemps
+	KPI_RapideTemps.set_title("Temps")
+	var plus_rapide = StatsService.qui_perd_gagne_plus_rapide_infos()
+	valeur = str_arrondir_temps_en_s(plus_rapide.get('temps_en_s'))
+	KPI_RapideTemps.set_value(valeur)
+	KPI_RapideTemps.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_RapideTemps.set_minimum_size(Vector2(120,50))
+
+	var KPI_RapideDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne2/KPI_RapideDifficulte
+	KPI_RapideDifficulte.set_title("Difficulté")
+	valeur = plus_rapide.get('difficulte')
+	KPI_RapideDifficulte.set_value(valeur)
+	KPI_RapideDifficulte.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_RapideDifficulte.set_minimum_size(Vector2(120,50))
+	
+	# Ligne 3
+	var KPI_LentTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne3/KPI_LentTitre
+	KPI_LentTitre.set_title("Le Plus")
+	KPI_LentTitre.set_value("Lent")
+	KPI_LentTitre.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_LentTitre.set_minimum_size(Vector2(120,50))
+
+	var KPI_LentTemps = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne3/KPI_LentTemps
+	KPI_LentTemps.set_title("Temps")
+	var plus_lent = StatsService.qui_perd_gagne_plus_lent_infos()
+	valeur = str_arrondir_temps_en_s(plus_lent.get('temps_en_s'))
+	KPI_LentTemps.set_value(valeur)
+	KPI_LentTemps.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_LentTemps.set_minimum_size(Vector2(120,50))
+
+	var KPI_LentDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne3/KPI_LentDifficulte
+	KPI_LentDifficulte.set_title("Difficulté")
+	valeur = plus_lent.get('difficulte')
+	KPI_LentDifficulte.set_value(valeur)
+	KPI_LentDifficulte.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_LentDifficulte.set_minimum_size(Vector2(120,50))
+	
+	# Ligne 4
+	var KPI_GalereTitre = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne4/KPI_GalereTitre
+	KPI_GalereTitre.set_title("Le Plus")
+	KPI_GalereTitre.set_value("Galère")
+	KPI_GalereTitre.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_GalereTitre.set_minimum_size(Vector2(120,50))
+
+	var KPI_GalereEssais = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne4/KPI_GalereEssais
+	KPI_GalereEssais.set_title("Essais")
+	var plus_galere = StatsService.qui_perd_gagne_plus_galere_infos()
+	valeur = plus_galere.get('essais')
+	KPI_GalereEssais.set_value(valeur)
+	KPI_GalereEssais.set_color(Color("WHITE"), Color('DEEP_PINK'))
+	KPI_GalereEssais.set_minimum_size(Vector2(120,50))
+
+	var KPI_GalereDifficulte = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne4/KPI_GalereDifficulte
+	KPI_GalereDifficulte.set_title("Difficulté")
+	valeur = plus_galere.get('difficulte')
+	KPI_GalereDifficulte.set_value(valeur)
+	KPI_GalereDifficulte.set_color(Color("WHITE"), Color('DEEP_PINK'))
 	KPI_GalereDifficulte.set_minimum_size(Vector2(120,50))
 	
 	# TODO : representer le plateau en miniature

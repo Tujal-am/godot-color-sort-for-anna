@@ -37,6 +37,8 @@ offset_bottom = 40.0
 texture = ExtResource("2_se7pp")
 
 [node name="Marge" type="MarginContainer" parent="." unique_id=1049362949]
+custom_minimum_size = Vector2(480, 720)
+custom_maximum_size = Vector2(480, 720)
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -49,17 +51,19 @@ theme_override_constants/margin_bottom = 20
 layout_mode = 2
 alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Marge/HBoxContainer" unique_id=2137175012]
+[node name="VBox" type="VBoxContainer" parent="Marge/HBoxContainer" unique_id=2082638807]
 layout_mode = 2
-alignment = 1
 
-[node name="SEPARATEUR VIDE7" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=181207416]
+[node name="VBoxTitre" type="VBoxContainer" parent="Marge/HBoxContainer/VBox" unique_id=195476642]
+layout_mode = 2
+
+[node name="SEPARATEUR VIDE7" type="Label" parent="Marge/HBoxContainer/VBox/VBoxTitre" unique_id=181207416]
 visible = false
 custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
-[node name="Nom_Joueur" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1063890067]
+[node name="Nom_Joueur" type="Label" parent="Marge/HBoxContainer/VBox/VBoxTitre" unique_id=1063890067]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 1, 0.20392157, 1)
 theme_override_font_sizes/font_size = 34
@@ -67,226 +71,389 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_se7pp")
 text = "Toto"
 horizontal_alignment = 1
 
-[node name="SEPARATEUR VIDE5" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=623163726]
+[node name="SEPARATEUR VIDE5" type="Label" parent="Marge/HBoxContainer/VBox/VBoxTitre" unique_id=623163726]
 custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
-[node name="Titre Score" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1096352937 instance=ExtResource("2_xsdck")]
+[node name="Scroll" type="ScrollContainer" parent="Marge/HBoxContainer/VBox" unique_id=752121846]
+custom_minimum_size = Vector2(480, 600)
+custom_maximum_size = Vector2(480, 600)
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="Center" type="CenterContainer" parent="Marge/HBoxContainer/VBox/Scroll" unique_id=894089209]
+custom_maximum_size = Vector2(450, -1)
+layout_mode = 2
+
+[node name="VBoxStats" type="VBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center" unique_id=2137175012]
+layout_mode = 2
+alignment = 1
+
+[node name="Titre Score" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1096352937 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Détail du score"
 titre = "Score"
 couleur_fond = Color(1, 0.54901963, 0, 1)
-taille_minimum = Vector2(240, 25)
 
-[node name="KPI_Score" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=588114198]
+[node name="KPI_Score" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=588114198]
 layout_mode = 2
 
-[node name="KPI_Rapidite" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=1201166130 instance=ExtResource("2_xsdck")]
+[node name="KPI_Rapidite" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score" unique_id=1201166130 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Part du score liée à
 la rapidité de la solution"
 
-[node name="KPI_Taux" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=487951484 instance=ExtResource("2_xsdck")]
+[node name="KPI_Taux" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score" unique_id=487951484 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Part du score liée au
 taux de réussite"
 
-[node name="KPI_Niveau" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=1883332523 instance=ExtResource("2_xsdck")]
+[node name="KPI_Niveau" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score" unique_id=1883332523 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Part du score liée à
 l'achèvement d'un niveau"
 
-[node name="KPI_Niveau_Parfait" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=1886085365 instance=ExtResource("2_xsdck")]
+[node name="KPI_Niveau_Parfait" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score" unique_id=1886085365 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Part du score liée à
 l'achèvement d'un
 niveau sans échec"
 
-[node name="KPI_Fin_Campagne" parent="Marge/HBoxContainer/VBoxContainer/KPI_Score" unique_id=2025263451 instance=ExtResource("2_xsdck")]
+[node name="KPI_Fin_Campagne" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Score" unique_id=2025263451 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Part du score liée à
 l'achèvement de la campagne"
 
-[node name="SEPARATEUR VIDE0" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2065108963]
+[node name="SEPARATEUR VIDE0" type="Label" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=2065108963]
 custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
-[node name="Titre Campagne" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2052748395 instance=ExtResource("2_xsdck")]
+[node name="Titre Campagne" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=2052748395 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 titre = "Campagne"
 taille_minimum = Vector2(240, 25)
 
-[node name="KPI_Campagne" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=432943734]
+[node name="KPI_Campagne" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=432943734]
 layout_mode = 2
 
-[node name="KPI_Completion" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=29165500 instance=ExtResource("2_xsdck")]
+[node name="KPI_Completion" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Campagne" unique_id=29165500 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Pourcentage de réalisation
 de la campagne."
 
-[node name="KPI_Temps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=440793166 instance=ExtResource("2_xsdck")]
+[node name="KPI_Temps" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Campagne" unique_id=440793166 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Temps passé sur
 la campagne."
 
-[node name="KPI_TauxReussite" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=1901828116 instance=ExtResource("2_xsdck")]
+[node name="KPI_TauxReussite" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Campagne" unique_id=1901828116 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Pourcentage de réussite
 moyenne des plateaux
 de la campagne."
 
-[node name="KPI_SerieMaximumSucces" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=463177272 instance=ExtResource("2_xsdck")]
+[node name="KPI_SerieMaximumSucces" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Campagne" unique_id=463177272 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Série maximum de
 réussite de plateaux."
 
-[node name="Charts" type="VBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=756865397]
+[node name="Charts" type="VBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=756865397]
 visible = false
 layout_mode = 2
 
-[node name="WinLossBarChart" parent="Marge/HBoxContainer/VBoxContainer/Charts" unique_id=2076977796 instance=ExtResource("3_se7pp")]
+[node name="WinLossBarChart" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Charts" unique_id=2076977796 instance=ExtResource("3_se7pp")]
 layout_mode = 2
 
-[node name="PlaytimeLineChart" parent="Marge/HBoxContainer/VBoxContainer/Charts" unique_id=348957592 instance=ExtResource("4_7ukwp")]
+[node name="PlaytimeLineChart" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Charts" unique_id=348957592 instance=ExtResource("4_7ukwp")]
 layout_mode = 2
 
-[node name="SEPARATEUR VIDE1" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1795960122]
+[node name="SEPARATEUR VIDE1" type="Label" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1795960122]
 custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
-[node name="Titre Niveau" parent="Marge/HBoxContainer/VBoxContainer" unique_id=779359739 instance=ExtResource("2_xsdck")]
+[node name="Titre Niveau" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=779359739 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 titre = "Niveau"
 couleur_fond = Color(0, 0.6559956, 0.9749271, 1)
-taille_minimum = Vector2(240, 25)
 
-[node name="KPI_Niveau" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=33257685]
+[node name="KPI_Niveau" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=33257685]
 layout_mode = 2
 
-[node name="KPI_Completion" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau" unique_id=1137873945 instance=ExtResource("2_xsdck")]
+[node name="KPI_Completion" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau" unique_id=1137873945 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Pourcentage de réalisation
 de l'ascension courante."
 
-[node name="KPI_Terminees" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau" unique_id=936457462 instance=ExtResource("2_xsdck")]
+[node name="KPI_Terminees" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau" unique_id=936457462 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Nombre d'ascensions
 achevées."
 
-[node name="KPI_Longueur" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau" unique_id=1822369981 instance=ExtResource("2_xsdck")]
+[node name="KPI_Longueur" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau" unique_id=1822369981 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Longueur de l'ascension
 la plus longue."
 
-[node name="KPI_Niveau2" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2057883709]
+[node name="KPI_Niveau2" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=2057883709]
 layout_mode = 2
 
-[node name="KPI_MinMax_Titre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau2" unique_id=609447550 instance=ExtResource("2_xsdck")]
+[node name="KPI_MinMax_Titre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau2" unique_id=609447550 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 
-[node name="KPI_Taux_Min" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau2" unique_id=1911297063 instance=ExtResource("2_xsdck")]
+[node name="KPI_Taux_Min" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau2" unique_id=1911297063 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Taux de réussite
 le plus faible
 en ascension
 et sa longueur."
 
-[node name="KPI_Taux_Max" parent="Marge/HBoxContainer/VBoxContainer/KPI_Niveau2" unique_id=366345603 instance=ExtResource("2_xsdck")]
+[node name="KPI_Taux_Max" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Niveau2" unique_id=366345603 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Taux de réussite
 le plus élevé
 en ascension
 et sa longueur."
 
-[node name="SEPARATEUR VIDE2" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=567384229]
+[node name="SEPARATEUR VIDE2" type="Label" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=567384229]
 custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
-[node name="Titre Difficulte" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1741599339 instance=ExtResource("2_xsdck")]
+[node name="Titre Difficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1741599339 instance=ExtResource("2_xsdck")]
 visible = false
 layout_mode = 2
 titre = "Niveau"
 couleur_fond = Color(0.6918974, 0.40343967, 0.93590915, 1)
-taille_minimum = Vector2(240, 25)
 
-[node name="MonthlyPlaytimeGauge" type="TextureProgressBar" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2143170709]
+[node name="MonthlyPlaytimeGauge" type="TextureProgressBar" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=2143170709]
 visible = false
 layout_mode = 2
 script = ExtResource("3_xsdck")
 
-[node name="SEPARATEUR VIDE3" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=621214377]
+[node name="SEPARATEUR VIDE3" type="Label" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=621214377]
 visible = false
 custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
-[node name="Titre Plateau" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2053825642 instance=ExtResource("2_xsdck")]
+[node name="Titre Plateau" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=2053825642 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 titre = "Plateau"
 couleur_fond = Color(0.6918974, 0.40343967, 0.93590915, 1)
 taille_minimum = Vector2(240, 25)
 
-[node name="KPI_Plateau3" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2012876940]
+[node name="KPI_Plateau3" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=2012876940]
 layout_mode = 2
 
-[node name="KPI_MoyenTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau3" unique_id=773187118 instance=ExtResource("2_xsdck")]
+[node name="KPI_MoyenTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau3" unique_id=773187118 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 
-[node name="KPI_MoyenTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau3" unique_id=1783929674 instance=ExtResource("2_xsdck")]
+[node name="KPI_MoyenTemps" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau3" unique_id=1783929674 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Temps moyen de
 résolution d'un plateau."
 
-[node name="KPI_Plateau" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=275559493]
+[node name="KPI_Plateau" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=275559493]
 layout_mode = 2
 
-[node name="KPI_RapideTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1220866114 instance=ExtResource("2_xsdck")]
+[node name="KPI_RapideTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau" unique_id=1220866114 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 
-[node name="KPI_RapideTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1740054190 instance=ExtResource("2_xsdck")]
+[node name="KPI_RapideTemps" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau" unique_id=1740054190 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Temps de résolution
 de plateau le plus rapide."
 
-[node name="KPI_RapideDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1986273272 instance=ExtResource("2_xsdck")]
+[node name="KPI_RapideDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau" unique_id=1986273272 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Difficulté du plateau
 le plus rapide."
 
-[node name="KPI_Plateau2" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=241720690]
+[node name="KPI_Plateau2" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=241720690]
 layout_mode = 2
 
-[node name="KPI_LentTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1821332118 instance=ExtResource("2_xsdck")]
+[node name="KPI_LentTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau2" unique_id=1821332118 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 
-[node name="KPI_LentTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1911115208 instance=ExtResource("2_xsdck")]
+[node name="KPI_LentTemps" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau2" unique_id=1911115208 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Temps de résolution
 de plateau le plus lent."
 
-[node name="KPI_LentDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1770414664 instance=ExtResource("2_xsdck")]
+[node name="KPI_LentDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau2" unique_id=1770414664 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Difficulté du plateau
 le plus lent."
 
-[node name="KPI_Plateau4" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=933919058]
+[node name="KPI_Plateau4" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=933919058]
 layout_mode = 2
 
-[node name="KPI_GalereTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=1729205537 instance=ExtResource("2_xsdck")]
+[node name="KPI_GalereTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau4" unique_id=1729205537 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 
-[node name="KPI_GalereEssais" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=988900093 instance=ExtResource("2_xsdck")]
+[node name="KPI_GalereEssais" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau4" unique_id=988900093 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Nombre d'essais
 le plus élevé
 pour résoudre
 un plateau."
 
-[node name="KPI_GalereDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=102818887 instance=ExtResource("2_xsdck")]
+[node name="KPI_GalereDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Plateau4" unique_id=102818887 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Difficulté du plateau
+le plus galère."
+
+[node name="SEPARATEUR VIDE4" type="Label" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1762736603]
+custom_maximum_size = Vector2(-1, 15)
+layout_mode = 2
+text = " "
+
+[node name="Titre Classique" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1360848905 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+titre = "Classique"
+couleur_fond = Color(1, 0.54901963, 0, 1)
+
+[node name="KPI_Classique1" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1969190499]
+layout_mode = 2
+
+[node name="KPI_Nombre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique1" unique_id=2077751055 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+
+[node name="KPI_Taux" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique1" unique_id=1803969578 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Temps moyen de
+résolution d'un plateau."
+
+[node name="KPI_Moyenne" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique1" unique_id=213799035 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Temps moyen de
+résolution d'un plateau."
+
+[node name="KPI_Classique2" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=752168157]
+layout_mode = 2
+
+[node name="KPI_RapideTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique2" unique_id=1453283876 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+
+[node name="KPI_RapideTemps" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique2" unique_id=2045075189 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Temps de résolution
+de plateau le plus rapide."
+
+[node name="KPI_RapideDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique2" unique_id=2081578122 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Difficulté du plateau
+le plus rapide."
+
+[node name="KPI_Classique3" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=163511462]
+layout_mode = 2
+
+[node name="KPI_LentTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique3" unique_id=13897502 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+
+[node name="KPI_LentTemps" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique3" unique_id=1925084629 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Temps de résolution
+de plateau le plus lent."
+
+[node name="KPI_LentDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique3" unique_id=1711314174 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Difficulté du plateau
+le plus lent."
+
+[node name="KPI_Classique4" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1074724678]
+layout_mode = 2
+
+[node name="KPI_GalereTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique4" unique_id=1607896943 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+
+[node name="KPI_GalereEssais" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique4" unique_id=180827830 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Nombre d'essais
+le plus élevé
+pour résoudre
+un plateau."
+
+[node name="KPI_GalereDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_Classique4" unique_id=779604691 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Difficulté du plateau
+le plus galère."
+
+[node name="SEPARATEUR VIDE5" type="Label" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1181900838]
+custom_maximum_size = Vector2(-1, 15)
+layout_mode = 2
+text = " "
+
+[node name="Titre QuiPerdGagne" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1056631062 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+titre = "Qui Perd Gagne"
+
+[node name="KPI_QuiPerdGagne1" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=364020797]
+layout_mode = 2
+
+[node name="KPI_Nombre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne1" unique_id=289290467 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+
+[node name="KPI_Taux" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne1" unique_id=113806985 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Temps moyen de
+résolution d'un plateau."
+
+[node name="KPI_Moyenne" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne1" unique_id=748523313 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Temps moyen de
+résolution d'un plateau."
+
+[node name="KPI_QuiPerdGagne2" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1458833411]
+layout_mode = 2
+
+[node name="KPI_RapideTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne2" unique_id=2124107110 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+
+[node name="KPI_RapideTemps" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne2" unique_id=1072909678 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Temps de résolution
+de plateau le plus rapide."
+
+[node name="KPI_RapideDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne2" unique_id=1087875347 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Difficulté du plateau
+le plus rapide."
+
+[node name="KPI_QuiPerdGagne3" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=729122053]
+layout_mode = 2
+
+[node name="KPI_LentTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne3" unique_id=263306596 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+
+[node name="KPI_LentTemps" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne3" unique_id=2058997245 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Temps de résolution
+de plateau le plus lent."
+
+[node name="KPI_LentDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne3" unique_id=1796678982 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Difficulté du plateau
+le plus lent."
+
+[node name="KPI_QuiPerdGagne4" type="HBoxContainer" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats" unique_id=1210329703]
+layout_mode = 2
+
+[node name="KPI_GalereTitre" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne4" unique_id=1841697602 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+
+[node name="KPI_GalereEssais" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne4" unique_id=620976687 instance=ExtResource("2_xsdck")]
+layout_mode = 2
+tooltip_text = "Nombre d'essais
+le plus élevé
+pour résoudre
+un plateau."
+
+[node name="KPI_GalereDifficulte" parent="Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/KPI_QuiPerdGagne4" unique_id=1677680851 instance=ExtResource("2_xsdck")]
 layout_mode = 2
 tooltip_text = "Difficulté du plateau
 le plus galère."

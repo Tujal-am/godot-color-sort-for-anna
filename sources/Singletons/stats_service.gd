@@ -75,6 +75,46 @@ func plateau_plus_lent_infos() -> Dictionary:
 func plateau_plus_galere_infos() -> Dictionary:
 	return plateau_le_plus_galere_les_infos()
 
+# #######
+# Gameplay Classique
+func classique_nombre_de_plateaux_joues() -> int:
+	return gameplay_nombre_de_plateau_joues("CLASSIQUE")
+
+func classique_taux_de_reussite() -> float:
+	return gameplay_taux_de_reussite_des_plateaux("CLASSIQUE")
+
+func classique_temps_moyen_en_s() -> float:
+	return gameplay_le_temps_moyen_en_s("CLASSIQUE")
+
+func classique_plus_rapide_infos() -> Dictionary:
+	return gameplay_le_plus_rapide_les_infos("CLASSIQUE")
+
+func classique_plus_lent_infos() -> Dictionary:
+	return gameplay_le_plus_lent_les_infos("CLASSIQUE")
+
+func classique_plus_galere_infos() -> Dictionary:
+	return gameplay_le_plus_galere_les_infos("CLASSIQUE")
+
+# #######
+# Gameplay Qui Perd Gagne
+func qui_perd_gagne_nombre_de_plateaux_joues() -> int:
+	return gameplay_nombre_de_plateau_joues("QUI_PERD_GAGNE")
+
+func qui_perd_gagne_taux_de_reussite() -> float:
+	return gameplay_taux_de_reussite_des_plateaux("QUI_PERD_GAGNE")
+
+func qui_perd_gagne_temps_moyen_en_s() -> float:
+	return gameplay_le_temps_moyen_en_s("QUI_PERD_GAGNE")
+
+func qui_perd_gagne_plus_rapide_infos() -> Dictionary:
+	return gameplay_le_plus_rapide_les_infos("QUI_PERD_GAGNE")
+
+func qui_perd_gagne_plus_lent_infos() -> Dictionary:
+	return gameplay_le_plus_lent_les_infos("QUI_PERD_GAGNE")
+
+func qui_perd_gagne_plus_galere_infos() -> Dictionary:
+	return gameplay_le_plus_galere_les_infos("QUI_PERD_GAGNE")
+
 # ####################
 # Calculs Statistiques
 func detail_score_cumule() -> Dictionary:
@@ -101,7 +141,7 @@ func detail_score_cumule() -> Dictionary:
 						score_rapidite += plateau_joue.get("score").get('duree', 0)
 						score_reussite += plateau_joue.get("score").get('ratio_reussite', 0)
 
-	if SauvegardeBddJoueursService.la_campagne_est_terminee():
+	if ProgressionCampagneService.la_campagne_est_terminee():
 		score_fin_campagne = 2_000_000
 
 	return {
@@ -511,3 +551,165 @@ func serie_de_victoire_maximum() -> int:
 			serie_de_victoire_max = serie_de_victoire_courante
 	LogService.log_debug("joueur:",joueur, ' serie_de_victoire_maximum=', serie_de_victoire_max)
 	return serie_de_victoire_max
+
+func gameplay_le_temps_moyen_en_s(gameplay : String) -> float:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var date_debut_campagne = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
+	# Plateau termine le plus vite et sa difficulté
+	var temps_total_en_s: float = 0.
+	var nb_plateaux: int = 0
+	var temps_moyen_en_s: float = 0.
+	# Parcourir la liste des enregistrements de la campagne
+	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
+		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
+			# Comptabiliser les plateaux reussis
+			if niveau.get("plateaux", null) \
+				and niveau.get("date_debut") > date_debut_campagne:
+				for plateau_joue in niveau.get("plateaux"):
+					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+						continue
+					var duree_en_s = plateau_joue.get("duree", 0)
+					if duree_en_s:
+						temps_total_en_s += duree_en_s
+						nb_plateaux += 1
+	if nb_plateaux:
+		temps_moyen_en_s = temps_total_en_s / nb_plateaux
+	LogService.log_debug("joueur:",joueur,
+						"gameplay:", gameplay,
+						' temps_moyen=', temps_moyen_en_s)
+	return temps_moyen_en_s
+
+func gameplay_nombre_de_plateau_joues(gameplay : String) -> int:
+	var infos_plateaux = gameplay_nombre_de_plateau_reussis_abandonnes(gameplay)
+	var reussis = infos_plateaux.get('reussis')
+	var abandonne = infos_plateaux.get('abandonnes')
+	return reussis + abandonne
+
+func gameplay_taux_de_reussite_des_plateaux(gameplay : String) -> float:
+	var infos_plateaux = gameplay_nombre_de_plateau_reussis_abandonnes(gameplay)
+	var reussis = infos_plateaux.get('reussis')
+	var abandonne = infos_plateaux.get('abandonnes')
+	if (reussis + abandonne) == 0:
+		return 0.
+	return 1. * reussis / (reussis + abandonne)
+
+func gameplay_nombre_de_plateau_reussis_abandonnes(gameplay : String) -> Dictionary:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var date_debut_campagne = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
+	# Nombre de plateau reussis
+	var nb_plateaux_reussis: int = 0
+	# Nombre de plateau reussis
+	var nb_plateaux_abandonnes: int = 0
+	# Parcourir la liste des enregistrements de la campagne
+	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
+		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
+			# Comptabiliser les plateaux reussis
+			if niveau.get("plateaux", null):
+				for plateau_joue in niveau.get("plateaux"):
+					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+						continue
+					if plateau_joue.get("date_debut") > date_debut_campagne:
+						if plateau_joue.get("statut") == "reussi":
+							nb_plateaux_reussis += 1
+						if plateau_joue.get("statut") == "abandonné":
+							nb_plateaux_abandonnes += 1
+	LogService.log_debug("joueur:",joueur,
+						' nb_plateaux_reussis=', nb_plateaux_reussis,
+						' nb_plateaux_abandonnes=', nb_plateaux_abandonnes)
+	return {'reussis': nb_plateaux_reussis, 'abandonnes': nb_plateaux_abandonnes}
+
+func gameplay_le_plus_rapide_les_infos(gameplay : String) -> Dictionary:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var date_debut_campagne = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
+	# Plateau termine le plus vite et sa difficulté
+	var plus_rapide_temps: float = 0.
+	var plus_rapide_difficulte: int = 0
+	# Parcourir la liste des enregistrements de la campagne
+	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
+		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
+			# Comptabiliser les plateaux reussis
+			if niveau.get("plateaux", null) \
+				and niveau.get("date_debut") > date_debut_campagne:
+				for plateau_joue in niveau.get("plateaux"):
+					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+						continue
+					var duree_en_s = plateau_joue.get("duree", 0)
+					if duree_en_s:
+						var difficulte = roundi(plateau_joue.get("difficulte", 0))
+						if duree_en_s <= plus_rapide_temps or plus_rapide_temps == 0.:
+							if duree_en_s == plus_rapide_temps and difficulte > plus_rapide_difficulte:
+								plus_rapide_difficulte = difficulte
+							else:
+								plus_rapide_temps = duree_en_s
+								plus_rapide_difficulte = difficulte
+	LogService.log_debug("joueur:",joueur,
+						"gameplay:", gameplay,
+						' plus_rapide_temps=', plus_rapide_temps,
+						' plus_rapide_difficulte=', plus_rapide_difficulte)
+	return {'temps_en_s': plus_rapide_temps, 'difficulte': plus_rapide_difficulte}
+
+func gameplay_le_plus_lent_les_infos(gameplay : String) -> Dictionary:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var date_debut_campagne = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
+	# Plateau le plus lent à résoudre et sa difficulté
+	var plus_lent_temps: float = 0.
+	var plus_lent_difficulte: int = 0
+	# Parcourir la liste des enregistrements de la campagne
+	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
+		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
+			# Comptabiliser les plateaux reussis
+			if niveau.get("plateaux", null) \
+				and niveau.get("date_debut") > date_debut_campagne:
+				for plateau_joue in niveau.get("plateaux"):
+					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+						continue
+					var duree_en_s = plateau_joue.get("duree", 0)
+					if duree_en_s:
+						var difficulte = roundi(plateau_joue.get("difficulte", 0))
+						if duree_en_s >= plus_lent_temps or plus_lent_temps == 0.:
+							if duree_en_s == plus_lent_temps and difficulte > plus_lent_difficulte:
+								plus_lent_difficulte = difficulte
+							else:
+								plus_lent_temps = duree_en_s
+								plus_lent_difficulte = difficulte
+	LogService.log_debug("joueur:",joueur,
+						"gameplay:", gameplay,
+						' plus_lent_temps=', plus_lent_temps,
+						' plus_lent_difficulte=', plus_lent_difficulte)
+	return {'temps_en_s': plus_lent_temps, 'difficulte': plus_lent_difficulte}
+
+func gameplay_le_plus_galere_les_infos(gameplay : String) -> Dictionary:
+	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
+	var date_debut_campagne = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
+	# Plateau le plus galère à résoudre et sa difficulté
+	var plateaux_essais: Dictionary = {}
+	# Parcourir la liste des enregistrements de la campagne et collecter les essais sur chaque plateau
+	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
+		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
+			# Comptabiliser les essais de plateaux
+			if niveau.get("plateaux", null) \
+				and niveau.get("date_debut") > date_debut_campagne:
+				for plateau_joue in niveau.get("plateaux"):
+					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+						continue
+					var nom_plateau = plateau_joue.get("nom", 'inconnu')
+					if nom_plateau in plateaux_essais:
+						plateaux_essais[nom_plateau]['essais'] += 1
+					else:
+						var plateaux_difficulte : int = roundi(plateau_joue.get("difficulte", 0))
+						plateaux_essais[nom_plateau] = {'essais': 1, 'difficulte': plateaux_difficulte}
+	var plus_galere_nom: String = ''
+	var plus_galere_essais: int = 0
+	var plus_galere_difficulte: int = 0
+	for nom_plateau in plateaux_essais.keys():
+		if plateaux_essais.get(nom_plateau).get('essais') > plus_galere_essais:
+			plus_galere_nom = nom_plateau
+			plus_galere_essais = plateaux_essais.get(nom_plateau).get('essais')
+			plus_galere_difficulte = roundi(plateaux_essais.get(nom_plateau).get('difficulte'))
+	# Chercher le plateau avec le plus d'essais
+	LogService.log_debug("joueur:",joueur,
+						"gameplay:", gameplay,
+						' plus_galere_nom=', plus_galere_nom,
+						' plus_galere_essais=', plus_galere_essais,
+						' plus_galere_difficulte=', plus_galere_difficulte)
+	return {'nom': plus_galere_nom, 'essais': plus_galere_essais, 'difficulte': plus_galere_difficulte}
