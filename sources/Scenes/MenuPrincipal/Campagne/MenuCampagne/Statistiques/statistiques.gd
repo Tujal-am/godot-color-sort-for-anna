@@ -25,11 +25,10 @@ func _ready():
 	#$Marge/HBoxContainer/VBoxContainer/MonthlyPlaytimeGauge.set_progress(120, 300)
 
 
-func _input(event):
-	if event is InputEventMouseButton and event.pressed:
+func _on_retour_pressed() -> void:
 		AudioService.son_menu_click()
 		VibrationService.vibration_click()
-		if SauvegardeBddJoueursService.la_campagne_est_terminee():
+	if ProgressionCampagneService.la_campagne_est_terminee():
 			# Retour au menu principal
 			get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/menu_principal.tscn")
 		else:

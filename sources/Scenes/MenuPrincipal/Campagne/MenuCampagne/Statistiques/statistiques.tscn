@@ -6,9 +6,20 @@
 [ext_resource type="PackedScene" uid="uid://c8uyx36tscdpp" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/diagramme_en_barres.tscn" id="3_se7pp"]
 [ext_resource type="Script" uid="uid://dv22g4vxsw80c" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/jauge.gd" id="3_xsdck"]
 [ext_resource type="PackedScene" uid="uid://bi52323mrj54t" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/courbe.tscn" id="4_7ukwp"]
+[ext_resource type="Texture2D" uid="uid://bgu2eftbss6qv" path="res://Art/UI/icons/icon_back.png" id="7_m2146"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_se7pp"]
 bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hknhj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ddn4k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pa4px"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_babj6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4sqo1"]
 
 [node name="Statistiques" type="Control" unique_id=1259945932]
 layout_mode = 3
@@ -43,6 +54,8 @@ layout_mode = 2
 alignment = 1
 
 [node name="SEPARATEUR VIDE7" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=181207416]
+visible = false
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -55,6 +68,7 @@ text = "Toto"
 horizontal_alignment = 1
 
 [node name="SEPARATEUR VIDE5" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=623163726]
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -95,6 +109,7 @@ tooltip_text = "Part du score liée à
 l'achèvement de la campagne"
 
 [node name="SEPARATEUR VIDE0" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2065108963]
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -138,6 +153,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="SEPARATEUR VIDE1" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1795960122]
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -186,6 +202,7 @@ en ascension
 et sa longueur."
 
 [node name="SEPARATEUR VIDE2" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=567384229]
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -203,6 +220,7 @@ script = ExtResource("3_xsdck")
 
 [node name="SEPARATEUR VIDE3" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=621214377]
 visible = false
+custom_maximum_size = Vector2(-1, 15)
 layout_mode = 2
 text = " "
 
@@ -272,3 +290,22 @@ un plateau."
 layout_mode = 2
 tooltip_text = "Difficulté du plateau
 le plus galère."
+
+[node name="Retour" type="Button" parent="." unique_id=1309276568]
+custom_minimum_size = Vector2(49, 49)
+layout_mode = 0
+offset_left = 20.0
+offset_top = 19.0
+offset_right = 69.0
+offset_bottom = 68.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_hknhj")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_ddn4k")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pa4px")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_babj6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_4sqo1")
+icon = ExtResource("7_m2146")
+flat = true
+
+[connection signal="pressed" from="Retour" to="." method="_on_retour_pressed"]

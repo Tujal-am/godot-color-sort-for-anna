@@ -212,6 +212,7 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
   - Poids Plume
   - Pile Ou Face
   - Mot Caché
+  - FOU ou PERTE DE CONTRÔLE ou IMPATIENCE
 
 #### Descriptions
 
@@ -259,6 +260,15 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
   - Adapté pour les plateaux avec peu de jetons (hauteur et largeur)
 - Mot Caché:
   - la résolution du plateau forme un mot (ANNA, LOVE, SEXE ...).
+- __Plateau RARE__ FOU ou PERTE DE CONTRÔLE ou IMPATIENCE:
+  - le joueur joue 1 coup sur 2
+  - le 2ème coup est joué au "hasard" par la machine
+  - hasard : le top serait que la machine cherche à perdre (mode PLATEAU RARE)
+  - les plateaux doivent avoir beaucoup de chemins
+  - les plateaux doivent avoir un fort taux de victoire.
+  - VARIANTE : après un délai de 5s, le joueur perd son coup.
+  - VARIANTE : pas 1 coup sur 2, mais mouvement aléatoire quand le joueur met plus de 5s à jouer.
+  - VARIANTE : accélération du rythme en approchant de la fin
 
 #### Interface Graphique
 
