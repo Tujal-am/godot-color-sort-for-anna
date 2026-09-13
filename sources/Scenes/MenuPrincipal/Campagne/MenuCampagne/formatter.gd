@@ -76,7 +76,7 @@ func formater_detail_score(detail_score : Dictionary) -> Dictionary:
 
 	# niveau_parfait
 	if detail_score.get('niveau_parfait'):
-		var bbcode_niveau_sans_detour = """[b]Niveau sans détour[/b]
+		var bbcode_niveau_sans_detour = """[b]Niveau parfait[/b]
 [ul] Bonus: #asc_detour_bonus#[/ul]
 [ul] #asc_detour_pts# points[/ul]"""
 		bbcode_niveau_sans_detour = bbcode_niveau_sans_detour.replace('#asc_detour_bonus#', str(detail_score.get('niveau_parfait').get('bonus')))

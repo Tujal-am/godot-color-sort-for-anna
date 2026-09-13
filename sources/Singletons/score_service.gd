@@ -74,9 +74,9 @@ func mettre_a_jour_score_ratio_reussite() -> Dictionary:
 	var bonus_ratio_reussite = 0
 	var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 	var niveau = SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()
-	var int_ratio_reussite = SauvegardeBddJoueursService.enregistrment_lire_ratio_reussite_niveau()
-	var ratio_reussite = SauvegardeBddJoueursService.enregistrment_lire_ratio_reussite_niveau() / 100.
-	bonus_ratio_reussite = roundi(100 * niveau * ratio_reussite)
+	var int_ratio_reussite = SauvegardeBddJoueursService.enregistrement_lire_ratio_reussite_niveau()
+	var ratio_reussite = SauvegardeBddJoueursService.enregistrement_lire_ratio_reussite_niveau() / 100.
+	bonus_ratio_reussite = roundi(500 * niveau * ratio_reussite)
 	SauvegardeBddJoueursService.enregistrement_modifier_score_ratio_reussite_plateau(bonus_ratio_reussite)
 	SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_ratio_reussite)
 	return {'type':'ratio_reussite', 'ratio': int_ratio_reussite, 'points': bonus_ratio_reussite}
@@ -90,8 +90,8 @@ func mettre_a_jour_score_niveau() -> Dictionary:
 	if not SauvegardeBddJoueursService.enregistrement_niveau_en_cours():
 		var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 		niveau_longueur_totale = SauvegardeBddJoueursService.lire_longueur_niveau_courant()
-		# bonus = 100 x Dénivelé ^2 (bonus non linéaire)
-		bonus_niveau = roundi(50 * pow(niveau_longueur_totale, 2))
+		# bonus = 500 x longueur du niveau
+		bonus_niveau = roundi(500 * niveau_longueur_totale)
 		SauvegardeBddJoueursService.enregistrement_modifier_score_niveau(bonus_niveau)
 		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_niveau)
 		return {'type':'niveau', 'longueur': niveau_longueur_totale, 'points': bonus_niveau}
@@ -100,10 +100,8 @@ func mettre_a_jour_score_niveau() -> Dictionary:
 func mettre_a_jour_score_niveau_parfait() -> Dictionary:
 	"Calculer le score suite à un niveau parfaitement achevé (sans détour)"
 	var bonus_niveau_sans_detour = 0
-	var lg_niveau = SauvegardeBddJoueursService.lire_longueur_niveau_courant()
-	var succes = SauvegardeBddJoueursService.enregistrement_lire_niveau_longueur_realisee()
 	if not SauvegardeBddJoueursService.enregistrement_niveau_en_cours() \
-		and lg_niveau == succes:
+		and SauvegardeBddJoueursService.enregistrement_lire_ratio_reussite_niveau() == 100:
 		var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 		bonus_niveau_sans_detour = SauvegardeBddJoueursService.enregistrement_lire_score_niveau()
 		SauvegardeBddJoueursService.enregistrement_modifier_score_niveau_sans_detour(bonus_niveau_sans_detour)

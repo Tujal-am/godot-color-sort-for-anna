@@ -146,7 +146,9 @@ func _deselectionner_toutes_les_piles() -> void:
 	# LogService.log_debug("Annulation du coup en cours")
 
 func _on_menu_plateau_deselection_pile() -> void:
-	_on_selection_pile_timeout()
+	# si un plateau est en cours
+	if SauvegardeBddJoueursService.enregistrement_plateau_en_cours():
+		_on_selection_pile_timeout()
 
 func _on_selection_pile_timeout() -> void:
 	if liste_piles:

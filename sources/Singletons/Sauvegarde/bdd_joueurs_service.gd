@@ -489,7 +489,7 @@ func lire_pourcentage_niveau_realise() -> int:
 # Niveaux / Longueur detour
 ###############################################
 
-func enregistrment_lire_ratio_reussite_niveau() -> int:
+func enregistrement_lire_ratio_reussite_niveau() -> int:
 	"Pourcentage de réussite du niveau (retourne 99 pour 99%, 15 pour 15% ...)"
 	if enregistrement_niveau_existe():
 		var nb_essais  = enregistrement_lire_nombre_plateaux_acheves()
@@ -498,7 +498,7 @@ func enregistrment_lire_ratio_reussite_niveau() -> int:
 	return 0
 
 ###############################################
-# Niveaux / Score / Niveau et Niveau sans détour
+# Niveaux / Score / Niveau et Niveau parfait
 # 'score': { 'niveau': 500000, 'niveau_parfait': 500000},
 ###############################################
 
@@ -688,7 +688,7 @@ func enregistrement_lire_statut_plateau() -> String:
 	return 'en cours'
 
 ###############################################
-# Niveaux / Score / Niveau et Niveau sans détour
+# Niveaux / Score / Niveau et Niveau parfait
 # 'score': { 'duree': 4000, 'ratio_reussite': 2000 }
 ###############################################
 
