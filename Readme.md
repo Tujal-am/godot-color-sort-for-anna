@@ -42,6 +42,10 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - ~~Séparer la campagne des plateaux et interfacer le gameplay entre eux.~~
 - ~~Structurer le fichier 'Solutions_classees.json' pour incorporer le déroulé de la campagne (sequence plateaux et gameplay)~~
   - ~~Le contenu devra être identique à la section "Campagne" du fichier vierge de sauvegarde d'un joueur.~~
+  - L'enregistrement de campagne désignera la campagne en cours
+  - Dans la campagne en cours, ajouter une balise "score" qui contiendra le bonus de fin de niveau.
+  - Dans la campagne, enregistrer tous ses niveaux.
+  - Une campagne de test pourra être effacée sans détruire une campagne réglementaire passée.
 - ~~Structurer la sauvegarde 'sauvegarde_joueur_XX.json' pour incorporer la campagne~~
   - ~~"ascensions" devient "enregistrement_campagne" pour les statistiques~~
   - ~~Un plateau terminé en campagne devient accessible pour le jeu libre~~
