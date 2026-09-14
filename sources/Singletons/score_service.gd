@@ -61,13 +61,15 @@ func mettre_a_jour_score_duree() -> Dictionary:
 
 	var bonus_duree = 0
 	var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
-	var duree_en_s = SauvegardeBddJoueursService.enregistrement_lire_duree_plateau()
+	var duree_recommence_en_s = SauvegardeBddJoueursService.enregistrement_lire_duree_plateau_recommence()
+	var duree_realise_en_s = SauvegardeBddJoueursService.enregistrement_lire_duree_plateau()
+	var duree_totale_en_s = duree_recommence_en_s + duree_realise_en_s
 	# Score sur le ratio du temps référence/joué
-	var ratio_temps = temps_reference_en_s / duree_en_s
+	var ratio_temps = temps_reference_en_s / duree_totale_en_s
 	bonus_duree = roundi(100 * difficulte * ratio_temps)
 	SauvegardeBddJoueursService.enregistrement_modifier_score_duree_plateau(bonus_duree)
 	SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_duree)
-	return {'type':'duree', 'reference': temps_reference_en_s, 'realise': duree_en_s, 'points': bonus_duree}
+	return {'type':'duree', 'reference': temps_reference_en_s, 'recommence': duree_recommence_en_s, 'realise': duree_realise_en_s, 'points': bonus_duree}
 
 func mettre_a_jour_score_ratio_reussite() -> Dictionary:
 	"Calculer le score relatif au temps"
@@ -114,7 +116,7 @@ func mettre_a_jour_score_campagne() -> Dictionary:
 	var bonus_campagne = 0
 	if SauvegardeBddJoueursService.campagne_la_campagne_est_terminee():
 		var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
-		bonus_campagne = 2_000_000
+		bonus_campagne = 500_000
 		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_campagne)
 		return {'type':'campagne', 'points': bonus_campagne}
 	return {}

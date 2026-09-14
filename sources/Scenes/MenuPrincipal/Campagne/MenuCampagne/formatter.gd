@@ -45,6 +45,12 @@ func formater_detail_score(detail_score : Dictionary) -> Dictionary:
 [ul] Référence: #duree_ref#s[/ul]
 [ul] Réalisé: #duree_real#s[/ul]
 [ul] #duree_pts# points[/ul]"""
+	var recommence = detail_score.get('duree').get('recommence') > 0.
+	if recommence:
+		# Inserer la ligne pour les recos
+		bbcode_duree = bbcode_duree.replace('#duree_ref#', """#duree_ref#s[/ul]
+[ul] Recommencé: #duree_reco#""")
+		bbcode_duree = bbcode_duree.replace('#duree_reco#', str( snapped(detail_score.get('duree').get('recommence'), 0.1) ))
 	bbcode_duree = bbcode_duree.replace('#duree_ref#', str(detail_score.get('duree').get('reference')))
 	bbcode_duree = bbcode_duree.replace('#duree_real#', str( snapped(detail_score.get('duree').get('realise'), 0.1) ))
 	var points_txt = SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score.get('duree').get('points'), '.')

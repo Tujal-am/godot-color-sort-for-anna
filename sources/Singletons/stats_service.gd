@@ -142,7 +142,7 @@ func detail_score_cumule() -> Dictionary:
 						score_reussite += plateau_joue.get("score").get('ratio_reussite', 0)
 
 	if ProgressionCampagneService.la_campagne_est_terminee():
-		score_fin_campagne = 2_000_000
+		score_fin_campagne = 500_000
 
 	return {
 		'joueur': joueur,

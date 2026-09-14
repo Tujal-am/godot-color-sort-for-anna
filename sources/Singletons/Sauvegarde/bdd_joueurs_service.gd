@@ -636,6 +636,19 @@ func enregistrement_lire_duree_plateau() -> float:
 			plateau['duree'] = now - plateau.get('date_debut')
 		return plateau.get('duree')
 	return 0.
+	
+func enregistrement_lire_duree_plateau_recommence() -> float:
+	var duree_recommence_en_s : float = 0.
+	var plateau_ref = enregistrement_lire_dernier_plateau()
+	if plateau_ref:
+		# Cumuler le temps passé en abandon sur ce plateau
+		var nom_plateau_ref = plateau_ref.get('nom')
+		var dernier_niveau = enregistrement_lire_dernier_niveau()
+		if dernier_niveau:
+			for plateau in dernier_niveau.get('plateaux', []):
+				if plateau.get('nom') == nom_plateau_ref and plateau.get('statut') == 'abandonné':
+					duree_recommence_en_s += plateau.get('duree', 0.)
+	return duree_recommence_en_s
 
 func enregistrement_lire_le_temps_du_joueur() -> String: # TODO : INUTILISE !
 	"""Formater la durée en une chaîne de caractères lisible."""
