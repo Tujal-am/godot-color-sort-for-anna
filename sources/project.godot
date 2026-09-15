@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Support - V0.4.x - Range les couleurs pour Anna mon amour"
+config/name="Next Release - V1.0.x - Range les couleurs pour Anna mon amour"
 config/description="Jeu de tri de jeton de couleurs pour Anna mon amour."
 run/main_scene="res://Scenes/MenuPrincipal/menu_principal.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")

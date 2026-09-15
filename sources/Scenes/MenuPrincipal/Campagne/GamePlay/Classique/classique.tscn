@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dpvlgfl5dhgt2"]
+
+[ext_resource type="Script" uid="uid://b2i1rc4hk5ctg" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/classique.gd" id="1_ho47t"]
+[ext_resource type="PackedScene" uid="uid://cfqcdseqsuy1l" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/plateau.tscn" id="2_sr5dy"]
+[ext_resource type="PackedScene" uid="uid://bc7veft26tc06" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/menu_plateau.tscn" id="3_sr5dy"]
+
+[node name="Classique" type="Node" unique_id=1128983127]
+script = ExtResource("1_ho47t")
+
+[node name="MenuPlateau" parent="." unique_id=64406982 instance=ExtResource("3_sr5dy")]
+
+[node name="Plateau" parent="." unique_id=561806520 instance=ExtResource("2_sr5dy")]
+
+[connection signal="abandon" from="MenuPlateau" to="." method="_on_menu_plateau_abandon"]
+[connection signal="deselection_pile" from="MenuPlateau" to="Plateau" method="_on_menu_plateau_deselection_pile"]
+[connection signal="plateau_invalide" from="Plateau" to="." method="_on_plateau_plateau_invalide"]

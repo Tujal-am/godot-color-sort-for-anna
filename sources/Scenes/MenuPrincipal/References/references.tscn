@@ -1,42 +1,12 @@
-[gd_scene format=3 uid="uid://crh6v0vpu06u8"]
+[gd_scene load_steps=2 format=3 uid="uid://crh6v0vpu06u8"]
 
-[ext_resource type="Texture2D" uid="uid://d2lqm2jxrl4c5" path="res://Art/Images/credits_480x720.png" id="1_oti5q"]
-[ext_resource type="Script" uid="uid://cmgsljgwmgwhn" path="res://Scenes/MenuPrincipal/References/retour_menu_principal.gd" id="1_y14jx"]
+[ext_resource type="Script" uid="uid://cmgsljgwmgwhn" path="res://Scenes/MenuPrincipal/References/retour_menu_principal.gd" id="1_about"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cte4r"]
-texture = ExtResource("1_oti5q")
-texture_margin_left = 10.0
-texture_margin_top = 30.0
-texture_margin_right = 10.0
-texture_margin_bottom = 10.0
-
-[node name="References" type="Node" unique_id=2048707979]
-script = ExtResource("1_y14jx")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=319158413]
+[node name="References" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/normal = SubResource("StyleBoxTexture_cte4r")
-bbcode_enabled = true
-text = "[left][outline_size=5][color=#ef00ef][font_size=23][b]Moteur : [url]godotengine.org[/url][/b]
-
-[b]Musique : [url]patrickdearteaga.com[/url][/b]
-[font_size=18][ul] Dreaming[/ul]
-[ul] Su Turno[/ul]
-[ul] The Three Princesses of Lilac Meadow[/ul]
-[ul] Solve The Puzzle[/ul]
-[ul] Humble Match[/ul]
-[ul] Great Little Challenge[/ul][/font_size]
-
-[b]Effet sonore : [url]pixabay.com[/url][/b]
-[font_size=18][ul] freesound_community : game-start, fail-jingle[/ul]
-[ul] floraphonic : marimba-win[/ul]
-[ul] virtual_vibes : minimal-ui-pop, simple-pop-noise[/ul]
-[ul] SoundReality : battle-pop[/ul]
-[ul] Dragon-Studio : Spacebar Tap[/ul][/font_size]
-
-[b]didacticiel : www.youtube.com[/b]
-[font_size=18][ul] Baba Des bois - [url]@BabaDesBois[/url][/ul][/font_size][/font_size][/color][/outline_size][/left]"
+script = ExtResource("1_about")

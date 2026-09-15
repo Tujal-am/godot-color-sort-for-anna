@@ -8,8 +8,8 @@ extends Node
 
 # Dico : {'caracteristique': reglage}
 var configuration_du_jeu = {
-	'version': 'V0.4.9',
-	'date_debut_campagne': "2026-05-08 18:24:14",
+	'version': 'V1.0.0-rc1',
+	'date_debut_campagne': "2026-09-01 00:00:00",
 	'musiques': true,
 	'effets sonores': true,
 	'vibrations': true
@@ -23,13 +23,13 @@ func _ready() -> void:
 func _initialiser_la_configuration() -> void:
 	# CONVERSION [V0.3.1 -> V0.3.2]
 	# Effacer le fichier de sauvegarde obsolete qui devient incompatible.
-	FichiersJsonService.remove_json_file("user://sauvegarde.json")
+	FichiersJsonService.remove_json_file("sauvegarde.json")
 	
 	# Lire la configuration du jeu
-	var fichier_configuration = FichiersJsonService.read_json_file("user://configuration_du_jeu.json")
+	var fichier_configuration = FichiersJsonService.read_json_file("configuration_du_jeu.json")
 	if not fichier_configuration:
 		_enregistrer_la_configuration()
-		fichier_configuration = FichiersJsonService.read_json_file("user://configuration_du_jeu.json")
+		fichier_configuration = FichiersJsonService.read_json_file("configuration_du_jeu.json")
 	# LogService.log_debug(fichier_configuration)
 	
 	var version_courante_disque = fichier_configuration.get('version')
@@ -43,14 +43,14 @@ func _initialiser_la_configuration() -> void:
 		if 'vibrations' in fichier_configuration:
 			configuration_du_jeu['vibrations'] = fichier_configuration.get('vibrations')
 		if version_courante_disque != lire_la_version():
-			# Les versions explicitement couvertes remplacent la campagne et
-			# remettent les scores à zéro avant d'enregistrer la version courante.
-			if version_courante_disque in ['V0.3.3', 'V0.3.4', 'V0.3.5', 'V0.3.6',
-											'V0.4.0.beta1', 'V0.4.0.beta2', 'V0.4.0.beta3',
-											'V0.4.0.beta4', 'V0.4.0.beta5', 'V0.4.0.beta6',
-											'V0.4.0.beta7']:
-				SauvegardeBddJoueursService.remplacer_campagne_des_joueur()
+			# Reset campagne Totale
+			if 'V0.' in version_courante_disque:
+				SauvegardeBddJoueursService.reset_sauvegarde_des_joueurs()
 				SauvegardeTableauDesScoresService.remise_a_zero()
+			# Acheve les partie en cours + copie nouvelle campagne
+			# if 'V0.' in version_courante_disque:
+			# 	SauvegardeBddJoueursService.remplacer_campagne_des_joueurs()
+			# 	SauvegardeTableauDesScoresService.remise_a_zero()
 			_enregistrer_la_configuration()
 	else:
 		# Création du fichier initial
@@ -59,7 +59,7 @@ func _initialiser_la_configuration() -> void:
 
 func _enregistrer_la_configuration() -> void:
 	LogService.log_debug("configuration.gd : _enregistrer_la_configuration")
-	FichiersJsonService.write_json_file("user://configuration_du_jeu.json", configuration_du_jeu.duplicate(true))
+	FichiersJsonService.write_json_file("configuration_du_jeu.json", configuration_du_jeu.duplicate(true))
 	LogService.log_debug("Configuration sauvegardée")
 
 func activer_musiques() -> void:

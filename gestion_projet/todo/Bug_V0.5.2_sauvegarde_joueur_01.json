@@ -1,0 +1,740 @@
+{
+    "Description_bug": ["Le niveau de campagne est vidé,",
+                        "mais cela n'a pas été detecté lors du dernier plateau.",
+                        "La partie commence avec un niveau en cours,",
+                        "mais ne peut pas proposer de plateau."],
+    "campagne": {
+        "niveau_2": [
+            {
+                "difficulte": 11.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": " AAC.CB .DB .DDC.BA "
+            },
+            {
+                "difficulte": 12.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "AC .DDC.BDA.ABB.C  "
+            },
+            {
+                "difficulte": 13.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ABD.CBA.BC .DA .DC "
+            },
+            {
+                "difficulte": 14.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "ABD.BCA.B  .CAD.CD "
+            },
+            {
+                "difficulte": 15.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DDA.ADB.C  .ACB.BC "
+            },
+            {
+                "difficulte": 16.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DB .BDA.CA .CDC.BA "
+            },
+            {
+                "difficulte": 17.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAD.CB .BCA.DC .AB "
+            },
+            {
+                "difficulte": 18.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ADB.DCD.CBA.ACB.   "
+            }
+        ],
+        "niveau_3": [
+            {
+                "difficulte": 10.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DBD.CDB.   .AAB.CCA"
+            },
+            {
+                "difficulte": 11.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AB .AA .DCC.BDC.DB "
+            },
+            {
+                "difficulte": 12.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "ABC.BBD.CD .ACA.D  "
+            },
+            {
+                "difficulte": 13.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ACB.CA .DA .BDC.BD "
+            },
+            {
+                "difficulte": 14.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "AD .BAD.CB .DBC.CA "
+            },
+            {
+                "difficulte": 15.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DDC.BBA.BCA.CAD.   "
+            },
+            {
+                "difficulte": 16.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "AAC.DBD.ADC.CB .B  "
+            },
+            {
+                "difficulte": 17.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DCC.DDA.BAC.   .BBA"
+            },
+            {
+                "difficulte": 18.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AD .BA .BBD.CCD.CA "
+            }
+        ],
+        "niveau_4": [
+            {
+                "difficulte": 10.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DBD.BC .AB .ACA.CD "
+            },
+            {
+                "difficulte": 11.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "ACB.ADA.DDC.CBB.   "
+            },
+            {
+                "difficulte": 12.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DA .CCD.A  .BDB.BCA"
+            },
+            {
+                "difficulte": 13.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AB.BC.DE.DE.FA.FC.  "
+            },
+            {
+                "difficulte": 14.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "AB.CA.CB.  "
+            },
+            {
+                "difficulte": 15.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAC.D  .ACC.BD .ABB"
+            },
+            {
+                "difficulte": 17.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DCC.CA .ABD.DB .BA "
+            },
+            {
+                "difficulte": 18.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DAA.C  .BC .BAD.CBD"
+            },
+            {
+                "difficulte": 20.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "ADB.DBC.CAD.CAB.   "
+            },
+            {
+                "difficulte": 21.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AAC.DCB.ABC.BDD.   "
+            }
+        ]
+    },
+    "enregistrement_campagne": [
+        {
+            "date_debut": 1787780803.721,
+            "date_fin": 0.0,
+            "niveau": "niveau_1",
+            "plateaux": [
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 3.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 4.0
+                        }
+                    ],
+                    "date_debut": 1787780803.724,
+                    "date_fin": 1787780822.241,
+                    "difficulte": 10.0,
+                    "duree": 18.5169999599457,
+                    "gameplay": "CLASSIQUE",
+                    "nom": "DDA.CCB.AAB.   .DBC",
+                    "score": {
+                        "duree": 648.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 6.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 6.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 5.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 5.0
+                        }
+                    ],
+                    "date_debut": 1787780829.698,
+                    "date_fin": 1787780841.398,
+                    "difficulte": 11.0,
+                    "duree": 11.7000000476837,
+                    "gameplay": "QUI_PERD_GAGNE",
+                    "nom": "AC.BD.CD.EA.FB.FE.  ",
+                    "score": {
+                        "duree": 1316.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 0.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 4.0
+                        }
+                    ],
+                    "date_debut": 1787854830.837,
+                    "date_fin": 1787854844.669,
+                    "difficulte": 12.0,
+                    "duree": 13.8320000171661,
+                    "gameplay": "CLASSIQUE",
+                    "nom": "DA .CDC.BA .BB .DCA",
+                    "score": {
+                        "duree": 1215.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 6.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 6.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 5.0
+                        },
+                        {
+                            "arrivee": 5.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 2.0
+                        }
+                    ],
+                    "date_debut": 1787855388.102,
+                    "date_fin": 1787855402.042,
+                    "difficulte": 13.0,
+                    "duree": 13.9400000572205,
+                    "gameplay": "QUI_PERD_GAGNE",
+                    "nom": "BA.BF.CE.DA.EC.FD.  ",
+                    "score": {
+                        "duree": 1306.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 4.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 3.0
+                        }
+                    ],
+                    "date_debut": 1787855452.319,
+                    "date_fin": 1787855463.068,
+                    "difficulte": 14.0,
+                    "duree": 10.7490000724792,
+                    "gameplay": "CLASSIQUE",
+                    "nom": "DCA.BAA.B  .CDD.CB ",
+                    "score": {
+                        "duree": 1823.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 1.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 2.0
+                        }
+                    ],
+                    "date_debut": 1787858091.785,
+                    "date_fin": 1787858107.31,
+                    "difficulte": 15.0,
+                    "duree": 15.5249998569489,
+                    "gameplay": "QUI_PERD_GAGNE",
+                    "nom": "DC .A  .DBA.BDC.BAC",
+                    "score": {
+                        "duree": 1353.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 3.0
+                        }
+                    ],
+                    "date_debut": 1787859195.345,
+                    "date_fin": 1787859212.137,
+                    "difficulte": 16.0,
+                    "duree": 16.7920000553131,
+                    "gameplay": "CLASSIQUE",
+                    "nom": "ABA.DCD.BC .BAC.D  ",
+                    "score": {
+                        "duree": 1334.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 4.0
+                        }
+                    ],
+                    "date_debut": 1787859281.833,
+                    "date_fin": 1787859299.324,
+                    "difficulte": 17.0,
+                    "duree": 17.4909999370575,
+                    "gameplay": "QUI_PERD_GAGNE",
+                    "nom": "AC .BAD.CA .DCB.BD ",
+                    "score": {
+                        "duree": 1361.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 2.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 2.0
+                        }
+                    ],
+                    "date_debut": 1787859433.98,
+                    "date_fin": 1787859452.14,
+                    "difficulte": 18.0,
+                    "duree": 18.1600000858307,
+                    "gameplay": "CLASSIQUE",
+                    "nom": "ADD.AC .BC .CBD.BA ",
+                    "score": {
+                        "duree": 1388.0,
+                        "ratio_reussite": 100.0
+                    },
+                    "statut": "reussi"
+                },
+                {
+                    "coups joués": [],
+                    "date_debut": 1787859479.218,
+                    "date_fin": 1787859480.285,
+                    "difficulte": 19.0,
+                    "duree": 1.06700015068054,
+                    "gameplay": "QUI_PERD_GAGNE",
+                    "nom": "DA .DB .CA .ACB.CDB",
+                    "score": {},
+                    "statut": "abandonné"
+                },
+                {
+                    "coups joués": [
+                        {
+                            "arrivee": 0.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 2.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 2.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        },
+                        {
+                            "arrivee": 1.0,
+                            "depart": 3.0
+                        },
+                        {
+                            "arrivee": 3.0,
+                            "depart": 0.0
+                        },
+                        {
+                            "arrivee": 0.0,
+                            "depart": 4.0
+                        },
+                        {
+                            "arrivee": 4.0,
+                            "depart": 1.0
+                        }
+                    ],
+                    "date_debut": 1787860273.946,
+                    "date_fin": 1787860291.621,
+                    "difficulte": 19.0,
+                    "duree": 17.6749999523163,
+                    "gameplay": "QUI_PERD_GAGNE",
+                    "nom": "DA .DB .CA .ACB.CDB",
+                    "score": {
+                        "duree": 1505.0,
+                        "ratio_reussite": 91.0
+                    },
+                    "statut": "reussi"
+                }
+            ],
+            "score": {}
+        }
+    ],
+    "nom": "toto",
+    "nombre_de_parties": {
+        "10": 2.0,
+        "11": 2.0,
+        "12": 1.0,
+        "13": 1.0,
+        "14": 1.0,
+        "15": 1.0,
+        "16": 1.0,
+        "17": 1.0,
+        "18": 1.0,
+        "19": 2.0
+    },
+    "plateaux_libres": {
+        "10": [
+            {
+                "difficulte": 10.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DDA.CCB.AAB.   .DBC"
+            },
+            {
+                "difficulte": 10.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DC .ABC.BBA.C  .DAD"
+            }
+        ],
+        "11": [
+            {
+                "difficulte": 11.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AC.BD.CD.EA.FB.FE.  "
+            }
+        ],
+        "12": [
+            {
+                "difficulte": 12.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DA .CDC.BA .BB .DCA"
+            }
+        ],
+        "13": [
+            {
+                "difficulte": 13.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "BA.BF.CE.DA.EC.FD.  "
+            }
+        ],
+        "14": [
+            {
+                "difficulte": 14.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "DCA.BAA.B  .CDD.CB "
+            }
+        ],
+        "15": [
+            {
+                "difficulte": 15.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DC .A  .DBA.BDC.BAC"
+            }
+        ],
+        "16": [
+            {
+                "difficulte": 16.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "ABA.DCD.BC .BAC.D  "
+            }
+        ],
+        "17": [
+            {
+                "difficulte": 17.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "AC .BAD.CA .DCB.BD "
+            }
+        ],
+        "18": [
+            {
+                "difficulte": 18.0,
+                "gameplay": "CLASSIQUE",
+                "nom": "ADD.AC .BC .CBD.BA "
+            }
+        ],
+        "19": [
+            {
+                "difficulte": 19.0,
+                "gameplay": "QUI_PERD_GAGNE",
+                "nom": "DA .DB .CA .ACB.CDB"
+            }
+        ]
+    }
+}

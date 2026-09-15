@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://c8uyx36tscdpp"]
+
+[ext_resource type="Script" uid="uid://y2suocfreq3c" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/diagramme_en_barres.gd" id="1_7r2g7"]
+
+[node name="DiagrammeEnBarres" type="Control" unique_id=1809564966]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_7r2g7")

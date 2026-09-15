@@ -32,7 +32,7 @@ func _montrer_touches() -> void:
 
 func _generer_touches():
 	var fond_clavier = $Fond/FondClavier
-	var jeton_scene: PackedScene = load("res://Scenes/Jeton/jeton.tscn")
+	var jeton_scene: PackedScene = load("res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/Pile/Jeton/jeton.tscn")
 
 	# Alphabet A → Z
 	var ligne = 0

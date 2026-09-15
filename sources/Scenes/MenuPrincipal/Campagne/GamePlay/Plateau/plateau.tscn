@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cfqcdseqsuy1l"]
+
+[ext_resource type="Script" uid="uid://con7f03vw8e55" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/plateau.gd" id="1_yvses"]
+[ext_resource type="PackedScene" uid="uid://xl5sym5dtjpg" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/Pile/pile.tscn" id="2_7hnmy"]
+
+[node name="Plateau" type="Node" unique_id=561806520]
+script = ExtResource("1_yvses")
+pile_scene = ExtResource("2_7hnmy")
+
+[node name="SelectionPile" type="Timer" parent="." unique_id=501280620]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="timeout" from="SelectionPile" to="." method="_on_selection_pile_timeout"]

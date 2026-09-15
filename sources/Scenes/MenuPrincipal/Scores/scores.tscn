@@ -1,45 +1,12 @@
-[gd_scene format=3 uid="uid://syi3krptex2w"]
+[gd_scene load_steps=2 format=3 uid="uid://syi3krptex2w"]
 
-[ext_resource type="Script" uid="uid://baltgx8np41fx" path="res://Scenes/MenuPrincipal/Scores/scores.gd" id="1_4sbfv"]
-[ext_resource type="Texture2D" uid="uid://bphpqsaqkwivq" path="res://Art/Images/fond_scores_2_480x720.png" id="2_63kir"]
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Scores/scores.gd" id="1_scores"]
 
-[node name="Scores" type="Node" unique_id=228610321]
-script = ExtResource("1_4sbfv")
-
-[node name="Fond" type="TextureRect" parent="." unique_id=1016335632]
+[node name="Scores" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_63kir")
-
-[node name="TitreScores" type="RichTextLabel" parent="." unique_id=134239167]
-anchors_preset = 10
-anchor_right = 1.0
-offset_bottom = 200.0
-grow_horizontal = 2
-pivot_offset = Vector2(272, 144)
-bbcode_enabled = true
-text = "[outline_size=10][color=white][center]
-[outline_size=20][outline_color=#580058][font_size=100]Scores[/font_size][/outline_color][/outline_size]
-[/center][/color][/outline_size]"
-
-[node name="ListeScores" type="RichTextLabel" parent="." unique_id=1893882381]
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -160.0
-offset_bottom = 360.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(272, 144)
-bbcode_enabled = true
-text = "[outline_size=10][color=white][center]
-[font_size=60][color=gold]Anna 69666[/color][/font_size]
-[font_size=50][color=silver]Totolinoob 35123[/color][/font_size]
-[font_size=40][color=#CD7F32]GuiGuiQ 15123[/color][/font_size]
-[font_size=30]J5 13
-J6 5[/font_size]
-[/center][/color][/outline_size]"
+script = ExtResource("1_scores")

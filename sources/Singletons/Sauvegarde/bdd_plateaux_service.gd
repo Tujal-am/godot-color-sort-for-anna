@@ -1,9 +1,34 @@
-extends Node
+﻿extends Node
 
-# Dico : {'difficulte': [liste_plateaux]}
-var plateau_liste_difficulte = {
-	#'3': [
-	#	"AA .BB .CC .ABC"
+var chemin_campagne = "res://campagne.json"
+var plateau_campagne = {
+	#"description_Campagne": "Sequence des niveaux de la campagne",
+	#"description_gameplay": ["CLASSIQUE", "MEMOIRE", "DEFI_DU_GOSSE", "DEFI_DU_BOSS", "QUI_PERD_GAGNE", "FLEMMARD", "DOUBLE_FACE", "DICO"],
+	#"description_coups_min": "[Facultatif] Longueur de resolution la plus courte",
+	#"description_dico": "[Facultatif] Mot à réaliser pour le DICO",
+	#"niveau_1": [
+		#{
+			#"difficulte": 10,
+			#"gameplay": "CLASSIQUE",
+			#"nom": "DDA.CCB.AAB.   .DBC"
+		#},
+		#{
+			#"difficulte": 11,
+			#"gameplay": "QUI_PERD_GAGNE",
+			#"nom": "AC.BD.CD.EA.FB.FE.  "
+		#}
+	#],
+	#"niveau_2": [
+		#{
+			#"difficulte": 10,
+			#"gameplay": "CLASSIQUE",
+			#"nom": "DC .ABC.BBA.C  .DAD"
+		#},
+		#{
+			#"difficulte": 11,
+			#"gameplay": "QUI_PERD_GAGNE",
+			#"nom": " AAC.CB .DB .DDC.BA "
+		#}
 	#]
 }
 
@@ -13,59 +38,23 @@ func _ready() -> void:
 
 func _initialiser_les_plateaux() -> void:
 	# Lire la liste des plateaux classés par niveaux
-	var fichier_plateaux = FichiersJsonService.read_json_file("res://Solutions_classees.json")
+	var fichier_plateaux = FichiersJsonService.read_json_file(chemin_campagne)
 	# LogService.log_debug(fichier_plateaux)
 	
 	# Copier les niveaux lus
 	if fichier_plateaux:
 		if 'liste difficulte des plateaux' in fichier_plateaux:
-			var dico_difficulte = fichier_plateaux.get('liste difficulte des plateaux')
-			for difficulte in dico_difficulte.keys():
+			LogService.log_erreur("Le fichier des plateaux est obsolète")
+		if 'campagne' in fichier_plateaux:
+			var dico_campagne = fichier_plateaux.get('campagne')
+			for niveau in dico_campagne.keys():
 				# Copie tous les niveaux, sauf 'None'
-				plateau_liste_difficulte[difficulte] = dico_difficulte.get(difficulte).duplicate(true)
-				# # Afficher un apercu du niveau
-				# LogService.log_debug("Difficulté : ", difficulte)
-				# var cpt = 0
-				# for plateau in dico_difficulte.get(difficulte):
-				# 	LogService.log_debug("   - plateaux : ", plateau)
-				# 	cpt += 1
-				# 	if cpt >= 5:
-				# 		break
+				plateau_campagne[niveau] = dico_campagne.get(niveau).duplicate(true)
 
-func plateau_liste_difficulte_duplicate() -> Dictionary:
-	return plateau_liste_difficulte.duplicate(true)
-
-func niveau_min() -> int:
-	for i in range(0, 300):
-		if niveau_existe(i):
-			return i
-	return -1
-
-func niveau_max() -> int:
-	for i in range(300, 0, -1):
-		if niveau_existe(i):
-			return i
-	return -1
-
-func nb_niveaux() -> int:
-	var i_nb_niveaux = 0
-	for i in range(0, 300):
-		if niveau_existe(i):
-			i_nb_niveaux += 1
-	return i_nb_niveaux
-
-func niveau_existe(niveau : int) -> bool:
-	return str(niveau) in plateau_liste_difficulte
-
-func nombre_plateaux_pour_le_niveau(niveau : int) -> int:
-	if niveau_existe(niveau):
-		return len(plateau_liste_difficulte.get(str(niveau)))
-	return 0
-
-func plateau_existe(niveau : int, indice : int) -> bool:
-	return niveau_existe(niveau) && indice < len(plateau_liste_difficulte.get(str(niveau)))
-
-func lire_plateau(niveau : int, indice : int) -> String:
-	if plateau_existe(niveau, indice):
-		return plateau_liste_difficulte.get(str(niveau))[indice]
+func nom_niveau(niveau : int) -> String:
+	if niveau:
+		return 'niveau_'+str(niveau)
 	return ""
+
+func plateau_liste_niveaux_duplicate() -> Dictionary:
+	return plateau_campagne.duplicate(true)

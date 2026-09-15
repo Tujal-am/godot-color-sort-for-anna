@@ -46,16 +46,16 @@ func _effet_sonore_play(stream: AudioStream):
 func jouer_la_musique():
 	if not SauvegardeConfigurationService.musiques_sont_actives():
 		return
-	var pourcentage_ascension = StatsService.ascension_taux_completion() * 100.
-	if pourcentage_ascension <= 100.*1/6:
+	var pourcentage_niveau = roundi(StatsService.niveau_taux_completion() * 100.)
+	if pourcentage_niveau <= roundi(100.*1/6):
 		_musique_play(MUSIQUE_DREAMING)
-	elif pourcentage_ascension <= 100.*2/6:
+	elif pourcentage_niveau <= roundi(100.*2/6):
 		_musique_play(MUSIQUE_SU_TURNO)
-	elif pourcentage_ascension <= 100.*3/6:
+	elif pourcentage_niveau <= roundi(100.*3/6):
 		_musique_play(MUSIQUE_THE_THREE_PRINCESSES_OF_LILAC_MEADOW)
-	elif pourcentage_ascension <= 100.*4/6:
+	elif pourcentage_niveau <= roundi(100.*4/6):
 		_musique_play(MUSIQUE_SOLVE_THE_PUZZLE)
-	elif pourcentage_ascension <= 100.*5/6:
+	elif pourcentage_niveau <= roundi(100.*5/6):
 		_musique_play(MUSIQUE_HUMBLE_MATCH)
 	else:
 		_musique_play(MUSIQUE_GREAT_LITTLE_CHALLENGE)

@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bgsyo7w2m28pi"]
+
+[ext_resource type="Script" uid="uid://bv2tlxh3umb5p" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/kpi.gd" id="1_fclr6"]
+
+[node name="KPI" type="Control" unique_id=1096352937]
+custom_minimum_size = Vector2(140, 50)
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_fclr6")
+
+[node name="Fond" type="ColorRect" parent="." unique_id=614794042]
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 0
+offset_right = 140.0
+offset_bottom = 50.0
+
+[node name="VBox" type="VBoxContainer" parent="." unique_id=1592798906]
+custom_minimum_size = Vector2(140, 50)
+layout_mode = 0
+offset_right = 33.0
+offset_bottom = 50.0
+
+[node name="Label_Title" type="Label" parent="VBox" unique_id=1818994787]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.5330367, 0.5330367, 0.5330367, 1)
+text = "toto"
+horizontal_alignment = 1
+
+[node name="Label_Value" type="Label" parent="VBox" unique_id=777763609]
+layout_mode = 2
+horizontal_alignment = 1
