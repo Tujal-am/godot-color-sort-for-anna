@@ -9,6 +9,8 @@
 [ext_resource type="Texture2D" path="res://assets/stats/normalized/cube_niveau_34x34_normalized.png" id="cube_n"]
 [ext_resource type="Texture2D" path="res://assets/stats/normalized/cube_plateau_34x34_normalized.png" id="cube_p"]
 [ext_resource type="Texture2D" path="res://assets/stats/picto_modes_de_jeu_40x30.png" id="modes_i"]
+[ext_resource type="Texture2D" path="res://assets/stats/laurier_score_gauche.png" id="score_laurel_l"]
+[ext_resource type="Texture2D" path="res://assets/stats/laurier_score_droit.png" id="score_laurel_r"]
 [sub_resource type="AtlasTexture" id="body"]
 atlas = ExtResource("background")
 region = Rect2(0, 135, 1024, 1401)
@@ -166,6 +168,26 @@ offset_right = 425.0
 offset_bottom = 271.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("outer")
+[node name="ScoreLaurelLeft" type="TextureRect" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 109.0
+offset_top = 153.0
+offset_right = 131.0
+offset_bottom = 191.0
+mouse_filter = 2
+texture = ExtResource("score_laurel_l")
+expand_mode = 1
+stretch_mode = 5
+[node name="ScoreLaurelRight" type="TextureRect" parent="Scroll/Content"]
+layout_mode = 0
+offset_left = 349.0
+offset_top = 153.0
+offset_right = 373.0
+offset_bottom = 191.0
+mouse_filter = 2
+texture = ExtResource("score_laurel_r")
+expand_mode = 1
+stretch_mode = 5
 [node name="ScoreTitle" type="Label" parent="Scroll/Content"]
 layout_mode = 0
 offset_left = 76.0
@@ -177,7 +199,7 @@ text = "Score"
 theme_override_fonts/font = ExtResource("bold")
 theme_override_font_sizes/font_size = 23
 theme_override_colors/font_color = Color(0.87451, 0.50196, 0.0, 1)
-horizontal_alignment = 0
+horizontal_alignment = 1
 vertical_alignment = 1
 [node name="ScoreRapidite" type="Panel" parent="Scroll/Content"]
 layout_mode = 0
