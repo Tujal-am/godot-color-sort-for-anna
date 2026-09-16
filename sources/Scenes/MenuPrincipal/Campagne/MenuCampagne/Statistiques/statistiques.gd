@@ -46,21 +46,39 @@ func _mode_data(nombre: int, taux: float, temps_moyen: float, rapide: Dictionary
 		"kpi1": str_arrondir_temps_en_s(temps_moyen),
 		"kpi2": str_arrondir_pourcentage(taux),
 		"r0_c0": "Plus rapide",
-		"r0_c1": str_arrondir_temps_en_s(rapide.get("temps_en_s", 0.0)),
-		"r0_c2": rapide.get("difficulte", UNAVAILABLE),
-		"r0_c3": UNAVAILABLE,
+		"r0_c1": _temps_info(rapide),
+		"r0_c2": _dict_info(rapide, "difficulte"),
+		"r0_c3": _dict_info(rapide, "niveau"),
 		"r1_c0": "Plus lent",
-		"r1_c1": str_arrondir_temps_en_s(lent.get("temps_en_s", 0.0)),
-		"r1_c2": lent.get("difficulte", UNAVAILABLE),
-		"r1_c3": UNAVAILABLE,
+		"r1_c1": _temps_info(lent),
+		"r1_c2": _dict_info(lent, "difficulte"),
+		"r1_c3": _dict_info(lent, "niveau"),
 		"r2_c0": "Plus difficile",
-		"r2_c1": str(galere.get("essais", UNAVAILABLE)) + " essais",
-		"r2_c2": galere.get("difficulte", UNAVAILABLE),
-		"r2_c3": UNAVAILABLE,
+		"r2_c1": (str(galere.get("essais")) + " essais") if galere.has("essais") else UNAVAILABLE,
+		"r2_c2": _dict_info(galere, "difficulte"),
+		"r2_c3": _dict_info(galere, "niveau"),
 	}
 
+func _dict_info(data: Dictionary, key: String) -> String:
+	if not data.has(key) or data.get(key) == null:
+		return UNAVAILABLE
+	var value = data.get(key)
+	if key in ["niveau", "difficulte"] and value is int and value <= 0:
+		return UNAVAILABLE
+	return str(value)
+
+func _temps_info(data: Dictionary) -> String:
+	return UNAVAILABLE if not data.has("temps_en_s") else str_arrondir_temps_en_s(float(data.get("temps_en_s")))
+
 func _remplir_score() -> void:
-	_val("Scroll/Content/ScoreTitle", "Score : " + StatsService.score().replace(".", " "))
+	var score_txt := StatsService.score()
+	_val("Scroll/Content/ScoreTitle", "Score : " + score_txt.replace(".", " "))
+	# A zero total is meaningful for a new player, but its component
+	# percentages have no denominator and therefore remain unavailable.
+	if score_txt.replace(".", "").strip_edges().to_int() <= 0:
+		for path in ["ScoreRapiditeValue", "ScoreReussiteValue", "ScoreNiveauValue", "ScoreParfaitValue", "ScoreCampagneValue"]:
+			_val("Scroll/Content/" + path, UNAVAILABLE)
+		return
 	_val("Scroll/Content/ScoreRapiditeValue", str_arrondir_pourcentage(StatsService.score_pourcentage_rapidite()))
 	_val("Scroll/Content/ScoreReussiteValue", str_arrondir_pourcentage(StatsService.score_pourcentage_reussite()))
 	_val("Scroll/Content/ScoreNiveauValue", str_arrondir_pourcentage(StatsService.score_pourcentage_niveau()))
@@ -88,25 +106,27 @@ func _remplir_reels() -> void:
 	_val("Scroll/Content/TimeValue", str_arrondir_temps_en_s(StatsService.campagne_temps_total_en_s()))
 	_val("Scroll/Content/SuccessValue", str_arrondir_pourcentage(StatsService.campagne_taux_reussite()))
 	_val("Scroll/Content/StreakValue", StatsService.campagne_serie_max_reussite())
-	_val("Scroll/Content/CurrentLevelValue", StatsService.niveau_longueur_max())
+	var niveau_courant := StatsService.niveau_courant()
+	_val("Scroll/Content/CurrentLevelValue", niveau_courant if niveau_courant > 0 else UNAVAILABLE)
 	_val("Scroll/Content/LevelCompletionValue", str_arrondir_pourcentage(StatsService.niveau_taux_completion()))
 	_val("Scroll/Content/MeanTimeValue", str_arrondir_temps_en_s(StatsService.plateau_temps_moyen_en_s()))
 
 	var level_infos := StatsService.niveau_taux_reussite_infos()
-	_val("Scroll/Content/LevelR0C1", str_arrondir_pourcentage(level_infos.get("taux_max", 0.0)))
-	_val("Scroll/Content/LevelR0C2", level_infos.get("taux_max_lg", UNAVAILABLE))
-	_val("Scroll/Content/LevelR1C1", str_arrondir_pourcentage(level_infos.get("taux_min", 0.0)))
-	_val("Scroll/Content/LevelR1C2", level_infos.get("taux_min_lg", UNAVAILABLE))
+	if level_infos.get("a_des_donnees", false):
+		_val("Scroll/Content/LevelR0C1", str_arrondir_pourcentage(level_infos.get("taux_max", 0.0)))
+		_val("Scroll/Content/LevelR0C2", level_infos.get("taux_max_lg", UNAVAILABLE))
+		_val("Scroll/Content/LevelR1C1", str_arrondir_pourcentage(level_infos.get("taux_min", 0.0)))
+		_val("Scroll/Content/LevelR1C2", level_infos.get("taux_min_lg", UNAVAILABLE))
 
 	var fast := StatsService.plateau_plus_rapide_infos()
 	var slow := StatsService.plateau_plus_lent_infos()
 	var hard := StatsService.plateau_plus_galere_infos()
-	_val("Scroll/Content/BoardR0C1", str_arrondir_temps_en_s(fast.get("temps_en_s", 0.0)))
-	_val("Scroll/Content/BoardR0C2", fast.get("difficulte", UNAVAILABLE))
-	_val("Scroll/Content/BoardR1C1", str_arrondir_temps_en_s(slow.get("temps_en_s", 0.0)))
-	_val("Scroll/Content/BoardR1C2", slow.get("difficulte", UNAVAILABLE))
-	_val("Scroll/Content/BoardR2C1", hard.get("essais", UNAVAILABLE))
-	_val("Scroll/Content/BoardR2C2", hard.get("difficulte", UNAVAILABLE))
+	_val("Scroll/Content/BoardR0C1", _temps_info(fast))
+	_val("Scroll/Content/BoardR0C2", _dict_info(fast, "difficulte"))
+	_val("Scroll/Content/BoardR1C1", _temps_info(slow))
+	_val("Scroll/Content/BoardR1C2", _dict_info(slow, "difficulte"))
+	_val("Scroll/Content/BoardR2C1", _dict_info(hard, "essais"))
+	_val("Scroll/Content/BoardR2C2", _dict_info(hard, "difficulte"))
 
 	_set_mode($Scroll/Content/Classique, "Classique", _mode_data(
 		StatsService.classique_nombre_de_plateaux_joues(),

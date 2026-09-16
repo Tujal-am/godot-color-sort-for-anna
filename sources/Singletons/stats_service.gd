@@ -57,6 +57,10 @@ func niveau_terminees() -> int:
 func niveau_longueur_max() -> int:
 	return longueur_max_niveau_termine()
 
+func niveau_courant() -> int:
+	"""Retourne le numéro du niveau actuellement enregistré pour le joueur."""
+	return SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()
+
 func niveau_taux_reussite_infos() -> Dictionary:
 	"Niveaux taux de réussite : min, max et longueur"
 	return niveau_taux_reussite_les_infos()
@@ -381,6 +385,7 @@ func niveau_taux_reussite_les_infos() -> Dictionary:
 	var taux_min_lg: int = 0
 	var taux_max: float = -1.
 	var taux_max_lg: int = 0
+	var a_des_donnees := false
 	# Parcourir la liste des enregistrements de la campagne
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
 		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
@@ -390,6 +395,7 @@ func niveau_taux_reussite_les_infos() -> Dictionary:
 			var abandonnes = npra_pour_niveau.get("abandonnes", 0)
 			var realises = reussis + abandonnes
 			if realises:
+				a_des_donnees = true
 				var taux = 1. * reussis / realises
 				if taux < taux_min:
 					taux_min = taux
@@ -407,7 +413,7 @@ func niveau_taux_reussite_les_infos() -> Dictionary:
 						' taux_min_lg=', taux_min_lg,
 						' taux_max=', taux_max,
 						' taux_max_lg=', taux_max_lg)
-	return {'taux_min': taux_min, 'taux_min_lg': taux_min_lg, 'taux_max': taux_max, 'taux_max_lg': taux_max_lg}
+	return {'taux_min': taux_min, 'taux_min_lg': taux_min_lg, 'taux_max': taux_max, 'taux_max_lg': taux_max_lg, 'a_des_donnees': a_des_donnees}
 
 func plateau_le_temps_moyen_en_s() -> float:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
@@ -576,7 +582,10 @@ func gameplay_le_temps_moyen_en_s(gameplay : String) -> float:
 			if niveau.get("plateaux", null) \
 				and niveau.get("date_debut") > date_debut_campagne:
 				for plateau_joue in niveau.get("plateaux"):
-					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+					var gameplay_value = plateau_joue.get("gameplay", "")
+					if not gameplay_value is String or gameplay_value.is_empty():
+						continue
+					if _normaliser_gameplay(gameplay_value) != _normaliser_gameplay(gameplay):
 						continue
 					var duree_en_s = plateau_joue.get("duree", 0)
 					if duree_en_s:
@@ -616,7 +625,10 @@ func gameplay_nombre_de_plateau_reussis_abandonnes(gameplay : String) -> Diction
 			# Comptabiliser les plateaux reussis
 			if niveau.get("plateaux", null):
 				for plateau_joue in niveau.get("plateaux"):
-					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+					var gameplay_value = plateau_joue.get("gameplay", "")
+					if not gameplay_value is String or gameplay_value.is_empty():
+						continue
+					if _normaliser_gameplay(gameplay_value) != _normaliser_gameplay(gameplay):
 						continue
 					if plateau_joue.get("date_debut") > date_debut_campagne:
 						if plateau_joue.get("statut") == "reussi":
@@ -634,6 +646,7 @@ func gameplay_le_plus_rapide_les_infos(gameplay : String) -> Dictionary:
 	# Plateau termine le plus vite et sa difficulté
 	var plus_rapide_temps: float = 0.
 	var plus_rapide_difficulte: int = 0
+	var plus_rapide_niveau: int = 0
 	# Parcourir la liste des enregistrements de la campagne
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
 		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
@@ -641,7 +654,10 @@ func gameplay_le_plus_rapide_les_infos(gameplay : String) -> Dictionary:
 			if niveau.get("plateaux", null) \
 				and niveau.get("date_debut") > date_debut_campagne:
 				for plateau_joue in niveau.get("plateaux"):
-					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+					var gameplay_value = plateau_joue.get("gameplay", "")
+					if not gameplay_value is String or gameplay_value.is_empty():
+						continue
+					if _normaliser_gameplay(gameplay_value) != _normaliser_gameplay(gameplay):
 						continue
 					var duree_en_s = plateau_joue.get("duree", 0)
 					if duree_en_s:
@@ -652,11 +668,14 @@ func gameplay_le_plus_rapide_les_infos(gameplay : String) -> Dictionary:
 							else:
 								plus_rapide_temps = duree_en_s
 								plus_rapide_difficulte = difficulte
+								plus_rapide_niveau = _niveau_depuis_nom(niveau.get("niveau", ""))
 	LogService.log_debug("joueur:",joueur,
 						"gameplay:", gameplay,
 						' plus_rapide_temps=', plus_rapide_temps,
 						' plus_rapide_difficulte=', plus_rapide_difficulte)
-	return {'temps_en_s': plus_rapide_temps, 'difficulte': plus_rapide_difficulte}
+	if plus_rapide_temps == 0.:
+		return {}
+	return {'temps_en_s': plus_rapide_temps, 'difficulte': plus_rapide_difficulte, 'niveau': plus_rapide_niveau}
 
 func gameplay_le_plus_lent_les_infos(gameplay : String) -> Dictionary:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
@@ -664,6 +683,7 @@ func gameplay_le_plus_lent_les_infos(gameplay : String) -> Dictionary:
 	# Plateau le plus lent à résoudre et sa difficulté
 	var plus_lent_temps: float = 0.
 	var plus_lent_difficulte: int = 0
+	var plus_lent_niveau: int = 0
 	# Parcourir la liste des enregistrements de la campagne
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
 		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
@@ -671,7 +691,10 @@ func gameplay_le_plus_lent_les_infos(gameplay : String) -> Dictionary:
 			if niveau.get("plateaux", null) \
 				and niveau.get("date_debut") > date_debut_campagne:
 				for plateau_joue in niveau.get("plateaux"):
-					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+					var gameplay_value = plateau_joue.get("gameplay", "")
+					if not gameplay_value is String or gameplay_value.is_empty():
+						continue
+					if _normaliser_gameplay(gameplay_value) != _normaliser_gameplay(gameplay):
 						continue
 					var duree_en_s = plateau_joue.get("duree", 0)
 					if duree_en_s:
@@ -682,11 +705,14 @@ func gameplay_le_plus_lent_les_infos(gameplay : String) -> Dictionary:
 							else:
 								plus_lent_temps = duree_en_s
 								plus_lent_difficulte = difficulte
+								plus_lent_niveau = _niveau_depuis_nom(niveau.get("niveau", ""))
 	LogService.log_debug("joueur:",joueur,
 						"gameplay:", gameplay,
 						' plus_lent_temps=', plus_lent_temps,
 						' plus_lent_difficulte=', plus_lent_difficulte)
-	return {'temps_en_s': plus_lent_temps, 'difficulte': plus_lent_difficulte}
+	if plus_lent_temps == 0.:
+		return {}
+	return {'temps_en_s': plus_lent_temps, 'difficulte': plus_lent_difficulte, 'niveau': plus_lent_niveau}
 
 func gameplay_le_plus_galere_les_infos(gameplay : String) -> Dictionary:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
@@ -700,7 +726,10 @@ func gameplay_le_plus_galere_les_infos(gameplay : String) -> Dictionary:
 			if niveau.get("plateaux", null) \
 				and niveau.get("date_debut") > date_debut_campagne:
 				for plateau_joue in niveau.get("plateaux"):
-					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
+					var gameplay_value = plateau_joue.get("gameplay", "")
+					if not gameplay_value is String or gameplay_value.is_empty():
+						continue
+					if _normaliser_gameplay(gameplay_value) != _normaliser_gameplay(gameplay):
 						continue
 					var nom_plateau = plateau_joue.get("nom", 'inconnu')
 					if nom_plateau in plateaux_essais:
@@ -708,6 +737,7 @@ func gameplay_le_plus_galere_les_infos(gameplay : String) -> Dictionary:
 					else:
 						var plateaux_difficulte : int = roundi(plateau_joue.get("difficulte", 0))
 						plateaux_essais[nom_plateau] = {'essais': 1, 'difficulte': plateaux_difficulte}
+						plateaux_essais[nom_plateau]['niveau'] = _niveau_depuis_nom(niveau.get("niveau", ""))
 	var plus_galere_nom: String = ''
 	var plus_galere_essais: int = 0
 	var plus_galere_difficulte: int = 0
@@ -722,4 +752,25 @@ func gameplay_le_plus_galere_les_infos(gameplay : String) -> Dictionary:
 						' plus_galere_nom=', plus_galere_nom,
 						' plus_galere_essais=', plus_galere_essais,
 						' plus_galere_difficulte=', plus_galere_difficulte)
-	return {'nom': plus_galere_nom, 'essais': plus_galere_essais, 'difficulte': plus_galere_difficulte}
+	if plus_galere_nom.is_empty():
+		return {}
+	return {'nom': plus_galere_nom, 'essais': plus_galere_essais, 'difficulte': plus_galere_difficulte,
+		'niveau': plateaux_essais[plus_galere_nom].get('niveau', 0)}
+
+func _niveau_depuis_nom(nom_niveau: Variant) -> int:
+	var texte := str(nom_niveau)
+	if texte.begins_with("niveau_"):
+		return texte.trim_prefix("niveau_").to_int()
+	return 0
+
+func _normaliser_gameplay(valeur: Variant) -> String:
+	"""Normalise les libellés connus sans jamais classer une valeur inconnue."""
+	if not valeur is String:
+		return ""
+	var normalisee: String = valeur.strip_edges().to_upper()
+	normalisee = normalisee.replace("-", "_").replace(" ", "_").replace("\n", "_")
+	while normalisee.contains("__"):
+		normalisee = normalisee.replace("__", "_")
+	if normalisee in ["CLASSIQUE", "QUI_PERD_GAGNE"]:
+		return normalisee
+	return ""
