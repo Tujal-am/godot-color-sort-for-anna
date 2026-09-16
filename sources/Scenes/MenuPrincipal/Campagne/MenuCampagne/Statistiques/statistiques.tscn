@@ -96,14 +96,14 @@ offset_bottom = 61.0
 flat = true
 focus_mode = 0
 tooltip_text = "Fermer la preview"
-[node name="Player" type="Panel" parent="Scroll/Content"]
+[node name="IdentityScorePanel" type="Panel" parent="Scroll/Content"]
 layout_mode = 0
-offset_left = 64.0
+offset_left = 55.0
 offset_top = 65.0
-offset_right = 416.0
-offset_bottom = 141.0
+offset_right = 425.0
+offset_bottom = 271.0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("inner")
+theme_override_styles/panel = SubResource("outer")
 [node name="PlayerIdentityRow" type="HBoxContainer" parent="Scroll/Content"]
 layout_mode = 0
 offset_left = 78.0
@@ -131,12 +131,12 @@ theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 horizontal_alignment = 0
 vertical_alignment = 1
 [node name="SeparatorSlot" type="HBoxContainer" parent="Scroll/Content/PlayerIdentityRow"]
-custom_minimum_size = Vector2(29, 32)
+custom_minimum_size = Vector2(39, 32)
 layout_mode = 2
 theme_override_constants/separation = 0
 mouse_filter = 2
 [node name="MarginLeft" type="Control" parent="Scroll/Content/PlayerIdentityRow/SeparatorSlot"]
-custom_minimum_size = Vector2(14, 32)
+custom_minimum_size = Vector2(24, 32)
 layout_mode = 2
 mouse_filter = 2
 [node name="Line" type="ColorRect" parent="Scroll/Content/PlayerIdentityRow/SeparatorSlot"]
@@ -160,14 +160,14 @@ theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 horizontal_alignment = 0
 vertical_alignment = 1
 clip_text = true
-[node name="ScorePanel" type="Panel" parent="Scroll/Content"]
+[node name="IdentityScoreDivider" type="ColorRect" parent="Scroll/Content"]
 layout_mode = 0
-offset_left = 55.0
-offset_top = 151.0
-offset_right = 425.0
-offset_bottom = 271.0
+offset_left = 76.0
+offset_top = 139.0
+offset_right = 404.0
+offset_bottom = 140.0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("outer")
+color = Color(0.93725, 0.76863, 0.62353, 1)
 [node name="ScoreLaurelLeft" type="TextureRect" parent="Scroll/Content"]
 layout_mode = 0
 offset_left = 109.0
