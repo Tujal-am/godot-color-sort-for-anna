@@ -5,7 +5,6 @@ class_name MenuPlateau
 signal abandon
 signal deselection_pile
 
-var chronometre : int = 0
 const ASSET_ROOT := "res://Art/UI/IntegrationV4/Gameplay/"
 const FONT_REGULAR := preload("res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf")
 const FONT_BOLD := preload("res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf")
@@ -21,11 +20,8 @@ func configurer_presentation(mode: String) -> void:
 	_build_presentation()
 
 func _process(_delta: float) -> void:
-	var pluriel = "s"
-	var nb_coups = SauvegardeBddJoueursService.lire_nombre_coups()
-	if nb_coups < 2:
-		pluriel = ""
-	enregistrer_coups(str(nb_coups))
+	_maj_chrono()
+	_maj_coups()
 
 # #############
 # API Gameplay
@@ -33,8 +29,11 @@ func enregistrer_gameplay(gameplay : String):
 	if has_node("Top/Gameplay"):
 		$Top/Gameplay.text = gameplay.to_upper()
 
-func enregistrer_chrono(chrono : String):
+func enregistrer_chrono(minutes: String, secondes: String = "", decisecondes: String = ""):
 	if has_node("Top/ChronoLabel"):
+		var chrono := minutes
+		if not secondes.is_empty():
+			chrono = minutes + ":" + secondes + "." + decisecondes
 		$Top/ChronoLabel.text = chrono
 
 func enregistrer_coups(coups : String):
@@ -47,7 +46,7 @@ func show():
 	$BoutonRetour.show()
 	$Top.show()
 	$BoutonStatistiques.show()
-	$Top/BoutonAbandonner.show()
+	$Top/BoutonRecommencer.show()
 	if not _is_qpg():
 		var plateau := get_parent().get_node_or_null("Plateau")
 		if plateau:
@@ -59,22 +58,31 @@ func hide():
 	$BoutonRetour.hide()
 	$Top.hide()
 	$BoutonStatistiques.hide()
-	$Top/BoutonAbandonner.hide()
+	$Top/BoutonRecommencer.hide()
 
 func cacher_accueil():
 	hide()
 
-func demarrer_chronometre():
-	chronometre = -1
-	_on_chronometre_timeout()
+func _maj_chrono() -> void:
+	var temps_ecoule_en_s: float = SauvegardeBddJoueursService.enregistrement_lire_duree_plateau()
+	var minutes := floori(temps_ecoule_en_s / 60.0)
+	var secondes := floori(temps_ecoule_en_s - 60 * minutes)
+	var decisecondes := roundi((temps_ecoule_en_s - 60 * minutes - secondes) * 10.0)
+	if decisecondes == 10:
+		decisecondes = 0
+		secondes += 1
+	if secondes == 60:
+		secondes = 0
+		minutes += 1
+	enregistrer_chrono(str(minutes).pad_zeros(2), str(secondes).pad_zeros(2), str(decisecondes))
 
-func arreter_chronometre():
-	$Chronometre.stop()
+func _maj_coups() -> void:
+	enregistrer_coups(str(SauvegardeBddJoueursService.lire_nombre_coups()))
 
 # ########
 # Usine >>
-func _on_bouton_abandonner_pressed() -> void:
-	$Top/BoutonAbandonner.hide()
+func _on_bouton_recommencer_pressed() -> void:
+	$Top/BoutonRecommencer.hide()
 	abandon.emit()
 
 func _on_fond_gui_input(event: InputEvent) -> void:
@@ -83,14 +91,6 @@ func _on_fond_gui_input(event: InputEvent) -> void:
 			# LogService.log_debug("Clique souris sur le fond du plateau")
 			# Parcourir les piles et déselectionner la pile (comme "timeout" sur la selection)
 			deselection_pile.emit()
-
-func _on_chronometre_timeout() -> void:
-	# Relance le chronometre
-	$Chronometre.start()
-	# Incrémente le compteur
-	chronometre += 1
-	# MàJ affichage
-	enregistrer_chrono(str(floori(chronometre/60.)).pad_zeros(2)+':'+str(chronometre%60).pad_zeros(2))
 
 func _build_presentation() -> void:
 	# The shared UI derives the mode from the gameplay scene.  It must never
@@ -106,15 +106,15 @@ func _build_presentation() -> void:
 	$BoutonStatistiques.position = Vector2(408,38) if qpg else Vector2(415,135)
 	$BoutonStatistiques.size = Vector2(60,66) if qpg else Vector2(60,58)
 	$BoutonStatistiques/StatistiquesLabel.add_theme_color_override("font_color", Color.WHITE if qpg else Color("0a3765"))
-	$Top/BoutonAbandonner.modulate = Color.WHITE
-	$Top/BoutonAbandonner.self_modulate = Color.WHITE
-	$Top/BoutonAbandonner.texture_normal = load(ASSET_ROOT + ("qui_perd_gagne/production_clean/restart_button_qpg_clean.png" if qpg else "classique/production_final/05_RECOMMENCER_CLASSIQUE_244x60.png"))
-	$Top/BoutonAbandonner.position = Vector2(38,502) if qpg else Vector2(61,456)
-	$Top/BoutonAbandonner.size = Vector2(264,58) if qpg else Vector2(236,60)
-	$Top/BoutonAbandonner/RestartLabel.position.x = 100 if qpg else 82
-	$Top/BoutonAbandonner/RestartLabel.size.x = 126 if qpg else 142
+	$Top/BoutonRecommencer.modulate = Color.WHITE
+	$Top/BoutonRecommencer.self_modulate = Color.WHITE
+	$Top/BoutonRecommencer.texture_normal = load(ASSET_ROOT + ("qui_perd_gagne/production_clean/restart_button_qpg_clean.png" if qpg else "classique/production_final/05_RECOMMENCER_CLASSIQUE_244x60.png"))
+	$Top/BoutonRecommencer.position = Vector2(38,502) if qpg else Vector2(61,456)
+	$Top/BoutonRecommencer.size = Vector2(264,58) if qpg else Vector2(236,60)
+	$Top/BoutonRecommencer/RestartLabel.position.x = 100 if qpg else 82
+	$Top/BoutonRecommencer/RestartLabel.size.x = 126 if qpg else 142
 	# Classique utilise un libellé rasterisé dans le pack validé ; le label historique reste actif pour QPG.
-	$Top/BoutonAbandonner/RestartLabel.visible = qpg
+	$Top/BoutonRecommencer/RestartLabel.visible = qpg
 	_build_top_contents(qpg)
 
 func _is_qpg() -> bool:
@@ -175,7 +175,7 @@ func _build_top_contents(qpg: bool) -> void:
 		for duplicate in ["ModeIcon", "Check", "Gameplay", "Subtitle", "ChronoIcon", "CoupsTitle", "ProgressionTrack", "ProgressBarBackground", "HeaderRule", "GameplayDivider", "PlayerDivider", "ProgressionDivider"]:
 			$Top.get_node(duplicate).hide()
 		$BoutonStatistiques/StatistiquesLabel.hide()
-		$Top/BoutonAbandonner/RestartLabel.hide()
+		$Top/BoutonRecommencer/RestartLabel.hide()
 		$PlayerCard/CardAvatar.position = Vector2(10,7)
 		$PlayerCard/CardAvatar.size = Vector2(39,42)
 		$PlayerCard/CardAvatar.texture = $Top/Avatar.texture if $Top/Avatar.visible else AVATAR_FALLBACK

@@ -394,7 +394,7 @@ func lire_nombre_de_parties_pour_difficulte_courante() -> int:
 # 			'niveau': 20,
 #			'date_debut': 1748785865.997,
 # 			'date_fin': 0.,
-# 			'score': { 'niveau': 500000, 'niveau_sans_detour': 500000},
+# 			'score': { 'niveau': 500000, 'niveau_parfait': 500000},
 # 			'plateaux': [
 # 				{
 # 					'nom': "AA .BB .AB ",
@@ -529,7 +529,7 @@ func lire_pourcentage_niveau_realise() -> int:
 # Niveaux / Longueur detour
 ###############################################
 
-func enregistrment_lire_ratio_reussite_niveau() -> int:
+func enregistrement_lire_ratio_reussite_niveau() -> int:
 	"Pourcentage de réussite du niveau (retourne 99 pour 99%, 15 pour 15% ...)"
 	if enregistrement_niveau_existe():
 		var nb_essais  = enregistrement_lire_nombre_plateaux_acheves()
@@ -538,8 +538,8 @@ func enregistrment_lire_ratio_reussite_niveau() -> int:
 	return 0
 
 ###############################################
-# Niveaux / Score / Niveau et Niveau sans détour
-# 'score': { 'niveau': 500000, 'niveau_sans_detour': 500000},
+# Niveaux / Score / Niveau et Niveau parfait
+# 'score': { 'niveau': 500000, 'niveau_parfait': 500000},
 ###############################################
 
 func enregistrement_modifier_score_niveau(score : int) -> void:
@@ -555,7 +555,7 @@ func enregistrement_modifier_score_niveau_sans_detour(score : int) -> void:
 	if niveau_courant:
 		if 'score' not in niveau_courant:
 			niveau_courant['score'] = {}
-		niveau_courant['score']['niveau_sans_detour'] = score
+		niveau_courant['score']['niveau_parfait'] = score
 		_enregistrer_sauvegarde_joueur()
 
 func enregistrement_lire_score_niveau() -> int:
@@ -670,8 +670,25 @@ func enregistrement_lire_gameplay_plateau() -> String:
 func enregistrement_lire_duree_plateau() -> float:
 	var plateau = enregistrement_lire_dernier_plateau()
 	if plateau:
+		if not plateau.get('date_fin'):
+			# Plateau en cours
+			var now = Time.get_unix_time_from_system() # Timestamp
+			plateau['duree'] = now - plateau.get('date_debut')
 		return plateau.get('duree')
 	return 0.
+
+func enregistrement_lire_duree_plateau_recommence() -> float:
+	var duree_recommence_en_s : float = 0.
+	var plateau_ref = enregistrement_lire_dernier_plateau()
+	if plateau_ref:
+		# Cumuler le temps passé en abandon sur ce plateau
+		var nom_plateau_ref = plateau_ref.get('nom')
+		var dernier_niveau = enregistrement_lire_dernier_niveau()
+		if dernier_niveau:
+			for plateau in dernier_niveau.get('plateaux', []):
+				if plateau.get('nom') == nom_plateau_ref and plateau.get('statut') == 'abandonné':
+					duree_recommence_en_s += plateau.get('duree', 0.)
+	return duree_recommence_en_s
 
 func enregistrement_lire_le_temps_du_joueur() -> String: # TODO : INUTILISE !
 	"""Formater la durée en une chaîne de caractères lisible."""
@@ -724,7 +741,7 @@ func enregistrement_lire_statut_plateau() -> String:
 	return 'en cours'
 
 ###############################################
-# Niveaux / Score / Niveau et Niveau sans détour
+# Niveaux / Score / Niveau et Niveau parfait
 # 'score': { 'duree': 4000, 'ratio_reussite': 2000 }
 ###############################################
 

@@ -45,6 +45,12 @@ func formater_detail_score(detail_score : Dictionary) -> Dictionary:
 [ul] Référence: #duree_ref#s[/ul]
 [ul] Réalisé: #duree_real#s[/ul]
 [ul] #duree_pts# points[/ul]"""
+	var recommence = detail_score.get('duree').get('recommence') > 0.
+	if recommence:
+		# Inserer la ligne pour les recos
+		bbcode_duree = bbcode_duree.replace('#duree_ref#', """#duree_ref#s[/ul]
+[ul] Recommencé: #duree_reco#""")
+		bbcode_duree = bbcode_duree.replace('#duree_reco#', str( snapped(detail_score.get('duree').get('recommence'), 0.1) ))
 	bbcode_duree = bbcode_duree.replace('#duree_ref#', str(detail_score.get('duree').get('reference')))
 	bbcode_duree = bbcode_duree.replace('#duree_real#', str( snapped(detail_score.get('duree').get('realise'), 0.1) ))
 	var points_txt = SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score.get('duree').get('points'), '.')
@@ -74,16 +80,16 @@ func formater_detail_score(detail_score : Dictionary) -> Dictionary:
 		score_total += detail_score.get('niveau').get('points')
 		size_y += 80
 
-	# niveau_sans_detour
-	if detail_score.get('niveau_sans_detour'):
-		var bbcode_niveau_sans_detour = """[b]Niveau sans détour[/b]
+	# niveau_parfait
+	if detail_score.get('niveau_parfait'):
+		var bbcode_niveau_sans_detour = """[b]Niveau parfait[/b]
 [ul] Bonus: #asc_detour_bonus#[/ul]
 [ul] #asc_detour_pts# points[/ul]"""
-		bbcode_niveau_sans_detour = bbcode_niveau_sans_detour.replace('#asc_detour_bonus#', str(detail_score.get('niveau_sans_detour').get('bonus')))
-		points_txt = SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score.get('niveau_sans_detour').get('points'), '.')
+		bbcode_niveau_sans_detour = bbcode_niveau_sans_detour.replace('#asc_detour_bonus#', str(detail_score.get('niveau_parfait').get('bonus')))
+		points_txt = SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score.get('niveau_parfait').get('points'), '.')
 		bbcode_niveau_sans_detour = bbcode_niveau_sans_detour.replace('#asc_detour_pts#', points_txt)
 		bbcode_complet += bbcode_niveau_sans_detour
-		score_total += detail_score.get('niveau_sans_detour').get('points')
+		score_total += detail_score.get('niveau_parfait').get('points')
 		size_y += 80
 
 	# campagne

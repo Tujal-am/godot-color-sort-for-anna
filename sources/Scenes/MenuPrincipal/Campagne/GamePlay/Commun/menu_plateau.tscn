@@ -343,7 +343,7 @@ expand_mode = 1
 stretch_mode = 5
 mouse_filter = 2
 
-[node name="BoutonAbandonner" type="TextureButton" parent="Top"]
+[node name="BoutonRecommencer" type="TextureButton" parent="Top"]
 offset_left = 61.0
 offset_top = 456.0
 offset_right = 288.0
@@ -354,7 +354,7 @@ self_modulate = Color(1, 1, 1, 1)
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="RestartLabel" type="Label" parent="Top/BoutonAbandonner"]
+[node name="RestartLabel" type="Label" parent="Top/BoutonRecommencer"]
 offset_left = 82.0
 offset_right = 224.0
 offset_bottom = 58.0
@@ -392,10 +392,7 @@ text = "Statistiques"
 horizontal_alignment = 1
 mouse_filter = 2
 
-[node name="Chronometre" type="Timer" parent="."]
-
 [connection signal="gui_input" from="Fond" to="." method="_on_fond_gui_input"]
 [connection signal="pressed" from="BoutonRetour" to="." method="_on_bouton_retour_pressed"]
 [connection signal="pressed" from="BoutonStatistiques" to="." method="_on_bouton_statistiques_pressed"]
-[connection signal="pressed" from="Top/BoutonAbandonner" to="." method="_on_bouton_abandonner_pressed"]
-[connection signal="timeout" from="Chronometre" to="." method="_on_chronometre_timeout"]
+[connection signal="pressed" from="Top/BoutonRecommencer" to="." method="_on_bouton_recommencer_pressed"]

@@ -1,7 +1,7 @@
 extends Control
 
 const TOP_N := 5
-const ASSET_DIR := "res://Art/UI/IntegrationV3/scores/"
+const ASSET_DIR := "res://Art/UI/scores/"
 const NAVY := Color("0a274d")
 const CORAL := Color("f04d3c")
 const PANEL := Color("fbefe0")
@@ -11,26 +11,7 @@ const BORDER := Color("e8c9a8")
 const SEPARATOR := Color("d9cec3")
 
 func _ready() -> void:
-	_build_locked_decor()
 	_build_ranking(SauvegardeTableauDesScoresService.retourner_classement())
-	_build_back_hitbox()
-
-func _build_locked_decor() -> void:
-	var safety_background := ColorRect.new()
-	safety_background.name = "FondTechnique"
-	safety_background.color = Color("f6e6d2")
-	safety_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	safety_background.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(safety_background)
-
-	var decor := TextureRect.new()
-	decor.name = "DecorVerrouille"
-	decor.texture = load(ASSET_DIR + "scores_decor_overlay_sans_classement_480x720.png")
-	decor.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-	decor.stretch_mode = TextureRect.STRETCH_KEEP
-	decor.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	decor.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	add_child(decor)
 
 func _build_ranking(classement: Array) -> void:
 	var panel := Panel.new()
@@ -130,24 +111,6 @@ func _format_score_fr(value: int) -> String:
 	groups.push_front(digits)
 	return String.chr(0x00A0).join(groups)
 
-func _build_back_hitbox() -> void:
-	var back := Button.new()
-	back.name = "Retour"
-	back.position = Vector2(18, 12)
-	back.size = Vector2(72, 72)
-	back.flat = true
-	back.focus_mode = Control.FOCUS_NONE
-	var empty_style := StyleBoxEmpty.new()
-	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
-		back.add_theme_stylebox_override(state, empty_style)
-	back.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-	back.pressed.connect(_return_to_home)
-	add_child(back)
-
-func _return_to_home() -> void:
-	AudioService.son_menu_click()
-	get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/menu_principal.tscn")
-
 func _style(color: Color, radius: int, border: Color, width: int) -> StyleBoxFlat:
 	var style := StyleBoxFlat.new()
 	style.bg_color = color
@@ -161,3 +124,11 @@ func _style(color: Color, radius: int, border: Color, width: int) -> StyleBoxFla
 	style.border_width_right = width
 	style.border_width_bottom = width
 	return style
+
+func _return_to_home() -> void:
+	AudioService.son_menu_click()
+	VibrationService.vibration_click()
+	get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/menu_principal.tscn")
+
+func _on_retour_pressed() -> void:
+	_return_to_home()

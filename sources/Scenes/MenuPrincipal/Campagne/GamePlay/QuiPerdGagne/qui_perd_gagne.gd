@@ -28,7 +28,6 @@ func est_termine(liste_piles) -> bool:
 	var termine = plateau_bloque and une_pile_en_desordre
 	if termine:
 		LogService.log_debug("QuiPerdGagne : victoire.emit()")
-		$MenuPlateau/Top/BoutonAbandonner.hide()
-		$MenuPlateau.arreter_chronometre()
+		$MenuPlateau/Top/BoutonRecommencer.hide()
 		victoire.emit()
 	return termine

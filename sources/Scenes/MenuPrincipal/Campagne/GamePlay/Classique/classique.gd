@@ -19,7 +19,6 @@ func est_termine(liste_piles) -> bool:
 			break
 	if termine:
 		LogService.log_debug("Classique : victoire.emit()")
-		$MenuPlateau/Top/BoutonAbandonner.hide()
-		$MenuPlateau.arreter_chronometre()
+		$MenuPlateau/Top/BoutonRecommencer.hide()
 		victoire.emit()
 	return termine

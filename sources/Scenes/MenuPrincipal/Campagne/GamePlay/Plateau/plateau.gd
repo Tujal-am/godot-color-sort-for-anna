@@ -8,7 +8,7 @@ var layout := PlateauLayoutService.new()
 var decodeur := PlateauDecodeurService.new()
 var regles := PlateauReglesDuJeuService.new()
 var gameplay_est_termine: Callable
-var bouton_abandonner_size_y: float
+var bouton_recommencer_size_y: float
 
 @export var pile_scene: PackedScene
 var liste_piles = []
@@ -44,8 +44,8 @@ func est_valide(plateau_texte : String) -> bool:
 func est_bloque() -> bool:
 	return regles.est_bloque(liste_piles)
 
-func enregistrer_bouton_abandonner_size_y(size_y : float) -> void:
-	bouton_abandonner_size_y = size_y
+func enregistrer_bouton_recommencer_size_y(size_y : float) -> void:
+	bouton_recommencer_size_y = size_y
 
 # ########
 # Usine >>
@@ -90,7 +90,7 @@ func _initialiser_une_pile(pile: Pile, jetons_pile_texte) -> void:
 func _positionner_une_pile(nb_piles_plateau: int, indice_pile: int) -> Vector2:
 	# Definir la position de la pile sur le plateau
 	# Constantes pour layout
-	layout.taille_bouton_abandonner_originale = bouton_abandonner_size_y
+	layout.taille_bouton_recommencer_originale = bouton_recommencer_size_y
 	layout.taille_fenetre_jeu = get_viewport().get_visible_rect().size
 	layout.taille_pile_pixels = Vector2(liste_piles[0].largeur(), liste_piles[0].hauteur())
 	return layout.calculer_la_position_de_la_pile(nb_piles_plateau, indice_pile)
@@ -146,7 +146,9 @@ func _deselectionner_toutes_les_piles() -> void:
 	# LogService.log_debug("Annulation du coup en cours")
 
 func _on_menu_plateau_deselection_pile() -> void:
-	_on_selection_pile_timeout()
+	# si un plateau est en cours
+	if SauvegardeBddJoueursService.enregistrement_plateau_en_cours():
+		_on_selection_pile_timeout()
 
 func _on_selection_pile_timeout() -> void:
 	if liste_piles:

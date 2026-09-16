@@ -31,5 +31,3 @@ static func place(control: Control, rect: Rect2) -> Control:
 	control.position = rect.position
 	control.size = rect.size
 	return control
-
-

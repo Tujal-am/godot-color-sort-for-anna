@@ -145,6 +145,7 @@ func _on_resultats_continue_requested() -> void:
 	if _resultat_terminal:
 		return
 	AudioService.son_menu_click()
+	VibrationService.vibration_click()
 	if _fin_campagne_en_attente:
 		_fin_campagne_en_attente = false
 		fin_message_riche.emit()
@@ -160,14 +161,24 @@ func _on_resultats_continue_requested() -> void:
 	$ResultsPanel.hide()
 	$BoutonCommencer.hide()
 	$ResultsVisualLayer.hide_all()
+	var date_debut_campagne := SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
+	if Time.get_unix_time_from_system() < date_debut_campagne:
+		var date := Time.get_datetime_dict_from_unix_time(date_debut_campagne)
+		afficher_message_simple("Soyez patient, la campagne commence le %s/%s/%s." % [
+			str(date.get("day", 1)).pad_zeros(2),
+			str(date.get("month", 1)).pad_zeros(2),
+			str(date.get("year", 0))], 5.0)
+		return
 	commencer_plateau.emit()
 
 func _on_bouton_menu_principal_pressed() -> void:
 	AudioService.son_menu_click()
+	VibrationService.vibration_click()
 	get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/menu_principal.tscn")
 
 func _on_bouton_statistiques_pressed() -> void:
 	AudioService.son_menu_click()
+	VibrationService.vibration_click()
 	get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/statistiques.tscn")
 
 
@@ -204,6 +215,7 @@ func afficher_fin_campagne():
 
 func _on_bouton_retour_fin_campagne_pressed() -> void:
 	AudioService.son_menu_click()
+	VibrationService.vibration_click()
 	$ResultsVisualLayer.hide_all()
 	get_tree().change_scene_to_file("res://Scenes/MenuPrincipal/menu_principal.tscn")
 

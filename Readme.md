@@ -24,6 +24,15 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 #### Bug V0.4.0 :
 - Définir une combinaison secrete pour declencher l'export des fichiers JSON.
 
+#### Remarques Arélien :
+- ~~bug sur les boutons du menu principal~~
+- élargir la zone de saisie autours des piles
+- ~~lisibilité des messages (bravo, perdu, continuer)~~
+- ~~message de score un peu serré~~
+- ~~crédit difficile à lire~~
+- ~~crédit : faire un vrai lien sur YouTube~~
+- ~~"ajouter joueur" est difficile à lire.~~
+
 ### Jeu
 
 #### Changement d'architecture pour accueillir plusieurs gameplay
@@ -33,6 +42,10 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - ~~Séparer la campagne des plateaux et interfacer le gameplay entre eux.~~
 - ~~Structurer le fichier 'Solutions_classees.json' pour incorporer le déroulé de la campagne (sequence plateaux et gameplay)~~
   - ~~Le contenu devra être identique à la section "Campagne" du fichier vierge de sauvegarde d'un joueur.~~
+  - L'enregistrement de campagne désignera la campagne en cours
+  - Dans la campagne en cours, ajouter une balise "score" qui contiendra le bonus de fin de niveau.
+  - Dans la campagne, enregistrer tous ses niveaux.
+  - Une campagne de test pourra être effacée sans détruire une campagne réglementaire passée.
 - ~~Structurer la sauvegarde 'sauvegarde_joueur_XX.json' pour incorporer la campagne~~
   - ~~"ascensions" devient "enregistrement_campagne" pour les statistiques~~
   - ~~Un plateau terminé en campagne devient accessible pour le jeu libre~~
@@ -203,6 +216,7 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
   - Poids Plume
   - Pile Ou Face
   - Mot Caché
+  - FOU ou PERTE DE CONTRÔLE ou IMPATIENCE
 
 #### Descriptions
 
@@ -250,6 +264,15 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
   - Adapté pour les plateaux avec peu de jetons (hauteur et largeur)
 - Mot Caché:
   - la résolution du plateau forme un mot (ANNA, LOVE, SEXE ...).
+- __Plateau RARE__ FOU ou PERTE DE CONTRÔLE ou IMPATIENCE:
+  - le joueur joue 1 coup sur 2
+  - le 2ème coup est joué au "hasard" par la machine
+  - hasard : le top serait que la machine cherche à perdre (mode PLATEAU RARE)
+  - les plateaux doivent avoir beaucoup de chemins
+  - les plateaux doivent avoir un fort taux de victoire.
+  - VARIANTE : après un délai de 5s, le joueur perd son coup.
+  - VARIANTE : pas 1 coup sur 2, mais mouvement aléatoire quand le joueur met plus de 5s à jouer.
+  - VARIANTE : accélération du rythme en approchant de la fin
 
 #### Interface Graphique
 

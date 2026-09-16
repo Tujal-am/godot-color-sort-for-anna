@@ -1,14 +1,14 @@
 extends RefCounted
 class_name PlateauLayoutService
 
-var taille_bouton_abandonner_originale = 0.
+var taille_bouton_recommencer_originale = 0.
 var taille_fenetre_jeu = 0.
 var taille_pile_pixels = Vector2()
 
 func calculer_la_position_de_la_pile(nb_piles : int, indice_pile : int) -> Vector2:
 	# en haut à gauche (0,0)
 	# en bas à droite (infini, infini)
-	var taille_bouton_abandonner = taille_bouton_abandonner_originale * 0.5
+	var taille_bouton_recommencer = taille_bouton_recommencer_originale * 0.5
 	# TODO : Facteur 0,5 ajouté par bricolage, car la hauteur de la pile ne semble pas être
 	#        ... exactement celle retournée par liste_piles[0].hauteur()
 	#        ... ou sinon, son affichage est décallé
@@ -17,7 +17,7 @@ func calculer_la_position_de_la_pile(nb_piles : int, indice_pile : int) -> Vecto
 	var position_pile = Vector2()
 	if taille_plateau.y == 1:
 		# 1 ligne de piles : 'y' constant
-		position_pile.y = taille_bouton_abandonner + (taille_fenetre_jeu.y - taille_bouton_abandonner) / 2 + taille_pile_pixels.y / 2
+		position_pile.y = taille_bouton_recommencer + (taille_fenetre_jeu.y - taille_bouton_recommencer) / 2 + taille_pile_pixels.y / 2
 		var nb_ecarts_x = nb_piles + 1
 		var vide_x = (taille_fenetre_jeu.x - (nb_piles * taille_pile_pixels.x)) / nb_ecarts_x
 		var ecart_x = vide_x + taille_pile_pixels.x
@@ -27,13 +27,13 @@ func calculer_la_position_de_la_pile(nb_piles : int, indice_pile : int) -> Vecto
 		# N lignes de piles
 		var nb_ecarts = Vector2i(taille_plateau.x + 1, taille_plateau.y + 1)
 		var vide = Vector2( (taille_fenetre_jeu.x - (taille_plateau.x * taille_pile_pixels.x)) / nb_ecarts.x,
-							 (taille_fenetre_jeu.y - taille_bouton_abandonner - (taille_plateau.y * taille_pile_pixels.y)) / nb_ecarts.y)
+							 (taille_fenetre_jeu.y - taille_bouton_recommencer - (taille_plateau.y * taille_pile_pixels.y)) / nb_ecarts.y)
 		var ecart = Vector2( vide.x + taille_pile_pixels.x,
 							 vide.y + taille_pile_pixels.y)
 		var taille_plateau_totale = Vector2( taille_plateau.x * taille_pile_pixels.x + (taille_plateau.x - 1) * vide.x,
 												taille_plateau.y * taille_pile_pixels.y + (taille_plateau.y - 1) * vide.y)
 		position_pile = Vector2( taille_fenetre_jeu.x / 2 - taille_plateau_totale.x / 2 + ecart.x * (coordonnees_pile.x),
-									taille_bouton_abandonner + (taille_fenetre_jeu.y - taille_bouton_abandonner) / 2 + taille_plateau_totale.y / 2 - ecart.y * (coordonnees_pile.y) )
+									taille_bouton_recommencer + (taille_fenetre_jeu.y - taille_bouton_recommencer) / 2 + taille_plateau_totale.y / 2 - ecart.y * (coordonnees_pile.y) )
 	return position_pile
 
 func convertir_indice_pile_coordonnees(nb_piles : int, indice_pile : int) -> Vector2i:
