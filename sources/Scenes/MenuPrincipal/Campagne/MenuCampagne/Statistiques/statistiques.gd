@@ -59,6 +59,14 @@ func _mode_data(nombre: int, taux: float, temps_moyen: float, rapide: Dictionary
 		"r2_c3": UNAVAILABLE,
 	}
 
+func _remplir_score() -> void:
+	_val("Scroll/Content/ScoreTitle", "Score : " + StatsService.score().replace(".", " "))
+	_val("Scroll/Content/ScoreRapiditeValue", str_arrondir_pourcentage(StatsService.score_pourcentage_rapidite()))
+	_val("Scroll/Content/ScoreReussiteValue", str_arrondir_pourcentage(StatsService.score_pourcentage_reussite()))
+	_val("Scroll/Content/ScoreNiveauValue", str_arrondir_pourcentage(StatsService.score_pourcentage_niveau()))
+	_val("Scroll/Content/ScoreParfaitValue", str_arrondir_pourcentage(StatsService.score_pourcentage_niveau_parfait()))
+	_val("Scroll/Content/ScoreCampagneValue", str_arrondir_pourcentage(StatsService.score_pourcentage_fin_campagne()))
+
 func _remplir_reels() -> void:
 	# Every dynamic field starts as an explicit unavailable marker. This keeps
 	# no-data profiles honest while allowing the real StatsService values below.
@@ -69,6 +77,7 @@ func _remplir_reels() -> void:
 		"BoardR1C1", "BoardR1C2", "BoardR2C1", "BoardR2C2"]:
 		_val("Scroll/Content/" + path, UNAVAILABLE)
 	_val("Scroll/Content/PlayerIdentityRow/PlayerName", StatsService.campagne_nom_joueur())
+	_remplir_score()
 	var total := StatsService.nombre_de_plateaux_totaux()
 	if total <= 0:
 		_set_mode($Scroll/Content/Classique, "Classique", {})
