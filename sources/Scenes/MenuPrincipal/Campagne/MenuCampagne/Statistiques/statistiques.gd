@@ -12,8 +12,8 @@ func _ready() -> void:
 func _actualiser_grade() -> void:
 	var player_name := StatsService.campagne_nom_joueur()
 	var grade := GradePresentationScript.for_player(player_name)
-	var avatar := $Scroll/Content/PlayerIdentityRow/Avatar
-	avatar.texture = load(str(GradePresentationScript.texture_path_for_stats_player(player_name)))
+	var medal := $Scroll/Content/PlayerIdentityRow/Medal
+	medal.texture = load(str(GradePresentationScript.texture_path_for_stats_player(player_name)))
 	_val("Scroll/Content/PlayerIdentityRow/GradeName", grade.get("name", "Bronze"))
 	$Scroll/Content/PlayerIdentityRow/GradeName.add_theme_color_override("font_color", GradePresentationScript.color_for_player(player_name))
 
