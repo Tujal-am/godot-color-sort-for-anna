@@ -43,9 +43,13 @@ func enregistrer_coups(coups : String):
 func show():
 	_build_presentation()
 	$Fond.show()
-	$BoutonRetour.show()
 	$Top.show()
-	$BoutonStatistiques.show()
+	if _is_qpg():
+		$BoutonRetour.show()
+		$BoutonStatistiques.show()
+	else:
+		$BoutonRetour.hide()
+		$BoutonStatistiques.hide()
 	$Top/BoutonRecommencer.show()
 	if not _is_qpg():
 		var plateau := get_parent().get_node_or_null("Plateau")
@@ -102,15 +106,15 @@ func _build_presentation() -> void:
 	$BoutonRetour.position = Vector2(8,44) if qpg else Vector2(4,137)
 	$Top.position = Vector2(70,38) if qpg else Vector2(51,135)
 	$Top/TopPanel.texture = load(ASSET_ROOT + ("qui_perd_gagne/production_clean/top_panel_qpg_clean.png" if qpg else "classique/production_final/01_HEADER_CLASSIQUE_STATIC_365x58.png"))
-	$BoutonStatistiques.texture_normal = load(ASSET_ROOT + ("qui_perd_gagne/production_clean/statistics_button_qpg_clean.png" if qpg else "classique/production_final/04_STATISTIQUES_CLASSIQUE_60x58.png"))
+	$BoutonStatistiques.texture_normal = load(ASSET_ROOT + "qui_perd_gagne/production_clean/statistics_button_qpg_clean.png") if qpg else null
 	$BoutonStatistiques.position = Vector2(408,38) if qpg else Vector2(415,135)
 	$BoutonStatistiques.size = Vector2(60,66) if qpg else Vector2(60,58)
 	$BoutonStatistiques/StatistiquesLabel.add_theme_color_override("font_color", Color.WHITE if qpg else Color("0a3765"))
 	$Top/BoutonRecommencer.modulate = Color.WHITE
 	$Top/BoutonRecommencer.self_modulate = Color.WHITE
 	$Top/BoutonRecommencer.texture_normal = load(ASSET_ROOT + ("qui_perd_gagne/production_clean/restart_button_qpg_clean.png" if qpg else "classique/production_final/05_RECOMMENCER_CLASSIQUE_244x60.png"))
-	$Top/BoutonRecommencer.position = Vector2(38,502) if qpg else Vector2(61,456)
-	$Top/BoutonRecommencer.size = Vector2(264,58) if qpg else Vector2(236,60)
+	$Top/BoutonRecommencer.position = Vector2(38,502) if qpg else Vector2(110,92)
+	$Top/BoutonRecommencer.size = Vector2(264,58) if qpg else Vector2(244,60)
 	$Top/BoutonRecommencer/RestartLabel.position.x = 100 if qpg else 82
 	$Top/BoutonRecommencer/RestartLabel.size.x = 126 if qpg else 142
 	# Classique utilise un libellé rasterisé dans le pack validé ; le label historique reste actif pour QPG.
@@ -121,7 +125,7 @@ func _is_qpg() -> bool:
 	return get_parent().name == "QuiPerdGagne"
 
 func _build_top_contents(qpg: bool) -> void:
-	$Top/ModeIcon.texture = load(ASSET_ROOT + ("qui_perd_gagne/icon_diablotin_neon.png" if qpg else "classique/icon_stacked_cubes.png"))
+	$Top/ModeIcon.texture = load(ASSET_ROOT + "qui_perd_gagne/icon_diablotin_neon.png") if qpg else null
 	$Top/ModeIcon.position = Vector2(8,9) if qpg else Vector2(8,17)
 	$Top/ModeIcon.size = Vector2(43,48) if qpg else Vector2(48,30)
 	$Top/Check.visible = not qpg
@@ -219,6 +223,7 @@ func _build_top_contents(qpg: bool) -> void:
 		$Top/ProgressBarBackground.size = Vector2(64,9)
 		$Top/ProgressBar.position = Vector2(171,38)
 		$Top/ProgressBar.size.x = 64.0 * percent / 100.0
+		_build_classique_banner()
 	else:
 		# Restore the legacy QPG controls when a shared instance is reused.
 		$PlayerCard.hide()
@@ -231,6 +236,87 @@ func _build_top_contents(qpg: bool) -> void:
 func _avatar_path(player_name: String) -> String:
 	# Gameplay identity uses the active player's grade medal; no portrait fallback.
 	return GradePresentationScript.texture_path_for_stats_player(player_name)
+
+func _build_classique_banner() -> void:
+	"""Compose le bandeau Classique dans une enveloppe unique, sans toucher au gameplay."""
+	$Fond.texture = load(ASSET_ROOT + "classique/MASTER_backgroundgameplay_classique_480x720.png")
+	$Top.position = Vector2(8, 8)
+	$Top.size = Vector2(464, 72)
+	$Top/BannerBackground.show()
+	$Top/TopPanel.hide()
+	# Colonnes identité / mode / temps / coups : 114 / 204 / 68 / 78 px.
+	$Top/PlayerDivider.position = Vector2(114, 20)
+	$Top/PlayerDivider.size = Vector2(1, 32)
+	$Top/GameplayDivider.position = Vector2(318, 20)
+	$Top/GameplayDivider.size = Vector2(1, 32)
+	$Top/ProgressionDivider.position = Vector2(386, 20)
+	$Top/ProgressionDivider.size = Vector2(1, 32)
+	$Top/PlayerDivider.show()
+	$Top/GameplayDivider.show()
+	$Top/ProgressionDivider.show()
+	$Top/ModeIcon.texture = load("res://assets/stats/normalized/cube_campagne_34x34_normalized.png")
+	$Top/ModeIcon2.texture = load("res://assets/stats/normalized/cube_niveau_34x34_normalized.png")
+	$Top/ModeIcon3.texture = load("res://assets/stats/normalized/cube_plateau_34x34_normalized.png")
+	$Top/ModeIcon2.show()
+	$Top/ModeIcon3.show()
+	$Top/ModeIcon.position = Vector2(126, 22)
+	$Top/ModeIcon.size = Vector2(36, 28)
+	$Top/ModeIcon.show()
+	$Top/Check.position = Vector2(168, 24)
+	$Top/Check.size = Vector2(20, 24)
+	$Top/Check.show()
+	$Top/Gameplay.position = Vector2(192, 14)
+	$Top/Gameplay.size = Vector2(116, 20)
+	$Top/Gameplay.text = "CLASSIQUE"
+	$Top/Gameplay.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/Gameplay.show()
+	$Top/Subtitle.position = Vector2(184, 36)
+	$Top/Subtitle.size = Vector2(126, 18)
+	$Top/Subtitle.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/Subtitle.show()
+	$Top/ChronoIcon.position = Vector2(326, 16)
+	$Top/ChronoIcon.size = Vector2(18, 20)
+	$Top/ChronoIcon.show()
+	$Top/ChronoLabel.position = Vector2(344, 24)
+	$Top/ChronoLabel.size = Vector2(66, 24)
+	$Top/ChronoLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/ChronoLabel.show()
+	$Top/CoupsTitle.position = Vector2(394, 14)
+	$Top/CoupsTitle.size = Vector2(64, 20)
+	$Top/CoupsTitle.text = "Coups"
+	$Top/CoupsTitle.hide()
+	$Top/CoupsLabel.position = Vector2(394, 36)
+	$Top/CoupsLabel.size = Vector2(64, 24)
+	$Top/CoupsLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/CoupsLabel.show()
+	# Identité dynamique : médaille, grade, puis pseudo, sans portrait.
+	var player_name := SauvegardeBddJoueursService.lire_nom_joueur()
+	$Top/Avatar.position = Vector2(12, 12)
+	$Top/Avatar.size = Vector2(40, 40)
+	$Top/Avatar.texture = load(_avatar_path(player_name))
+	$Top/Avatar.show()
+	$Top/NomJoueur.position = Vector2(56, 10)
+	$Top/NomJoueur.size = Vector2(54, 25)
+	$Top/NomJoueur.text = player_name
+	$Top/NomJoueur.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	$Top/NomJoueur.clip_text = true
+	$Top/NomJoueur.show()
+	$Top/GradeName.text = GradePresentationScript.for_player(player_name).get("name", "Bronze")
+	$Top/GradeName.position = Vector2(56, 38)
+	$Top/GradeName.size = Vector2(54, 20)
+	$Top/GradeName.show()
+	$Top/Heart.hide()
+	$Top/Progression.hide()
+	$Top/ProgressPercent.hide()
+	$Top/ProgressionTrack.hide()
+	$Top/ProgressBarBackground.hide()
+	$Top/ProgressBar.hide()
+	$Top/HeaderRule.hide()
+	$PlayerCard.hide()
+	# Le bouton garde son callback historique, mais reste une cible séparée du bandeau.
+	$BoutonStatistiques.position = Vector2(408, 88)
+	$BoutonStatistiques.size = Vector2(60, 58)
+	$BoutonStatistiques/StatistiquesLabel.hide()
 
 func _on_bouton_retour_pressed() -> void:
 	AudioService.son_menu_click()

@@ -4,7 +4,9 @@
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/BACKGROUND_CLASSIQUE_HEADER_SAFE_480x720.png" id="2_fond"]
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/REF_back_button_crop.png" id="3_back"]
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_clean/top_panel_classique_clean.png" id="4_top"]
-[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/icon_stacked_cubes.png" id="5_mode"]
+[ext_resource type="Texture2D" path="res://assets/stats/normalized/cube_campagne_34x34_normalized.png" id="5_mode1"]
+[ext_resource type="Texture2D" path="res://assets/stats/normalized/cube_niveau_34x34_normalized.png" id="16_mode2"]
+[ext_resource type="Texture2D" path="res://assets/stats/normalized/cube_plateau_34x34_normalized.png" id="17_mode3"]
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/icon_check_blue.png" id="6_check"]
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/06_HEART_CLASSIQUE_23x27.png" id="7_heart"]
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_clean/statistics_button_classique_clean.png" id="8_stats"]
@@ -12,7 +14,6 @@
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/01_HEADER_CLASSIQUE_STATIC_365x58.png" id="12_banner"]
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/02_PLAYER_CARD_SHELL_165x56.png" id="13_card"]
 [ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/03_BACK_CLASSIQUE_48x56.png" id="14_back_master"]
-[ext_resource type="Texture2D" path="res://Art/UI/IntegrationV4/Gameplay/classique/production_final/04_STATISTIQUES_CLASSIQUE_60x58.png" id="15_stats_master"]
 [ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="10_regular"]
 [ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="11_bold"]
 
@@ -49,6 +50,20 @@ corner_radius_bottom_left = 14
 shadow_color = Color(0.2, 0.1, 0.05, 0.18)
 shadow_size = 3
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
+bg_color = Color(1, 0.956863, 0.909804, 0.98)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.886275, 0.690196, 0.584314, 0.9)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0.2, 0.1, 0.05, 0.16)
+shadow_size = 3
+
 [node name="MenuPlateau" type="Node"]
 script = ExtResource("1_script")
 
@@ -72,12 +87,20 @@ stretch_mode = 5
 
 [node name="Top" type="Control" parent="."]
 z_index = 10
-offset_left = 51.0
-offset_top = 135.0
-offset_right = 416.0
-offset_bottom = 193.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 472.0
+offset_bottom = 80.0
+
+[node name="BannerBackground" type="Panel" parent="Top"]
+z_index = -2
+offset_right = 464.0
+offset_bottom = 72.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_banner")
+mouse_filter = 2
 
 [node name="TopPanel" type="TextureRect" parent="Top"]
+visible = false
 offset_right = 365.0
 offset_bottom = 58.0
 texture = ExtResource("12_banner")
@@ -114,11 +137,29 @@ offset_left = 6.0
 offset_top = 14.0
 offset_right = 58.0
 offset_bottom = 52.0
-texture = ExtResource("5_mode")
+texture = ExtResource("5_mode1")
 expand_mode = 1
 stretch_mode = 5
 mouse_filter = 2
 
+[node name="ModeIcon2" type="TextureRect" parent="Top"]
+offset_left = 30.0
+offset_top = 14.0
+offset_right = 64.0
+offset_bottom = 48.0
+texture = ExtResource("16_mode2")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+[node name="ModeIcon3" type="TextureRect" parent="Top"]
+offset_left = 52.0
+offset_top = 14.0
+offset_right = 86.0
+offset_bottom = 48.0
+texture = ExtResource("17_mode3")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
 [node name="Check" type="TextureRect" parent="Top"]
 offset_left = 62.0
 offset_top = 19.0
@@ -291,6 +332,19 @@ offset_bottom = 44.0
 texture = ExtResource("7_heart")
 expand_mode = 1
 stretch_mode = 5
+mouse_filter = 2
+
+[node name="GradeName" type="Label" parent="Top"]
+offset_left = 48.0
+offset_top = 41.0
+offset_right = 108.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.65098, 0.352941, 0.180392, 1)
+theme_override_fonts/font = ExtResource("10_regular")
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 0
+vertical_alignment = 1
+clip_text = true
 mouse_filter = 2
 
 [node name="PlayerCard" type="Panel" parent="."]

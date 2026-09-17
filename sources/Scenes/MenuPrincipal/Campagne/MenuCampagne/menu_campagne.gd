@@ -3,6 +3,7 @@ extends CanvasLayer
 class_name MenuCampagne
 
 var formatter := FormatterMenuCampagne.new()
+const GradePresentationScript = preload("res://Scenes/MenuPrincipal/Grades/grade_presentation.gd")
 var _message_riche_verrouille := false # Semaphore sur l'affichage de message riche
 var _on_message_riche_gui_input_verouille := false
 var _resultat_terminal := false
@@ -20,6 +21,35 @@ func _ready() -> void:
 	# L’écran d’accueil ne doit jamais exposer le gabarit de message/résultat.
 	$ResultsPanel.hide()
 	$MessageRiche.hide()
+
+func _on_preplateau_start_pressed() -> void:
+	$PrePlateauPanel.hide()
+	commencer_plateau.emit()
+
+func _afficher_preplateau_classique() -> void:
+	$Background.show()
+	$PrePlateauPanel.show()
+	$BoutonMenuPrincipal.hide()
+	$BoutonStatistiques.hide()
+	$InfosDuJoueur.hide()
+	$Message.hide()
+	$MessageRiche.hide()
+	$ResultsPanel.hide()
+	$BoutonCommencer.hide()
+	$PrePlateauPanel/StartButton.show()
+	$BoutonRetourFinCampagne.hide()
+	var nom := SauvegardeBddJoueursService.lire_nom_joueur()
+	$PrePlateauPanel/Top/PlayerName.text = nom
+	var grade = GradePresentationScript.for_player(nom)
+	$PrePlateauPanel/Top/Medal.texture = load(str(grade.get("texture", "res://Art/UI/IntegrationV3/grades/medaille_bronze_48.png")))
+	$PrePlateauPanel/Top/Grade.text = str(grade.get("name", "Bronze"))
+	$PrePlateauPanel/Top/Grade.add_theme_color_override("font_color", Color(str(grade.get("color", "#A65A2E"))))
+	var niveau := SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()
+	var completion := clampi(SauvegardeBddJoueursService.lire_pourcentage_niveau_realise(), 0, 100)
+	$PrePlateauPanel/GameplayBar/LevelCaption.text = "Niveau"
+	$PrePlateauPanel/GameplayBar/LevelValue.text = str(niveau)
+	$PrePlateauPanel/GameplayBar/Completion.text = "Complétion %s %%" % completion
+	$PrePlateauPanel/GameplayBar/Progress.value = completion
 
 func afficher_background() -> void:
 	$Background.show()
@@ -125,6 +155,7 @@ func cacher_accueil():
 	_resultat_terminal = false
 	_fin_campagne_en_attente = false
 	$Background.hide()
+	$PrePlateauPanel.hide()
 	$BoutonMenuPrincipal.hide()
 	$BoutonStatistiques.hide()
 	$InfosDuJoueur.hide()
@@ -139,7 +170,7 @@ func afficher_accueil_nouveau_niveau():
 	afficher_plateau_suivant("Nouveau Niveau !")
 
 func afficher_accueil_niveau_en_cours():
-	afficher_plateau_suivant("Poursuivre Le Niveau !")
+	_afficher_preplateau_classique()
 
 func _on_resultats_continue_requested() -> void:
 	if _resultat_terminal:
@@ -169,7 +200,9 @@ func _on_resultats_continue_requested() -> void:
 			str(date.get("month", 1)).pad_zeros(2),
 			str(date.get("year", 0))], 5.0)
 		return
-	commencer_plateau.emit()
+	# Après consultation du score, revenir au même pré-plateau que lors de l'entrée initiale.
+	# Le prochain plateau ne démarre qu'après un nouveau clic sur Commencer.
+	_afficher_preplateau_classique()
 
 func _on_bouton_menu_principal_pressed() -> void:
 	AudioService.son_menu_click()
