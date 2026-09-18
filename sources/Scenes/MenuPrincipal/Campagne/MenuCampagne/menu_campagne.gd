@@ -4,6 +4,9 @@ class_name MenuCampagne
 
 var formatter := FormatterMenuCampagne.new()
 const GradePresentationScript = preload("res://Scenes/MenuPrincipal/Grades/grade_presentation.gd")
+const QPG_BACKGROUND_TEXTURE := "res://Art/UI/IntegrationV4/Gameplay/qui_perd_gagne/qpg_background_clean_v2_480x720.png"
+const QPG_BEFORE_BANNER := "res://Art/UI/IntegrationV4/Gameplay/qui_perd_gagne/qpg_avant_statique_v2_480x168.png"
+const QPG_START_BUTTON := "res://Art/UI/IntegrationV4/Gameplay/qui_perd_gagne/qpg_commencer_v2_244x60.png"
 var _message_riche_verrouille := false # Semaphore sur l'affichage de message riche
 var _on_message_riche_gui_input_verouille := false
 var _resultat_terminal := false
@@ -39,6 +42,10 @@ func _afficher_preplateau_classique() -> void:
 	$PrePlateauPanel/StartButton.show()
 	$BoutonRetourFinCampagne.hide()
 	var nom := SauvegardeBddJoueursService.lire_nom_joueur()
+	var qpg := SauvegardeBddJoueursService.enregistrement_lire_gameplay_plateau() == "QUI_PERD_GAGNE"
+	if qpg:
+		_configurer_preplateau_qpg(nom)
+		return
 	$PrePlateauPanel/Top/PlayerName.text = nom
 	var grade = GradePresentationScript.for_player(nom)
 	$PrePlateauPanel/Top/Medal.texture = load(str(grade.get("texture", "res://Art/UI/IntegrationV3/grades/medaille_bronze_48.png")))
@@ -50,6 +57,85 @@ func _afficher_preplateau_classique() -> void:
 	$PrePlateauPanel/GameplayBar/LevelValue.text = str(niveau)
 	$PrePlateauPanel/GameplayBar/Completion.text = "Complétion %s %%" % completion
 	$PrePlateauPanel/GameplayBar/Progress.value = completion
+
+func _configurer_preplateau_qpg(nom: String) -> void:
+	var grade = GradePresentationScript.for_player(nom)
+	var niveau := SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()
+	var completion := clampi(SauvegardeBddJoueursService.lire_pourcentage_niveau_realise(), 0, 100)
+	$PrePlateauPanel/Background.texture = load(QPG_BACKGROUND_TEXTURE)
+	$PrePlateauPanel/Background.position = Vector2.ZERO
+	$PrePlateauPanel/Background.size = Vector2(480, 720)
+	$PrePlateauPanel/Top.position = Vector2.ZERO
+	$PrePlateauPanel/Top.size = Vector2(480, 168)
+	var header_style := StyleBoxTexture.new()
+	header_style.texture = load(QPG_BEFORE_BANNER)
+	$PrePlateauPanel/Top.add_theme_stylebox_override("panel", header_style)
+	$PrePlateauPanel/Top/Medal.position = Vector2(98, 26)
+	$PrePlateauPanel/Top/Medal.size = Vector2(36, 38)
+	$PrePlateauPanel/Top/Medal.texture = load(str(grade.get("texture", "res://Art/UI/IntegrationV3/grades/medaille_bronze_48.png")))
+	$PrePlateauPanel/Top/Divider.hide()
+	$PrePlateauPanel/Top/PlayerName.position = Vector2(162, 17)
+	$PrePlateauPanel/Top/PlayerName.size = Vector2(198, 21)
+	$PrePlateauPanel/Top/PlayerName.text = nom
+	$PrePlateauPanel/Top/PlayerName.clip_text = true
+	$PrePlateauPanel/Top/PlayerName.add_theme_font_size_override("font_size", 11)
+	$PrePlateauPanel/Top/PlayerName.add_theme_color_override("font_color", Color.WHITE)
+	$PrePlateauPanel/Top/Grade.position = Vector2(162, 44)
+	$PrePlateauPanel/Top/Grade.size = Vector2(198, 18)
+	$PrePlateauPanel/Top/Grade.text = str(grade.get("name", "Bronze"))
+	$PrePlateauPanel/Top/Grade.add_theme_color_override("font_color", Color.WHITE)
+	$PrePlateauPanel/Stats.position = Vector2(371, 8)
+	$PrePlateauPanel/Stats.size = Vector2(99, 70)
+	$PrePlateauPanel/Stats.flat = true
+	$PrePlateauPanel/Stats.text = ""
+	$PrePlateauPanel/Stats.add_theme_stylebox_override("normal", StyleBoxEmpty.new())
+	$PrePlateauPanel/Stats.add_theme_stylebox_override("hover", StyleBoxEmpty.new())
+	$PrePlateauPanel/Stats.add_theme_stylebox_override("pressed", StyleBoxEmpty.new())
+	$PrePlateauPanel/Stats/StatsDivider.hide()
+	$PrePlateauPanel/Stats/StatsIcon.hide()
+	$PrePlateauPanel/Stats/StatsLabel.hide()
+	$PrePlateauPanel/GameplayBar.position = Vector2.ZERO
+	$PrePlateauPanel/GameplayBar.size = Vector2(480, 168)
+	$PrePlateauPanel/GameplayBar.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+	for node_name in ["ModeIcon", "ModeIcon2", "ModeIcon3", "Check", "Mode", "Subtitle", "LevelDivider", "LevelCaption"]:
+		$PrePlateauPanel/GameplayBar.get_node(node_name).hide()
+	$PrePlateauPanel/GameplayBar/LevelValue.position = Vector2(216, 108)
+	$PrePlateauPanel/GameplayBar/LevelValue.size = Vector2(80, 24)
+	$PrePlateauPanel/GameplayBar/LevelValue.text = "Niveau %s" % niveau
+	$PrePlateauPanel/GameplayBar/LevelValue.add_theme_font_size_override("font_size", 13)
+	$PrePlateauPanel/GameplayBar/LevelValue.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$PrePlateauPanel/GameplayBar/LevelValue.add_theme_color_override("font_color", Color.WHITE)
+	$PrePlateauPanel/GameplayBar/Completion.text = "%s %%" % completion
+	$PrePlateauPanel/GameplayBar/Completion.clip_text = true
+	$PrePlateauPanel/GameplayBar/Completion.position = Vector2(420, 103)
+	$PrePlateauPanel/GameplayBar/Completion.size = Vector2(38, 18)
+	$PrePlateauPanel/GameplayBar/Completion.add_theme_font_size_override("font_size", 13)
+	$PrePlateauPanel/GameplayBar/Completion.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$PrePlateauPanel/GameplayBar/Completion.add_theme_color_override("font_color", Color.WHITE)
+	$PrePlateauPanel/GameplayBar/Progress.position = Vector2(313, 135)
+	$PrePlateauPanel/GameplayBar/Progress.size = Vector2(149, 7)
+	$PrePlateauPanel/GameplayBar/Progress.show_percentage = false
+	$PrePlateauPanel/GameplayBar/Progress.add_theme_stylebox_override("background", StyleBoxEmpty.new())
+	var fill := StyleBoxFlat.new()
+	fill.bg_color = Color("ff1597")
+	fill.corner_radius_top_left = 4
+	fill.corner_radius_top_right = 4
+	fill.corner_radius_bottom_left = 4
+	fill.corner_radius_bottom_right = 4
+	$PrePlateauPanel/GameplayBar/Progress.add_theme_stylebox_override("fill", fill)
+	$PrePlateauPanel/StartButton.position = Vector2(118, 648)
+	$PrePlateauPanel/StartButton.size = Vector2(244, 60)
+	$PrePlateauPanel/StartButton.flat = false
+	$PrePlateauPanel/StartButton.text = ""
+	var start_style := StyleBoxTexture.new()
+	start_style.texture = load(QPG_START_BUTTON)
+	for state in ["normal", "hover", "pressed", "focus", "disabled"]:
+		$PrePlateauPanel/StartButton.add_theme_stylebox_override(state, start_style)
+	$PrePlateauPanel/StartButton/Cube.hide()
+	$PrePlateauPanel/StartButton.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	$PrePlateauPanel/Back.position = Vector2(8, 12)
+	$PrePlateauPanel/Back.size = Vector2(50, 67)
+	$PrePlateauPanel/Back.texture_normal = null
 
 func afficher_background() -> void:
 	$Background.show()

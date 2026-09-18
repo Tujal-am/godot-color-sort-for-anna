@@ -95,6 +95,7 @@ func _positionner_une_pile(nb_piles_plateau: int, indice_pile: int) -> Vector2:
 	layout.taille_bouton_recommencer_originale = bouton_recommencer_size_y
 	layout.taille_fenetre_jeu = get_viewport().get_visible_rect().size
 	layout.taille_pile_pixels = Vector2(liste_piles[0].largeur(), liste_piles[0].hauteur())
+	layout.centrer_lignes_individuellement = presentation_mode == "qui_perd_gagne"
 	return layout.calculer_la_position_de_la_pile(nb_piles_plateau, indice_pile)
 # Usine >>
 # ########

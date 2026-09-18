@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d1gplb6aeca2"
-path="res://.godot/imported/bg_gameplay_qui_perd_gagne_480x720.png-dd50522d3ebbd0900252a371aaba84df.ctex"
+uid="uid://dxmjysgyxeg5n"
+path="res://.godot/imported/qpg_background_clean_v2_480x720.png-13a4bd9ecd575f47f1d83fa87a8e2ade.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/UI/IntegrationV4/Gameplay/qui_perd_gagne/bg_gameplay_qui_perd_gagne_480x720.png"
-dest_files=["res://.godot/imported/bg_gameplay_qui_perd_gagne_480x720.png-dd50522d3ebbd0900252a371aaba84df.ctex"]
+source_file="res://Art/UI/IntegrationV4/Gameplay/qui_perd_gagne/qpg_background_clean_v2_480x720.png"
+dest_files=["res://.godot/imported/qpg_background_clean_v2_480x720.png-13a4bd9ecd575f47f1d83fa87a8e2ade.ctex"]
 
 [params]
 

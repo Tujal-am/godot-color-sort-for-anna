@@ -6,6 +6,9 @@ signal abandon
 signal deselection_pile
 
 const ASSET_ROOT := "res://Art/UI/IntegrationV4/Gameplay/"
+const QPG_BACKGROUND_TEXTURE := ASSET_ROOT + "qui_perd_gagne/qpg_background_clean_v2_480x720.png"
+const QPG_ACTIVE_BANNER := ASSET_ROOT + "qui_perd_gagne/qpg_actif_statique_v2_480x96.png"
+const QPG_RESTART_BUTTON := ASSET_ROOT + "qui_perd_gagne/qpg_recommencer_v2_244x60.png"
 const FONT_REGULAR := preload("res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf")
 const FONT_BOLD := preload("res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf")
 const MENU_PRINCIPAL_SCRIPT := preload("res://Scenes/MenuPrincipal/menu_principal.gd")
@@ -45,8 +48,8 @@ func show():
 	$Fond.show()
 	$Top.show()
 	if _is_qpg():
-		$BoutonRetour.show()
-		$BoutonStatistiques.show()
+		$BoutonRetour.hide()
+		$BoutonStatistiques.hide()
 	else:
 		$BoutonRetour.hide()
 		$BoutonStatistiques.hide()
@@ -101,7 +104,9 @@ func _build_presentation() -> void:
 	# choose or reset the gameplay itself; the exported value is only a
 	# compatibility hint for older scenes.
 	var qpg := get_parent().name == "QuiPerdGagne"
-	$Fond.texture = load(ASSET_ROOT + ("qui_perd_gagne/bg_gameplay_qui_perd_gagne_480x720.png" if qpg else "classique/production_final/BACKGROUND_CLASSIQUE_HEADER_SAFE_480x720.png"))
+	$Fond.texture = load(QPG_BACKGROUND_TEXTURE if qpg else ASSET_ROOT + "classique/production_final/BACKGROUND_CLASSIQUE_HEADER_SAFE_480x720.png")
+	$Fond.position = Vector2.ZERO
+	$Fond.size = Vector2(480, 720)
 	$BoutonRetour.texture_normal = load(ASSET_ROOT + ("qui_perd_gagne/REF_back_button_crop.png" if qpg else "classique/production_final/03_BACK_CLASSIQUE_48x56.png"))
 	$BoutonRetour.position = Vector2(8,44) if qpg else Vector2(4,137)
 	$Top.position = Vector2(70,38) if qpg else Vector2(51,135)
@@ -119,119 +124,139 @@ func _build_presentation() -> void:
 	$Top/BoutonRecommencer/RestartLabel.size.x = 126 if qpg else 142
 	# Classique utilise un libellé rasterisé dans le pack validé ; le label historique reste actif pour QPG.
 	$Top/BoutonRecommencer/RestartLabel.visible = qpg
+	if qpg:
+		$Top.position = Vector2.ZERO
+		$Top.size = Vector2(480, 96)
+		$Top.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+		$Top/BannerBackground.hide()
+		$Top/TopPanel.texture = load(QPG_ACTIVE_BANNER)
+		$Top/TopPanel.position = Vector2.ZERO
+		$Top/TopPanel.size = Vector2(480, 96)
+		$Top/TopPanel.show()
+		$BoutonRetour.texture_normal = null
+		$BoutonStatistiques.texture_normal = null
+		$Top/BoutonRecommencer.position = Vector2(118, 101)
+		$Top/BoutonRecommencer.size = Vector2(244, 60)
+		$Top/BoutonRecommencer.texture_normal = load(QPG_RESTART_BUTTON)
+		$Top/BoutonRecommencer/RestartLabel.hide()
+		for state in ["normal", "hover", "pressed", "focus", "disabled"]:
+			$Top/BoutonRecommencer.add_theme_stylebox_override(state, StyleBoxEmpty.new())
 	_build_top_contents(qpg)
 
 func _is_qpg() -> bool:
 	return get_parent().name == "QuiPerdGagne"
 
 func _build_top_contents(qpg: bool) -> void:
-	$Top/ModeIcon.texture = load(ASSET_ROOT + "qui_perd_gagne/icon_diablotin_neon.png") if qpg else null
-	$Top/ModeIcon.position = Vector2(8,9) if qpg else Vector2(8,17)
-	$Top/ModeIcon.size = Vector2(43,48) if qpg else Vector2(48,30)
-	$Top/Check.visible = not qpg
-	$Top/Gameplay.text = "QUI PERD GAGNE" if qpg else "CLASSIQUE"
-	$Top/Gameplay.add_theme_font_size_override("font_size", 11 if qpg else 15)
-	$Top/Gameplay.add_theme_color_override("font_color", Color("ff1597") if qpg else Color("063b75"))
-	$Top/Gameplay.position = Vector2(76 if qpg else 92,8)
-	$Top/Gameplay.size = Vector2(121 if qpg else 94,20)
-	$Top/Subtitle.text = "Bloque le jeu pour gagner." if qpg else "Empile les couleurs"
-	$Top/Subtitle.add_theme_color_override("font_color", Color.WHITE if qpg else Color("079ab2"))
-	$Top/Subtitle.position = Vector2(76 if qpg else 92,29)
-	$Top/Subtitle.size = Vector2(121 if qpg else 94,18)
+	if qpg:
+		_build_qpg_active_contents()
+		return
+	_build_classique_contents()
+
+func _build_classique_contents() -> void:
 	var level := SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()
-	var percent := clampi(SauvegardeBddJoueursService.lire_pourcentage_niveau_realise(),0,100)
-	$Top/Progression.text = "Niveau %s : %s %%" % [level,percent]
-	$Top/Progression.add_theme_color_override("font_color", Color.WHITE if qpg else Color("063b75"))
-	$Top/Progression.position = Vector2(199 if qpg else 190,10)
-	$Top/Progression.size = Vector2(64 if qpg else 70,18)
-	$Top/ProgressBarBackground.color = Color("44266e") if qpg else Color("f3d8bf")
-	$Top/ProgressBarBackground.position.x = 200 if qpg else 190
-	$Top/ProgressBar.color = Color("fd198e") if qpg else Color("f04d3c")
-	$Top/ProgressBar.position.x = 200 if qpg else 190
-	$Top/ProgressBar.size.x = 62.0 * percent / 100.0
+	var percent := clampi(SauvegardeBddJoueursService.lire_pourcentage_niveau_realise(), 0, 100)
 	var player_name := SauvegardeBddJoueursService.lire_nom_joueur()
 	var avatar_path := _avatar_path(player_name)
-	$Top/Avatar.position = Vector2(253 if qpg else 243,16)
-	$Top/Avatar.size = Vector2(30,30) if qpg else Vector2(34,34)
+	for duplicate in ["ModeIcon", "Check", "Gameplay", "Subtitle", "ChronoIcon", "CoupsTitle", "ProgressionTrack", "ProgressBarBackground", "HeaderRule", "GameplayDivider", "PlayerDivider", "ProgressionDivider"]:
+		$Top.get_node(duplicate).hide()
+	$BoutonStatistiques/StatistiquesLabel.hide()
+	$Top/BoutonRecommencer/RestartLabel.hide()
+	$PlayerCard.visible = true
+	$PlayerCard/CardAvatar.position = Vector2(10, 7)
+	$PlayerCard/CardAvatar.size = Vector2(39, 42)
+	$PlayerCard/CardAvatar.texture = load(avatar_path) if not avatar_path.is_empty() else AVATAR_FALLBACK
+	$PlayerCard/CardAvatar.visible = true
+	$PlayerCard/CardName.position = Vector2(51, 14)
+	$PlayerCard/CardName.size = Vector2(77, 27)
+	$PlayerCard/CardName.text = player_name
+	$PlayerCard/CardHeart.position = Vector2(133, 14)
+	$PlayerCard/CardHeart.size = Vector2(23, 27)
+	$PlayerCard/CardHeart.visible = true
+	$Top/Avatar.hide()
+	$Top/NomJoueur.hide()
+	$Top/Heart.hide()
+	$Top/ChronoLabel.position = Vector2(309, 7)
+	$Top/ChronoLabel.size = Vector2(43, 23)
+	$Top/ChronoLabel.add_theme_font_size_override("font_size", 14)
+	$Top/ChronoLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/ChronoLabel.show()
+	$Top/CoupsLabel.position = Vector2(334, 32)
+	$Top/CoupsLabel.size = Vector2(25, 24)
+	$Top/CoupsLabel.add_theme_font_size_override("font_size", 13)
+	$Top/CoupsLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/CoupsLabel.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
+	$Top/CoupsLabel.add_theme_constant_override("shadow_offset_x", 0)
+	$Top/CoupsLabel.add_theme_constant_override("shadow_offset_y", 0)
+	$Top/Progression.position = Vector2(170, 7)
+	$Top/Progression.size = Vector2(62, 22)
+	$Top/Progression.add_theme_font_size_override("font_size", 14)
+	$Top/Progression.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	$Top/Progression.text = "Niveau %s" % level
+	$Top/ProgressPercent.position = Vector2(240, 32)
+	$Top/ProgressPercent.size = Vector2(35, 24)
+	$Top/ProgressPercent.add_theme_font_size_override("font_size", 13)
+	$Top/ProgressPercent.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/ProgressPercent.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
+	$Top/ProgressPercent.add_theme_constant_override("shadow_offset_x", 0)
+	$Top/ProgressPercent.add_theme_constant_override("shadow_offset_y", 0)
+	$Top/ProgressPercent.text = "%s %%" % percent
+	$Top/ProgressionTrack.position = Vector2(171, 38)
+	$Top/ProgressionTrack.size = Vector2(64, 9)
+	$Top/ProgressBarBackground.position = Vector2(171, 38)
+	$Top/ProgressBarBackground.size = Vector2(64, 9)
+	$Top/ProgressBar.position = Vector2(171, 38)
+	$Top/ProgressBar.size.x = 64.0 * percent / 100.0
+	_build_classique_banner()
+
+func _build_qpg_active_contents() -> void:
+	var player_name := SauvegardeBddJoueursService.lire_nom_joueur()
+	var avatar_path := _avatar_path(player_name)
+	for node_name in ["ModeIcon", "ModeIcon2", "ModeIcon3", "Check", "Gameplay", "Subtitle", "GameplayDivider", "ProgressionDivider", "PlayerDivider", "HeaderRule", "Progression", "ProgressPercent", "ProgressionTrack", "ProgressBarBackground", "ProgressBar", "Heart", "CoupsTitle", "ChronoIcon"]:
+		$Top.get_node(node_name).hide()
+	$PlayerCard.hide()
+	$Top/Avatar.position = Vector2(27, 29)
+	$Top/Avatar.size = Vector2(33, 37)
 	$Top/Avatar.texture = load(avatar_path) if not avatar_path.is_empty() else null
-	$Top/Avatar.visible = not avatar_path.is_empty()
+	$Top/Avatar.show()
+	$Top/NomJoueur.position = Vector2(68, 19)
+	$Top/NomJoueur.size = Vector2(60, 18)
 	$Top/NomJoueur.text = player_name
-	$Top/NomJoueur.add_theme_color_override("font_color", Color.WHITE if qpg else Color("063b75"))
-	$Top/NomJoueur.position = Vector2(283 if qpg else 277,13)
-	$Top/NomJoueur.size = Vector2(46 if qpg else 38,38)
-	$Top/Heart.visible = not qpg
-	$Top/ChronoLabel.visible = not qpg
-	$Top/CoupsLabel.visible = not qpg
-	$Top/ProgressPercent.visible = not qpg
-	$Top/CoupsTitle.visible = qpg
-	$Top/ChronoIcon.visible = qpg
-	$PlayerCard.visible = not qpg
-	$Top/ModeIcon.visible = qpg
-	$Top/Check.visible = qpg
-	$Top/Gameplay.visible = qpg
-	$Top/Subtitle.visible = qpg
-	$Top/GameplayDivider.visible = qpg
-	$Top/PlayerDivider.visible = qpg
-	$Top/ProgressionDivider.visible = false
-	$BoutonStatistiques/StatistiquesLabel.visible = qpg
-	if not qpg:
-		# Le header de production contient déjà les éléments statiques ; masquer les doublons.
-		for duplicate in ["ModeIcon", "Check", "Gameplay", "Subtitle", "ChronoIcon", "CoupsTitle", "ProgressionTrack", "ProgressBarBackground", "HeaderRule", "GameplayDivider", "PlayerDivider", "ProgressionDivider"]:
-			$Top.get_node(duplicate).hide()
-		$BoutonStatistiques/StatistiquesLabel.hide()
-		$Top/BoutonRecommencer/RestartLabel.hide()
-		$PlayerCard/CardAvatar.position = Vector2(10,7)
-		$PlayerCard/CardAvatar.size = Vector2(39,42)
-		$PlayerCard/CardAvatar.texture = $Top/Avatar.texture if $Top/Avatar.visible else AVATAR_FALLBACK
-		$PlayerCard/CardAvatar.visible = true
-		$PlayerCard/CardName.position = Vector2(51,14)
-		$PlayerCard/CardName.size = Vector2(77,27)
-		$PlayerCard/CardName.text = player_name
-		$PlayerCard/CardHeart.position = Vector2(133,14)
-		$PlayerCard/CardHeart.size = Vector2(23,27)
-		$PlayerCard/CardHeart.visible = $Top/Heart.visible
-		$Top/Avatar.hide()
-		$Top/NomJoueur.hide()
-		$Top/Heart.hide()
-		$Top/ChronoLabel.position = Vector2(309,7)
-		$Top/ChronoLabel.size = Vector2(43,23)
-		$Top/ChronoLabel.add_theme_font_size_override("font_size", 14)
-		$Top/ChronoLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		$Top/CoupsLabel.position = Vector2(334,32)
-		$Top/CoupsLabel.size = Vector2(25,24)
-		$Top/CoupsLabel.add_theme_font_size_override("font_size", 13)
-		$Top/CoupsLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		$Top/CoupsLabel.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
-		$Top/CoupsLabel.add_theme_constant_override("shadow_offset_x", 0)
-		$Top/CoupsLabel.add_theme_constant_override("shadow_offset_y", 0)
-		$Top/Progression.position = Vector2(170,7)
-		$Top/Progression.size = Vector2(62,22)
-		$Top/Progression.add_theme_font_size_override("font_size", 14)
-		$Top/Progression.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		$Top/Progression.text = "Niveau %s" % level
-		$Top/ProgressPercent.position = Vector2(240,32)
-		$Top/ProgressPercent.size = Vector2(35,24)
-		$Top/ProgressPercent.add_theme_font_size_override("font_size", 13)
-		$Top/ProgressPercent.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		$Top/ProgressPercent.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
-		$Top/ProgressPercent.add_theme_constant_override("shadow_offset_x", 0)
-		$Top/ProgressPercent.add_theme_constant_override("shadow_offset_y", 0)
-		$Top/ProgressPercent.text = "%s %%" % percent
-		$Top/ProgressionTrack.position = Vector2(171,38)
-		$Top/ProgressionTrack.size = Vector2(64,9)
-		$Top/ProgressBarBackground.position = Vector2(171,38)
-		$Top/ProgressBarBackground.size = Vector2(64,9)
-		$Top/ProgressBar.position = Vector2(171,38)
-		$Top/ProgressBar.size.x = 64.0 * percent / 100.0
-		_build_classique_banner()
-	else:
-		# Restore the legacy QPG controls when a shared instance is reused.
-		$PlayerCard.hide()
-		$Top/Avatar.visible = not avatar_path.is_empty()
-		$Top/NomJoueur.show()
-		$Top/Heart.hide()
-		$Top/ChronoLabel.hide()
-		$Top/CoupsLabel.hide()
+	$Top/NomJoueur.clip_text = true
+	$Top/NomJoueur.add_theme_font_size_override("font_size", 11)
+	var qpg_name_size := 11
+	while qpg_name_size > 8 and player_name.length() * qpg_name_size * 0.58 > $Top/NomJoueur.size.x:
+		qpg_name_size -= 1
+	$Top/NomJoueur.add_theme_font_size_override("font_size", qpg_name_size)
+	# Le manifeste impose une largeur fixe. Si le nom reste plus long à 8 px,
+	# on le compacte horizontalement pour conserver tout le texte dans sa zone.
+	var estimated_name_width: float = $Top/NomJoueur.get_theme_font("font").get_string_size(player_name, HORIZONTAL_ALIGNMENT_LEFT, -1, qpg_name_size).x
+	$Top/NomJoueur.pivot_offset = Vector2.ZERO
+	$Top/NomJoueur.scale = Vector2(minf(1.0, $Top/NomJoueur.size.x / maxf(estimated_name_width, 1.0)), 1.0)
+	$Top/NomJoueur.add_theme_color_override("font_color", Color("#E8FFFF"))
+	$Top/NomJoueur.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
+	$Top/NomJoueur.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	$Top/NomJoueur.show()
+	$Top/GradeName.position = Vector2(68, 49)
+	$Top/GradeName.size = Vector2(60, 16)
+	$Top/GradeName.text = GradePresentationScript.for_player(player_name).get("name", "Bronze")
+	$Top/GradeName.add_theme_font_size_override("font_size", 11)
+	$Top/GradeName.add_theme_color_override("font_color", Color("#E8FFFF"))
+	$Top/GradeName.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
+	$Top/GradeName.show()
+	$Top/ChronoLabel.position = Vector2(335, 47)
+	$Top/ChronoLabel.size = Vector2(61, 18)
+	$Top/ChronoLabel.add_theme_font_size_override("font_size", 13)
+	$Top/ChronoLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/ChronoLabel.add_theme_color_override("font_color", Color("#E8FFFF"))
+	$Top/ChronoLabel.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
+	$Top/ChronoLabel.show()
+	$Top/CoupsLabel.position = Vector2(430, 47)
+	$Top/CoupsLabel.size = Vector2(38, 18)
+	$Top/CoupsLabel.add_theme_font_size_override("font_size", 13)
+	$Top/CoupsLabel.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	$Top/CoupsLabel.add_theme_color_override("font_color", Color("#E8FFFF"))
+	$Top/CoupsLabel.add_theme_color_override("font_shadow_color", Color.TRANSPARENT)
+	$Top/CoupsLabel.show()
 
 func _avatar_path(player_name: String) -> String:
 	# Gameplay identity uses the active player's grade medal; no portrait fallback.

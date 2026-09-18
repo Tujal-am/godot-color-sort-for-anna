@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcf5140h6cm24"
-path="res://.godot/imported/icon_diablotin_neon.png-dec3a84e83573447dcb91550c251824a.ctex"
+uid="uid://bm5bpqgycp502"
+path="res://.godot/imported/qpg_recommencer_v2_244x60.png-89f41c67f7d731ee20e0526d013815b7.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/UI/IntegrationV4/Gameplay/qui_perd_gagne/icon_diablotin_neon.png"
-dest_files=["res://.godot/imported/icon_diablotin_neon.png-dec3a84e83573447dcb91550c251824a.ctex"]
+source_file="res://Art/UI/IntegrationV4/Gameplay/qui_perd_gagne/qpg_recommencer_v2_244x60.png"
+dest_files=["res://.godot/imported/qpg_recommencer_v2_244x60.png-89f41c67f7d731ee20e0526d013815b7.ctex"]
 
 [params]
 

@@ -4,6 +4,7 @@ class_name PlateauLayoutService
 var taille_bouton_recommencer_originale = 0.
 var taille_fenetre_jeu = 0.
 var taille_pile_pixels = Vector2()
+var centrer_lignes_individuellement := false
 
 func calculer_la_position_de_la_pile(nb_piles : int, indice_pile : int) -> Vector2:
 	# en haut à gauche (0,0)
@@ -31,9 +32,15 @@ func calculer_la_position_de_la_pile(nb_piles : int, indice_pile : int) -> Vecto
 		var ecart = Vector2( vide.x + taille_pile_pixels.x,
 							 vide.y + taille_pile_pixels.y)
 		var taille_plateau_totale = Vector2( taille_plateau.x * taille_pile_pixels.x + (taille_plateau.x - 1) * vide.x,
-												taille_plateau.y * taille_pile_pixels.y + (taille_plateau.y - 1) * vide.y)
-		position_pile = Vector2( taille_fenetre_jeu.x / 2 - taille_plateau_totale.x / 2 + ecart.x * (coordonnees_pile.x),
-									taille_bouton_recommencer + (taille_fenetre_jeu.y - taille_bouton_recommencer) / 2 + taille_plateau_totale.y / 2 - ecart.y * (coordonnees_pile.y) )
+														taille_plateau.y * taille_pile_pixels.y + (taille_plateau.y - 1) * vide.y)
+		var origine_x: float = taille_fenetre_jeu.x / 2 - taille_plateau_totale.x / 2
+		if centrer_lignes_individuellement:
+			var debut_ligne: int = coordonnees_pile.y * taille_plateau.x
+			var nb_piles_sur_ligne: int = mini(taille_plateau.x, nb_piles - debut_ligne)
+			var largeur_ligne: float = nb_piles_sur_ligne * taille_pile_pixels.x + (nb_piles_sur_ligne - 1) * vide.x
+			origine_x = taille_fenetre_jeu.x / 2 - largeur_ligne / 2
+		position_pile = Vector2( origine_x + ecart.x * (coordonnees_pile.x),
+								taille_bouton_recommencer + (taille_fenetre_jeu.y - taille_bouton_recommencer) / 2 + taille_plateau_totale.y / 2 - ecart.y * (coordonnees_pile.y) )
 	return position_pile
 
 func convertir_indice_pile_coordonnees(nb_piles : int, indice_pile : int) -> Vector2i:
