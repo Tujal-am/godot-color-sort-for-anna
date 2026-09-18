@@ -1,4 +1,4 @@
-﻿extends Node
+extends Node
 
 #func _ready() -> void:
 	## Utile pour les tests de la page.
@@ -63,6 +63,12 @@ func niveau_taux_reussite_infos() -> Dictionary:
 
 # #######
 # Plateau
+func plateau_nombre_de_plateaux_joues() -> int:
+	return nombre_de_plateau_joues()
+
+func plateau_taux_de_reussite() -> float:
+	return taux_de_reussite_des_plateaux()
+
 func plateau_temps_moyen_en_s() -> float:
 	return plateau_le_temps_moyen_en_s()
 
@@ -329,6 +335,12 @@ func nombre_de_plateau_reussis_abandonnes_pour_niveau(nom_niveau : String) -> Di
 						' nb_plateaux_reussis=', nb_plateaux_reussis,
 						' nb_plateaux_abandonnes=', nb_plateaux_abandonnes)
 	return {'niveau': nom_niveau, 'reussis': nb_plateaux_reussis, 'abandonnes': nb_plateaux_abandonnes}
+
+func nombre_de_plateau_joues() -> int:
+	var infos_plateaux = nombre_de_plateau_reussis_abandonnes()
+	var reussis = infos_plateaux.get('reussis')
+	var abandonne = infos_plateaux.get('abandonnes')
+	return reussis + abandonne
 
 func taux_de_reussite_des_plateaux() -> float:
 	var infos_plateaux = nombre_de_plateau_reussis_abandonnes()

@@ -1,0 +1,189 @@
+[gd_scene format=3 uid="uid://c5m7n5xqwj5kb"]
+
+[ext_resource type="Texture2D" uid="uid://1vg5xpx8sjqy" path="res://Art/UI/Statistiques/cube_campagne_34x34_normalized.png" id="1_brssj"]
+[ext_resource type="Script" uid="uid://b70tsv1obb7b5" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/carte_campagne.gd" id="1_fc6g1"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="2_fc6g1"]
+[ext_resource type="FontFile" uid="uid://8pcourumhksh" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="3_42cjv"]
+
+[sub_resource type="StyleBoxFlat" id="inner"]
+bg_color = Color(1, 0.97255, 0.92941, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93725, 0.76863, 0.62353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="cell"]
+bg_color = Color(0.98039, 0.92157, 0.84314, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93725, 0.76863, 0.62353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="CarteCampagne" type="Control" unique_id=198575893]
+custom_minimum_size = Vector2(336, 164)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 336.0
+offset_bottom = 179.0
+mouse_filter = 2
+script = ExtResource("1_fc6g1")
+
+[node name="Fond" type="Panel" parent="." unique_id=2037178864]
+layout_mode = 0
+offset_right = 336.0
+offset_bottom = 179.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("inner")
+
+[node name="Logo" type="TextureRect" parent="." unique_id=794046364]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 3.0
+offset_right = 44.0
+offset_bottom = 37.0
+texture = ExtResource("1_brssj")
+
+[node name="Titre" type="Label" parent="." unique_id=1586345295]
+layout_mode = 0
+offset_left = 45.0
+offset_right = 320.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.92941177, 0.15686275, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("2_fc6g1")
+theme_override_font_sizes/font_size = 30
+text = "Campagne"
+vertical_alignment = 1
+
+[node name="Completion" type="Panel" parent="." unique_id=2137623898]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 165.0
+offset_bottom = 102.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+
+[node name="Titre" type="Label" parent="Completion" unique_id=148008339]
+layout_mode = 0
+offset_right = 155.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("3_42cjv")
+theme_override_font_sizes/font_size = 12
+text = "Complétion"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Completion" unique_id=1427059428]
+layout_mode = 0
+offset_top = 26.0
+offset_right = 155.0
+offset_bottom = 51.0
+theme_override_colors/font_color = Color(0.92941177, 0.15686275, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("2_fc6g1")
+theme_override_font_sizes/font_size = 29
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Temps" type="Panel" parent="." unique_id=1687143466]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 40.0
+offset_right = 325.0
+offset_bottom = 102.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+
+[node name="Titre" type="Label" parent="Temps" unique_id=1765483678]
+layout_mode = 0
+offset_right = 155.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("3_42cjv")
+theme_override_font_sizes/font_size = 12
+text = "Temps"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Temps" unique_id=1154875803]
+layout_mode = 0
+offset_top = 26.0
+offset_right = 155.0
+offset_bottom = 51.0
+theme_override_colors/font_color = Color(0.92941177, 0.15686275, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("2_fc6g1")
+theme_override_font_sizes/font_size = 29
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SerieMax" type="Panel" parent="." unique_id=1329871766]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 108.0
+offset_right = 165.0
+offset_bottom = 170.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+
+[node name="Titre" type="Label" parent="SerieMax" unique_id=1726982474]
+layout_mode = 0
+offset_right = 155.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("3_42cjv")
+theme_override_font_sizes/font_size = 12
+text = "Série max."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="SerieMax" unique_id=2092439309]
+layout_mode = 0
+offset_top = 26.0
+offset_right = 155.0
+offset_bottom = 51.0
+theme_override_colors/font_color = Color(0.92941177, 0.15686275, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("2_fc6g1")
+theme_override_font_sizes/font_size = 29
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Reussite" type="Panel" parent="." unique_id=1001908271]
+layout_mode = 0
+offset_left = 170.0
+offset_top = 108.0
+offset_right = 325.0
+offset_bottom = 170.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+
+[node name="Titre" type="Label" parent="Reussite" unique_id=913978912]
+layout_mode = 0
+offset_right = 155.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("3_42cjv")
+theme_override_font_sizes/font_size = 12
+text = "Réussite"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Reussite" unique_id=1028068715]
+layout_mode = 0
+offset_top = 26.0
+offset_right = 155.0
+offset_bottom = 51.0
+theme_override_colors/font_color = Color(0.92941177, 0.15686275, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("2_fc6g1")
+theme_override_font_sizes/font_size = 29
+horizontal_alignment = 1
+vertical_alignment = 1

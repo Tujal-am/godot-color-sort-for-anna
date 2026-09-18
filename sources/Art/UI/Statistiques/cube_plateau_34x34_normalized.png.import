@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://tc7fhacmys11"
-path="res://.godot/imported/fond_statistiques_480x720.png-50708f8f521a008e01513cd4676a978c.ctex"
+uid="uid://eicuhpaac7xi"
+path="res://.godot/imported/cube_plateau_34x34_normalized.png-e10f6f711e5a315497c36f6b455bc605.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/Images/fond_statistiques_480x720.png"
-dest_files=["res://.godot/imported/fond_statistiques_480x720.png-50708f8f521a008e01513cd4676a978c.ctex"]
+source_file="res://Art/UI/Statistiques/cube_plateau_34x34_normalized.png"
+dest_files=["res://.godot/imported/cube_plateau_34x34_normalized.png-e10f6f711e5a315497c36f6b455bc605.ctex"]
 
 [params]
 

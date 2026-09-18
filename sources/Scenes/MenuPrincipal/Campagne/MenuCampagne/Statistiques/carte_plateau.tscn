@@ -1,0 +1,349 @@
+[gd_scene format=3 uid="uid://cgv1kmgwtdr3m"]
+
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="1_bcspv"]
+[ext_resource type="Script" uid="uid://bf60jmd7mkv8x" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/carte_plateau.gd" id="1_enw2v"]
+[ext_resource type="Texture2D" uid="uid://eicuhpaac7xi" path="res://Art/UI/Statistiques/cube_plateau_34x34_normalized.png" id="1_sjp16"]
+[ext_resource type="FontFile" uid="uid://8pcourumhksh" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="2_1wc8w"]
+
+[sub_resource type="StyleBoxFlat" id="inner"]
+bg_color = Color(1, 0.97255, 0.92941, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93725, 0.76863, 0.62353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="cell"]
+bg_color = Color(0.98039, 0.92157, 0.84314, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93725, 0.76863, 0.62353, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="CartePlateau" type="Control" unique_id=198575893]
+custom_minimum_size = Vector2(336, 164)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 336.0
+offset_bottom = 176.0
+mouse_filter = 2
+script = ExtResource("1_enw2v")
+
+[node name="Fond" type="Panel" parent="." unique_id=2037178864]
+layout_mode = 0
+offset_right = 336.0
+offset_bottom = 176.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("inner")
+
+[node name="Logo" type="TextureRect" parent="." unique_id=794046364]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 3.0
+offset_right = 44.0
+offset_bottom = 37.0
+texture = ExtResource("1_sjp16")
+
+[node name="Titre" type="Label" parent="." unique_id=1586345295]
+layout_mode = 0
+offset_left = 45.0
+offset_right = 320.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 24
+text = "Plateau"
+vertical_alignment = 1
+
+[node name="Plateaux" type="Panel" parent="." unique_id=2137623898]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 40.0
+offset_right = 110.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+
+[node name="Titre" type="Label" parent="Plateaux" unique_id=148008339]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("2_1wc8w")
+theme_override_font_sizes/font_size = 12
+text = "Plateaux"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Plateaux" unique_id=1427059428]
+layout_mode = 0
+offset_top = 18.0
+offset_right = 100.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TempsMoyen" type="Panel" parent="." unique_id=1687143466]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 40.0
+offset_right = 216.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+
+[node name="Titre" type="Label" parent="TempsMoyen" unique_id=1765483678]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("2_1wc8w")
+theme_override_font_sizes/font_size = 12
+text = "Temps moyen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="TempsMoyen" unique_id=1154875803]
+layout_mode = 0
+offset_top = 18.0
+offset_right = 100.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Reussite" type="Panel" parent="." unique_id=1073389585]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 40.0
+offset_right = 322.0
+offset_bottom = 80.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("cell")
+
+[node name="Titre" type="Label" parent="Reussite" unique_id=1641704394]
+layout_mode = 0
+offset_right = 100.0
+offset_bottom = 18.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("2_1wc8w")
+theme_override_font_sizes/font_size = 12
+text = "Réussite"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Reussite" unique_id=2063165435]
+layout_mode = 0
+offset_top = 18.0
+offset_right = 100.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Tableau" type="Control" parent="." unique_id=1817126963]
+anchors_preset = 0
+offset_top = 10.0
+offset_bottom = 10.0
+
+[node name="Entete" type="Control" parent="Tableau" unique_id=1930093740]
+anchors_preset = 0
+
+[node name="1" type="Label" parent="Tableau/Entete" unique_id=884886964]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 73.0
+offset_right = 110.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 11
+text = "Performance"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="2" type="Label" parent="Tableau/Entete" unique_id=722429309]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 73.0
+offset_right = 216.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 11
+text = "Résultat"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="3" type="Label" parent="Tableau/Entete" unique_id=246371950]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 73.0
+offset_right = 322.0
+offset_bottom = 91.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 11
+text = "Difficulté"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Interligne1" type="ColorRect" parent="Tableau" unique_id=861216878]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 91.0
+offset_right = 326.0
+offset_bottom = 92.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+
+[node name="PlusRapide" type="Control" parent="Tableau" unique_id=334374818]
+anchors_preset = 0
+
+[node name="1" type="Label" parent="Tableau/PlusRapide" unique_id=397837127]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 91.0
+offset_right = 110.0
+offset_bottom = 115.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("2_1wc8w")
+theme_override_font_sizes/font_size = 13
+text = "Plus rapide"
+vertical_alignment = 1
+
+[node name="Temps" type="Label" parent="Tableau/PlusRapide" unique_id=957700861]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 91.0
+offset_right = 216.0
+offset_bottom = 115.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Difficulte" type="Label" parent="Tableau/PlusRapide" unique_id=2114913189]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 91.0
+offset_right = 322.0
+offset_bottom = 115.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Interligne2" type="ColorRect" parent="Tableau" unique_id=1997446518]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 115.0
+offset_right = 326.0
+offset_bottom = 116.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+
+[node name="PlusLent" type="Control" parent="Tableau" unique_id=394825798]
+anchors_preset = 0
+
+[node name="1" type="Label" parent="Tableau/PlusLent" unique_id=507234242]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 115.0
+offset_right = 110.0
+offset_bottom = 139.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("2_1wc8w")
+theme_override_font_sizes/font_size = 13
+text = "Plus lent"
+vertical_alignment = 1
+
+[node name="Temps" type="Label" parent="Tableau/PlusLent" unique_id=1247410400]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 115.0
+offset_right = 216.0
+offset_bottom = 139.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Difficulte" type="Label" parent="Tableau/PlusLent" unique_id=988654760]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 115.0
+offset_right = 322.0
+offset_bottom = 139.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Interligne3" type="ColorRect" parent="Tableau" unique_id=693667057]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 139.0
+offset_right = 326.0
+offset_bottom = 140.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+
+[node name="PlusGalere" type="Control" parent="Tableau" unique_id=1658329116]
+anchors_preset = 0
+
+[node name="1" type="Label" parent="Tableau/PlusGalere" unique_id=750864118]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 139.0
+offset_right = 110.0
+offset_bottom = 163.0
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("2_1wc8w")
+theme_override_font_sizes/font_size = 13
+text = "Plus galère"
+vertical_alignment = 1
+
+[node name="Essais" type="Label" parent="Tableau/PlusGalere" unique_id=1531384954]
+layout_mode = 0
+offset_left = 116.0
+offset_top = 139.0
+offset_right = 216.0
+offset_bottom = 163.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Difficulte" type="Label" parent="Tableau/PlusGalere" unique_id=1070400034]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 139.0
+offset_right = 322.0
+offset_bottom = 163.0
+theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
+theme_override_fonts/font = ExtResource("1_bcspv")
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+vertical_alignment = 1
