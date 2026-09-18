@@ -1,7 +1,6 @@
 extends Control
 
 func _ready():
-	set_process_input(true) # Pour retourner dans le menu de campagne.
 	score()
 	campagne()
 	niveaux()
@@ -9,21 +8,6 @@ func _ready():
 	plateaux()
 	classique()
 	qui_perd_gagne()
-
-	# TODO : Poursuivre les statistiques
-	## Graphiques
-	#var WinLossBarChart = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Charts/WinLossBarChart
-	#WinLossBarChart.wins = 15
-	#WinLossBarChart.losses = 7
-	#WinLossBarChart.queue_redraw()
-#
-	#var PlaytimeLineChart = $Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/Charts/PlaytimeLineChart
-	#PlaytimeLineChart.monthly_minutes = [120, 90, 150, 200, 180, 220]
-	#PlaytimeLineChart.queue_redraw()
-#
-	## Jauge
-	#$Marge/HBoxContainer/VBox/Scroll/Center/VBoxStats/MonthlyPlaytimeGauge.set_progress(120, 300)
-
 
 func _on_retour_pressed() -> void:
 	AudioService.son_menu_click()
