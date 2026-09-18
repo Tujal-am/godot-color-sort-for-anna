@@ -123,15 +123,7 @@ func afficher_abandonner_un_plateau():
 	mettre_a_jour_infos_joueur()
 	$InfosDuJoueur.show()
 	
-	var message : Array[String] = [ "Perdu !",
-					"Fin De Partie",
-					"Plateau Suivant !"]
-	afficher_des_messages_simples(message)
-	# Attendre l'affichage des messages
-	for attente in message.size():
-		await fin_message_riche
-
-	$BoutonCommencer.show()
+	$Centrer/PanneauDefaite.show()
 
 func afficher_gagner_un_plateau() -> void:
 	# TODO : Voir si l'affiche doit toujours être lancé d'ailleurs
@@ -198,3 +190,19 @@ func _on_message_riche_gui_input(_event: InputEvent) -> void:
 	# Limiter l'occurence de l'evenement avant la disparition
 	await get_tree().create_timer(1.0).timeout
 	_on_message_riche_gui_input_verouille = false
+
+func _on_panneau_defaite_continuer() -> void:
+	$Centrer/PanneauDefaite.hide()
+	$BoutonCommencer.show()
+
+func _on_panneau_victoire_plateau_continuer() -> void:
+	$Centrer/PanneauVictoirePlateau.hide()
+	$BoutonCommencer.show()
+
+func _on_panneau_victoire_niveau_continuer() -> void:
+	$Centrer/PanneauVictoireNiveau.hide()
+	$BoutonCommencer.show()
+
+func _on_panneau_victoire_campagne_continuer() -> void:
+	$Centrer/PanneauVictoireCampagne.hide()
+	$BoutonCommencer.show()

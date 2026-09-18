@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://ct3na0n0v1odm"]
 
 [ext_resource type="Texture2D" uid="uid://bjcsl5wobrjl" path="res://Art/UI/Gameplay/Commun/victoire_titre.png" id="1_6h7mf"]
+[ext_resource type="Script" uid="uid://bq30vaavbmcdl" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_niveau.gd" id="1_wj5rh"]
 [ext_resource type="Texture2D" uid="uid://c1ui16e3cunss" path="res://Art/UI/Gameplay/Commun/defaite_bouton.png" id="3_dl2qx"]
 [ext_resource type="PackedScene" uid="uid://di0qsxjp8icsn" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_points.tscn" id="4_6h7mf"]
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="4_lxdsy"]
 [ext_resource type="PackedScene" uid="uid://cidiwy0ivqm3w" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_3_items.tscn" id="5_dl2qx"]
 [ext_resource type="PackedScene" uid="uid://piphy5gwr6qk" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_2_items.tscn" id="6_lxdsy"]
-[ext_resource type="Script" uid="uid://ny5e7c6ax5u8" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire.gd" id="6_wj5rh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gv5u"]
 bg_color = Color(1, 0.97255, 0.92941, 1)
@@ -31,7 +31,7 @@ offset_right = -100.0
 offset_bottom = -39.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("6_wj5rh")
+script = ExtResource("1_wj5rh")
 
 [node name="Fond" type="Panel" parent="." unique_id=188817741]
 layout_mode = 0

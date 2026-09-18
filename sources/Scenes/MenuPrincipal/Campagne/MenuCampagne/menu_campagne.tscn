@@ -164,3 +164,7 @@ layout_mode = 2
 [connection signal="pressed" from="BoutonStatistiques" to="." method="_on_bouton_statistiques_pressed"]
 [connection signal="pressed" from="BoutonCommencer" to="." method="_on_bouton_commencer_pressed"]
 [connection signal="gui_input" from="MessageRiche" to="." method="_on_message_riche_gui_input"]
+[connection signal="continuer" from="Centrer/PanneauDefaite" to="." method="_on_panneau_defaite_continuer"]
+[connection signal="continuer" from="Centrer/PanneauVictoirePlateau" to="." method="_on_panneau_victoire_plateau_continuer"]
+[connection signal="continuer" from="Centrer/PanneauVictoireNiveau" to="." method="_on_panneau_victoire_niveau_continuer"]
+[connection signal="continuer" from="Centrer/PanneauVictoireCampagne" to="." method="_on_panneau_victoire_campagne_continuer"]

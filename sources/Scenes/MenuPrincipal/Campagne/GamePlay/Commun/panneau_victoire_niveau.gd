@@ -1,0 +1,33 @@
+extends Control
+
+signal continuer
+
+func _on_bouton_pressed() -> void:
+	continuer.emit()
+
+func score_points(texte : String) -> void:
+	$ScorePoints.points(texte)
+
+func temps(reference : String,
+			recommence : String,
+			realise : String,
+			points : String) -> void:
+	$Temps.item1("Référence : " + reference + "s")
+	$Temps.item2("Recommencé : " + recommence + "s")
+	$Temps.item3("Réalisé : " + realise + "s")
+	$Temps.item4(points + " points")
+
+func ratio(niveau : String,
+			points : String) -> void:
+	$Ratio.item1("Niveau " + niveau)
+	$Temps.item2(points + " points")
+
+func niveau(longueur : String,
+			points : String) -> void:
+	$Ratio.item1("Longueur: " + longueur)
+	$Temps.item2(points + " points")
+
+func niveau_parfait(bonus : String,
+			points : String) -> void:
+	$Ratio.item1("Bonus:  " + bonus + "s")
+	$Temps.item2(points + " points")

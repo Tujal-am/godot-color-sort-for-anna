@@ -1,4 +1,4 @@
-extends Node
+﻿extends Node
 
 const FIN_CAMPAGNE := 500_000
 
@@ -71,7 +71,10 @@ func mettre_a_jour_score_duree() -> Dictionary:
 	bonus_duree = roundi(100 * difficulte * ratio_temps)
 	SauvegardeBddJoueursService.enregistrement_modifier_score_duree_plateau(bonus_duree)
 	SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_duree)
-	return {'type':'duree', 'reference': temps_reference_en_s, 'recommence': duree_recommence_en_s, 'realise': duree_realise_en_s, 'points': bonus_duree}
+	return {'type':'duree',
+			'reference': temps_reference_en_s,
+			'recommence': duree_recommence_en_s,
+			'realise': duree_realise_en_s, 'points': bonus_duree}
 
 func mettre_a_jour_score_ratio_reussite() -> Dictionary:
 	"Calculer le score relatif au temps"
@@ -83,7 +86,9 @@ func mettre_a_jour_score_ratio_reussite() -> Dictionary:
 	bonus_ratio_reussite = roundi(500 * niveau * ratio_reussite)
 	SauvegardeBddJoueursService.enregistrement_modifier_score_ratio_reussite_plateau(bonus_ratio_reussite)
 	SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_ratio_reussite)
-	return {'type':'ratio_reussite', 'ratio': int_ratio_reussite, 'points': bonus_ratio_reussite}
+	return {'type':'ratio_reussite',
+			'ratio': int_ratio_reussite,
+			'points': bonus_ratio_reussite}
 
 # TODO : Ceci est l'ancien score d'ascension, est-il encore utile ?
 # TODO : S'il est identique pour tous, il ne présente pas d'interet.
@@ -98,7 +103,9 @@ func mettre_a_jour_score_niveau() -> Dictionary:
 		bonus_niveau = roundi(500 * niveau_longueur_totale)
 		SauvegardeBddJoueursService.enregistrement_modifier_score_niveau(bonus_niveau)
 		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_niveau)
-		return {'type':'niveau', 'longueur': niveau_longueur_totale, 'points': bonus_niveau}
+		return {'type':'niveau',
+				'longueur': niveau_longueur_totale,
+				'points': bonus_niveau}
 	return{}
 
 func mettre_a_jour_score_niveau_parfait() -> Dictionary:
@@ -110,7 +117,9 @@ func mettre_a_jour_score_niveau_parfait() -> Dictionary:
 		bonus_niveau_sans_detour = SauvegardeBddJoueursService.enregistrement_lire_score_niveau()
 		SauvegardeBddJoueursService.enregistrement_modifier_score_niveau_sans_detour(bonus_niveau_sans_detour)
 		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_niveau_sans_detour)
-		return {'type':'niveau_parfait', 'bonus': 'x2', 'points': bonus_niveau_sans_detour}
+		return {'type':'niveau_parfait',
+				'bonus': 'x2',
+				'points': bonus_niveau_sans_detour}
 	return{}
 
 func mettre_a_jour_score_campagne() -> Dictionary:
@@ -120,7 +129,8 @@ func mettre_a_jour_score_campagne() -> Dictionary:
 		var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 		bonus_campagne = FIN_CAMPAGNE
 		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_campagne)
-		return {'type':'campagne', 'points': bonus_campagne}
+		return {'type':'campagne',
+				'points': bonus_campagne}
 	return {}
 
 func bonus_score_anna_damour(score_global : Dictionary) -> void:

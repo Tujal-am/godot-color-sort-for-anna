@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dj67xrfwthpal"]
 
 [ext_resource type="Texture2D" uid="uid://bjcsl5wobrjl" path="res://Art/UI/Gameplay/Commun/victoire_titre.png" id="1_6h7mf"]
-[ext_resource type="Script" uid="uid://ny5e7c6ax5u8" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire.gd" id="1_go645"]
+[ext_resource type="Script" uid="uid://c14hx5g675px" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_campagne.gd" id="1_go645"]
 [ext_resource type="Texture2D" uid="uid://c1ui16e3cunss" path="res://Art/UI/Gameplay/Commun/defaite_bouton.png" id="3_dl2qx"]
 [ext_resource type="PackedScene" uid="uid://di0qsxjp8icsn" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_points.tscn" id="4_6h7mf"]
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="4_lxdsy"]
