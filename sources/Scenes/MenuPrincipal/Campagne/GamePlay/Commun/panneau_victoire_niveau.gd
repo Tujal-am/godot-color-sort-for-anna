@@ -15,7 +15,8 @@ func temps(reference : String,
 	$Temps.item1("Référence : " + reference + "s")
 	$Temps.item2("Recommencé : " + recommence + "s")
 	$Temps.item3("Réalisé : " + realise + "s")
-	$Temps.item4(points + " points")
+	# TODO : implementer la carte à 4 items
+	# $Temps.item4(points + " points")
 
 func ratio(niveau : String,
 			points : String) -> void:

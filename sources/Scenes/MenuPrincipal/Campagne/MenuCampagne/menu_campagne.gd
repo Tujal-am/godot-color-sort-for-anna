@@ -27,12 +27,121 @@ func modifier_message_riche(message_bbcode: Dictionary) -> void:
 	$MessageRiche.show()
 
 func afficher_detail_score(detail_score : Dictionary) -> void:
-	var score_bbcode: Dictionary = formatter.formater_detail_score(detail_score)
-	while _message_riche_verrouille:
-		await fin_message_riche # Attendre que le message riche soit libéré
-	_message_riche_verrouille = true # Reservation du message riche
-	modifier_message_riche(score_bbcode)
-	# _message_riche_verrouille = false # Géré avec le signal 'fin_message_riche'
+	if detail_score.get('campagne'):
+		afficher_detail_score_campagne(detail_score)
+	elif detail_score.get('niveau'):
+		afficher_detail_score_niveau(detail_score)
+	else:
+		afficher_detail_score_plateau(detail_score)
+
+func lire_score_plateau_score(detail_score : Dictionary) -> String:
+	var score_total = 0
+	score_total += detail_score.get('duree').get('points')
+	score_total += detail_score.get('ratio_reussite').get('points')
+	score_total += detail_score.get('niveau', {}).get('points', 0)
+	score_total += detail_score.get('niveau_parfait', {}).get('points', 0)
+	score_total += detail_score.get('campagne', {}).get('points', 0)
+	return SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(score_total, '.')
+
+func lire_score_plateau_temps(detail_score_duree : Dictionary) -> Dictionary:
+	return {
+		'reference': str(detail_score_duree.get('reference')),
+		'recommence': str( snapped(detail_score_duree.get('recommence'), 0.1) ),
+		'realise': str( snapped(detail_score_duree.get('realise'), 0.1) ),
+		'points': SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_duree.get('points'), '.')
+	}
+
+func lire_score_plateau_ratio_reussite(detail_score_ratio : Dictionary) -> Dictionary:
+	return {
+		'ratio': str(detail_score_ratio.get('ratio')),
+		'points': SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_ratio.get('points'), '.')
+	}
+
+func lire_score_niveau(detail_score_niveau : Dictionary) -> Dictionary:
+	return {
+		'longueur': str(detail_score_niveau.get('longueur')),
+		'points': SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_niveau.get('points'), '.')
+	}
+
+func lire_score_niveau_parfait(detail_score_niveau_parfait : Dictionary) -> Dictionary:
+	return {
+		'bonus': str(detail_score_niveau_parfait.get('bonus')),
+		'points': SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_niveau_parfait.get('points'), '.')
+	}
+
+func lire_score_campagne(detail_score_campagne : Dictionary) -> String:
+	return SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_campagne.get('points'), '.')
+
+func afficher_detail_score_plateau(detail_score : Dictionary) -> void:
+	$Centrer/PanneauVictoirePlateau.score_points(lire_score_plateau_score(detail_score))
+
+	var detail_score_duree = lire_score_plateau_temps(detail_score.get('duree'))
+	$Centrer/PanneauVictoirePlateau.temps(	detail_score_duree.get('reference'),
+											detail_score_duree.get('recommence'),
+											detail_score_duree.get('realise'),
+											detail_score_duree.get('points'))
+
+	var detail_score_ratio_reussite = lire_score_plateau_ratio_reussite(detail_score.get('ratio_reussite'))
+	$Centrer/PanneauVictoirePlateau.ratio(	detail_score_ratio_reussite.get('ratio'),
+											detail_score_ratio_reussite.get('points'))
+
+	$Centrer.show()
+	$Centrer/PanneauVictoirePlateau.show()
+
+func afficher_detail_score_niveau(detail_score : Dictionary) -> void:
+	$Centrer/PanneauVictoireNiveau.score_points(lire_score_plateau_score(detail_score))
+
+	var detail_score_duree = lire_score_plateau_temps(detail_score.get('duree'))
+	$Centrer/PanneauVictoireNiveau.temps(	detail_score_duree.get('reference'),
+											detail_score_duree.get('recommence'),
+											detail_score_duree.get('realise'),
+											detail_score_duree.get('points'))
+
+	var detail_score_ratio_reussite = lire_score_plateau_ratio_reussite(detail_score.get('ratio_reussite'))
+	$Centrer/PanneauVictoireNiveau.ratio(	detail_score_ratio_reussite.get('ratio'),
+											detail_score_ratio_reussite.get('points'))
+
+	if detail_score.get('niveau'):
+		var detail_score_niveau = lire_score_niveau(detail_score.get('niveau'))
+		$Centrer/PanneauVictoireNiveau.niveau(	detail_score_niveau.get('longueur'),
+												detail_score_niveau.get('points'))
+
+	if detail_score.get('niveau_parfait'):
+		var detail_score_niveau_parfait = lire_score_niveau_parfait(detail_score.get('niveau_parfait'))
+		$Centrer/PanneauVictoireNiveau.niveau_parfait(	detail_score_niveau_parfait.get('bonus'),
+														detail_score_niveau_parfait.get('points'))
+
+	$Centrer.show()
+	$Centrer/PanneauVictoireNiveau.show()
+
+func afficher_detail_score_campagne(detail_score : Dictionary) -> void:
+	$Centrer/PanneauVictoireCampagne.score_points(lire_score_plateau_score(detail_score))
+
+	var detail_score_duree = lire_score_plateau_temps(detail_score.get('duree'))
+	$Centrer/PanneauVictoireCampagne.temps(	detail_score_duree.get('reference'),
+											detail_score_duree.get('recommence'),
+											detail_score_duree.get('realise'),
+											detail_score_duree.get('points'))
+
+	var detail_score_ratio_reussite = lire_score_plateau_ratio_reussite(detail_score.get('ratio_reussite'))
+	$Centrer/PanneauVictoireCampagne.ratio(	detail_score_ratio_reussite.get('ratio'),
+											detail_score_ratio_reussite.get('points'))
+
+	if detail_score.get('niveau'):
+		var detail_score_niveau = lire_score_niveau(detail_score.get('niveau'))
+		$Centrer/PanneauVictoireCampagne.niveau(	detail_score_niveau.get('longueur'),
+													detail_score_niveau.get('points'))
+
+	if detail_score.get('niveau_parfait'):
+		var detail_score_niveau_parfait = lire_score_niveau_parfait(detail_score.get('niveau_parfait'))
+		$Centrer/PanneauVictoireCampagne.niveau_parfait(	detail_score_niveau_parfait.get('bonus'),
+															detail_score_niveau_parfait.get('points'))
+
+	if detail_score.get('campagne'):
+		$Centrer/PanneauVictoireCampagne.campagne(lire_score_campagne(detail_score.get('campagne')))
+
+	$Centrer.show()
+	$Centrer/PanneauVictoireCampagne.show()
 
 func afficher_message_simple(message : String, tempo : float = 1.0) -> void:
 	if message != "":
@@ -123,6 +232,7 @@ func afficher_abandonner_un_plateau():
 	mettre_a_jour_infos_joueur()
 	$InfosDuJoueur.show()
 	
+	$Centrer.show()
 	$Centrer/PanneauDefaite.show()
 
 func afficher_gagner_un_plateau() -> void:
@@ -136,6 +246,7 @@ func afficher_gagner_un_plateau() -> void:
 	afficher_plateau_suivant("Plateau Suivant !")
 
 func afficher_fin_niveau():
+	
 	# TODO : Voir si l'affiche doit toujours être lancé d'ailleurs
 	# Affichage minimum de 1s pour le detail du score
 	await get_tree().create_timer(1.0).timeout
@@ -192,17 +303,21 @@ func _on_message_riche_gui_input(_event: InputEvent) -> void:
 	_on_message_riche_gui_input_verouille = false
 
 func _on_panneau_defaite_continuer() -> void:
+	$Centrer.hide()
 	$Centrer/PanneauDefaite.hide()
 	$BoutonCommencer.show()
 
 func _on_panneau_victoire_plateau_continuer() -> void:
+	$Centrer.hide()
 	$Centrer/PanneauVictoirePlateau.hide()
 	$BoutonCommencer.show()
 
 func _on_panneau_victoire_niveau_continuer() -> void:
+	$Centrer.hide()
 	$Centrer/PanneauVictoireNiveau.hide()
 	$BoutonCommencer.show()
 
 func _on_panneau_victoire_campagne_continuer() -> void:
+	$Centrer.hide()
 	$Centrer/PanneauVictoireCampagne.hide()
 	$BoutonCommencer.show()
