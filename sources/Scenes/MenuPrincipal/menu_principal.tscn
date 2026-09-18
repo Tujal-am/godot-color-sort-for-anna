@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://due674pwfguqp"]
 
 [ext_resource type="Script" uid="uid://cab0yaq8331s4" path="res://Scenes/MenuPrincipal/menu_principal.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://dhlsq1dkh3whe" path="res://Art/UI/MenuPrincipal/fond_480x720.png" id="2_81dct"]
+[ext_resource type="Texture2D" uid="uid://csxn5jrr7jauf" path="res://Art/UI/MenuPrincipal/background.png" id="2_7woe0"]
 [ext_resource type="Texture2D" uid="uid://qql0i230klyd" path="res://Art/UI/MenuPrincipal/logo_accueil_locked_325x145.png" id="3_y3ggv"]
 [ext_resource type="Texture2D" uid="uid://fywkpbkwglh8" path="res://Art/UI/MenuPrincipal/bouton_campagne_locked_305x85.png" id="4_gmnht"]
 [ext_resource type="Texture2D" uid="uid://bydgq7ertcjn5" path="res://Art/UI/MenuPrincipal/avatar_add_32x32.png" id="5_7gf06"]
@@ -137,7 +137,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("2_81dct")
+texture = ExtResource("2_7woe0")
 expand_mode = 1
 
 [node name="Panneau" type="Panel" parent="." unique_id=694766030]
