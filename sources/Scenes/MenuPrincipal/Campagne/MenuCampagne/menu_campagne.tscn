@@ -1,6 +1,10 @@
 [gd_scene format=3 uid="uid://xsrt777ms37l"]
 
 [ext_resource type="Script" uid="uid://cvnvhf4dvkux3" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/menu_campagne.gd" id="1_v46tq"]
+[ext_resource type="PackedScene" uid="uid://b1ufax23tqfgs" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_defaite.tscn" id="2_g7po1"]
+[ext_resource type="PackedScene" uid="uid://civ2upw8lhv4x" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_plateau.tscn" id="3_i48wp"]
+[ext_resource type="PackedScene" uid="uid://ct3na0n0v1odm" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_niveau.tscn" id="4_22vk1"]
+[ext_resource type="PackedScene" uid="uid://dj67xrfwthpal" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_campagne.tscn" id="5_mt8hf"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4v47e"]
 bg_color = Color(0, 0, 0, 1)
@@ -132,6 +136,29 @@ text = "[color=#ff98fd][font_size=30][center][b]Score[/b][/center][/font_size]
 [/font_size][/left][font_size=30][center][b]Total : ZZ.YYY.XXX[/b][/center][/font_size][/color]"
 scroll_active = false
 language = "fr"
+
+[node name="Centrer" type="CenterContainer" parent="." unique_id=572743903]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PanneauDefaite" parent="Centrer" unique_id=970298066 instance=ExtResource("2_g7po1")]
+visible = false
+layout_mode = 2
+
+[node name="PanneauVictoirePlateau" parent="Centrer" unique_id=542009068 instance=ExtResource("3_i48wp")]
+visible = false
+layout_mode = 2
+
+[node name="PanneauVictoireNiveau" parent="Centrer" unique_id=17317956 instance=ExtResource("4_22vk1")]
+visible = false
+layout_mode = 2
+
+[node name="PanneauVictoireCampagne" parent="Centrer" unique_id=659840031 instance=ExtResource("5_mt8hf")]
+visible = false
+layout_mode = 2
 
 [connection signal="pressed" from="BoutonMenuPrincipal" to="." method="_on_bouton_menu_principal_pressed"]
 [connection signal="pressed" from="BoutonStatistiques" to="." method="_on_bouton_statistiques_pressed"]

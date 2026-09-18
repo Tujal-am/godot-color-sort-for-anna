@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b1ufax23tqfgs"]
 
 [ext_resource type="Texture2D" uid="uid://te6tq1llwavd" path="res://Art/UI/Gameplay/Commun/defaite_titre.png" id="1_2kypr"]
+[ext_resource type="Script" uid="uid://c0efp0jvl6ivh" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_defaite.gd" id="1_p5w4q"]
 [ext_resource type="Texture2D" uid="uid://cr6vm5pvj70xv" path="res://Art/UI/Gameplay/Commun/defaite_visage.png" id="2_p5w4q"]
 [ext_resource type="Texture2D" uid="uid://c1ui16e3cunss" path="res://Art/UI/Gameplay/Commun/defaite_bouton.png" id="3_h4ywy"]
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="4_jss3b"]
@@ -18,6 +19,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="PanneauDefaite" type="Control" unique_id=970298066]
+custom_minimum_size = Vector2(380, 410)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,6 +28,7 @@ offset_right = -100.0
 offset_bottom = -310.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_p5w4q")
 
 [node name="Fond" type="Panel" parent="." unique_id=109075239]
 layout_mode = 0
@@ -59,11 +62,15 @@ offset_top = 290.0
 offset_right = 361.0
 offset_bottom = 377.0
 
-[node name="Bouton" type="TextureRect" parent="Control" unique_id=1905905848]
-layout_mode = 0
-offset_right = 336.0
-offset_bottom = 87.0
-texture = ExtResource("3_h4ywy")
+[node name="Bouton" type="Button" parent="Control" unique_id=873975594]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+icon = ExtResource("3_h4ywy")
+flat = true
 
 [node name="Continuer" type="Label" parent="Control" unique_id=2002853587]
 layout_mode = 1
@@ -80,3 +87,5 @@ text = "Continuer"
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
+
+[connection signal="pressed" from="Control/Bouton" to="." method="_on_bouton_pressed"]

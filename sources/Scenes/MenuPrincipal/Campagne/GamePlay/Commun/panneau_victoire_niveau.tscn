@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="4_lxdsy"]
 [ext_resource type="PackedScene" uid="uid://cidiwy0ivqm3w" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_3_items.tscn" id="5_dl2qx"]
 [ext_resource type="PackedScene" uid="uid://piphy5gwr6qk" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_2_items.tscn" id="6_lxdsy"]
+[ext_resource type="Script" uid="uid://ny5e7c6ax5u8" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire.gd" id="6_wj5rh"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gv5u"]
 bg_color = Color(1, 0.97255, 0.92941, 1)
@@ -20,6 +21,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="PanneauVictoireNiveau" type="Control" unique_id=542009068]
+custom_minimum_size = Vector2(380, 680)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,6 +31,7 @@ offset_right = -100.0
 offset_bottom = -39.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("6_wj5rh")
 
 [node name="Fond" type="Panel" parent="." unique_id=188817741]
 layout_mode = 0
@@ -111,17 +114,17 @@ offset_top = 600.0
 offset_right = 361.0
 offset_bottom = 650.0
 
-[node name="Bouton" type="TextureRect" parent="Control" unique_id=1158080412]
-custom_minimum_size = Vector2(336, 0)
+[node name="Bouton" type="Button" parent="Control" unique_id=1490644577]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_dl2qx")
-expand_mode = 1
-stretch_mode = 5
+icon = ExtResource("3_dl2qx")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="Continuer" type="Label" parent="Control" unique_id=2046803792]
 layout_mode = 1
@@ -138,3 +141,5 @@ text = "Continuer"
 horizontal_alignment = 1
 vertical_alignment = 1
 clip_text = true
+
+[connection signal="pressed" from="Control/Bouton" to="." method="_on_bouton_pressed"]
