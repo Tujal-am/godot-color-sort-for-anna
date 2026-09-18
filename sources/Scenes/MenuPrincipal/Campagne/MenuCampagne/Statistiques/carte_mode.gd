@@ -1,15 +1,19 @@
 extends Control
 
-@export var titre: String = "Mode":
-	set(text):
-		titre = text
+@export var _titre: String = "Mode":
+	set(texte):
+		_titre = texte
 		# Si le nœud est prêt dans l'arbre, on met à jour le Label
 		if is_inside_tree():
-			$Titre.text = text
+			$Titre.text = texte
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	$Titre.text = titre
+	titre(_titre)
+
+func titre(texte : String) -> void:
+	_titre = texte
+	$Titre.text = texte
 
 func nb_plateaux(valeur : String) -> void:
 	$Plateaux/Valeur.text = valeur

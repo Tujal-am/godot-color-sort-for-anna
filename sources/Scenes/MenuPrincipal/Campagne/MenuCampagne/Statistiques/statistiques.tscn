@@ -183,7 +183,6 @@ offset_left = 72.0
 offset_top = 848.0
 offset_right = 408.0
 offset_bottom = 1012.0
-titre = "Classique"
 
 [node name="QuiPerdGagne" parent="Scroll/Content" unique_id=677782113 instance=ExtResource("10_86xq2")]
 layout_mode = 0
@@ -191,6 +190,5 @@ offset_left = 72.0
 offset_top = 1018.0
 offset_right = 408.0
 offset_bottom = 1182.0
-titre = "Qui Perd Gagne"
 
 [connection signal="pressed" from="Scroll/Content/Retour" to="." method="_on_retour_pressed"]
