@@ -1,4 +1,6 @@
-﻿extends Node
+extends Node
+
+const FIN_CAMPAGNE := 500_000
 
 func mettre_a_jour_score_pour_victoire() -> Dictionary:
 	"Calculer le score suite à une victoire (duree, ratio réussites, niveau, campagne)"
@@ -116,7 +118,7 @@ func mettre_a_jour_score_campagne() -> Dictionary:
 	var bonus_campagne = 0
 	if SauvegardeBddJoueursService.campagne_la_campagne_est_terminee():
 		var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
-		bonus_campagne = 500_000
+		bonus_campagne = FIN_CAMPAGNE
 		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_campagne)
 		return {'type':'campagne', 'points': bonus_campagne}
 	return {}
