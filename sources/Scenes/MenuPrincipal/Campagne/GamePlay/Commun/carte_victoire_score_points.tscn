@@ -1,0 +1,73 @@
+[gd_scene format=3 uid="uid://di0qsxjp8icsn"]
+
+[ext_resource type="Script" uid="uid://ct6ko8u8pwqtb" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_points.gd" id="1_hlrf1"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="3_brepm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gv5u"]
+bg_color = Color(0.9882353, 0.9607843, 0.92156863, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.91736513, 0.7628725, 0.5331714, 1)
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
+[node name="ScorePoints" type="Control" unique_id=542009068]
+custom_minimum_size = Vector2(290, 70)
+custom_maximum_size = Vector2(290, 70)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -190.0
+offset_bottom = -650.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_hlrf1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Fond" type="Panel" parent="." unique_id=188817741]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4gv5u")
+
+[node name="Titre" type="Label" parent="." unique_id=570680190]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+theme_override_fonts/font = ExtResource("3_brepm")
+theme_override_font_sizes/font_size = 25
+text = "Score"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="Points" type="Label" parent="." unique_id=964070532]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 30.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9529412, 0.15294118, 0.08235294, 1)
+theme_override_fonts/font = ExtResource("3_brepm")
+theme_override_font_sizes/font_size = 40
+text = "Nombre Points"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
