@@ -169,7 +169,7 @@ offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
 theme_override_font_sizes/font_size = 11
-text = "Longueur niv."
+text = "Niveau"
 horizontal_alignment = 1
 vertical_alignment = 1
 

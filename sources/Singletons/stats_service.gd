@@ -381,8 +381,10 @@ func niveau_taux_reussite_les_infos() -> Dictionary:
 	# Nombre de niveaux sans erreur
 	var taux_min: float = 101.
 	var taux_min_lg: int = 0
+	var taux_min_niveau: int = 0
 	var taux_max: float = -1.
 	var taux_max_lg: int = 0
+	var taux_max_niveau: int = 0
 	# Parcourir la liste des enregistrements de la campagne
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
 		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
@@ -396,9 +398,11 @@ func niveau_taux_reussite_les_infos() -> Dictionary:
 				if taux < taux_min:
 					taux_min = taux
 					taux_min_lg = reussis
+					taux_min_niveau = SauvegardeBddJoueursService.valeur_niveau(nom_niveau)
 				if taux > taux_max:
 					taux_max = taux
 					taux_max_lg = reussis
+					taux_max_niveau = SauvegardeBddJoueursService.valeur_niveau(nom_niveau)
 	# Gommer les valeurs initiales
 	if taux_min == 101.:
 		taux_min = 0.
@@ -407,9 +411,12 @@ func niveau_taux_reussite_les_infos() -> Dictionary:
 	LogService.log_debug("joueur:",joueur,
 						' taux_min=', taux_min,
 						' taux_min_lg=', taux_min_lg,
+						' taux_min_niveau=', taux_min_niveau,
 						' taux_max=', taux_max,
-						' taux_max_lg=', taux_max_lg)
-	return {'taux_min': taux_min, 'taux_min_lg': taux_min_lg, 'taux_max': taux_max, 'taux_max_lg': taux_max_lg}
+						' taux_max_lg=', taux_max_lg,
+						' taux_max_niveau=', taux_max_niveau)
+	return {'taux_min': taux_min, 'taux_min_lg': taux_min_lg, 'taux_min_niveau': taux_min_niveau,
+			'taux_max': taux_max, 'taux_max_lg': taux_max_lg, 'taux_max_niveau': taux_max_niveau}
 
 func plateau_le_temps_moyen_en_s() -> float:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()

@@ -94,12 +94,12 @@ func niveaux():
 	var taux_reussite = StatsService.niveau_taux_reussite_infos()
 	valeur = str_arrondir_pourcentage(taux_reussite.get('taux_min'))
 	ui_niveau.taux_reussite_minimum(valeur)
-	valeur = str(taux_reussite.get('taux_min_lg'))
+	valeur = str(taux_reussite.get('taux_min_niveau'))
 	ui_niveau.difficulte_reussite_minimum(valeur)
 
 	valeur = str_arrondir_pourcentage(taux_reussite.get('taux_max'))
 	ui_niveau.taux_reussite_maximum(valeur)
-	valeur = str(taux_reussite.get('taux_max_lg'))
+	valeur = str(taux_reussite.get('taux_max_niveau'))
 	ui_niveau.difficulte_reussite_maximum(valeur)
 
 func difficultes():
