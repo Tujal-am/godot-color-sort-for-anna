@@ -11,6 +11,7 @@ var gameplay_est_termine: Callable
 var bouton_recommencer_size_y: float
 
 @export var pile_scene: PackedScene
+@export var presentation_mode := "classique"
 var liste_piles = []
 static var ESPACE = 32
 
@@ -62,6 +63,7 @@ func _creer_un_plateau(piles : Array) -> void:
 func _instancier_une_pile() -> Pile:
 	# Créer une nouvelle instance de la scene 'Pile'.
 	var pile = pile_scene.instantiate()
+	pile.configurer_presentation(presentation_mode)
 
 	# Ajouter la nouvelle scene au plus tot pour que
 	# le constructeur '_ready' ait fait ses actions préalables.
