@@ -4,7 +4,6 @@
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="2_sriur"]
 [ext_resource type="Texture2D" uid="uid://bqd37gkoeur8e" path="res://Art/UI/icons/grades/medaille_bronze_48.png" id="4_qmopr"]
 [ext_resource type="Texture2D" uid="uid://b5wjqipcu265e" path="res://Art/UI/Statistiques/laurier_score_gauche.png" id="5_jq5f8"]
-[ext_resource type="Texture2D" uid="uid://bwkogb1rm3hy5" path="res://Art/UI/Statistiques/laurier_score_droit.png" id="6_6up0w"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7eto8"]
 bg_color = Color(0.98824, 0.92157, 0.8549, 1)
@@ -113,29 +112,25 @@ offset_bottom = 75.0
 mouse_filter = 2
 color = Color(0.93725, 0.76863, 0.62353, 1)
 
-[node name="Score" type="Control" parent="." unique_id=398736478]
-anchors_preset = 0
+[node name="Score" type="HBoxContainer" parent="." unique_id=1811358881]
+layout_mode = 0
 offset_left = 18.0
 offset_top = 74.0
-offset_right = 352.0
-offset_bottom = 125.0
+offset_right = 350.0
+offset_bottom = 130.0
+theme_override_constants/separation = -10
+alignment = 1
 
 [node name="LaurierGauche" type="TextureRect" parent="Score" unique_id=1308876426]
-layout_mode = 0
-offset_left = 33.0
-offset_top = 14.0
-offset_right = 55.0
-offset_bottom = 52.0
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
 mouse_filter = 2
 texture = ExtResource("5_jq5f8")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Valeur" type="Label" parent="Score" unique_id=650993660]
-layout_mode = 0
-offset_top = 16.0
-offset_right = 328.0
-offset_bottom = 51.0
+layout_mode = 2
 theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
 theme_override_fonts/font = ExtResource("2_sriur")
 theme_override_font_sizes/font_size = 23
@@ -143,15 +138,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LaurierDroit" type="TextureRect" parent="Score" unique_id=85334394]
-layout_mode = 0
-offset_left = 273.0
-offset_top = 14.0
-offset_right = 297.0
-offset_bottom = 52.0
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("6_6up0w")
+texture = ExtResource("5_jq5f8")
 expand_mode = 1
 stretch_mode = 5
+flip_h = true
 
 [node name="Rapidite" type="Control" parent="." unique_id=1692914158]
 anchors_preset = 0
