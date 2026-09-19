@@ -39,7 +39,6 @@ func _ready() -> void:
 	cacher_les_gameplays()
 	$MenuCampagne.cacher_accueil()
 	$MenuCampagne.show()
-	$MenuCampagne.afficher_accueil_niveau_en_cours()
 
 func _on_menu_commencer_plateau() -> void:
 	ProgressionCampagneService.commencer_un_plateau()
