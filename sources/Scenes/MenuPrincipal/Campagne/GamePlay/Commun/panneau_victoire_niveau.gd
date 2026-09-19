@@ -18,17 +18,17 @@ func temps(reference : String,
 	# TODO : implementer la carte à 4 items
 	# $Temps.item4(points + " points")
 
-func ratio(niveau : String,
+func ratio(ratio : String,
 			points : String) -> void:
-	$Ratio.item1("Niveau " + niveau)
-	$Temps.item2(points + " points")
+	$Ratio.item1("Réalisé : " + ratio + "%")
+	$Ratio.item2(points + " points")
 
 func niveau(longueur : String,
 			points : String) -> void:
-	$Ratio.item1("Longueur: " + longueur)
-	$Temps.item2(points + " points")
+	$Niveau.item1("Longueur: " + longueur)
+	$Niveau.item2(points + " points")
 
 func niveau_parfait(bonus : String,
 			points : String) -> void:
-	$Ratio.item1("Bonus:  " + bonus + "s")
-	$Temps.item2(points + " points")
+	$NiveauParfait.item1("Bonus:  " + bonus)
+	$NiveauParfait.item2(points + " points")

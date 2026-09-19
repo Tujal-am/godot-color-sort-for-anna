@@ -20,5 +20,5 @@ func temps(reference : String,
 
 func ratio(ratio : String,
 			points : String) -> void:
-	$Ratio.item1("Réalisé : " + ratio + "s")
-	$Temps.item2(points + " points")
+	$Ratio.item1("Réalisé : " + ratio + "%")
+	$Ratio.item2(points + " points")

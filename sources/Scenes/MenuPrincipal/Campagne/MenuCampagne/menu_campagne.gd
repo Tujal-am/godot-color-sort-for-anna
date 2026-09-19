@@ -10,6 +10,8 @@ var _on_message_riche_gui_input_verouille := false
 signal commencer_plateau
 signal fin_message_riche
 
+# TODO : Vérifier si le niveau PARFAIT déclenche au bon moment. Apres abandon, il s'est déclenché.
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Connecter les signaux attendus
@@ -320,4 +322,4 @@ func _on_panneau_victoire_niveau_continuer() -> void:
 func _on_panneau_victoire_campagne_continuer() -> void:
 	$Centrer.hide()
 	$Centrer/PanneauVictoireCampagne.hide()
-	$BoutonCommencer.show()
+	_on_bouton_statistiques_pressed()
