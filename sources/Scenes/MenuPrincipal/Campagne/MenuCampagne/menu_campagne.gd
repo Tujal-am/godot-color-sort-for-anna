@@ -85,7 +85,7 @@ func _on_panneau_victoire_campagne_continuer() -> void:
 func mettre_a_jour_infos_joueur() -> void:
 	$InfosDuJoueur/TexteInfosDuJoueur.bbcode_text = formatter.formater_infos_joueur()
 
-func afficher_plateau_suivant(texte : String = ""):
+func afficher_plateau_suivant():
 	$BoutonMenuPrincipal.show()
 	$BoutonStatistiques.show()
 	mettre_a_jour_infos_joueur()
@@ -246,4 +246,3 @@ func afficher_detail_score_campagne(detail_score : Dictionary) -> void:
 
 	$Centrer.show()
 	$Centrer/PanneauVictoireCampagne.show()
-

@@ -38,6 +38,7 @@ func _ready() -> void:
 
 	cacher_les_gameplays()
 	$MenuCampagne.cacher_accueil()
+	$MenuCampagne.afficher_plateau_suivant()
 	$MenuCampagne.show()
 
 func _on_menu_commencer_plateau() -> void:
