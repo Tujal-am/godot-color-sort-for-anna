@@ -15,8 +15,7 @@ func temps(reference : String,
 	$Temps.item1("Référence : " + reference + "s")
 	$Temps.item2("Recommencé : " + recommence + "s")
 	$Temps.item3("Réalisé : " + realise + "s")
-	# TODO : Implementer le 4 items
-	# $Temps.item4(points + " points")
+	$Temps.item4(points + " points")
 
 func ratio(ratio : String,
 			points : String) -> void:

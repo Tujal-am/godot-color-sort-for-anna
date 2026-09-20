@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c1ui16e3cunss" path="res://Art/UI/Gameplay/Commun/defaite_bouton.png" id="3_dl2qx"]
 [ext_resource type="PackedScene" uid="uid://di0qsxjp8icsn" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_points.tscn" id="4_6h7mf"]
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="4_lxdsy"]
-[ext_resource type="PackedScene" uid="uid://cidiwy0ivqm3w" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_3_items.tscn" id="5_dl2qx"]
+[ext_resource type="PackedScene" uid="uid://tqkrgubh7ve4" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_4_items.tscn" id="4_wj5rh"]
 [ext_resource type="PackedScene" uid="uid://piphy5gwr6qk" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_2_items.tscn" id="6_lxdsy"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gv5u"]
@@ -59,7 +59,7 @@ offset_top = -240.0
 offset_right = -45.0
 offset_bottom = -170.0
 
-[node name="Temps" parent="." unique_id=729573799 instance=ExtResource("5_dl2qx")]
+[node name="Temps" parent="." unique_id=25083317 instance=ExtResource("4_wj5rh")]
 layout_mode = 1
 anchors_preset = 14
 anchor_top = 0.5
@@ -68,8 +68,6 @@ offset_left = 45.0
 offset_top = -160.0
 offset_right = -45.0
 offset_bottom = -70.0
-_titre = "Temps"
-_chemin_logo = "uid://lc5tatprguiw"
 
 [node name="Ratio" parent="." unique_id=1062657279 instance=ExtResource("6_lxdsy")]
 layout_mode = 1
