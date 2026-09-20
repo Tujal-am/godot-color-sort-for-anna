@@ -25,6 +25,12 @@ corner_radius_bottom_left = 23
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m17g7"]
 
+[sub_resource type="InputEventKey" id="InputEventKey_77vjn"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_opeep"]
+events = [SubResource("InputEventKey_77vjn")]
+
 [node name="APropos" type="Control" unique_id=999217149]
 layout_mode = 3
 anchors_preset = 15
@@ -66,6 +72,7 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_fmmw8")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_vt736")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_n3y8f")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_m17g7")
+shortcut = SubResource("Shortcut_opeep")
 flat = true
 
 [connection signal="pressed" from="Retour" to="." method="_on_retour_pressed"]

@@ -20,6 +20,12 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="InputEventKey" id="InputEventKey_xsrjs"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_h4ywy"]
+events = [SubResource("InputEventKey_xsrjs")]
+
 [node name="PanneauVictoirePlateau" type="Control" unique_id=542009068]
 custom_minimum_size = Vector2(380, 476)
 layout_mode = 3
@@ -106,6 +112,7 @@ offset_top = -4.0
 offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
+shortcut = SubResource("Shortcut_h4ywy")
 icon = ExtResource("5_y2ung")
 flat = true
 icon_alignment = 1

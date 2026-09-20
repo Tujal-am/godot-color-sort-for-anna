@@ -21,6 +21,12 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="InputEventKey" id="InputEventKey_141nh"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_4xrik"]
+events = [SubResource("InputEventKey_141nh")]
+
 [node name="PanneauVictoireCampagne" type="Control" unique_id=542009068]
 custom_minimum_size = Vector2(380, 720)
 layout_mode = 3
@@ -134,6 +140,7 @@ offset_top = -4.0
 offset_bottom = 4.0
 grow_horizontal = 2
 grow_vertical = 2
+shortcut = SubResource("Shortcut_4xrik")
 icon = ExtResource("3_dl2qx")
 flat = true
 icon_alignment = 1

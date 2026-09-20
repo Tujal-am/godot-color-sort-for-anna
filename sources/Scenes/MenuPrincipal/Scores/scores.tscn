@@ -13,6 +13,12 @@
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6blob"]
 
+[sub_resource type="InputEventKey" id="InputEventKey_opeep"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_pa4px"]
+events = [SubResource("InputEventKey_opeep")]
+
 [node name="Scores" type="Control" unique_id=932203868]
 layout_mode = 3
 anchors_preset = 15
@@ -57,6 +63,7 @@ theme_override_styles/pressed = SubResource("StyleBoxEmpty_n0s2t")
 theme_override_styles/hover = SubResource("StyleBoxEmpty_l2uwd")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_88ltc")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_6blob")
+shortcut = SubResource("Shortcut_pa4px")
 flat = true
 
 [connection signal="pressed" from="Retour" to="." method="_on_retour_pressed"]

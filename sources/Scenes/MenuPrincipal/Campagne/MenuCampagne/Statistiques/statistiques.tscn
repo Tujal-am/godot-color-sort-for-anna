@@ -22,6 +22,12 @@ corner_radius_top_right = 23
 corner_radius_bottom_right = 23
 corner_radius_bottom_left = 23
 
+[sub_resource type="InputEventKey" id="InputEventKey_pa4px"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_pa4px"]
+events = [SubResource("InputEventKey_pa4px")]
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_babj6"]
 bg_color = Color(1, 0.972549, 0.92941177, 1)
 border_width_left = 1
@@ -104,6 +110,7 @@ offset_right = 71.0
 offset_bottom = 63.0
 tooltip_text = "Fermer la preview"
 focus_mode = 0
+shortcut = SubResource("Shortcut_pa4px")
 icon = ExtResource("4_pa4px")
 flat = true
 

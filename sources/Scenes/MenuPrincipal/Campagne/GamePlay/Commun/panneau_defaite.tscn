@@ -18,6 +18,12 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="InputEventKey" id="InputEventKey_p5w4q"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_fmmw8"]
+events = [SubResource("InputEventKey_p5w4q")]
+
 [node name="PanneauDefaite" type="Control" unique_id=970298066]
 custom_minimum_size = Vector2(380, 410)
 layout_mode = 3
@@ -69,6 +75,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+shortcut = SubResource("Shortcut_fmmw8")
 icon = ExtResource("3_h4ywy")
 flat = true
 
