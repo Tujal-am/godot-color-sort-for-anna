@@ -10,19 +10,6 @@ var formatter := FormatterMenuCampagne.new()
 signal commencer_plateau
 
 
-# TODO : OK ! Vérifier si le niveau PARFAIT déclenche au bon moment. Apres abandon, il s'est déclenché.
-# TODO : OK ! Implémenter la carte à 4 items pour le "temps"
-# TODO : OK ! Traiter le cas où le niveau parfait est vide -> en attendant, remplir à nul !
-# TODO : OK ! Faire le tri avec les messages dans le code devenus obsoletes.
-# TODO : OK ! Voir les histoire de tempo avec les messageries.
-# TODO : à surveiller : le premier ecran de score n'apparait pas lors d'une nouvelle campagne.
-# TODO : OK ! Les statistiques vides sont degueux avec le score. Corriger!
-# TODO : La suppression des messages casse la sequence des menus.
-#        OK ! ... Le bouton demarrer n'apparait plus et les infos joueur non plus.
-#        OK ! ... Les infos joueurs et menu et stats n'apparaissent plus apres un plateau gagné
-#        OK ! ... Les infos joueurs et menu et stats n'apparaissent plus apres un plateau perdu
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Connecter les signaux attendus
