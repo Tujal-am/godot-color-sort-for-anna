@@ -85,6 +85,11 @@ func _on_classique_abandon() -> void:
 	AudioService.son_abandonner_un_plateau()
 	AudioService.arreter_la_musique()
 
+func _on_menu_campagne_score_continuer() -> void:
+	# Fin d'affichage du score, réactiver le menu
+	if not ProgressionCampagneService.la_campagne_est_terminee():
+		$MenuCampagne.afficher_plateau_suivant()
+
 
 func _on_qui_perd_gagne_plateau_invalide() -> void:
 	LogService.log_erreur("_on_qui_perd_gagne_plateau_invalide pour la campagne IMPOSSIBLE ! WTF !")

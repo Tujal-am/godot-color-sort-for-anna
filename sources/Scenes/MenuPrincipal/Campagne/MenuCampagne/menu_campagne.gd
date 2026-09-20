@@ -2,6 +2,8 @@ extends CanvasLayer
 
 class_name MenuCampagne
 
+signal score_continuer
+
 var formatter := FormatterMenuCampagne.new()
 
 # Notifie la scene `Plateau` que le bouton est pressé
@@ -16,7 +18,9 @@ signal commencer_plateau
 # TODO : à surveiller : le premier ecran de score n'apparait pas lors d'une nouvelle campagne.
 # TODO : Les statistiques vides sont degueux avec le score. Corriger!
 # TODO : La suppression des messages casse la sequence des menus.
-#        ... Le bouton demarreer n'apparait plus et les infos joueur non plus.
+#        OK ! ... Le bouton demarrer n'apparait plus et les infos joueur non plus.
+#        OK ! ... Les infos joueurs et menu et stats n'apparaissent plus apres un plateau gagné
+#        OK ! ... Les infos joueurs et menu et stats n'apparaissent plus apres un plateau perdu
 
 
 # Called when the node enters the scene tree for the first time.
@@ -64,21 +68,25 @@ func _on_panneau_defaite_continuer() -> void:
 	$Centrer.hide()
 	$Centrer/PanneauDefaite.hide()
 	$BoutonCommencer.show()
+	score_continuer.emit() #Redonner la main à "campagne" pour la suite
 
 func _on_panneau_victoire_plateau_continuer() -> void:
 	$Centrer.hide()
 	$Centrer/PanneauVictoirePlateau.hide()
 	$BoutonCommencer.show()
+	score_continuer.emit() #Redonner la main à "campagne" pour la suite
 
 func _on_panneau_victoire_niveau_continuer() -> void:
 	$Centrer.hide()
 	$Centrer/PanneauVictoireNiveau.hide()
 	$BoutonCommencer.show()
+	score_continuer.emit() #Redonner la main à "campagne" pour la suite
 
 func _on_panneau_victoire_campagne_continuer() -> void:
 	$Centrer.hide()
 	$Centrer/PanneauVictoireCampagne.hide()
 	_on_bouton_statistiques_pressed()
+	score_continuer.emit() #Redonner la main à "campagne" pour la suite
 
 
 

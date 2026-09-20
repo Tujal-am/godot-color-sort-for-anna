@@ -39,6 +39,7 @@ script = ExtResource("1_4bhsb")
 [node name="MotCache" parent="." unique_id=556800384 instance=ExtResource("6_s21pl")]
 
 [connection signal="commencer_plateau" from="MenuCampagne" to="." method="_on_menu_commencer_plateau"]
+[connection signal="score_continuer" from="MenuCampagne" to="." method="_on_menu_campagne_score_continuer"]
 [connection signal="abandon" from="Classique" to="." method="_on_classique_abandon"]
 [connection signal="plateau_invalide" from="Classique" to="." method="_on_classique_plateau_invalide"]
 [connection signal="victoire" from="Classique" to="." method="_on_classique_victoire"]
