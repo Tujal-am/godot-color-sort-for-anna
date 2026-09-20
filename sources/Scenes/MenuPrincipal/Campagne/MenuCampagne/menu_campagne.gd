@@ -13,8 +13,8 @@ signal commencer_plateau
 # TODO : Vérifier si le niveau PARFAIT déclenche au bon moment. Apres abandon, il s'est déclenché.
 # TODO : Implémenter la carte à 4 items pour le "temps"
 # TODO : Traiter le cas où le niveau parfait est vide -> en attendant, remplir à nul !
-# TODO : Faire le tri avec les messages dans le code devenus obsoletes.
-# TODO : Voir les histoire de tempo avec les messageries.
+# TODO : OK ! Faire le tri avec les messages dans le code devenus obsoletes.
+# TODO : OK ! Voir les histoire de tempo avec les messageries.
 # TODO : à surveiller : le premier ecran de score n'apparait pas lors d'une nouvelle campagne.
 # TODO : OK ! Les statistiques vides sont degueux avec le score. Corriger!
 # TODO : La suppression des messages casse la sequence des menus.
@@ -112,7 +112,6 @@ func afficher_plateau_invalide():
 	# Pas de plateau invalide en campagne
 	pass
 
-# TODO : A EFFACER ? Voir les dependances ...
 func afficher_abandonner_un_plateau():
 	$BoutonMenuPrincipal.show()
 	$BoutonStatistiques.show()
@@ -122,16 +121,16 @@ func afficher_abandonner_un_plateau():
 	$Centrer.show()
 	$Centrer/PanneauDefaite.show()
 
-# TODO : A EFFACER ? Voir les dependances ...
 func afficher_gagner_un_plateau() -> void:
+	# TODO : Insérer ici un message positif pour le joueur apres le score
 	pass
 
-# TODO : A EFFACER ? Voir les dependances ...
 func afficher_fin_niveau():
+	# TODO : Insérer ici un message positif pour le joueur apres le score
 	pass
 
-# TODO : A EFFACER ? Voir les dependances ...
 func afficher_fin_campagne():
+	# TODO : Insérer ici un message positif pour le joueur apres le score
 	$BoutonCommencer.hide()
 
 
@@ -147,6 +146,8 @@ func afficher_detail_score(detail_score : Dictionary) -> void:
 		afficher_detail_score_plateau(detail_score)
 
 func lire_score_plateau_score(detail_score : Dictionary) -> String:
+	if not detail_score:
+		return '0'
 	var score_total = 0
 	score_total += detail_score.get('duree').get('points')
 	score_total += detail_score.get('ratio_reussite').get('points')
@@ -156,6 +157,8 @@ func lire_score_plateau_score(detail_score : Dictionary) -> String:
 	return SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(score_total, '.')
 
 func lire_score_plateau_temps(detail_score_duree : Dictionary) -> Dictionary:
+	if not detail_score_duree:
+		return {'reference': '-', 'recommence': '-', 'realise': '-', 'points': '0'}
 	return {
 		'reference': str(detail_score_duree.get('reference')),
 		'recommence': str( snapped(detail_score_duree.get('recommence'), 0.1) ),
@@ -164,24 +167,32 @@ func lire_score_plateau_temps(detail_score_duree : Dictionary) -> Dictionary:
 	}
 
 func lire_score_plateau_ratio_reussite(detail_score_ratio : Dictionary) -> Dictionary:
+	if not detail_score_ratio:
+		return {'ratio': '-', 'points': '0'}
 	return {
 		'ratio': str(detail_score_ratio.get('ratio')),
 		'points': SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_ratio.get('points'), '.')
 	}
 
 func lire_score_niveau(detail_score_niveau : Dictionary) -> Dictionary:
+	if not detail_score_niveau:
+		return {'longueur': '-', 'points': '0'}
 	return {
 		'longueur': str(detail_score_niveau.get('longueur')),
 		'points': SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_niveau.get('points'), '.')
 	}
 
 func lire_score_niveau_parfait(detail_score_niveau_parfait : Dictionary) -> Dictionary:
+	if not detail_score_niveau_parfait:
+		return {'bonus': '-', 'points': '0'}
 	return {
 		'bonus': str(detail_score_niveau_parfait.get('bonus')),
 		'points': SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_niveau_parfait.get('points'), '.')
 	}
 
 func lire_score_campagne(detail_score_campagne : Dictionary) -> String:
+	if not detail_score_campagne:
+		return '0'
 	return SauvegardeTableauDesScoresService.nombre_avec_separateur_de_milliers(detail_score_campagne.get('points'), '.')
 
 func afficher_detail_score_plateau(detail_score : Dictionary) -> void:
@@ -213,15 +224,13 @@ func afficher_detail_score_niveau(detail_score : Dictionary) -> void:
 	$Centrer/PanneauVictoireNiveau.ratio(	detail_score_ratio_reussite.get('ratio'),
 											detail_score_ratio_reussite.get('points'))
 
-	if detail_score.get('niveau'):
-		var detail_score_niveau = lire_score_niveau(detail_score.get('niveau'))
-		$Centrer/PanneauVictoireNiveau.niveau(	detail_score_niveau.get('longueur'),
-												detail_score_niveau.get('points'))
+	var detail_score_niveau = lire_score_niveau(detail_score.get('niveau'))
+	$Centrer/PanneauVictoireNiveau.niveau(	detail_score_niveau.get('longueur'),
+											detail_score_niveau.get('points'))
 
-	if detail_score.get('niveau_parfait'):
-		var detail_score_niveau_parfait = lire_score_niveau_parfait(detail_score.get('niveau_parfait'))
-		$Centrer/PanneauVictoireNiveau.niveau_parfait(	detail_score_niveau_parfait.get('bonus'),
-														detail_score_niveau_parfait.get('points'))
+	var detail_score_niveau_parfait = lire_score_niveau_parfait(detail_score.get('niveau_parfait'))
+	$Centrer/PanneauVictoireNiveau.niveau_parfait(	detail_score_niveau_parfait.get('bonus'),
+													detail_score_niveau_parfait.get('points'))
 
 	$Centrer.show()
 	$Centrer/PanneauVictoireNiveau.show()
@@ -239,18 +248,15 @@ func afficher_detail_score_campagne(detail_score : Dictionary) -> void:
 	$Centrer/PanneauVictoireCampagne.ratio(	detail_score_ratio_reussite.get('ratio'),
 											detail_score_ratio_reussite.get('points'))
 
-	if detail_score.get('niveau'):
-		var detail_score_niveau = lire_score_niveau(detail_score.get('niveau'))
-		$Centrer/PanneauVictoireCampagne.niveau(	detail_score_niveau.get('longueur'),
-													detail_score_niveau.get('points'))
+	var detail_score_niveau = lire_score_niveau(detail_score.get('niveau'))
+	$Centrer/PanneauVictoireCampagne.niveau(	detail_score_niveau.get('longueur'),
+												detail_score_niveau.get('points'))
 
-	if detail_score.get('niveau_parfait'):
-		var detail_score_niveau_parfait = lire_score_niveau_parfait(detail_score.get('niveau_parfait'))
-		$Centrer/PanneauVictoireCampagne.niveau_parfait(	detail_score_niveau_parfait.get('bonus'),
-															detail_score_niveau_parfait.get('points'))
+	var detail_score_niveau_parfait = lire_score_niveau_parfait(detail_score.get('niveau_parfait'))
+	$Centrer/PanneauVictoireCampagne.niveau_parfait(	detail_score_niveau_parfait.get('bonus'),
+														detail_score_niveau_parfait.get('points'))
 
-	if detail_score.get('campagne'):
-		$Centrer/PanneauVictoireCampagne.campagne(lire_score_campagne(detail_score.get('campagne')))
+	$Centrer/PanneauVictoireCampagne.campagne(lire_score_campagne(detail_score.get('campagne')))
 
 	$Centrer.show()
 	$Centrer/PanneauVictoireCampagne.show()
