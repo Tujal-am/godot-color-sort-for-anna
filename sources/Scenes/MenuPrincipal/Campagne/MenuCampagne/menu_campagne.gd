@@ -9,6 +9,9 @@ var formatter := FormatterMenuCampagne.new()
 # Notifie la scene `Plateau` que le bouton est pressé
 signal commencer_plateau
 
+# TODO : BUG MOBILE : sur telephone, le panneau des scores de la premiere victoire est "validée" automatiquement.
+#                     ...Le panneau de score apparait furtivement.
+#                     ...Ce phenomene n'apparait pas avec l'abandon.
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -46,6 +46,7 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
   - Dans la campagne en cours, ajouter une balise "score" qui contiendra le bonus de fin de niveau.
   - Dans la campagne, enregistrer tous ses niveaux.
   - Une campagne de test pourra être effacée sans détruire une campagne réglementaire passée.
+  - Dans le score en jeu, la jauge "ratio" devrait refléter le rapport entre les victoires et les défaites.
 - ~~Structurer la sauvegarde 'sauvegarde_joueur_XX.json' pour incorporer la campagne~~
   - ~~"ascensions" devient "enregistrement_campagne" pour les statistiques~~
   - ~~Un plateau terminé en campagne devient accessible pour le jeu libre~~
@@ -187,6 +188,112 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Selon le gameplay du plateau de la campagne, les modes accessibles seront:
   - Groupe __Classique__:  
     - Classique
+    - Qui Perd Gagne
+- Tous les plateaux d'un groupe seront jouable dans tous les gameplay de ce groupe.
+
+### Nouveaux styles de jeux:
+
+#### Noms
+
+  - Classique
+  - Au Plus Près
+
+#### Descriptions
+
+- Classique :
+  - Regle du jeu actuelle.
+- Qui Perd Gagne:
+  - Regle du jeu actuel inversée.
+  - Il faut trouver une position de plateau bloquée et non résolue
+
+#### Interface Graphique
+
+- Classique :
+    - Afficher le chrono en haut à droite.
+- Qui Perd Gagne:
+    - Afficher le chrono en haut à droite.
+
+## V2.0 : Pour une version long terme
+
+### Divers
+- faire une animation du bloc qui se déplace
+- enregistrer dans les données immédiatement les déplacements, mais l'animation décide quand afficher/masquer les jetons selon son avancement. (idée, plusieurs coups sont enchaînés et joués même si l'animation n'est pas terminée. Le résultat donne une séquence d'animation magique)
+- pour les jetons, dissocier les caractéristiques : indice de jeton, couleur, nom, famille. Une famille pourrait avoir plusieurs jetons avec un nom ou une couleur différente.
+- réfléchir à une écriture de plateau qui porte l'organisation des piles dans le plateau. Par exemple '.' pour le changement de pile et '..' pour le changement de ligne.
+- varier la représentation des jetons et le fond du plateau :
+	- fruits avec fond de cuisine,
+	- médicaments avec fond d'hôpital,
+	- animaux avec un zoo,
+	- pacman/fantômes et le labyrinthe
+- Surement faisable avec des EMOJI : String.chr(unicode) (https://www.unicode.org/emoji/charts/emoji-list.html)
+- Idee de nouveau gameplay, chaque colonne est en mouvement, comme si les jetons étaient sur un tapis roulant. Le joueurs doit donner l'ordre d'échange au bon moment !
+- (Anna) Réaliser une version portugaise.
+
+### Partage de scores
+
+Prévoir un processus de partage des scores fiable ente les joueurs:
+- discussion GEMINI : https://gemini.google.com/app/bf9720baa3e191eb
+- Utiliser un ADDON pour signer les données.
+  - ~~Encryption Plugin : Permet de chiffrer et déchiffrer les données pour un partage sécurisé. Très peu documenté.~~
+  - ~~Godot Secp256k1 : Permet de gérer les clés et signatures basées sur l'algorithme Secp256k1, souvent utilisé pour la cryptographie dans les blockchains.~~
+  - HMAC (Hash-based Message Authentication Code) : Permet de vérifier l'intégrité et l'authenticité des données partagées. Intégré dans GODOT.
+  - AES-GCM : Permet de chiffrer et déchiffrer les données avec un haut niveau de sécurité. Intégré dans GODOT.
+- Utiliser un ADDON pour produire et lire un QR-CODE:
+  - Godot QR Plugin : couplé avec la version ANDROID. Gère la lecture et génération de QR-Code
+  - QR Code Generator de Kenyoni Software : grosse popularité. Gère uniquement la génération de QR-Code.
+- Utiliser un ADDON pour partager le QR-Code:
+  - Share Plugin (par cengiz-pz) : Ouvre la fenêtre de partage native pour partager le QR-Code.
+- RTC : Produit des données chiffrées de la page de statistiques avec la version du jeu.
+- RTC : Partage le QR-Code sur les media sociaux.
+- RTC : Lit un QR-Code contenant les données chiffrées de la page de statistiques avec la version du jeu.
+- RTC : Peut insérer ce joueur dans le telephone local.
+- RTC : Indique que c'est un joueur "statistiques", donc non jouable même avec une nouvelle campagne.
+- RTC : Peut insérer le score dans le tableau des scores locaux.
+- RTC : dois pouvoir effacer ce joueur (supprimer des score + statistiques)
+- Insérer un QR-Code pour partager l'application RTC.
+
+#### Génération du QR code (Jeu A)
+
+```gdscript
+var secret_key = "MA_CLE_SECRETE_STRICTEMENT_INTERNE".to_utf8_buffer()
+var data_json = '{"level": 10, "gold": 500}'
+
+# Création du HMAC
+var crypto = Crypto.new()
+var hmac_bytes = crypto.hmac_digest(HashingContext.HASH_SHA256, secret_key, data_json.to_utf8_buffer())
+var signature = Marshalls.raw_to_base64(hmac_bytes)
+
+# Payload final stocké dans le QR code
+var final_payload = JSON.stringify({"data": data_json, "sig": signature})
+```
+
+#### Verification lors du scan (Jeu B)
+
+```gdscript
+var secret_key = "MA_CLE_SECRETE_STRICTEMENT_INTERNE".to_utf8_buffer()
+
+# Lecture du QR code
+var parsed = JSON.parse_string(qr_scanned_string)
+var received_data = parsed["data"]
+var received_sig = parsed["sig"]
+
+# Recalcul de l'empreinte
+var crypto = Crypto.new()
+var expected_bytes = crypto.hmac_digest(HashingContext.HASH_SHA256, secret_key, received_data.to_utf8_buffer())
+var expected_sig = Marshalls.raw_to_base64(expected_bytes)
+
+if received_sig == expected_sig:
+	print("Données authentiques ! Injection autorisée.")
+else:
+	print("Code invalide ou falsifié !")
+```
+
+### Jeu libre
+
+- Sont jouables tous les plateaux résolus de la campagne.
+- Selon le gameplay du plateau de la campagne, les modes accessibles seront:
+  - Groupe __Classique__:  
+    - Classique
     - Tout En Tête
     - Programmation
     - Qui Perd Gagne
@@ -206,13 +313,11 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 
 #### Noms
 
-  - Classique
   - Au Plus Près
   - Pile Poil
   - Tout En Tête
   - Programmation
   - Programmation Genius
-  - Qui Perd Gagne
   - Poids Plume
   - Pile Ou Face
   - Mot Caché
@@ -220,8 +325,6 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 
 #### Descriptions
 
-- Classique :
-  - Regle du jeu actuelle.
 - Au Plus Près :
   - Pour les plateaux avec plusieurs longueur de solutions
   - Indiquer la longueur de la solution la plus courte
@@ -248,9 +351,6 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
   - Le joueur doit mémoriser l'état courant du plateau après le mouvement.
   - Tout s'anime quand c'est fini. 
   - Difficulté : Ultra élevée
-- Qui Perd Gagne:
-  - Regle du jeu actuel inversée.
-  - Il faut trouver une position de plateau bloquée et non résolue
 - Poids Plume :
   - Commencer le chrono quand le premier coup est joué.
   - Résoudre le plateau avec le moins de déplacement de jeton
@@ -276,8 +376,6 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 
 #### Interface Graphique
 
-- Classique :
-    - Afficher le chrono en haut à droite.
 - Au Plus Près :
     - Afficher le nombre de coups courant à coté de la cible.
 - Pile Poil :
@@ -287,8 +385,6 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Programmation :
     - Afficher les coups avant leur déroulement
     - Afficher un bouton "Dérouler"
-- Qui Perd Gagne:
-    - Afficher le chrono en haut à droite.
 - Poids Plume :
     - Afficher le nombre de jetons déplacés.
     - Afficher le chrono en haut à droite.
@@ -302,104 +398,7 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - [GFX] CHRONO : le chrono est tout le temps visible sur l'écran.
 - [GFX] COUPS : le nombre de coups courant est tout le temps visible sur l'écran.
 
-## V2.0 : Pour une version long terme
 
-### Divers
-- faire une animation du bloc qui se déplace
-- enregistrer dans les données immédiatement les déplacements, mais l'animation décide quand afficher/masquer les jetons selon son avancement. (idée, plusieurs coups sont enchaînés et joués même si l'animation n'est pas terminée. Le résultat donne une séquence d'animation magique)
-- pour les jetons, dissocier les caractéristiques : indice de jeton, couleur, nom, famille. Une famille pourrait avoir plusieurs jetons avec un nom ou une couleur différente.
-- réfléchir à une écriture de plateau qui porte l'organisation des piles dans le plateau. Par exemple '.' pour le changement de pile et '..' pour le changement de ligne.
-- varier la représentation des jetons et le fond du plateau :
-	- fruits avec fond de cuisine,
-	- médicaments avec fond d'hôpital,
-	- animaux avec un zoo,
-	- pacman/fantômes et le labyrinthe
-- Surement faisable avec des EMOJI : String.chr(unicode) (https://www.unicode.org/emoji/charts/emoji-list.html)
-- Idee de nouveau gameplay, chaque colonne est en mouvement, comme si les jetons étaient sur un tapis roulant. Le joueurs doit donner l'ordre d'échange au bon moment !
-- (Anna) Réaliser une version portugaise.
-
-### Nouveaux styles de jeux:
-
-#### Noms
-
-  - CLASSIQUE :
-  - DÉFI DU GOSSE => Au Plus Près
-  - DÉFI DU BOSS => Pile Poil
-  - MÉMOIRE => Tout En Tête
-  - Programmation
-  - QUI PERD GAGNE => Qui Perd Gagne
-  - FLEMMARD / ECOLOGIE => Poids Plume
-  - DOUBLE FACE => Pile Ou Face
-  - DICO => Mot Caché
-
-#### Descriptions
-
-  - Classique :
-    - Regle du jeu actuelle.
-  - Au Plus Près :
-    - Pour les plateaux avec plusieurs longueur de solutions
-    - Indiquer la longueur de la solution la plus courte
-    - Un bonus est donné selon la logueur de la solution trouvée.
-    - Difficulté : faible
-  - Pile Poil :
-    - Pour les plateaux avec plusieurs longueur de solutions
-    - Indiquer la longueur de la solution la plus courte
-    - La partie est perdue si la solution la plus courte n'est pas trouvée
-    - Afficher le compteur de coups actuel à coté de la cible
-    - Difficulté : élevée
-  - Tout En Tête :
-    - Commencer le chrono quand le premier coup est joué.
-    - ??? Définir quel type de plateau conviendrait.
-    - Difficulté : faible
-  - Programmation :
-    - Prévoir tous les coups jusqu'à la fin.
-    - Tout s'anime quand c'est fini. 
-    - ??? Définir quel type de plateau conviendrait.
-    - Difficulté : élevée
-  - Qui Perd Gagne:
-    - Regle du jeu actuel inversée.
-    - Il faut trouver une position de plateau bloquée et non résolue
-  - Poids Plume :
-    - Commencer le chrono quand le premier coup est joué.
-    - Résoudre le plateau avec le moins de déplacement de jeton
-    - Chaque jeton qui bouge augmente un "malus"
-    - 2 jetons qui bougent coutent plus de malus qu'1 seul jeton
-    - Afficher le malus en direct
-  - Pile Ou Face :
-    - Présenter le plateau dans les 2 modes CLASSIQUE et QUI PERD GAGNE en simultané.
-    - Le joueur gagne en résolvant l'un des deux.
-    - À lui de choisir le plus avantageux.
-    - Adapté pour les plateaux avec peu de jetons (hauteur et largeur)
-  - Mot Caché:
-    - la résolution du plateau forme un mot (ANNA, LOVE, SEXE ...).
-
-#### Interface Graphique
-
-  - Classique :
-      - Afficher le chrono en haut à droite.
-  - Au Plus Près :
-      - Afficher le nombre de coups courant à coté de la cible.
-  - Pile Poil :
-      - Afficher le nombre de coups courant à coté de la cible.
-  - Tout En Tête :
-      - Afficher le chrono en haut à droite figé avant le 1er coup.
-  - Programmation :
-      - Afficher les coups avant leur déroulement
-      - Afficher un bouton "Dérouler"
-  - Qui Perd Gagne:
-      - Afficher le chrono en haut à droite.
-  - Poids Plume :
-      - Afficher le nombre de jetons déplacés.
-      - Afficher le chrono en haut à droite.
-  - Pile Ou Face :
-      - Afficher le chrono.
-      - Afficher un panneau "Gagné" ou "Perdu" selon le mode.
-      - Le panneau s'illumine en cas de victoire.
-  - Mot Caché:
-      - Afficher le mot à chercher
-  - [GFX] STATS : faire apparaître le type de game play pour chaque min et max.
-  - [GFX] CHRONO : le chrono est tout le temps visible sur l'écran.
-  - [GFX] COUPS : le nombre de coups courant est tout le temps visible sur l'écran.
 
 ## V3.0 : Idées du futur:
 - Game play "Message" :
