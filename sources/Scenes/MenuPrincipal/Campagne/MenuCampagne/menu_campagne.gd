@@ -16,7 +16,7 @@ signal commencer_plateau
 # TODO : Faire le tri avec les messages dans le code devenus obsoletes.
 # TODO : Voir les histoire de tempo avec les messageries.
 # TODO : à surveiller : le premier ecran de score n'apparait pas lors d'une nouvelle campagne.
-# TODO : Les statistiques vides sont degueux avec le score. Corriger!
+# TODO : OK ! Les statistiques vides sont degueux avec le score. Corriger!
 # TODO : La suppression des messages casse la sequence des menus.
 #        OK ! ... Le bouton demarrer n'apparait plus et les infos joueur non plus.
 #        OK ! ... Les infos joueurs et menu et stats n'apparaissent plus apres un plateau gagné

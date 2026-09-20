@@ -162,30 +162,40 @@ func detail_score_cumule() -> Dictionary:
 func score_total_pourcentage_rapidite() -> float:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	if score_total == 0:
+		return 0.
 	var score_rapidite :int = detail_score_cumule().get('rapidite', 0)
 	return 1. * score_rapidite / score_total
 
 func score_total_pourcentage_reussite() -> float:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	if score_total == 0:
+		return 0.
 	var score_reussite :int = detail_score_cumule().get('reussite', 0)
 	return 1. * score_reussite / score_total
 
 func score_total_pourcentage_niveau() -> float:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	if score_total == 0:
+		return 0.
 	var score_niveau :int = detail_score_cumule().get('niveau', 0)
 	return 1. * score_niveau / score_total
 
 func score_total_pourcentage_niveau_parfait() -> float:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	if score_total == 0:
+		return 0.
 	var score_niveau_parfait :int = detail_score_cumule().get('niveau_parfait', 0)
 	return 1. * score_niveau_parfait / score_total
 
 func score_total_pourcentage_fin_campagne() -> float:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
 	var score_total :int = SauvegardeTableauDesScoresService.lire_score_joueur(joueur)
+	if score_total == 0:
+		return 0.
 	var score_fin_campagne :int = detail_score_cumule().get('fin_campagne', 0)
 	return 1. * score_fin_campagne / score_total
 
