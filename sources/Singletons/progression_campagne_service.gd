@@ -1,4 +1,4 @@
-﻿extends Node
+extends Node
 
 signal progression_niveau
 signal detail_score_plateau(detail_score : Dictionary)
@@ -92,7 +92,8 @@ func gagner_un_plateau() -> void:
 	detail_score_plateau.emit(detail_score)
 
 	# Emmettre un signal de mise à jour du niveau
-	progression_niveau.emit() # Pour mise à jour des bandeaux d'infos
+	# TODO : Le signal n'est lu par personne. Normal ?
+	# progression_niveau.emit() # Pour mise à jour des bandeaux d'infos
 	afficher_niveau_plateau_parties()
 
 func abandonner_un_plateau() -> void:
