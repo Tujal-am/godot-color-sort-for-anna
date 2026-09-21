@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://by2t23xc0cw1r"]
+
+[ext_resource type="Script" uid="uid://d4l0tj8gjddoa" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/ArcProgressBar/arc_progress_bar.gd" id="1_rheuj"]
+[ext_resource type="Texture2D" uid="uid://h6fo2xegj4tc" path="res://Art/UI/Gameplay/Commun/ArcProgressBar/victoire_ratio_0.png" id="2_ccx7k"]
+[ext_resource type="Shader" uid="uid://c3bn7wooo74w1" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/ArcProgressBar/ArcProgressBar.gdshader" id="2_ooss0"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="3_dkpnq"]
+[ext_resource type="Texture2D" uid="uid://bwvr5y6amufbv" path="res://Art/UI/Gameplay/Commun/ArcProgressBar/victoire_ratio_100.png" id="4_dkpnq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kynm4"]
+shader = ExtResource("2_ooss0")
+shader_parameter/progress = 0.38
+
+[node name="ArcProgressBar" type="Node2D" unique_id=577004827]
+script = ExtResource("1_rheuj")
+
+[node name="ZeroPercent" type="TextureRect" parent="." unique_id=144668714]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_ccx7k")
+
+[node name="ProgressArc" type="TextureRect" parent="." unique_id=415878029]
+material = SubResource("ShaderMaterial_kynm4")
+custom_minimum_size = Vector2(72, 72)
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("4_dkpnq")
+
+[node name="PercentText" type="Label" parent="." unique_id=289890451]
+custom_minimum_size = Vector2(72, 72)
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+theme_override_fonts/font = ExtResource("3_dkpnq")
+theme_override_font_sizes/font_size = 22
+text = "100%"
+horizontal_alignment = 1
+vertical_alignment = 1

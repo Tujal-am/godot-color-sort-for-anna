@@ -3,8 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://bjcsl5wobrjl" path="res://Art/UI/Gameplay/Commun/victoire_titre.png" id="1_4mi5l"]
 [ext_resource type="Script" uid="uid://ny5e7c6ax5u8" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_plateau.gd" id="1_xsrjs"]
 [ext_resource type="PackedScene" uid="uid://di0qsxjp8icsn" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_points.tscn" id="2_xsrjs"]
-[ext_resource type="PackedScene" uid="uid://piphy5gwr6qk" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_2_items.tscn" id="4_4odyh"]
 [ext_resource type="PackedScene" uid="uid://tqkrgubh7ve4" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_4_items.tscn" id="4_xsrjs"]
+[ext_resource type="PackedScene" uid="uid://p38qs3folmow" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_ratio_2_items.tscn" id="5_xsrjs"]
 [ext_resource type="Texture2D" uid="uid://c1ui16e3cunss" path="res://Art/UI/Gameplay/Commun/defaite_bouton.png" id="5_y2ung"]
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="6_1cn3d"]
 
@@ -78,7 +78,7 @@ offset_right = -45.0
 offset_bottom = 270.0
 grow_vertical = 1
 
-[node name="Ratio" parent="." unique_id=1062657279 instance=ExtResource("4_4odyh")]
+[node name="Ratio" parent="." unique_id=1981603702 instance=ExtResource("5_xsrjs")]
 layout_mode = 1
 anchors_preset = 10
 anchor_bottom = 0.0
@@ -88,7 +88,6 @@ offset_right = -45.0
 offset_bottom = 370.0
 grow_vertical = 1
 _titre = "Ratio Réussite"
-_chemin_logo = "uid://cc72dv1bxurif"
 
 [node name="Control" type="Control" parent="." unique_id=1637383401]
 layout_mode = 1
