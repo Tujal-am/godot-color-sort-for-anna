@@ -315,3 +315,177 @@ func test_coups_joues_et_plateau_courant_couvrent_les_branches():
 	var niveau_courant = singleton.enregistrement_lire_dernier_niveau()
 	niveau_courant["plateaux"].back()["date_fin"] = 10
 	assert_false(singleton.coups_joues_ajouter_un_nouveau_coup(3, 4))
+
+func test_sauvegarde_vierge_retourne_la_structure_par_defaut():
+	var vierge = singleton.sauvegarde_vierge("Nouveau Joueur")
+	assert_eq(vierge.get("nom"), "Nouveau Joueur")
+	assert_eq(vierge.get("campagne"), {})
+	assert_eq(vierge.get("nombre_de_parties"), {})
+	assert_eq(vierge.get("enregistrement_campagne"), [])
+	assert_eq(vierge.get("plateaux_libres"), {})
+
+func test_lire_infos_du_plateau_courant_gameplay_difficulte_et_statut():
+	_charger_joueur_test("joueur_test.json", _sauvegarde_joueur_de_test())
+
+	assert_eq(singleton.enregistrement_lire_gameplay_plateau(), "CLASSIQUE")
+	assert_eq(singleton.enregistrement_lire_difficulte_plateau(), 1)
+	assert_eq(singleton.enregistrement_lire_statut_plateau(), "en cours")
+
+	singleton.enregistrement_modifier_statut_plateau("reussi")
+	assert_eq(singleton.enregistrement_lire_statut_plateau(), "reussi")
+
+func test_duree_du_plateau_est_calculee_en_direct_ou_lue_si_termine():
+	var sauvegarde = _sauvegarde_joueur_de_test()
+	_charger_joueur_test("joueur_test.json", sauvegarde)
+
+	# Plateau "en cours" ("date_fin" == 0) : la durée est calculée en direct.
+	assert_true(singleton.enregistrement_lire_duree_plateau() >= 0.0)
+
+	var plateau_courant = singleton.enregistrement_lire_dernier_plateau()
+	plateau_courant["date_fin"] = plateau_courant.get("date_debut") + 42
+	plateau_courant["duree"] = 42.0
+	# Plateau terminé : la durée enregistrée est retournée telle quelle.
+	assert_eq(singleton.enregistrement_lire_duree_plateau(), 42.0)
+
+func test_duree_plateau_recommence_cumule_les_tentatives_abandonnees():
+	var sauvegarde = _sauvegarde_joueur_de_test()
+	sauvegarde["enregistrement_campagne"][0]["plateaux"] = [
+		{"nom": "A1", "date_debut": 100, "date_fin": 105, "duree": 5, "gameplay": "CLASSIQUE", "difficulte": 1, "statut": "abandonné", "score": {}, "coups joués": []},
+		{"nom": "A1", "date_debut": 110, "date_fin": 118, "duree": 8, "gameplay": "CLASSIQUE", "difficulte": 1, "statut": "abandonné", "score": {}, "coups joués": []},
+		{"nom": "A1", "date_debut": 120, "date_fin": 0, "duree": 0, "gameplay": "CLASSIQUE", "difficulte": 1, "statut": "en cours", "score": {}, "coups joués": []}
+	]
+	_charger_joueur_test("joueur_test.json", sauvegarde)
+
+	assert_true(abs(singleton.enregistrement_lire_duree_plateau_recommence() - 13.0) < 0.0001)
+
+func test_modifier_le_score_duree_et_ratio_reussite_du_plateau_courant():
+	_charger_joueur_test("joueur_test.json", _sauvegarde_joueur_de_test())
+
+	singleton.enregistrement_modifier_score_duree_plateau(250)
+	singleton.enregistrement_modifier_score_ratio_reussite_plateau(80)
+
+	var plateau_courant = singleton.enregistrement_lire_dernier_plateau()
+	assert_eq(plateau_courant.get("score").get("duree"), 250)
+	assert_eq(plateau_courant.get("score").get("ratio_reussite"), 80)
+
+func test_lire_le_temps_du_joueur_formate_les_durees():
+	var sauvegarde = _sauvegarde_joueur_de_test()
+	sauvegarde["enregistrement_campagne"][0]["plateaux"][0]["date_fin"] = 999
+	sauvegarde["enregistrement_campagne"][0]["plateaux"][0]["duree"] = 45.0
+	_charger_joueur_test("joueur_test.json", sauvegarde)
+
+	assert_eq(singleton.enregistrement_lire_le_temps_du_joueur(), "45 secondes")
+
+	var plateau_courant = singleton.enregistrement_lire_dernier_plateau()
+	plateau_courant["duree"] = 3725.0 # 1h 2min 5s
+	assert_eq(singleton.enregistrement_lire_le_temps_du_joueur(), "1 heures 2 minutes")
+
+	plateau_courant["duree"] = 90000.0 # 1j 1h
+	assert_eq(singleton.enregistrement_lire_le_temps_du_joueur(), "1 jours 1 heures")
+
+	plateau_courant["duree"] = 0.5
+	assert_eq(singleton.enregistrement_lire_le_temps_du_joueur(), "500 millisecondes")
+
+	plateau_courant["duree"] = 0.0
+	assert_eq(singleton.enregistrement_lire_le_temps_du_joueur(), "")
+
+func test_plateaux_libres_et_existence_par_difficulte():
+	_charger_joueur_test("joueur_test.json", _sauvegarde_joueur_de_test())
+
+	assert_true(singleton.plateaux_libres_difficulte_existe(1))
+	assert_false(singleton.plateaux_libres_difficulte_existe(99))
+	assert_eq(singleton.plateaux_libres().get("1").size(), 1)
+	assert_eq(singleton.plateaux_libres_lire_liste_plateaux_de_difficulte(99).size(), 0)
+
+func test_commencer_et_gagner_un_plateau_orchestrent_lenregistrement():
+	var sauvegarde = {
+		"nom": "Joueur Test",
+		"campagne": {
+			"niveau_1": [
+				{"nom": "P1", "gameplay": "CLASSIQUE", "difficulte": 1}
+			]
+		},
+		"enregistrement_campagne": [
+			{"niveau": "niveau_1", "date_debut": 100, "date_fin": 0, "score": {}, "plateaux": []}
+		],
+		"plateaux_libres": {},
+		"nombre_de_parties": {}
+	}
+	_charger_joueur_test("joueur_test.json", sauvegarde)
+
+	singleton.commencer_un_plateau()
+	assert_true(singleton.enregistrement_plateau_en_cours())
+	assert_eq(singleton.enregistrement_lire_nom_plateau(), "P1")
+	assert_eq(singleton.lire_nombre_de_parties_difficulte(1), 1)
+
+	singleton.gagner_un_plateau()
+	assert_false(singleton.enregistrement_plateau_en_cours())
+	assert_eq(singleton.enregistrement_lire_statut_plateau(), "reussi")
+	# Le plateau gagné a été retiré de la campagne (niveau vidé) et déplacé
+	# dans les plateaux libres.
+	assert_false(singleton.campagne_niveau_existe(1))
+	assert_true(singleton.plateaux_libres_difficulte_existe(1))
+
+func test_abandonner_un_plateau_conserve_le_plateau_dans_la_campagne():
+	var sauvegarde = {
+		"nom": "Joueur Test",
+		"campagne": {
+			"niveau_1": [
+				{"nom": "P1", "gameplay": "CLASSIQUE", "difficulte": 1}
+			]
+		},
+		"enregistrement_campagne": [
+			{"niveau": "niveau_1", "date_debut": 100, "date_fin": 0, "score": {}, "plateaux": []}
+		],
+		"plateaux_libres": {},
+		"nombre_de_parties": {}
+	}
+	_charger_joueur_test("joueur_test.json", sauvegarde)
+
+	singleton.commencer_un_plateau()
+	singleton.abandonner_un_plateau()
+
+	assert_false(singleton.enregistrement_plateau_en_cours())
+	assert_eq(singleton.enregistrement_lire_statut_plateau(), "abandonné")
+	# Contrairement à "gagner_un_plateau", le plateau n'est pas retiré de
+	# la campagne : il pourra être rejoué.
+	assert_true(singleton.campagne_niveau_existe(1))
+
+func test_reset_sauvegarde_des_joueurs_vide_la_progression_de_chaque_joueur():
+	var initial_liste_joueurs = SauvegardeListeJoueursService.liste_des_joueurs.duplicate(true)
+	SauvegardeListeJoueursService.liste_des_joueurs = [
+		{"indice": 0, "nom": "Joueur A", "fichier_sauvegarde": "joueur_a.json"},
+		{"indice": 1, "nom": "Joueur B", "fichier_sauvegarde": "joueur_b.json"}
+	]
+	FichiersJsonService.write_json_file("joueur_a.json", _sauvegarde_joueur_de_test())
+	FichiersJsonService.write_json_file("joueur_b.json", _sauvegarde_joueur_de_test())
+
+	singleton.reset_sauvegarde_des_joueurs()
+
+	var sauvegarde_a = FichiersJsonService.read_json_file("joueur_a.json")
+	assert_eq(sauvegarde_a.get("nom"), "Joueur A")
+	assert_eq(sauvegarde_a.get("enregistrement_campagne"), [])
+	assert_eq(sauvegarde_a.get("nombre_de_parties"), {})
+	assert_eq(sauvegarde_a.get("campagne"), SauvegardeBddPlateauxService.plateau_liste_niveaux_duplicate())
+	# Chaque joueur est libéré une fois traité.
+	assert_false(singleton.le_joueur_existe())
+
+	SauvegardeListeJoueursService.liste_des_joueurs = initial_liste_joueurs
+
+func test_remplacer_campagne_des_joueurs_cloture_et_renouvelle_la_campagne():
+	var initial_liste_joueurs = SauvegardeListeJoueursService.liste_des_joueurs.duplicate(true)
+	SauvegardeListeJoueursService.liste_des_joueurs = [
+		{"indice": 0, "nom": "Joueur C", "fichier_sauvegarde": "joueur_c.json"}
+	]
+	FichiersJsonService.write_json_file("joueur_c.json", _sauvegarde_joueur_de_test())
+
+	singleton.remplacer_campagne_des_joueurs()
+
+	var sauvegarde_c = FichiersJsonService.read_json_file("joueur_c.json")
+	assert_eq(sauvegarde_c.get("campagne"), SauvegardeBddPlateauxService.plateau_liste_niveaux_duplicate())
+	# Le niveau et le plateau en cours ont été clos avant le remplacement.
+	assert_true(sauvegarde_c.get("enregistrement_campagne")[0].get("date_fin") > 0)
+	assert_true(sauvegarde_c.get("enregistrement_campagne")[0].get("plateaux")[0].get("date_fin") > 0)
+	assert_false(singleton.le_joueur_existe())
+
+	SauvegardeListeJoueursService.liste_des_joueurs = initial_liste_joueurs

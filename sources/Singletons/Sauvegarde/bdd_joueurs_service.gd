@@ -656,19 +656,28 @@ func enregistrement_lire_duree_plateau_recommence() -> float:
 
 func enregistrement_lire_le_temps_du_joueur() -> String: # TODO : INUTILISE !
 	"""Formater la durée en une chaîne de caractères lisible."""
-	var duree_secondes = enregistrement_lire_duree_plateau()
+	var duree_secondes : float = enregistrement_lire_duree_plateau()
+	var duree_restante_en_s : float = duree_secondes
 	if duree_secondes:
-		var millisecondes = (duree_secondes * 1000.) % 1000
-		duree_secondes = roundi(duree_secondes - millisecondes / 1000.)
+		var millisecondes : int = roundi(fmod(duree_secondes * 1000., 1000))
+		duree_restante_en_s -= millisecondes / 1000.
 
-		var secondes = duree_secondes % 60
-		var duree_minutes = roundi((duree_secondes - secondes) / 60.)
+		var secondes : int = roundi(fmod(duree_restante_en_s, 60))
+		duree_restante_en_s -= secondes
 
-		var minutes = duree_minutes % 60
-		var duree_heures = roundi((duree_minutes - minutes) / 60.)
+		var minutes : int =  roundi(fmod(duree_restante_en_s / 60., 60))
+		duree_restante_en_s -= minutes * 60.
 
-		var heures = duree_heures % 24
-		var jours = roundi((duree_heures - heures) / 24.)
+		var heures : int =  roundi(fmod(duree_restante_en_s / (60.*60.), 24))
+		duree_restante_en_s -= heures * 60. * 60.
+
+		var jours : int =  roundi(duree_restante_en_s / (60*60*24))
+		duree_restante_en_s -= jours * 60. * 60. * 24.
+
+		if duree_restante_en_s != 0.:
+			LogService.log_erreur("enregistrement_lire_le_temps_du_joueur() : Duree restante non nulle : "
+									+ str(duree_restante_en_s))
+
 		if jours > 0:
 			return str(jours) + " jours " + str(heures) + " heures"
 		elif heures > 0:

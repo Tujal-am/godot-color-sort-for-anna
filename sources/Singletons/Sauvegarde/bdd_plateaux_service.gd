@@ -47,13 +47,15 @@ func _initialiser_les_plateaux() -> void:
 			LogService.log_erreur("Le fichier des plateaux est obsolète")
 		if 'campagne' in fichier_plateaux:
 			var dico_campagne = fichier_plateaux.get('campagne')
-			for niveau in dico_campagne.keys():
-				# Copie tous les niveaux, sauf 'None'
-				plateau_campagne[niveau] = dico_campagne.get(niveau).duplicate(true)
+			if dico_campagne:
+				plateau_campagne.clear() # Reset de la precedente campagne inachevée
+				for niveau in dico_campagne.keys():
+					# Copie tous les niveaux, sauf 'None'
+					plateau_campagne[niveau] = dico_campagne.get(niveau).duplicate(true)
 
 func nom_niveau(niveau : int) -> String:
-	if niveau:
-		return 'niveau_'+str(niveau)
+	if niveau > 0:
+		return 'niveau_' + str(niveau)
 	return ""
 
 func plateau_liste_niveaux_duplicate() -> Dictionary:

@@ -125,6 +125,21 @@ func test_lire_les_trophees_couvre_le_podium_et_le_hors_podium_sur_la_plateforme
 	assert_eq(service.lire_le_trophee_du_joueur("Alice"), trophee_premier)
 	assert_eq(service.lire_le_trophee_du_joueur("Inconnu"), trophee_hors_podium)
 
+func test_lire_le_trophee_du_rang_couvre_largent_et_le_bronze():
+	_creer_service()
+
+	var trophee_second = ""
+	var trophee_troisieme = ""
+	if OS.has_feature("web"):
+		trophee_second = "N°2"
+		trophee_troisieme = "N°3"
+	else:
+		trophee_second = String.chr(0x1F948)
+		trophee_troisieme = String.chr(0x1F949)
+
+	assert_eq(service.lire_le_trophee_du_rang(2), trophee_second)
+	assert_eq(service.lire_le_trophee_du_rang(3), trophee_troisieme)
+
 func test_modifier_score_joueur_met_a_jour_le_score_le_texte_et_les_rangs():
 	_creer_service([
 		{"nom": "Alice", "rang": 1, "score": 2000, "score_txt": "2.000"},
@@ -197,3 +212,27 @@ func test_nombre_avec_separateur_de_milliers_formate_zero_et_les_grands_nombres(
 	assert_eq(service.nombre_avec_separateur_de_milliers(0, "."), "0")
 	assert_eq(service.nombre_avec_separateur_de_milliers(1234, "."), "1.234")
 	assert_eq(service.nombre_avec_separateur_de_milliers(1234567, "."), "1.234.567")
+
+func test_nombre_avec_separateur_de_milliers_couvre_les_bornes_de_groupes():
+	_creer_service()
+
+	assert_eq(service.nombre_avec_separateur_de_milliers(999, "."), "999")
+	assert_eq(service.nombre_avec_separateur_de_milliers(1000, "."), "1.000")
+	assert_eq(service.nombre_avec_separateur_de_milliers(999999999, "."), "999.999.999")
+	assert_eq(service.nombre_avec_separateur_de_milliers(1000000000, "."), "1.000.000.000")
+
+func test_mettre_a_jour_les_rangs_avec_egalite_totale_attribue_le_meme_rang_a_tous():
+	_creer_service([
+		{"nom": "Alice", "rang": 1, "score": 1000, "score_txt": "1.000"},
+		{"nom": "Bob", "rang": 2, "score": 1000, "score_txt": "1.000"},
+		{"nom": "Charlie", "rang": 3, "score": 1000, "score_txt": "1.000"}
+	])
+
+	service.remise_a_zero()
+	service.incrementer_score_joueur("Alice", 500)
+	service.incrementer_score_joueur("Bob", 500)
+	service.incrementer_score_joueur("Charlie", 500)
+
+	assert_eq(service.lire_rang_joueur("Alice"), 1)
+	assert_eq(service.lire_rang_joueur("Bob"), 1)
+	assert_eq(service.lire_rang_joueur("Charlie"), 1)

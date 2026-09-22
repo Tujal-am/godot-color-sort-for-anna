@@ -171,3 +171,26 @@ func test_supprimer_un_joueur_supprime_aussi_le_fichier_de_sauvegarde_du_joueur(
 	assert_true(service.supprimer_un_joueur("Alice", "test_liste_joueurs_00.json"))
 	assert_false(service.le_joueur_existe("Alice"))
 	assert_false(FichiersJsonService.json_file_exists("test_liste_joueurs_00.json"))
+
+func test_ajouter_un_nouveau_joueur_apres_avoir_vide_la_liste_repart_a_l_indice_zero():
+	_creer_service([
+		{"indice": 0, "nom": "Alice", "fichier_sauvegarde": "test_liste_joueurs_00.json"}
+	])
+
+	assert_true(service.supprimer_un_joueur_orphelin_de_sauvegarde("Alice", "test_liste_joueurs_00.json"))
+	assert_eq(service.liste_des_joueurs.size(), 0)
+
+	assert_true(service.ajouter_un_nouveau_joueur("Bob"))
+	assert_eq(int(service.liste_des_joueurs[0].get("indice")), 0)
+	assert_eq(service.liste_des_joueurs[0].get("fichier_sauvegarde"), "sauvegarde_joueur_00.json")
+
+func test_le_joueur_existe_est_sensible_a_la_casse():
+	_creer_service([
+		{"indice": 0, "nom": "Alice", "fichier_sauvegarde": "test_liste_joueurs_00.json"}
+	])
+
+	# Comportement documenté : la recherche est une comparaison stricte,
+	# donc une casse différente n'est pas considérée comme le même joueur.
+	assert_false(service.le_joueur_existe("alice"))
+	assert_true(service.ajouter_un_nouveau_joueur("alice"))
+	assert_eq(service.liste_des_joueurs.size(), 2)

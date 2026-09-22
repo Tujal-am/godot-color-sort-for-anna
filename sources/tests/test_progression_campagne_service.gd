@@ -8,6 +8,7 @@ var initial_tableau_scores
 const RACINE_TEST = "tests/test_progression_campagne_service"
 
 var detail_score_received = null
+var fin_niveau_recu = false
 
 func _nettoyer_fichiers_utilisateur():
 	FichiersJsonService.effacer_racine_utilisateur()
@@ -22,6 +23,7 @@ func before_each():
 	service = add_child_autofree(load("res://Singletons/progression_campagne_service.gd").new())
 
 	detail_score_received = null
+	fin_niveau_recu = false
 
 	SauvegardeListeJoueursService.liste_des_joueurs = [
 		{"indice": 0, "nom": "Alpha", "fichier_sauvegarde": "sauvegarde_joueur_alpha.json"},
@@ -74,6 +76,7 @@ func before_each():
 	})
 
 	service.detail_score_plateau.connect(_on_detail_score_plateau)
+	service.fin_niveau.connect(_on_fin_niveau)
 
 func after_each():
 	SauvegardeListeJoueursService.liste_des_joueurs = initial_liste_joueurs.duplicate(true)
@@ -85,6 +88,9 @@ func after_each():
 
 func _on_detail_score_plateau(detail_score : Dictionary):
 	detail_score_received = detail_score
+
+func _on_fin_niveau():
+	fin_niveau_recu = true
 
 func test_la_campagne_est_terminee_pour_joueur_renvoie_oui_si_vide():
 	assert_true(service.la_campagne_est_terminee_pour_joueur("Beta"))
@@ -153,3 +159,104 @@ func test_retourner_le_niveau_le_plus_bas_trouve_le_plus_bas_non_termine():
 	})
 	assert_true(service.choisir_le_joueur_pour_la_campagne("Alpha"))
 	assert_eq(service.retourner_le_niveau_le_plus_bas(), 2)
+
+func test_commencer_un_plateau_initialise_le_premier_niveau_et_incremente_les_parties():
+	FichiersJsonService.write_json_file("sauvegarde_joueur_alpha.json", {
+		"nom": "Alpha",
+		"campagne": {"niveau_1": [{"nom": "P1", "gameplay": "CLASSIQUE", "difficulte": 1}]},
+		"enregistrement_campagne": [],
+		"plateaux_libres": {},
+		"nombre_de_parties": {}
+	})
+	service.choisir_le_joueur_pour_la_campagne("Alpha")
+
+	service.commencer_un_plateau()
+
+	assert_true(SauvegardeBddJoueursService.enregistrement_niveau_existe())
+	assert_true(SauvegardeBddJoueursService.enregistrement_plateau_en_cours())
+	assert_eq(SauvegardeBddJoueursService.enregistrement_lire_nom_plateau(), "P1")
+	assert_eq(SauvegardeBddJoueursService.lire_nombre_de_parties_difficulte(1), 1)
+
+func test_commencer_un_plateau_abandonne_le_plateau_precedent_avant_den_demarrer_un_nouveau():
+	FichiersJsonService.write_json_file("sauvegarde_joueur_alpha.json", {
+		"nom": "Alpha",
+		"campagne": {"niveau_1": [{"nom": "P2", "gameplay": "CLASSIQUE", "difficulte": 1}]},
+		"enregistrement_campagne": [
+			{
+				"niveau": "niveau_1",
+				"date_debut": 100,
+				"date_fin": 0,
+				"score": {},
+				"plateaux": [
+					{"nom": "P1", "date_debut": 90, "date_fin": 0, "duree": 0, "gameplay": "CLASSIQUE", "difficulte": 1, "statut": "en cours", "score": {}, "coups joués": []}
+				]
+			}
+		],
+		"plateaux_libres": {},
+		"nombre_de_parties": {}
+	})
+	service.choisir_le_joueur_pour_la_campagne("Alpha")
+
+	service.commencer_un_plateau()
+
+	var plateaux = SauvegardeBddJoueursService.enregistrement_lire_dernier_niveau().get("plateaux")
+	assert_eq(plateaux.size(), 2)
+	assert_eq(plateaux[0].get("statut"), "abandonné")
+	assert_true(plateaux[0].get("date_fin") > 0)
+	assert_eq(plateaux[1].get("nom"), "P2")
+	assert_eq(plateaux[1].get("statut"), "en cours")
+
+func test_gagner_un_plateau_emet_fin_niveau_quand_cetait_le_dernier_plateau_du_niveau():
+	FichiersJsonService.write_json_file("sauvegarde_joueur_alpha.json", {
+		"nom": "Alpha",
+		"campagne": {"niveau_1": [{"nom": "P1", "gameplay": "CLASSIQUE", "difficulte": 1}]},
+		"enregistrement_campagne": [
+			{
+				"niveau": "niveau_1",
+				"date_debut": 100,
+				"date_fin": 0,
+				"score": {},
+				"plateaux": [
+					{"nom": "P1", "date_debut": 90, "date_fin": 0, "duree": 0, "gameplay": "CLASSIQUE", "difficulte": 1, "statut": "en cours", "score": {}, "coups joués": []}
+				]
+			}
+		],
+		"plateaux_libres": {},
+		"nombre_de_parties": {}
+	})
+	service.choisir_le_joueur_pour_la_campagne("Alpha")
+
+	service.gagner_un_plateau()
+
+	assert_true(fin_niveau_recu)
+	assert_false(SauvegardeBddJoueursService.campagne_niveau_existe(1))
+
+func test_gagner_un_plateau_nemet_pas_fin_niveau_sil_reste_des_plateaux_dans_le_niveau():
+	FichiersJsonService.write_json_file("sauvegarde_joueur_alpha.json", {
+		"nom": "Alpha",
+		"campagne": {
+			"niveau_1": [
+				{"nom": "P1", "gameplay": "CLASSIQUE", "difficulte": 1},
+				{"nom": "P2", "gameplay": "CLASSIQUE", "difficulte": 1}
+			]
+		},
+		"enregistrement_campagne": [
+			{
+				"niveau": "niveau_1",
+				"date_debut": 100,
+				"date_fin": 0,
+				"score": {},
+				"plateaux": [
+					{"nom": "P1", "date_debut": 90, "date_fin": 0, "duree": 0, "gameplay": "CLASSIQUE", "difficulte": 1, "statut": "en cours", "score": {}, "coups joués": []}
+				]
+			}
+		],
+		"plateaux_libres": {},
+		"nombre_de_parties": {}
+	})
+	service.choisir_le_joueur_pour_la_campagne("Alpha")
+
+	service.gagner_un_plateau()
+
+	assert_false(fin_niveau_recu)
+	assert_true(SauvegardeBddJoueursService.campagne_niveau_existe(1))

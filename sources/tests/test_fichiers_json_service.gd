@@ -65,6 +65,15 @@ func test_normaliser_chemin_garde_user_intact_quand_aucune_racine_de_test_nest_d
 
 	assert_eq(FichiersJsonService._normaliser_chemin("user://manuel.json"), "user://manuel.json")
 
+func test_normaliser_chemin_garde_un_schema_quelconque_intact():
+	FichiersJsonService.definir_racine_utilisateur(RACINE_TEST)
+
+	assert_eq(FichiersJsonService._normaliser_chemin("http://exemple.com/fichier.json"), "http://exemple.com/fichier.json")
+
+func test_definir_racine_utilisateur_avec_un_slash_final_ne_le_double_pas():
+	FichiersJsonService.definir_racine_utilisateur("tests/module/")
+	assert_eq(FichiersJsonService.racine_utilisateur, "user://tests/module/")
+
 func test_write_read_et_json_file_exists_fonctionnent_avec_un_fichier_relatif():
 	var contenu = {
 		"nom": "Alice",
@@ -108,3 +117,25 @@ func test_read_json_file_retourne_null_si_le_fichier_est_vide():
 func test_read_json_file_retourne_null_si_le_json_est_invalide():
 	_ecrire_texte_brut(FICHIER_INVALIDE, "{invalide")
 	assert_eq(FichiersJsonService.read_json_file(FICHIER_INVALIDE), null)
+
+func test_json_file_exists_retourne_false_pour_un_fichier_absent():
+	assert_false(FichiersJsonService.json_file_exists("absent.json"))
+
+func test_effacer_racine_utilisateur_ne_fait_rien_quand_la_racine_est_user():
+	FichiersJsonService.reinitialiser_racine_utilisateur()
+	# Protection : ne doit jamais effacer récursivement "user://" tout entier.
+	FichiersJsonService.effacer_racine_utilisateur()
+	assert_eq(FichiersJsonService.racine_utilisateur, "user://")
+
+func test_effacer_racine_utilisateur_efface_recursivement_les_sous_dossiers_et_fichiers():
+	FichiersJsonService.write_json_file(FICHIER_SIMPLE, {"ok": true})
+	FichiersJsonService.write_json_file(FICHIER_NESTED, {"ok": true})
+	assert_true(FichiersJsonService.json_file_exists(FICHIER_SIMPLE))
+	assert_true(FichiersJsonService.json_file_exists(FICHIER_NESTED))
+
+	FichiersJsonService.effacer_racine_utilisateur()
+
+	assert_false(FichiersJsonService.json_file_exists(FICHIER_SIMPLE))
+	assert_false(FichiersJsonService.json_file_exists(FICHIER_NESTED))
+	var chemin_racine = FichiersJsonService.racine_utilisateur.trim_suffix("/")
+	assert_false(DirAccess.dir_exists_absolute(chemin_racine))

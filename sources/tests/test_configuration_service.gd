@@ -120,6 +120,51 @@ func test_lecteurs_retournent_les_defauts_quand_les_cles_sont_absentes():
 	assert_eq(service.lire_la_version(), "?")
 	assert_eq(service.lire_la_date_debut_campagne_timestamp(), int(Time.get_unix_time_from_datetime_string("2020-01-01 00:00:00")))
 
+func test_lire_la_date_debut_campagne_timestamp_avec_cle_absente_retourne_la_valeur_invalide():
+	_creer_service()
+	service.configuration_du_jeu = {"version": "V1.0.0-rc10"}
+
+	assert_eq(service.lire_la_date_debut_campagne_timestamp(), int(Time.get_unix_time_from_datetime_string("?")))
+
+func test_ready_change_de_version_sans_reinitialiser_campagne_et_scores_si_lancienne_nest_pas_v0():
+	SauvegardeListeJoueursService.liste_des_joueurs = [
+		{"indice": 0, "nom": "Alice", "fichier_sauvegarde": "test_configuration_joueur_00.json"}
+	]
+	SauvegardeTableauDesScoresService.liste_des_scores = [
+		{"nom": "Alice", "rang": 1, "score": 999, "score_txt": "999"}
+	]
+	FichiersJsonService.write_json_file("test_configuration_joueur_00.json", {
+		"nom": "Alice",
+		"campagne": {"niveau_99": [{"nom": "Ancien", "difficulte": 9, "gameplay": "CLASSIQUE"}]},
+		"enregistrement_campagne": [],
+		"plateaux_libres": {},
+		"nombre_de_parties": {}
+	})
+	var ancienne_configuration = {
+		"version": "V1.0.0-rc9",
+		"date_debut_campagne": "2020-01-01 00:00:00",
+		"musiques": true,
+		"effets sonores": true,
+		"vibrations": true
+	}
+	FichiersJsonService.write_json_file("configuration_du_jeu.json", ancienne_configuration)
+	service = add_child_autofree(load("res://Singletons/Sauvegarde/configuration_service.gd").new())
+
+	# La version est mise à jour vers la version courante...
+	assert_eq(service.lire_la_version(), "V1.0.0-rc10")
+	# ...mais la campagne et les scores ne sont PAS réinitialisés (l'ancienne
+	# version ne commence pas par "V0."). Les entiers sont relus en float par
+	# FichiersJsonService (round-trip JSON) : comparaison champ par champ.
+	assert_true(SauvegardeBddJoueursService._lire_sauvegarde_joueur("test_configuration_joueur_00.json"))
+	var campagne = SauvegardeBddJoueursService.sauvegarde_joueur.get("campagne")
+	assert_true(campagne.has("niveau_99"))
+	var niveau_99 = campagne.get("niveau_99")
+	assert_eq(niveau_99.size(), 1)
+	assert_eq(niveau_99[0].get("nom"), "Ancien")
+	assert_eq(int(niveau_99[0].get("difficulte")), 9)
+	assert_eq(niveau_99[0].get("gameplay"), "CLASSIQUE")
+	assert_eq(int(SauvegardeTableauDesScoresService.lire_score_joueur("Alice")), 999)
+
 func _verifier_bascule(option: String, activer_methode: String, desactiver_methode: String, getter_methode: String) -> void:
 	service.configuration_du_jeu = _configuration_par_defaut()
 	service.configuration_du_jeu[option] = false
