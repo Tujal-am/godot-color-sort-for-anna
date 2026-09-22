@@ -24,7 +24,7 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 #### Bug V0.4.0 :
 - Définir une combinaison secrete pour declencher l'export des fichiers JSON.
 
-#### Remarques Arélien :
+#### Remarques Aurélien :
 - ~~bug sur les boutons du menu principal~~
 - élargir la zone de saisie autours des piles
 - ~~lisibilité des messages (bravo, perdu, continuer)~~
@@ -81,6 +81,11 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Effacer automatiquement un joueur sans fichier de statistiques.
 - Ajouter un menu pour effacer un joueur (avec resolution d'un plateau pour confirmer)
 - (Anatole) Gagner des pieces sur des reussite majeur et les utiliser pour passer un plateau.
+- (Dorian/Anatole) Ajouter un bouton pour passer un plateau.
+  - Le plateau n'est pas ajouté dans les plateaux "jeu libre"
+  - Le plateau est effacé de la campagne actuelle
+  - Le plateau a un status "passé" qui sera comptabilisé avec les plateaux "abandonné"
+  - Le plateau ne rapporte aucun point => Prévoir une variante du panneau "Abandon".
 
 #### Web
 - Ajouter un menu pour exporter les sauvegardes (avec chiffrage secret)
@@ -145,13 +150,13 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 #### Ambiance
 - (Anna) Le score est animé quand il augmente. Comme une machine à sous.
 - (Faro) Ajouter de la musique dans les menus (+1 Totol)
-- (option) détecter une position de plateau bloquée ou impossible.
+- ~~(option) détecter une position de plateau bloquée ou impossible.~~ Réalisé pour Qui Perd Gagne.
 - (Totol) Quand un joueur met du temps à jouer, faire une animation pour dire d'abandonner ou faire apparaître une main qui y invite. C'est du troll.
 - (Guigui) messages d'amour pour joueuse d'amour !
 - (copilot) Ajouter des defis (complete en moins de X mouvements)
 - (Guigui) Pour le son de fin de rangée, interroger la taille de la rangée pour boucler un son en fonction de sa taille.
-- (Guigui) Changer de thème quand on joue une 2onde fois un plateau en échec. (Rouge avec un logo "Attention")
-- (Guigui) en jeu, afficher la complétion de l'ascension et de la campagne sous le nom sous forme de pourcentage.
+- ~~(Guigui) Changer de thème quand on joue une 2onde fois un plateau en échec. (Rouge avec un logo "Attention")~~ ABANDON (les plateaux sont en séquence, pas la peine de rappeler que le plateau a déjà été joué)
+- ~~(Guigui) en jeu, afficher la complétion de l'ascension et de la campagne sous le nom sous forme de pourcentage.~~
 - (Guigui) Cloner les sons de  victoire, debut, fin, echecs pour varier les plaisirs.
 - (Anatole) Fond d'écran mobile avec un lapin mignon qui devient flippant, furieux après 2 minutes, puis tout mignon à nouveau. Un screamer à 2 minutes.
 

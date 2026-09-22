@@ -90,7 +90,7 @@ func niveaux():
 	valeur = str_arrondir_pourcentage(valeur)
 	ui_niveau.completion(valeur)
 
-	# TODO : Changer les min_lg/maax_lg en niveau.
+	# TODO : Changer les min_lg/max_lg en niveau.
 	var taux_reussite = StatsService.niveau_taux_reussite_infos()
 	valeur = str_arrondir_pourcentage(taux_reussite.get('taux_min'))
 	ui_niveau.taux_reussite_minimum(valeur)
