@@ -7,7 +7,6 @@ var initial_bdd_fichier
 var initial_tableau_scores
 const RACINE_TEST = "tests/test_progression_campagne_service"
 
-var progression_emitted = false
 var detail_score_received = null
 
 func _nettoyer_fichiers_utilisateur():
@@ -22,7 +21,6 @@ func before_each():
 	initial_tableau_scores = SauvegardeTableauDesScoresService.liste_des_scores.duplicate(true)
 	service = add_child_autofree(load("res://Singletons/progression_campagne_service.gd").new())
 
-	progression_emitted = false
 	detail_score_received = null
 
 	SauvegardeListeJoueursService.liste_des_joueurs = [
@@ -75,7 +73,6 @@ func before_each():
 		"nombre_de_parties": {}
 	})
 
-	service.progression_niveau.connect(_on_progression_niveau)
 	service.detail_score_plateau.connect(_on_detail_score_plateau)
 
 func after_each():
@@ -85,9 +82,6 @@ func after_each():
 	SauvegardeTableauDesScoresService.liste_des_scores = initial_tableau_scores.duplicate(true)
 	_nettoyer_fichiers_utilisateur()
 	FichiersJsonService.reinitialiser_racine_utilisateur()
-
-func _on_progression_niveau():
-	progression_emitted = true
 
 func _on_detail_score_plateau(detail_score : Dictionary):
 	detail_score_received = detail_score
@@ -134,7 +128,6 @@ func test_gagner_un_plateau_emet_les_signaux_et_maj_score():
 	service.choisir_le_joueur_pour_la_campagne("Alpha")
 	var score_before = SauvegardeTableauDesScoresService.lire_score_joueur("Alpha")
 	service.gagner_un_plateau()
-	assert_true(progression_emitted)
 	assert_true(detail_score_received != null)
 	assert_true(detail_score_received.has("duree"))
 	assert_true(SauvegardeTableauDesScoresService.lire_score_joueur("Alpha") >= score_before)

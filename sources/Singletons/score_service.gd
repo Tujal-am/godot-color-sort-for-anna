@@ -1,4 +1,4 @@
-﻿extends Node
+extends Node
 
 const FIN_CAMPAGNE := 500_000
 
@@ -67,7 +67,9 @@ func mettre_a_jour_score_duree() -> Dictionary:
 	var duree_realise_en_s = SauvegardeBddJoueursService.enregistrement_lire_duree_plateau()
 	var duree_totale_en_s = duree_recommence_en_s + duree_realise_en_s
 	# Score sur le ratio du temps référence/joué
-	var ratio_temps = temps_reference_en_s / duree_totale_en_s
+	var ratio_temps = 0.
+	if duree_totale_en_s:
+		ratio_temps = temps_reference_en_s / duree_totale_en_s
 	bonus_duree = roundi(100 * difficulte * ratio_temps)
 	SauvegardeBddJoueursService.enregistrement_modifier_score_duree_plateau(bonus_duree)
 	SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_duree)
@@ -110,16 +112,16 @@ func mettre_a_jour_score_niveau() -> Dictionary:
 
 func mettre_a_jour_score_niveau_parfait() -> Dictionary:
 	"Calculer le score suite à un niveau parfaitement achevé (sans détour)"
-	var bonus_niveau_sans_detour = 0
+	var bonus_niveau_parfait = 0
 	if not SauvegardeBddJoueursService.enregistrement_niveau_en_cours() \
 		and SauvegardeBddJoueursService.enregistrement_lire_ratio_reussite_niveau() == 100:
 		var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
-		bonus_niveau_sans_detour = SauvegardeBddJoueursService.enregistrement_lire_score_niveau()
-		SauvegardeBddJoueursService.enregistrement_modifier_score_niveau_sans_detour(bonus_niveau_sans_detour)
-		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_niveau_sans_detour)
+		bonus_niveau_parfait = SauvegardeBddJoueursService.enregistrement_lire_score_niveau()
+		SauvegardeBddJoueursService.enregistrement_modifier_score_niveau_parfait(bonus_niveau_parfait)
+		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, bonus_niveau_parfait)
 		return {'type':'niveau_parfait',
 				'bonus': 'x2',
-				'points': bonus_niveau_sans_detour}
+				'points': bonus_niveau_parfait}
 	return{}
 
 func mettre_a_jour_score_campagne() -> Dictionary:

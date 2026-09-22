@@ -476,6 +476,8 @@ func lire_pourcentage_niveau_realise() -> int:
 		var nb_niveaux_realises = enregistrement_lire_niveau_longueur_realisee()
 		var nb_niveaux_restant = campagne_lire_nombre_de_plateaux_realisables_pour_niveau_courant()
 		var nb_niveaux_totaux = nb_niveaux_realises + nb_niveaux_restant
+		if not nb_niveaux_totaux:
+			return 0
 		return roundi(100. * nb_niveaux_realises / nb_niveaux_totaux)
 	return 0
 
@@ -494,6 +496,8 @@ func enregistrement_lire_ratio_reussite_niveau() -> int:
 	if enregistrement_niveau_existe():
 		var nb_essais  = enregistrement_lire_nombre_plateaux_acheves()
 		var nb_succes = enregistrement_lire_niveau_longueur_realisee()
+		if not nb_essais:
+			return 0
 		return roundi(100. * nb_succes / nb_essais)
 	return 0
 
@@ -510,7 +514,7 @@ func enregistrement_modifier_score_niveau(score : int) -> void:
 		niveau_courant['score']['niveau'] = score
 		_enregistrer_sauvegarde_joueur()
 
-func enregistrement_modifier_score_niveau_sans_detour(score : int) -> void:
+func enregistrement_modifier_score_niveau_parfait(score : int) -> void:
 	var niveau_courant = enregistrement_lire_dernier_niveau()
 	if niveau_courant:
 		if 'score' not in niveau_courant:

@@ -1,6 +1,6 @@
 extends Node
 
-signal progression_niveau
+# signal progression_niveau   # TODO : Le signal n'est lu par personne. Normal ?
 signal detail_score_plateau(detail_score : Dictionary)
 signal fin_niveau
 # TODO : signal fin_campagne

@@ -105,7 +105,7 @@ func test_mettre_a_jour_score_pour_victoire_retourne_une_grille_complete():
 	assert_true(score.has("duree"))
 	assert_true(score.has("ratio_reussite"))
 	assert_true(score.has("niveau"))
-	assert_true(score.has("niveau_sans_detour"))
+	assert_true(score.has("niveau_parfait"))
 	assert_true(score.has("campagne"))
 	assert_true(score.get("duree").get("points", 0) >= 0)
 	assert_true(score.get("ratio_reussite").get("points", 0) >= 0)
@@ -124,20 +124,21 @@ func test_mettre_a_jour_score_niveau_declenche_quand_le_niveau_est_acheve():
 	assert_eq(result.get("type"), "niveau")
 	assert_true(result.get("points", 0) >= 0)
 
-func test_mettre_a_jour_score_niveau_sans_detour_ne_declenche_pas_si_niveau_encore_en_cours():
+func test_mettre_a_jour_score_niveau_parfait_ne_declenche_pas_si_niveau_encore_en_cours():
 	var niveau = SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne").back()
 	niveau["date_fin"] = 0
 	niveau["plateaux"] = [{"nom": "D", "date_debut": 1700002010, "duree": 15000, "difficulte": 2, "statut": "reussi"}]
-	var result = service.mettre_a_jour_score_niveau_sans_detour()
-	assert_true(result == {} or result.get("type", "") == "niveau_sans_detour" or result.get("points", 0) >= 0)
+	var result = service.mettre_a_jour_score_niveau_parfait()
+	assert_true(result == {} or result.get("type", "") == "niveau_parfait" or result.get("points", 0) >= 0)
 
-func test_mettre_a_jour_score_niveau_sans_detour_declenche_quand_le_niveau_est_parfait():
+func test_mettre_a_jour_score_niveau_parfait_declenche_quand_le_niveau_est_parfait():
 	var niveau = SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne").back()
 	niveau["date_fin"] = 1700003000
-	niveau["plateaux"] = [{"nom": "D", "date_debut": 1700002010, "duree": 15000, "difficulte": 2, "statut": "reussi"}]
+	niveau["plateaux"] = [{"nom": "D", "date_debut": 1700002010, "date_fin": 1700017010, "duree": 15000, "difficulte": 2, "statut": "reussi"}]
+	# Terminer le niveau dans la campagne
 	SauvegardeBddJoueursService.sauvegarde_joueur["campagne"].erase("niveau_2")
-	var result = service.mettre_a_jour_score_niveau_sans_detour()
-	assert_eq(result.get("type"), "niveau_sans_detour")
+	var result = service.mettre_a_jour_score_niveau_parfait()
+	assert_eq(result.get("type"), "niveau_parfait")
 	assert_true(result.get("points", 0) >= 0)
 
 func test_mettre_a_jour_score_campagne_ne_declenche_pas_si_campagne_incomplete():
@@ -167,7 +168,7 @@ func test_bonus_score_anna_damour_multiplie_le_total():
 		'duree': {'points': 10},
 		'ratio_reussite': {'points': 20},
 		'niveau': {'points': 30},
-		'niveau_sans_detour': {'points': 40},
+		'niveau_parfait': {'points': 40},
 		'campagne': {'points': 50}
 	}
 	var score_avant = SauvegardeTableauDesScoresService.lire_score_joueur(nom_anna)

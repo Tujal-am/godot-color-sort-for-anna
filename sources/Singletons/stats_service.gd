@@ -227,6 +227,9 @@ func nombre_de_plateaux_totaux() -> int:
 	return nombre_de_plateau_inacheves() + nombre_de_plateau_acheves()
 
 func taux_completion_campagne() -> float:
+	var diviseur : int = nombre_de_plateaux_totaux()
+	if not diviseur:
+		return 0.
 	return 1. * nombre_de_plateau_acheves() / nombre_de_plateaux_totaux()
 
 func taux_completion_niveau() -> float:
