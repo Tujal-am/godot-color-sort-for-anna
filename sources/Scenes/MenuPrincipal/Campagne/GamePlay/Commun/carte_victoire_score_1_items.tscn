@@ -1,0 +1,129 @@
+[gd_scene format=3 uid="uid://ilwtct2yykrk"]
+
+[ext_resource type="Script" uid="uid://oa0r6moldcdg" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_1_items.gd" id="1_f3kfg"]
+[ext_resource type="Texture2D" uid="uid://lc5tatprguiw" path="res://Art/UI/Gameplay/Commun/victoire_temps.png" id="2_n6bdu"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="3_bejap"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gv5u"]
+bg_color = Color(0.9882353, 0.9607843, 0.92156863, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.91764706, 0.7647059, 0.53333336, 1)
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c01oa"]
+bg_color = Color(0.9529412, 0.15294118, 0.08235294, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="Score1Item" type="Control" unique_id=542009068]
+custom_minimum_size = Vector2(290, 60)
+custom_maximum_size = Vector2(290, 60)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -190.0
+offset_bottom = -660.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f3kfg")
+
+[node name="Fond" type="Panel" parent="." unique_id=188817741]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4gv5u")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1816815383]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="Logo" type="TextureRect" parent="MarginContainer" unique_id=750441110]
+layout_mode = 2
+texture = ExtResource("2_n6bdu")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="Titre" type="Label" parent="." unique_id=570680190]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 94.0
+offset_top = 3.0
+offset_right = -6.0
+offset_bottom = -29.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+theme_override_fonts/font = ExtResource("3_bejap")
+theme_override_font_sizes/font_size = 16
+text = "Titre Score"
+vertical_alignment = 1
+clip_text = true
+
+[node name="ListeItems" type="Control" parent="." unique_id=1637383401]
+anchors_preset = 0
+offset_left = 94.0
+offset_top = 29.0
+offset_right = 284.0
+offset_bottom = 53.0
+
+[node name="Item1" type="Control" parent="ListeItems" unique_id=238384602]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Pastile" type="Panel" parent="ListeItems/Item1" unique_id=591150240]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -5.0
+offset_right = 10.0
+offset_bottom = 5.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c01oa")
+
+[node name="Texte" type="Label" parent="ListeItems/Item1" unique_id=2016897195]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -6.5
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+theme_override_fonts/font = ExtResource("3_bejap")
+theme_override_font_sizes/font_size = 13
+text = "texte item1"
+vertical_alignment = 1
+clip_text = true

@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dgx5nqu515xpv"]
+
+[ext_resource type="Script" uid="uid://cvqaotky807ri" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/Pile/Jeton/jeton.gd" id="1_lccag"]
+
+[node name="Jeton" type="Node" unique_id=92596408]
+script = ExtResource("1_lccag")
+
+[node name="Selection" type="ColorRect" parent="." unique_id=210287285]
+editor_description = "CRIMSON"
+visible = false
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 36.0
+offset_bottom = 36.0
+color = Color(0.862745, 0.0784314, 0.235294, 1)
+
+[node name="SoudureHaute" type="ColorRect" parent="." unique_id=496324881]
+editor_description = "CRIMSON"
+visible = false
+offset_top = -2.0
+offset_right = 32.0
+offset_bottom = 2.0
+color = Color(0.862745, 0.0784314, 0.235294, 1)
+
+[node name="Carre" type="ColorRect" parent="." unique_id=1625441318]
+editor_description = "CRIMSON"
+offset_right = 32.0
+offset_bottom = 32.0
+color = Color(0.862745, 0.0784314, 0.235294, 1)
+
+[node name="SoudureBasse" type="ColorRect" parent="." unique_id=1473494594]
+editor_description = "CRIMSON"
+visible = false
+offset_top = 32.0
+offset_right = 32.0
+offset_bottom = 36.0
+color = Color(0.862745, 0.0784314, 0.235294, 1)
+
+[node name="Nom" type="Label" parent="." unique_id=1345788397]
+offset_top = -16.0
+offset_right = 32.0
+offset_bottom = 48.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 30
+text = "A"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="gui_input" from="Selection" to="." method="_on_carre_gui_input"]
+[connection signal="gui_input" from="SoudureHaute" to="." method="_on_carre_gui_input"]
+[connection signal="gui_input" from="Carre" to="." method="_on_carre_gui_input"]
+[connection signal="gui_input" from="SoudureBasse" to="." method="_on_carre_gui_input"]

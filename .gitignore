@@ -1,22 +1,8 @@
-# Godot 4+ specific ignores
-.godot/
-/android/
-*.tmp
-
-/Export
-/addons/
 /.vscode
-/Archive_Solutions
 /Art
-/notice/
-/sources/android/
-/sources/Solutions_classees_VERSION_JEU.json
-/sources/Solutions_classees_TESTS*.json
-
-import/**/RangeLesCouleurs_*.json
-import/**/RLC_*.json
+/export
 
 EditeurDePlateaux.lnk
-
-# TU avec GUT
-sources/addons/gut/
+sources/addons
+gestion_projet/todo/*.pdf
+gestion_projet/todo/*.odp

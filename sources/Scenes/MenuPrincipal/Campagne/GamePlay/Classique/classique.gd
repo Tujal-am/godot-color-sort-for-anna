@@ -1,42 +1,12 @@
-extends Node
+extends BaseGameplay
 
 class_name Classique
 
-signal victoire
-signal abandon
-signal plateau_invalide
-
 func _ready() -> void:
-	# Connecter la callback de gameplay au "Plateau"
-	$Plateau.enregistrer_callback_est_termine(Callable(self, "est_termine"))
-	$Plateau.enregistrer_gameplay("Classique")
-	$Plateau.enregistrer_chrono("03:51")
-	$Plateau.enregistrer_coups("0 Coups")
+	super._ready()
 
-# API pour "Campagne"
-func est_valide(plateau_texte : String) -> bool:
-	return $Plateau.est_valide(plateau_texte)
-
-func commencer_un_nouveau_plateau(plateau_texte : String) -> void:
-	$Plateau.commencer_un_nouveau_plateau(plateau_texte)
-
-func show():
-	$Plateau.show()
-
-func hide():
-	$Plateau.hide()
-
-func cacher_accueil():
-	$Plateau.cacher_accueil()
-
-# Signaux de "Plateau" relayé à "Campagne"
-func _on_plateau_plateau_invalide() -> void:
-	LogService.log_debug("Classique : plateau_invalide.emit()")
-	plateau_invalide.emit()
-
-func _on_plateau_abandon() -> void:
-	LogService.log_debug("Classique : abandon.emit()")
-	abandon.emit()
+	# Initialiser le menu
+	$MenuPlateau.enregistrer_gameplay("Classique")
 
 # Callback pour "Plateau"
 func est_termine(liste_piles) -> bool:
@@ -49,5 +19,6 @@ func est_termine(liste_piles) -> bool:
 			break
 	if termine:
 		LogService.log_debug("Classique : victoire.emit()")
+		$MenuPlateau/Top/BoutonRecommencer.hide()
 		victoire.emit()
 	return termine

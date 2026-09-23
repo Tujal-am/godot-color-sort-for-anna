@@ -1,45 +1,69 @@
 [gd_scene format=3 uid="uid://syi3krptex2w"]
 
-[ext_resource type="Script" uid="uid://baltgx8np41fx" path="res://Scenes/MenuPrincipal/Scores/scores.gd" id="1_4sbfv"]
-[ext_resource type="Texture2D" uid="uid://bphpqsaqkwivq" path="res://Art/Images/fond_scores_2_480x720.png" id="2_63kir"]
+[ext_resource type="Script" uid="uid://baltgx8np41fx" path="res://Scenes/MenuPrincipal/Scores/scores.gd" id="1_scores"]
+[ext_resource type="Texture2D" uid="uid://d4a216xirmr5m" path="res://Art/UI/Scores/scores_decor_overlay_sans_classement_480x720.png" id="2_opeep"]
 
-[node name="Scores" type="Node" unique_id=228610321]
-script = ExtResource("1_4sbfv")
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c01oa"]
 
-[node name="Fond" type="TextureRect" parent="." unique_id=1016335632]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n0s2t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l2uwd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_88ltc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6blob"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_opeep"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_pa4px"]
+events = [SubResource("InputEventKey_opeep")]
+
+[node name="Scores" type="Control" unique_id=932203868]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_63kir")
+script = ExtResource("1_scores")
 
-[node name="TitreScores" type="RichTextLabel" parent="." unique_id=134239167]
-anchors_preset = 10
+[node name="FondTechnique" type="ColorRect" parent="." unique_id=1305570975]
+layout_mode = 1
+anchors_preset = 15
 anchor_right = 1.0
-offset_bottom = 200.0
-grow_horizontal = 2
-pivot_offset = Vector2(272, 144)
-bbcode_enabled = true
-text = "[outline_size=10][color=white][center]
-[outline_size=20][outline_color=#580058][font_size=100]Scores[/font_size][/outline_color][/outline_size]
-[/center][/color][/outline_size]"
-
-[node name="ListeScores" type="RichTextLabel" parent="." unique_id=1893882381]
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -160.0
-offset_bottom = 360.0
+anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(272, 144)
-bbcode_enabled = true
-text = "[outline_size=10][color=white][center]
-[font_size=60][color=gold]Anna 69666[/color][/font_size]
-[font_size=50][color=silver]Totolinoob 35123[/color][/font_size]
-[font_size=40][color=#CD7F32]GuiGuiQ 15123[/color][/font_size]
-[font_size=30]J5 13
-J6 5[/font_size]
-[/center][/color][/outline_size]"
+mouse_filter = 2
+color = Color(0.9647059, 0.9019608, 0.8235294, 1)
+
+[node name="DecorVerrouille" type="TextureRect" parent="." unique_id=1457256090]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_opeep")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="Retour" type="Button" parent="." unique_id=203593224]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 22.0
+offset_right = 90.0
+offset_bottom = 94.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c01oa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_n0s2t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_l2uwd")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_88ltc")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6blob")
+shortcut = SubResource("Shortcut_pa4px")
+flat = true
+
+[connection signal="pressed" from="Retour" to="." method="_on_retour_pressed"]

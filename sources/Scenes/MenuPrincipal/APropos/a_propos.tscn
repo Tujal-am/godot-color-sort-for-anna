@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://crh6v0vpu06u8"]
+
+[ext_resource type="Script" uid="uid://cmgsljgwmgwhn" path="res://Scenes/MenuPrincipal/APropos/a_propos.gd" id="1_about"]
+[ext_resource type="Texture2D" uid="uid://dyqudplf18flw" path="res://Art/UI/APropos/a_propos_underlay_480x720.png" id="2_77vjn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c01oa"]
+bg_color = Color(1, 0.972549, 0.9098039, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.91764706, 0.8156863, 0.68235296, 1)
+corner_radius_top_left = 23
+corner_radius_top_right = 23
+corner_radius_bottom_right = 23
+corner_radius_bottom_left = 23
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_77vjn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fmmw8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vt736"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n3y8f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m17g7"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_77vjn"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_opeep"]
+events = [SubResource("InputEventKey_77vjn")]
+
+[node name="APropos" type="Control" unique_id=999217149]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_about")
+
+[node name="DecorAtelierVerrouille" type="TextureRect" parent="." unique_id=195841530]
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 720.0
+mouse_filter = 2
+texture = ExtResource("2_77vjn")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="PanneauCredits" type="Panel" parent="." unique_id=1066876064]
+custom_minimum_size = Vector2(356, 625)
+layout_mode = 0
+offset_left = 62.0
+offset_top = 75.0
+offset_right = 102.0
+offset_bottom = 115.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c01oa")
+
+[node name="Retour" type="Button" parent="." unique_id=169920233]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 90.0
+offset_bottom = 76.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_77vjn")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_fmmw8")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_vt736")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_n3y8f")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_m17g7")
+shortcut = SubResource("Shortcut_opeep")
+flat = true
+
+[connection signal="pressed" from="Retour" to="." method="_on_retour_pressed"]

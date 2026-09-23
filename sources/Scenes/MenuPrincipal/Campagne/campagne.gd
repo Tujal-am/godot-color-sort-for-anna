@@ -6,54 +6,57 @@ extends Node
 
 class_name Campagne
 
-var heure_debut_en_ms : int
-var duree_en_ms : int
-enum Gameplay {
-	CLASSIQUE,
-	MEMOIRE,
-	DEFI_DU_GOSSE,
-	DEFI_DU_BOSS,
-	QUI_PERD_GAGNE,
-	FLEMMARD,
-	DOUBLE_FACE,
-	DICO
-}
+func gameplay_to_ui(gameplay : GameplayTypes.Gameplay) -> Node:
+	match gameplay:
+		GameplayTypes.Gameplay.CLASSIQUE:
+			return $Classique
+		GameplayTypes.Gameplay.AU_PLUS_PRES:
+			return $AuPlusPres
+		GameplayTypes.Gameplay.PILE_POIL:
+			return $PilePoil
+		GameplayTypes.Gameplay.TOUT_EN_TETE:
+			return $ToutEnTete
+		GameplayTypes.Gameplay.PROGRAMMATION:
+			return $Programmation
+		GameplayTypes.Gameplay.PROGRAMMATION_GENIUS:
+			return $ProgrammationGenius
+		GameplayTypes.Gameplay.QUI_PERD_GAGNE:
+			return $QuiPerdGagne
+		GameplayTypes.Gameplay.POIDS_PLUME:
+			return $PoidsPlume
+		GameplayTypes.Gameplay.PILE_OU_FACE:
+			return $PileOuFace
+		GameplayTypes.Gameplay.MOT_CACHE:
+			return $MotCache
+		_:
+			LogService.log_erreur("Gameplay inconnu : ", str(gameplay))
+			return $Classique
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Connecter les signaux attendus
-	var pcs = get_node("/root/ProgressionCampagneService")
-	pcs.progression_ascension.connect(_on_progression_campagne_service_progression_ascension)
-	pcs.fin_ascension.connect(_on_progression_campagne_service_fin_ascension)
 
-	# $MenuCampagne.modifier_message_vertical_align(VERTICAL_ALIGNMENT_CENTER)
 	cacher_les_gameplays()
 	$MenuCampagne.cacher_accueil()
+	$MenuCampagne.afficher_plateau_suivant()
 	$MenuCampagne.show()
-	if ProgressionCampagneService.ascension_en_cours():
-		enregistrer_infos_joueur_pour_menu()
-		$MenuCampagne.afficher_accueil_ascension_en_cours()
-	else:
-		enregistrer_longueur_max_plateaux_pour_menu()
-		$MenuCampagne.afficher_accueil_nouvelle_ascension()
 
 func _on_menu_commencer_plateau() -> void:
-	ProgressionCampagneService.commencer_un_plateau($MenuCampagne/LongueurAscension/VBox/Pourcentage.value)
-	_lancer_plateau_de_campagne(SauvegardeBddJoueursService.lire_nom_plateau())
+	ProgressionCampagneService.commencer_un_plateau()
+	_lancer_plateau_de_campagne()
 
-func _lancer_plateau_de_campagne(plateau : String) -> void:
-	# TODO : Définir le type de plateau à lancer => Ajouter un parametre 'gameplay'
-	var gameplay : Gameplay = Gameplay.CLASSIQUE
-	# var gameplay : Gameplay = Gameplay.QUI_PERD_GAGNE
+func _lancer_plateau_de_campagne() -> void:
+	var plateau : String = SauvegardeBddJoueursService.enregistrement_lire_nom_plateau()
+	var gameplay_str : String = SauvegardeBddJoueursService.enregistrement_lire_gameplay_plateau()
+	var gameplay : GameplayTypes.Gameplay = GameplayTypes.gameplay_to_enum(gameplay_str)
+	var ui_gameplay : Node = gameplay_to_ui(gameplay)
 
-	var i_gameplay : Node = instance_gameplay(gameplay)
-	if i_gameplay.est_valide(plateau):
+	if ui_gameplay.est_valide(plateau):
 		$MenuCampagne.cacher_accueil()
 		montrer_le_gameplay(gameplay)
-		i_gameplay.commencer_un_nouveau_plateau(plateau)
+		ui_gameplay.commencer_un_nouveau_plateau(plateau)
 		AudioService.son_commencer_un_plateau()
 		AudioService.jouer_la_musique()
-		heure_debut_en_ms = Time.get_ticks_msec() # TODO : statistiques !
 	else:
 		_on_classique_plateau_invalide()
 
@@ -62,16 +65,14 @@ func _on_classique_plateau_invalide() -> void:
 	LogService.log_erreur("_on_classique_plateau_invalide pour la campagne IMPOSSIBLE ! WTF !")
 
 func _on_classique_victoire() -> void:
-	duree_en_ms = Time.get_ticks_msec() - heure_debut_en_ms # TODO : statistiques !
-	ProgressionCampagneService.gagner_un_plateau(duree_en_ms)
+	ProgressionCampagneService.gagner_un_plateau()
 	$MenuCampagne.show()
 	if ProgressionCampagneService.la_campagne_est_terminee():
 		$MenuCampagne.afficher_fin_campagne()
-	elif not ProgressionCampagneService.ascension_en_cours():
-		enregistrer_longueur_max_plateaux_pour_menu()
-		$MenuCampagne.afficher_fin_ascension()
+	elif not ProgressionCampagneService.niveau_en_cours():
+		$MenuCampagne.afficher_fin_niveau()
 	else:
-		$MenuCampagne.afficher_gagner_un_plateau(roundi(duree_en_ms / 1000.0))
+		$MenuCampagne.afficher_gagner_un_plateau()
 	AudioService.son_gagner_un_plateau()
 	AudioService.arreter_la_musique()
 
@@ -84,6 +85,11 @@ func _on_classique_abandon() -> void:
 	AudioService.son_abandonner_un_plateau()
 	AudioService.arreter_la_musique()
 
+func _on_menu_campagne_score_continuer() -> void:
+	# Fin d'affichage du score, réactiver le menu
+	if not ProgressionCampagneService.la_campagne_est_terminee():
+		$MenuCampagne.afficher_plateau_suivant()
+
 
 func _on_qui_perd_gagne_plateau_invalide() -> void:
 	LogService.log_erreur("_on_qui_perd_gagne_plateau_invalide pour la campagne IMPOSSIBLE ! WTF !")
@@ -92,45 +98,24 @@ func _on_qui_perd_gagne_victoire() -> void:
 	_on_classique_victoire()
 
 func _on_qui_perd_gagne_abandon() -> void:
-	# TODO : ce cas peut etre détécté automatiquement. à reflechir
 	_on_classique_abandon()
-
-func _on_progression_campagne_service_progression_ascension():
-	enregistrer_infos_joueur_pour_menu()
-
-func _on_progression_campagne_service_fin_ascension():
-	enregistrer_longueur_max_plateaux_pour_menu()
 
 func cacher_les_gameplays() -> void:
 	$Classique.cacher_accueil()
 	$QuiPerdGagne.cacher_accueil()
 
-func montrer_le_gameplay(gameplay : Gameplay) -> void:
-	if gameplay == Gameplay.CLASSIQUE:
+func montrer_le_gameplay(gameplay : GameplayTypes.Gameplay) -> void:
+	if gameplay == GameplayTypes.Gameplay.CLASSIQUE:
 		$QuiPerdGagne.hide()
-	if gameplay == Gameplay.QUI_PERD_GAGNE:
+		$Classique.show()
+	if gameplay == GameplayTypes.Gameplay.QUI_PERD_GAGNE:
 		$Classique.hide()
+		$QuiPerdGagne.show()
 
-func instance_gameplay(gameplay : Gameplay) -> Node:
-	if gameplay == Gameplay.CLASSIQUE:
+func instance_gameplay(gameplay : GameplayTypes.Gameplay) -> Node:
+	if gameplay == GameplayTypes.Gameplay.CLASSIQUE:
 		return $Classique
-	if gameplay == Gameplay.QUI_PERD_GAGNE:
+	if gameplay == GameplayTypes.Gameplay.QUI_PERD_GAGNE:
 		return $QuiPerdGagne
 	LogService.log_erreur("Gameplay inconnu : ", gameplay)
 	return null
-
-# TODO : Déplacer le code. Le menu doit demande au SERVICE les infos necessiares.
-func enregistrer_infos_joueur_pour_menu():
-	# Transmet les infos pour mettre à jour la banniere 'infos joueur' du menu
-	var nom = SauvegardeBddJoueursService.lire_nom_joueur()
-	var trophee = SauvegardeTableauDesScoresService.lire_le_trophee_du_joueur(nom)
-	var pourcentage_ascension_realise = StatsService.ascension_taux_completion() * 100.
-	var pourcentage_campagne_realise = StatsService.campagne_taux_completion() * 100.
-	var score_texte = SauvegardeTableauDesScoresService.lire_score_txt_joueur(nom)
-	$MenuCampagne.enregistrer_infos_joueur(	nom, trophee, pourcentage_ascension_realise, pourcentage_campagne_realise, score_texte)
-
-# TODO : Déplacer le code. Le menu doit demande au SERVICE les infos necessiares.
-func enregistrer_longueur_max_plateaux_pour_menu():
-	# Transmet la longueur max de plateau d'une ascension
-	var longueur_max_ascension = SauvegardeBddJoueursService.lire_nombre_de_niveaux_realisables()
-	$MenuCampagne.enregistrer_longueur_max_ascension(longueur_max_ascension)

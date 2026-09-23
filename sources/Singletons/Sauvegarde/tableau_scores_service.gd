@@ -14,8 +14,8 @@ func _ready() -> void:
 	_initialiser_la_liste_des_scores()
 
 func _initialiser_la_liste_des_scores() -> void:
-	var lecture_liste_des_scores = FichiersJsonService.read_json_file("user://scores.json")
-	if lecture_liste_des_scores:
+	var lecture_liste_des_scores = FichiersJsonService.read_json_file("scores.json")
+	if lecture_liste_des_scores != null:
 		liste_des_scores = lecture_liste_des_scores.duplicate(true)
 		LogService.log_debug("liste_des_scores = ", liste_des_scores)
 	else:
@@ -24,7 +24,7 @@ func _initialiser_la_liste_des_scores() -> void:
 		LogService.log_debug("Création du fichier de score initial")
 
 func _enregistrer_la_liste_des_scores() -> void:
-	FichiersJsonService.write_json_file("user://scores.json", liste_des_scores.duplicate(true))
+	FichiersJsonService.write_json_file("scores.json", liste_des_scores.duplicate(true))
 	LogService.log_debug("Scores sauvegardés")
 
 func _retourner_le_joueur(nom_joueur : String) -> Dictionary:
@@ -175,4 +175,6 @@ func nombre_avec_separateur_de_milliers(nombre : int, separateur : String) -> St
 				# Premiere partie du nombre : pas de séparateur entre milliers ou de remplissage de zero.
 				nombre_texte += str(dividende)
 			nombre -= dividende * division
+	if not nombre_texte:
+		nombre_texte = "0"
 	return nombre_texte

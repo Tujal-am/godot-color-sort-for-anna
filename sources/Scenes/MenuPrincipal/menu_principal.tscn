@@ -1,165 +1,621 @@
 [gd_scene format=3 uid="uid://due674pwfguqp"]
 
-[ext_resource type="Script" uid="uid://cab0yaq8331s4" path="res://Scenes/MenuPrincipal/menu_principal.gd" id="1_64slw"]
-[ext_resource type="Texture2D" uid="uid://pq65gq7bt1p" path="res://Art/Images/fond_cubes_480x720.png" id="2_wsrww"]
-[ext_resource type="PackedScene" uid="uid://knrlkm4pili5" path="res://Scenes/MenuPrincipal/Clavier/clavier.tscn" id="3_y3ggv"]
+[ext_resource type="Script" uid="uid://cab0yaq8331s4" path="res://Scenes/MenuPrincipal/menu_principal.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://csxn5jrr7jauf" path="res://Art/UI/MenuPrincipal/background.png" id="2_7woe0"]
+[ext_resource type="Texture2D" uid="uid://qql0i230klyd" path="res://Art/UI/MenuPrincipal/logo_accueil_locked_325x145.png" id="3_y3ggv"]
+[ext_resource type="Texture2D" uid="uid://fywkpbkwglh8" path="res://Art/UI/MenuPrincipal/bouton_campagne_locked_305x85.png" id="4_gmnht"]
+[ext_resource type="Texture2D" uid="uid://bydgq7ertcjn5" path="res://Art/UI/MenuPrincipal/avatar_add_32x32.png" id="5_7gf06"]
+[ext_resource type="Texture2D" uid="uid://vy28gtiue4xd" path="res://Art/UI/MenuPrincipal/bouton_action_vide_305x48.png" id="6_appac"]
+[ext_resource type="Texture2D" uid="uid://bqaim6mtscwcx" path="res://Art/UI/MenuPrincipal/picto_scores_36x36.png" id="7_tl7ww"]
+[ext_resource type="Texture2D" uid="uid://dceu8xgu72xlf" path="res://Art/UI/icons/icon_chevron.png" id="8_hntnw"]
+[ext_resource type="Texture2D" uid="uid://duejel3rwjxsk" path="res://Art/UI/icons/icon_info.png" id="9_mgmvr"]
+[ext_resource type="Texture2D" uid="uid://biu2nmq2p0852" path="res://Art/UI/icons/icon_music.png" id="10_whlyn"]
+[ext_resource type="Texture2D" uid="uid://cpnowfnhgo8mg" path="res://Art/UI/icons/icon_sound.png" id="11_7woe0"]
+[ext_resource type="Texture2D" uid="uid://ctnnv3fa5dnek" path="res://Art/UI/icons/icon_vibration.png" id="12_vrk5l"]
 
-[sub_resource type="SystemFont" id="SystemFont_jisel"]
-font_names = PackedStringArray("Impact")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4mpx"]
+bg_color = Color(0.03137255, 0.105882354, 0.1764706, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.11372549, 0.38039216, 0.6313726, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ruejn"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n4fhu"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9411765, 0.3019608, 0.23529412, 1)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mef5e"]
-bg_color = Color(0.87451, 0, 0.87451, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8xa5l"]
+bg_color = Color(0.9764706, 0.8745098, 0.68235296, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_so4s0"]
-bg_color = Color(0.537255, 0, 0.537255, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gmnht"]
+bg_color = Color(0.9764706, 0.8745098, 0.68235296, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_urgqo"]
-bg_color = Color(0.873002, 0.000607988, 0.872996, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7gf06"]
+bg_color = Color(0.9764706, 0.8745098, 0.68235296, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0rh52"]
-bg_color = Color(0.537255, 0, 0.537255, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_appac"]
+bg_color = Color(0.9764706, 0.8745098, 0.68235296, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p4mar"]
-bg_color = Color(0.87451, 0, 0.87451, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mgmvr"]
+content_margin_left = 44.0
+bg_color = Color(1, 0.972549, 0.92941177, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.92941177, 0.7882353, 0.64705884, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dfj4a"]
-bg_color = Color(0.537255, 0, 0.537255, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_whlyn"]
+content_margin_left = 44.0
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9411765, 0.3019608, 0.23529412, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
 
-[node name="Menu_principal" type="Control" unique_id=313760940]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_c01oa"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n0s2t"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l2uwd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c01oa"]
+bg_color = Color(0.023529412, 0.11372549, 0.19215687, 0.9019608)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.09411765, 0.21960784, 0.30980393, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7woe0"]
+bg_color = Color(1, 0.972549, 0.92941177, 1)
+corner_radius_top_left = 9
+corner_radius_top_right = 9
+corner_radius_bottom_right = 9
+corner_radius_bottom_left = 9
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_vrk5l"]
+content_margin_right = 10.0
+color = Color(0.09411765, 0.21960784, 0.30980393, 1)
+
+[node name="Menu_principal" type="Control" unique_id=113025718]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_64slw")
+script = ExtResource("1")
 
-[node name="Fond" type="TextureRect" parent="." unique_id=1990272667]
-self_modulate = Color(0.589096, 0.589096, 0.589096, 1)
+[node name="DecorVerrouille" type="TextureRect" parent="." unique_id=1981024984]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_wsrww")
+mouse_filter = 2
+texture = ExtResource("2_7woe0")
+expand_mode = 1
 
-[node name="Marge" type="MarginContainer" parent="." unique_id=354410368]
+[node name="Panneau" type="Panel" parent="." unique_id=694766030]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 36.0
+offset_right = 411.0
+offset_bottom = 661.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v4mpx")
+
+[node name="LogoAccueil" type="TextureRect" parent="." unique_id=1771841955]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 78.0
+offset_top = 44.0
+offset_right = -77.0
+offset_bottom = -531.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_y3ggv")
+expand_mode = 1
+
+[node name="PlayersOutline" type="Panel" parent="." unique_id=1573131702]
+layout_mode = 0
+offset_left = 79.0
+offset_top = 192.0
+offset_right = 401.0
+offset_bottom = 512.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_n4fhu")
+
+[node name="CampaignButton" type="TextureButton" parent="." unique_id=110500199]
+layout_mode = 0
+offset_left = 88.0
+offset_top = 203.0
+offset_right = 393.0
+offset_bottom = 288.0
+texture_normal = ExtResource("4_gmnht")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="LowerFlow" type="VBoxContainer" parent="." unique_id=149049495]
+custom_minimum_size = Vector2(305, 0)
+layout_mode = 0
+offset_left = 88.0
+offset_top = 305.0
+offset_right = 393.0
+offset_bottom = 625.0
+theme_override_constants/separation = 6
+
+[node name="PlayerSection" type="VBoxContainer" parent="LowerFlow" unique_id=2076316890]
+custom_minimum_size = Vector2(305, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlayerHeading" type="HBoxContainer" parent="LowerFlow/PlayerSection" unique_id=1182519064]
+custom_minimum_size = Vector2(305, 21)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="Icon" type="Control" parent="LowerFlow/PlayerSection/PlayerHeading" unique_id=899840288]
+custom_minimum_size = Vector2(24, 21)
+layout_mode = 2
+
+[node name="J1Head" type="Panel" parent="LowerFlow/PlayerSection/PlayerHeading/Icon" unique_id=511586440]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 3.0
+offset_right = 8.0
+offset_bottom = 9.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8xa5l")
+
+[node name="J2Head" type="Panel" parent="LowerFlow/PlayerSection/PlayerHeading/Icon" unique_id=2016287429]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 3.0
+offset_right = 18.0
+offset_bottom = 9.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_gmnht")
+
+[node name="J1Body" type="Panel" parent="LowerFlow/PlayerSection/PlayerHeading/Icon" unique_id=1912942295]
+layout_mode = 0
+offset_top = 10.0
+offset_right = 10.0
+offset_bottom = 18.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7gf06")
+
+[node name="J2Body" type="Panel" parent="LowerFlow/PlayerSection/PlayerHeading/Icon" unique_id=2072415131]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 20.0
+offset_bottom = 18.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_appac")
+
+[node name="PlayerTitle" type="Label" parent="LowerFlow/PlayerSection/PlayerHeading" unique_id=1480911364]
+custom_minimum_size = Vector2(270, 21)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.972549, 0.92941177, 1)
+theme_override_font_sizes/font_size = 15
+text = "JOUEURS"
+
+[node name="PlayerScroll" type="ScrollContainer" parent="LowerFlow/PlayerSection" unique_id=2073780343]
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="PlayersCenter" type="CenterContainer" parent="LowerFlow/PlayerSection/PlayerScroll" unique_id=673547667]
+custom_minimum_size = Vector2(305, 0)
+layout_mode = 2
+
+[node name="PlayerArea" type="VBoxContainer" parent="LowerFlow/PlayerSection/PlayerScroll/PlayersCenter" unique_id=1475044069]
+custom_minimum_size = Vector2(260, 0)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PlayerRow" type="Control" parent="LowerFlow/PlayerSection" unique_id=1550648966]
+custom_minimum_size = Vector2(260, 37)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Add" type="LineEdit" parent="LowerFlow/PlayerSection/PlayerRow" unique_id=834120691]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_colors/font_placeholder_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_mgmvr")
+theme_override_styles/focus = SubResource("StyleBoxFlat_whlyn")
+placeholder_text = "Ajouter"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Marge" unique_id=1462702040]
-layout_mode = 2
-alignment = 1
+[node name="Plus" type="TextureRect" parent="LowerFlow/PlayerSection/PlayerRow" unique_id=1697626730]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 3.0
+offset_right = -223.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_7gf06")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Marge/HBoxContainer" unique_id=291310967]
+[node name="BottomSpace" type="Control" parent="LowerFlow" unique_id=2013813138]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
-size_flags_horizontal = 3
-theme_override_constants/separation = 30
-alignment = 1
 
-[node name="Titre du jeu" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1370740222]
+[node name="Scores" type="Control" parent="LowerFlow" unique_id=1765312382]
+custom_minimum_size = Vector2(305, 48)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.87451, 0, 0.87451, 1)
-theme_override_fonts/font = SubResource("SystemFont_jisel")
-theme_override_font_sizes/font_size = 42
-theme_override_styles/normal = SubResource("StyleBoxFlat_ruejn")
-text = "Range les couleurs
-pour Anna d'Amour !"
-horizontal_alignment = 1
+
+[node name="Surface" type="TextureRect" parent="LowerFlow/Scores" unique_id=170389318]
+layout_mode = 0
+offset_right = 305.0
+offset_bottom = 48.0
+mouse_filter = 2
+texture = ExtResource("6_appac")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="LowerFlow/Scores" unique_id=1870936638]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 45.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("7_tl7ww")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="LowerFlow/Scores" unique_id=2081342318]
+custom_minimum_size = Vector2(270, 21)
+layout_mode = 0
+offset_left = 63.0
+offset_right = 333.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_font_sizes/font_size = 19
+text = "Scores"
 vertical_alignment = 1
 
-[node name="Marge" type="MarginContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=937286899]
-layout_mode = 2
-theme_override_constants/margin_left = 80
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 80
-theme_override_constants/margin_bottom = 20
+[node name="Chevron" type="TextureRect" parent="LowerFlow/Scores" unique_id=1885853176]
+layout_mode = 0
+offset_left = 268.0
+offset_top = 13.0
+offset_right = 290.0
+offset_bottom = 35.0
+mouse_filter = 2
+texture = ExtResource("8_hntnw")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Marge/HBoxContainer/VBoxContainer/Marge" unique_id=2099875903]
-layout_mode = 2
-theme_override_constants/separation = 30
-alignment = 1
-
-[node name="BoutonCampagne" type="Button" parent="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer" unique_id=1367881778]
-layout_mode = 2
-theme_override_font_sizes/font_size = 21
-theme_override_styles/normal = SubResource("StyleBoxFlat_mef5e")
-theme_override_styles/hover = SubResource("StyleBoxFlat_so4s0")
-text = "Campagne"
-
-[node name="JoueursCampagne" type="GridContainer" parent="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer" unique_id=574496295]
-visible = false
-layout_mode = 2
-
-[node name="BoutonScores" type="Button" parent="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer" unique_id=1989412153]
-layout_mode = 2
-theme_override_font_sizes/font_size = 21
-theme_override_styles/normal = SubResource("StyleBoxFlat_urgqo")
-theme_override_styles/hover = SubResource("StyleBoxFlat_0rh52")
-text = "Scores"
-
-[node name="BoutonRéférences" type="Button" parent="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer" unique_id=1453020531]
-layout_mode = 2
-theme_override_font_sizes/font_size = 21
-theme_override_styles/normal = SubResource("StyleBoxFlat_p4mar")
-theme_override_styles/hover = SubResource("StyleBoxFlat_dfj4a")
-text = "Références"
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer" unique_id=1410496567]
-layout_mode = 2
-
-[node name="BoutonMusiques" type="CheckButton" parent="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/VBoxContainer" unique_id=1562500741]
-layout_mode = 2
-button_pressed = true
-action_mode = 0
-text = "Musiques"
-
-[node name="BoutonEffetsSonores" type="CheckButton" parent="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/VBoxContainer" unique_id=647157064]
-layout_mode = 2
-button_pressed = true
-action_mode = 0
-text = "Effets sonores"
-
-[node name="BoutonVibrations" type="CheckButton" parent="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/VBoxContainer" unique_id=2062815306]
-layout_mode = 2
-button_pressed = true
-action_mode = 0
-text = "Vibrations"
-
-[node name="Clavier" parent="." unique_id=1467586721 instance=ExtResource("3_y3ggv")]
-
-[node name="Version" type="Label" parent="." unique_id=1924438185]
+[node name="ScoresButton" type="Button" parent="LowerFlow/Scores" unique_id=182458303]
 layout_mode = 1
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -47.0
-offset_top = -23.0
-grow_horizontal = 0
-grow_vertical = 0
-text = "V0.3.1"
-horizontal_alignment = 2
-vertical_alignment = 2
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c01oa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_n0s2t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_l2uwd")
+flat = true
 
-[connection signal="pressed" from="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/BoutonCampagne" to="." method="_on_bouton_campagne_pressed"]
-[connection signal="pressed" from="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/BoutonScores" to="." method="_on_bouton_scores_pressed"]
-[connection signal="pressed" from="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/BoutonRéférences" to="." method="_on_bouton_références_pressed"]
-[connection signal="toggled" from="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/VBoxContainer/BoutonMusiques" to="." method="_on_bouton_musiques_toggled"]
-[connection signal="toggled" from="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/VBoxContainer/BoutonEffetsSonores" to="." method="_on_bouton_effets_sonores_toggled"]
-[connection signal="toggled" from="Marge/HBoxContainer/VBoxContainer/Marge/VBoxContainer/VBoxContainer/BoutonVibrations" to="." method="_on_bouton_vibrations_toggled"]
-[connection signal="pseudo_annule" from="Clavier" to="." method="_on_clavier_pseudo_annule"]
-[connection signal="pseudo_valide" from="Clavier" to="." method="_on_clavier_pseudo_valide"]
+[node name="Apropos" type="Control" parent="LowerFlow" unique_id=378767156]
+custom_minimum_size = Vector2(305, 48)
+layout_mode = 2
+
+[node name="Surface" type="TextureRect" parent="LowerFlow/Apropos" unique_id=117631069]
+layout_mode = 0
+offset_right = 305.0
+offset_bottom = 48.0
+mouse_filter = 2
+texture = ExtResource("6_appac")
+expand_mode = 1
+
+[node name="Icon" type="TextureRect" parent="LowerFlow/Apropos" unique_id=129711125]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 8.0
+offset_right = 45.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("9_mgmvr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="LowerFlow/Apropos" unique_id=1898159227]
+custom_minimum_size = Vector2(270, 21)
+layout_mode = 0
+offset_left = 63.0
+offset_right = 333.0
+offset_bottom = 48.0
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_font_sizes/font_size = 19
+text = "À propos"
+vertical_alignment = 1
+
+[node name="Chevron" type="TextureRect" parent="LowerFlow/Apropos" unique_id=241689661]
+layout_mode = 0
+offset_left = 268.0
+offset_top = 13.0
+offset_right = 290.0
+offset_bottom = 35.0
+mouse_filter = 2
+texture = ExtResource("8_hntnw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="AProposButton" type="Button" parent="LowerFlow/Apropos" unique_id=1745536776]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c01oa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_n0s2t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_l2uwd")
+flat = true
+
+[node name="CenterConfiguration" type="CenterContainer" parent="LowerFlow" unique_id=233183340]
+custom_minimum_size = Vector2(305, 123)
+layout_mode = 2
+
+[node name="Configuration" type="PanelContainer" parent="LowerFlow/CenterConfiguration" unique_id=1721079430]
+custom_minimum_size = Vector2(260, 123)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c01oa")
+
+[node name="Lignes" type="VBoxContainer" parent="LowerFlow/CenterConfiguration/Configuration" unique_id=462761496]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Musique" type="Control" parent="LowerFlow/CenterConfiguration/Configuration/Lignes" unique_id=40563734]
+custom_minimum_size = Vector2(260, 40)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Musique" unique_id=201836055]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 40.0
+offset_bottom = 34.0
+mouse_filter = 2
+texture = ExtResource("10_whlyn")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Musique" unique_id=1246781522]
+custom_minimum_size = Vector2(270, 21)
+layout_mode = 0
+offset_left = 58.0
+offset_right = 328.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 0.972549, 0.92941177, 1)
+theme_override_font_sizes/font_size = 15
+text = "Musique"
+vertical_alignment = 1
+
+[node name="Pill" type="Panel" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Musique" unique_id=502643993]
+layout_mode = 0
+offset_left = 201.0
+offset_top = 9.0
+offset_right = 245.0
+offset_bottom = 31.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v4mpx")
+
+[node name="Dot" type="Panel" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Musique" unique_id=1652317242]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 11.0
+offset_right = 240.0
+offset_bottom = 29.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7woe0")
+
+[node name="Button" type="Button" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Musique" unique_id=348445458]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c01oa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_n0s2t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_l2uwd")
+toggle_mode = true
+button_pressed = true
+flat = true
+
+[node name="EffetsSonores" type="Control" parent="LowerFlow/CenterConfiguration/Configuration/Lignes" unique_id=959537878]
+custom_minimum_size = Vector2(260, 40)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/EffetsSonores" unique_id=979283374]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 40.0
+offset_bottom = 34.0
+mouse_filter = 2
+texture = ExtResource("11_7woe0")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/EffetsSonores" unique_id=211011699]
+custom_minimum_size = Vector2(270, 21)
+layout_mode = 0
+offset_left = 58.0
+offset_right = 328.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 0.972549, 0.92941177, 1)
+theme_override_font_sizes/font_size = 15
+text = "Effets sonores"
+vertical_alignment = 1
+
+[node name="Pill" type="Panel" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/EffetsSonores" unique_id=3946536]
+layout_mode = 0
+offset_left = 201.0
+offset_top = 9.0
+offset_right = 245.0
+offset_bottom = 31.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v4mpx")
+
+[node name="Dot" type="Panel" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/EffetsSonores" unique_id=432895296]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 11.0
+offset_right = 240.0
+offset_bottom = 29.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7woe0")
+
+[node name="Button" type="Button" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/EffetsSonores" unique_id=1164378315]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c01oa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_n0s2t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_l2uwd")
+toggle_mode = true
+button_pressed = true
+flat = true
+
+[node name="Vibration" type="Control" parent="LowerFlow/CenterConfiguration/Configuration/Lignes" unique_id=98625221]
+custom_minimum_size = Vector2(260, 40)
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Vibration" unique_id=1433918864]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 40.0
+offset_bottom = 34.0
+mouse_filter = 2
+texture = ExtResource("12_vrk5l")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="Label" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Vibration" unique_id=1374811252]
+custom_minimum_size = Vector2(270, 21)
+layout_mode = 0
+offset_left = 58.0
+offset_right = 328.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(1, 0.972549, 0.92941177, 1)
+theme_override_font_sizes/font_size = 15
+text = "Vibration"
+vertical_alignment = 1
+
+[node name="Pill" type="Panel" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Vibration" unique_id=1627253428]
+layout_mode = 0
+offset_left = 201.0
+offset_top = 9.0
+offset_right = 245.0
+offset_bottom = 31.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_v4mpx")
+
+[node name="Dot" type="Panel" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Vibration" unique_id=1121990450]
+layout_mode = 0
+offset_left = 222.0
+offset_top = 11.0
+offset_right = 240.0
+offset_bottom = 29.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7woe0")
+
+[node name="Button" type="Button" parent="LowerFlow/CenterConfiguration/Configuration/Lignes/Vibration" unique_id=27020645]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/normal = SubResource("StyleBoxEmpty_c01oa")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_n0s2t")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_l2uwd")
+toggle_mode = true
+button_pressed = true
+flat = true
+
+[node name="Version" type="Label" parent="LowerFlow/CenterConfiguration/Configuration/Lignes" unique_id=261308164]
+custom_minimum_size = Vector2(270, 21)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.972549, 0.92941177, 1)
+theme_override_colors/font_shadow_color = Color(0.09411765, 0.21960784, 0.30980393, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_constants/shadow_outline_size = 1
+theme_override_font_sizes/font_size = 15
+theme_override_styles/normal = SubResource("StyleBoxLine_vrk5l")
+text = "VA.B.C"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[connection signal="pressed" from="CampaignButton" to="." method="_on_campaign_button_pressed"]
+[connection signal="text_submitted" from="LowerFlow/PlayerSection/PlayerRow/Add" to="." method="_on_nouveau_joueur_text_submitted"]
+[connection signal="pressed" from="LowerFlow/Scores/ScoresButton" to="." method="_on_bouton_scores_pressed"]
+[connection signal="pressed" from="LowerFlow/Apropos/AProposButton" to="." method="_on_bouton_a_propos_pressed"]

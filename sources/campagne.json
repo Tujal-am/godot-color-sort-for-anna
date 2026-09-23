@@ -1,215 +1,55 @@
 {
-    "Campagne": {
-        "description_Campagne": "Sequence des niveaux de la campagne",
-        "description_gameplay": ["CLASSIQUE", "MEMOIRE", "DEFI_DU_GOSSE", "DEFI_DU_BOSS", "QUI_PERD_GAGNE", "FLEMMARD", "DOUBLE_FACE", "DICO"],
-        "description_coups_min": "[Facultatif] Longueur de resolution la plus courte",
-        "description_dico": "[Facultatif] Mot à réaliser pour le DICO",
-        "Niveau_1": [
+    "campagne_description_Campagne": "Sequence des niveaux de la campagne",
+    "campagne_description_gameplay": ["CLASSIQUE", "MEMOIRE", "DEFI_DU_GOSSE", "DEFI_DU_BOSS", "QUI_PERD_GAGNE", "FLEMMARD", "DOUBLE_FACE", "DICO"],
+    "campagne_description_coups_min": "[Facultatif] Longueur de resolution la plus courte",
+    "campagne_description_dico": "[Facultatif] Mot à réaliser pour le DICO",
+    "campagne": {
+        "niveau_1": [
             {
-                "niveau": 10,
+                "difficulte": 10,
                 "gameplay": "CLASSIQUE",
                 "nom": "DDA.CCB.AAB.   .DBC"
             },
             {
-                "niveau": 11,
+                "difficulte": 11,
                 "gameplay": "QUI_PERD_GAGNE",
                 "nom": "AC.BD.CD.EA.FB.FE.  "
-            },
-            {
-                "niveau": 12,
-                "gameplay": "CLASSIQUE",
-                "nom": "DA .CDC.BA .BB .DCA"
-            },
-            {
-                "niveau": 13,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "BA.BF.CE.DA.EC.FD.  "
-            },
-            {
-                "niveau": 14,
-                "gameplay": "CLASSIQUE",
-                "nom": "DCA.BAA.B  .CDD.CB "
-            },
-            {
-                "niveau": 15,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "DC .A  .DBA.BDC.BAC"
-            },
-            {
-                "niveau": 16,
-                "gameplay": "CLASSIQUE",
-                "nom": "ABA.DCD.BC .BAC.D  "
-            },
-            {
-                "niveau": 17,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "AC .BAD.CA .DCB.BD "
-            },
-            {
-                "niveau": 18,
-                "gameplay": "CLASSIQUE",
-                "nom": "ADD.AC .BC .CBD.BA "
-            },
-            {
-                "niveau": 19,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "DA .DB .CA .ACB.CDB"
             }
         ],
-        "Niveau_2": [
+        "niveau_2": [
             {
-                "niveau": 10,
+                "difficulte": 10,
                 "gameplay": "CLASSIQUE",
                 "nom": "DC .ABC.BBA.C  .DAD"
             },
             {
-                "niveau": 11,
+                "difficulte": 11,
                 "gameplay": "QUI_PERD_GAGNE",
-                "nom": " AAC.CB .DB .DDC.BA "
-            },
-            {
-                "niveau": 12,
-                "gameplay": "CLASSIQUE",
-                "nom": "AC .DDC.BDA.ABB.C  "
-            },
-            {
-                "niveau": 13,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "ABD.CBA.BC .DA .DC "
-            },
-            {
-                "niveau": 14,
-                "gameplay": "CLASSIQUE",
-                "nom": "ABD.BCA.B  .CAD.CD "
-            },
-            {
-                "niveau": 15,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "DDA.ADB.C  .ACB.BC "
-            },
-            {
-                "niveau": 16,
-                "gameplay": "CLASSIQUE",
-                "nom": "DB .BDA.CA .CDC.BA "
-            },
-            {
-                "niveau": 17,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "DAD.CB .BCA.DC .AB "
-            },
-            {
-                "niveau": 18,
-                "gameplay": "CLASSIQUE",
-                "nom": "DAA.C  .BC .BAD.CBD"
-            },
-            {
-                "niveau": 20,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "ADB.DCD.CBA.ACB.   "
+                "nom": "AAC.CB .DB .DDC.BA "
             }
         ],
-        "Niveau_3": [
+        "niveau_3": [
             {
-                "niveau": 10,
+                "difficulte": 10,
                 "gameplay": "CLASSIQUE",
                 "nom": "DBD.CDB.   .AAB.CCA"
             },
             {
-                "niveau": 11,
+                "difficulte": 11,
                 "gameplay": "QUI_PERD_GAGNE",
                 "nom": "AB .AA .DCC.BDC.DB "
-            },
-            {
-                "niveau": 12,
-                "gameplay": "CLASSIQUE",
-                "nom": "ABC.BBD.CD .ACA.D  "
-            },
-            {
-                "niveau": 13,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "ACB.CA .DA .BDC.BD "
-            },
-            {
-                "niveau": 14,
-                "gameplay": "CLASSIQUE",
-                "nom": "AD .BAD.CB .DBC.CA "
-            },
-            {
-                "niveau": 15,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "DDC.BBA.BCA.CAD.   "
-            },
-            {
-                "niveau": 16,
-                "gameplay": "CLASSIQUE",
-                "nom": "AAC.DBD.ADC.CB .B  "
-            },
-            {
-                "niveau": 17,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "DCC.DDA.BAC.   .BBA"
-            },
-            {
-                "niveau": 18,
-                "gameplay": "CLASSIQUE",
-                "nom": "DAA.C  .BC .BAD.CBD"
-            },
-            {
-                "niveau": 20,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "AD .BA .BBD.CCD.CA "
             }
         ],
-        "Niveau_4": [
+        "niveau_4": [
             {
-                "niveau": 10,
+                "difficulte": 10,
                 "gameplay": "CLASSIQUE",
                 "nom": "DBD.BC .AB .ACA.CD "
             },
             {
-                "niveau": 11,
+                "difficulte": 11,
                 "gameplay": "QUI_PERD_GAGNE",
                 "nom": "ACB.ADA.DDC.CBB.   "
-            },
-            {
-                "niveau": 12,
-                "gameplay": "CLASSIQUE",
-                "nom": "DA .CCD.A  .BDB.BCA"
-            },
-            {
-                "niveau": 13,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "AB.BC.DE.DE.FA.FC.  "
-            },
-            {
-                "niveau": 14,
-                "gameplay": "CLASSIQUE",
-                "nom": "AB.CA.CB.  "
-            },
-            {
-                "niveau": 15,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "DAC.D  .ACC.BD .ABB"
-            },
-            {
-                "niveau": 17,
-                "gameplay": "CLASSIQUE",
-                "nom": "DCC.CA .ABD.DB .BA "
-            },
-            {
-                "niveau": 18,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "DAA.C  .BC .BAD.CBD"
-            },
-            {
-                "niveau": 20,
-                "gameplay": "CLASSIQUE",
-                "nom": "ADB.DBC.CAD.CAB.   "
-            },
-            {
-                "niveau": 21,
-                "gameplay": "QUI_PERD_GAGNE",
-                "nom": "AAC.DCB.ABC.BDD.   "
             }
         ]
     }

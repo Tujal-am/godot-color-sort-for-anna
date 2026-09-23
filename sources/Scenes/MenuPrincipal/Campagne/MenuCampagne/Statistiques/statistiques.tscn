@@ -1,195 +1,203 @@
-[gd_scene format=3 uid="uid://ce35s8h6fj434"]
+[gd_scene format=3 uid="uid://di47taepknkbv"]
 
-[ext_resource type="Script" uid="uid://d213tcxl8hfw3" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/statistiques.gd" id="1_y2h7b"]
-[ext_resource type="Texture2D" uid="uid://tc7fhacmys11" path="res://Art/Images/fond_statistiques_480x720.png" id="2_se7pp"]
-[ext_resource type="PackedScene" uid="uid://bgsyo7w2m28pi" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/kpi.tscn" id="2_xsdck"]
-[ext_resource type="PackedScene" uid="uid://c8uyx36tscdpp" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/diagramme_en_barres.tscn" id="3_se7pp"]
-[ext_resource type="Script" uid="uid://dv22g4vxsw80c" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/jauge.gd" id="3_xsdck"]
-[ext_resource type="PackedScene" uid="uid://bi52323mrj54t" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/courbe.tscn" id="4_7ukwp"]
+[ext_resource type="Texture2D" uid="uid://bgu2eftbss6qv" path="res://Art/UI/icons/icon_back.png" id="4_pa4px"]
+[ext_resource type="PackedScene" uid="uid://bwafrdrv423al" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/carte_score.tscn" id="5_babj6"]
+[ext_resource type="PackedScene" uid="uid://c5m7n5xqwj5kb" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/carte_campagne.tscn" id="7_babj6"]
+[ext_resource type="PackedScene" uid="uid://bd6cjm57d1tvg" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/carte_niveau.tscn" id="8_4sqo1"]
+[ext_resource type="PackedScene" uid="uid://c0niprepyb4wv" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/carte_mode.tscn" id="10_86xq2"]
+[ext_resource type="Texture2D" uid="uid://xj7d5hgtn3n6" path="res://Art/UI/Statistiques/background.png" id="background"]
+[ext_resource type="Script" uid="uid://d213tcxl8hfw3" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/statistiques.gd" id="controller"]
+[ext_resource type="PackedScene" uid="uid://cgv1kmgwtdr3m" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/carte_plateau.tscn" id="mode"]
+[ext_resource type="Texture2D" uid="uid://bsf63i5lw2xb" path="res://Art/UI/Statistiques/picto_modes_de_jeu_40x30.png" id="modes_i"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="regular"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_se7pp"]
-bg_color = Color(0, 0, 0, 1)
+[sub_resource type="AtlasTexture" id="body"]
+atlas = ExtResource("background")
+region = Rect2(0, 135, 1024, 1401)
 
-[node name="Statistiques" type="Control" unique_id=1259945932]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sqo1"]
+bg_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+corner_radius_top_left = 23
+corner_radius_top_right = 23
+corner_radius_bottom_right = 23
+corner_radius_bottom_left = 23
+
+[sub_resource type="InputEventKey" id="InputEventKey_pa4px"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_pa4px"]
+events = [SubResource("InputEventKey_pa4px")]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_babj6"]
+bg_color = Color(1, 0.972549, 0.92941177, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9372549, 0.76862746, 0.62352943, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Statistiques" type="Control" unique_id=602989856]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_y2h7b")
+script = ExtResource("controller")
 
-[node name="Fond" type="TextureRect" parent="." unique_id=692706206]
+[node name="Scroll" type="ScrollContainer" parent="." unique_id=107606592]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="Content" type="Control" parent="Scroll" unique_id=884972116]
+custom_minimum_size = Vector2(480, 1230)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="Scroll/Content" unique_id=458257843]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("2_se7pp")
+offset_right = 480.0
+offset_bottom = 1230.0
+mouse_filter = 2
+texture = SubResource("body")
+expand_mode = 1
 
-[node name="Marge" type="MarginContainer" parent="." unique_id=1049362949]
+[node name="Banniere" type="Control" parent="Scroll/Content" unique_id=915807125]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="Fond" type="Panel" parent="Scroll/Content/Banniere" unique_id=1081338097]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 20
+offset_left = 90.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 60.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4sqo1")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Marge" unique_id=662571738]
-layout_mode = 2
-alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Marge/HBoxContainer" unique_id=2137175012]
-layout_mode = 2
-alignment = 1
-
-[node name="SEPARATEUR VIDE7" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=181207416]
-layout_mode = 2
-text = " "
-
-[node name="Nom_Joueur" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1063890067]
-layout_mode = 2
-theme_override_colors/font_color = Color(1, 1, 0.20392157, 1)
-theme_override_font_sizes/font_size = 34
-theme_override_styles/normal = SubResource("StyleBoxFlat_se7pp")
-text = "Toto"
+[node name="Titre" type="Label" parent="Scroll/Content/Banniere" unique_id=110320754]
+layout_mode = 0
+offset_left = 90.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 60.0
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 26
+text = "Statistiques"
 horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
 
-[node name="SEPARATEUR VIDE5" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=623163726]
-layout_mode = 2
-text = " "
+[node name="Retour" type="Button" parent="Scroll/Content" unique_id=431763397]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 6.0
+offset_right = 71.0
+offset_bottom = 63.0
+tooltip_text = "Fermer la preview"
+focus_mode = 0
+shortcut = SubResource("Shortcut_pa4px")
+icon = ExtResource("4_pa4px")
+flat = true
 
-[node name="Titre Campagne" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2052748395 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-titre = "Campagne"
-taille_minimum = Vector2(240, 25)
+[node name="Score" parent="Scroll/Content" unique_id=198575893 instance=ExtResource("5_babj6")]
+layout_mode = 0
+offset_left = 55.0
+offset_top = 65.0
+offset_right = 425.0
+offset_bottom = 271.0
 
-[node name="KPI_Campagne" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=432943734]
-layout_mode = 2
+[node name="Campagne" parent="Scroll/Content" unique_id=1850852991 instance=ExtResource("7_babj6")]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 280.0
+offset_right = 408.0
+offset_bottom = 444.0
 
-[node name="KPI_Completion" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=29165500 instance=ExtResource("2_xsdck")]
-layout_mode = 2
+[node name="Niveau" parent="Scroll/Content" unique_id=504557105 instance=ExtResource("8_4sqo1")]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 464.0
+offset_right = 408.0
+offset_bottom = 628.0
 
-[node name="KPI_Temps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=440793166 instance=ExtResource("2_xsdck")]
-layout_mode = 2
+[node name="Plateau" parent="Scroll/Content" unique_id=1322759816 instance=ExtResource("mode")]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 620.0
+offset_right = 408.0
+offset_bottom = 784.0
 
-[node name="KPI_TauxReussite" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=1901828116 instance=ExtResource("2_xsdck")]
-layout_mode = 2
+[node name="BanniereMode" type="Control" parent="Scroll/Content" unique_id=456223986]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 55.0
+offset_top = 793.0
+offset_right = -54.0
+offset_bottom = 1133.0
+grow_horizontal = 2
 
-[node name="KPI_SerieMaximumSucces" parent="Marge/HBoxContainer/VBoxContainer/KPI_Campagne" unique_id=463177272 instance=ExtResource("2_xsdck")]
-layout_mode = 2
+[node name="Fond" type="Panel" parent="Scroll/Content/BanniereMode" unique_id=1220852638]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 360.0
+offset_bottom = 400.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_babj6")
 
-[node name="Charts" type="VBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=756865397]
-visible = false
-layout_mode = 2
+[node name="ModesIcon" type="TextureRect" parent="Scroll/Content/BanniereMode" unique_id=996767029]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 17.0
+offset_right = 65.0
+offset_bottom = 47.0
+mouse_filter = 2
+texture = ExtResource("modes_i")
 
-[node name="WinLossBarChart" parent="Marge/HBoxContainer/VBoxContainer/Charts" unique_id=2076977796 instance=ExtResource("3_se7pp")]
-layout_mode = 2
+[node name="Titre" type="Label" parent="Scroll/Content/BanniereMode" unique_id=703393183]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 10.0
+offset_right = 360.0
+offset_bottom = 55.0
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 19
+text = "Modes De Jeu"
+vertical_alignment = 1
+clip_text = true
 
-[node name="PlaytimeLineChart" parent="Marge/HBoxContainer/VBoxContainer/Charts" unique_id=348957592 instance=ExtResource("4_7ukwp")]
-layout_mode = 2
+[node name="Classique" parent="Scroll/Content" unique_id=1849457789 instance=ExtResource("10_86xq2")]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 848.0
+offset_right = 408.0
+offset_bottom = 1012.0
+_titre = "Classique"
 
-[node name="SEPARATEUR VIDE1" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1795960122]
-layout_mode = 2
-text = " "
+[node name="QuiPerdGagne" parent="Scroll/Content" unique_id=677782113 instance=ExtResource("10_86xq2")]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 1018.0
+offset_right = 408.0
+offset_bottom = 1182.0
+_titre = "Qui Perd Gagne"
 
-[node name="Titre Ascension" parent="Marge/HBoxContainer/VBoxContainer" unique_id=779359739 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-titre = "Ascension"
-couleur_fond = Color(0, 0.6559956, 0.9749271, 1)
-taille_minimum = Vector2(240, 25)
-
-[node name="KPI_Ascension" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=33257685]
-layout_mode = 2
-
-[node name="KPI_Completion" parent="Marge/HBoxContainer/VBoxContainer/KPI_Ascension" unique_id=1137873945 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Terminees" parent="Marge/HBoxContainer/VBoxContainer/KPI_Ascension" unique_id=936457462 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Longueur" parent="Marge/HBoxContainer/VBoxContainer/KPI_Ascension" unique_id=1822369981 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Ascension2" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2057883709]
-layout_mode = 2
-
-[node name="KPI_MinMax_Titre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Ascension2" unique_id=609447550 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Taux_Min" parent="Marge/HBoxContainer/VBoxContainer/KPI_Ascension2" unique_id=1911297063 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Taux_Max" parent="Marge/HBoxContainer/VBoxContainer/KPI_Ascension2" unique_id=366345603 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="SEPARATEUR VIDE2" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=567384229]
-layout_mode = 2
-text = " "
-
-[node name="Titre Niveau" parent="Marge/HBoxContainer/VBoxContainer" unique_id=1741599339 instance=ExtResource("2_xsdck")]
-visible = false
-layout_mode = 2
-titre = "Niveau"
-couleur_fond = Color(0.6918974, 0.40343967, 0.93590915, 1)
-taille_minimum = Vector2(240, 25)
-
-[node name="MonthlyPlaytimeGauge" type="TextureProgressBar" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2143170709]
-visible = false
-layout_mode = 2
-script = ExtResource("3_xsdck")
-
-[node name="SEPARATEUR VIDE3" type="Label" parent="Marge/HBoxContainer/VBoxContainer" unique_id=621214377]
-visible = false
-layout_mode = 2
-text = " "
-
-[node name="Titre Plateau" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2053825642 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-titre = "Plateau"
-couleur_fond = Color(0.6918974, 0.40343967, 0.93590915, 1)
-taille_minimum = Vector2(240, 25)
-
-[node name="KPI_Plateau3" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=2012876940]
-layout_mode = 2
-
-[node name="KPI_MoyenTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau3" unique_id=773187118 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_MoyenTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau3" unique_id=1783929674 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Plateau" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=275559493]
-layout_mode = 2
-
-[node name="KPI_RapideTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1220866114 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_RapideTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1740054190 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_RapideDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau" unique_id=1986273272 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Plateau2" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=241720690]
-layout_mode = 2
-
-[node name="KPI_LentTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1821332118 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_LentTemps" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1911115208 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_LentDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau2" unique_id=1770414664 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_Plateau4" type="HBoxContainer" parent="Marge/HBoxContainer/VBoxContainer" unique_id=933919058]
-layout_mode = 2
-
-[node name="KPI_GalereTitre" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=1729205537 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_GalereEssais" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=988900093 instance=ExtResource("2_xsdck")]
-layout_mode = 2
-
-[node name="KPI_GalereDifficulte" parent="Marge/HBoxContainer/VBoxContainer/KPI_Plateau4" unique_id=102818887 instance=ExtResource("2_xsdck")]
-layout_mode = 2
+[connection signal="pressed" from="Scroll/Content/Retour" to="." method="_on_retour_pressed"]

@@ -1,54 +1,33 @@
-extends Node
+extends BaseGameplay
 
 class_name QuiPerdGagne
 
-signal victoire
-signal abandon
-signal plateau_invalide
-
 func _ready() -> void:
-	# Connecter la callback de gameplay au "Plateau"
-	$Plateau.enregistrer_callback_est_termine(Callable(self, "est_termine"))
-	$Plateau.enregistrer_gameplay("Qui Perd\nGagne")
-	$Plateau.enregistrer_chrono("03:51")
-	$Plateau.enregistrer_coups("0 Coups")
+	super._ready()
 
-# API pour "Campagne"
-func est_valide(plateau_texte : String) -> bool:
-	return $Plateau.est_valide(plateau_texte)
-
-func commencer_un_nouveau_plateau(plateau_texte : String) -> void:
-	$Plateau.commencer_un_nouveau_plateau(plateau_texte)
-
-func show():
-	$Plateau.show()
-
-func hide():
-	$Plateau.hide()
-
-func cacher_accueil():
-	$Plateau.cacher_accueil()
-
-# Signaux de "Plateau" relayé à "Campagne"
-func _on_plateau_plateau_invalide() -> void:
-	LogService.log_debug("QuiPerdGagne : plateau_invalide.emit()")
-	plateau_invalide.emit()
-
-func _on_plateau_abandon() -> void:
-	LogService.log_debug("QuiPerdGagne : abandon.emit()")
-	abandon.emit()
+	# Initialiser le menu
+	$MenuPlateau.enregistrer_gameplay("Qui Perd\nGagne")
 
 # Callback pour "Plateau"
 func est_termine(liste_piles) -> bool:
+	# Condition de victoire : plateau bloqué + 1 pile non terminée
 	# Vérifier si la partie est achevée
-	var termine = true
-	# TODO : detecter la configuration bloquée !
+
+	# Impossible de joueur
+	var plateau_bloque = false
+	plateau_bloque = $Plateau.est_bloque()
+	
+	# Une pile non terminée
+	var une_pile_en_desordre = false
 	for pile in liste_piles:
-		# Vérifier que les piles qui ne sont pas vides sont terminées.
+		# Vérifier qu'une piles qui n'est pas vides n'est pas terminée.
 		if not pile.est_vide() and not pile.est_termine():
-			termine = false
+			une_pile_en_desordre = true
 			break
+
+	var termine = plateau_bloque and une_pile_en_desordre
 	if termine:
 		LogService.log_debug("QuiPerdGagne : victoire.emit()")
+		$MenuPlateau/Top/BoutonRecommencer.hide()
 		victoire.emit()
 	return termine

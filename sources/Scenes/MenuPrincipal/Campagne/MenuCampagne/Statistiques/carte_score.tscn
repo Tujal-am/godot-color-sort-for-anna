@@ -1,0 +1,332 @@
+[gd_scene format=3 uid="uid://bwafrdrv423al"]
+
+[ext_resource type="Script" uid="uid://ckapifkomuray" path="res://Scenes/MenuPrincipal/Campagne/MenuCampagne/Statistiques/carte_score.gd" id="1_k881g"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="2_sriur"]
+[ext_resource type="Texture2D" uid="uid://bqd37gkoeur8e" path="res://Art/UI/icons/grades/medaille_bronze_48.png" id="4_qmopr"]
+[ext_resource type="Texture2D" uid="uid://b5wjqipcu265e" path="res://Art/UI/Statistiques/laurier_score_gauche.png" id="5_jq5f8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7eto8"]
+bg_color = Color(0.98824, 0.92157, 0.8549, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.93725, 0.76863, 0.62353, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_70on2"]
+bg_color = Color(0.98039216, 0.92156863, 0.84313726, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.8745098, 0.5019608, 0, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="CarteScore" type="Control" unique_id=198575893]
+custom_minimum_size = Vector2(336, 164)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 370.0
+offset_bottom = 206.0
+mouse_filter = 2
+script = ExtResource("1_k881g")
+
+[node name="Fond" type="Panel" parent="." unique_id=1325578754]
+layout_mode = 0
+offset_right = 370.0
+offset_bottom = 206.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_7eto8")
+
+[node name="GradeIdentite" type="HBoxContainer" parent="." unique_id=926283544]
+layout_mode = 0
+offset_left = 23.0
+offset_top = 8.0
+offset_right = 345.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Medaille" type="TextureRect" parent="GradeIdentite" unique_id=367983179]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_qmopr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NomGrade" type="Label" parent="GradeIdentite" unique_id=179971242]
+custom_minimum_size = Vector2(62, 32)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 18
+text = "Bronze"
+vertical_alignment = 1
+
+[node name="Separateur" type="HBoxContainer" parent="GradeIdentite" unique_id=1516622712]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 0
+
+[node name="Marge" type="Control" parent="GradeIdentite/Separateur" unique_id=1012913533]
+custom_minimum_size = Vector2(10, 32)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Line" type="ColorRect" parent="GradeIdentite/Separateur" unique_id=1199537216]
+custom_minimum_size = Vector2(1, 32)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.06275, 0.16863, 0.31373, 0.45)
+
+[node name="Marge2" type="Control" parent="GradeIdentite/Separateur" unique_id=580517401]
+custom_minimum_size = Vector2(10, 32)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="PlayerName" type="Label" parent="GradeIdentite" unique_id=666468280]
+custom_minimum_size = Vector2(0, 43)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 26
+text = "Alain Konhi"
+vertical_alignment = 1
+clip_text = true
+
+[node name="Separateur" type="ColorRect" parent="." unique_id=946555822]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 74.0
+offset_right = 350.0
+offset_bottom = 75.0
+mouse_filter = 2
+color = Color(0.93725, 0.76863, 0.62353, 1)
+
+[node name="Score" type="HBoxContainer" parent="." unique_id=1811358881]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 74.0
+offset_right = 350.0
+offset_bottom = 130.0
+theme_override_constants/separation = -10
+alignment = 1
+
+[node name="LaurierGauche" type="TextureRect" parent="Score" unique_id=1308876426]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_jq5f8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Valeur" type="Label" parent="Score" unique_id=650993660]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 23
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LaurierDroit" type="TextureRect" parent="Score" unique_id=85334394]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_jq5f8")
+expand_mode = 1
+stretch_mode = 5
+flip_h = true
+
+[node name="Rapidite" type="Control" parent="." unique_id=1692914158]
+anchors_preset = 0
+offset_left = 18.0
+offset_top = 130.0
+offset_right = 79.0
+offset_bottom = 194.0
+
+[node name="Fond" type="Panel" parent="Rapidite" unique_id=1447857692]
+layout_mode = 0
+offset_right = 61.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_70on2")
+
+[node name="Titre" type="Label" parent="Rapidite" unique_id=197872516]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 11
+text = "Rapidité"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Rapidite" unique_id=1005289165]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 61.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Reussite" type="Control" parent="." unique_id=1838419979]
+anchors_preset = 0
+offset_left = 85.0
+offset_top = 130.0
+offset_right = 146.0
+offset_bottom = 194.0
+
+[node name="Fond" type="Panel" parent="Reussite" unique_id=1131011624]
+layout_mode = 0
+offset_right = 61.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_70on2")
+
+[node name="Titre" type="Label" parent="Reussite" unique_id=403263986]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 11
+text = "Réussite"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Reussite" unique_id=2041100043]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 61.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Niveau" type="Control" parent="." unique_id=52604383]
+anchors_preset = 0
+offset_left = 152.0
+offset_top = 130.0
+offset_right = 213.0
+offset_bottom = 194.0
+
+[node name="Fond" type="Panel" parent="Niveau" unique_id=515990896]
+layout_mode = 0
+offset_right = 61.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_70on2")
+
+[node name="Titre" type="Label" parent="Niveau" unique_id=961887417]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 11
+text = "Niveau"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Niveau" unique_id=1256553523]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 61.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Parfait" type="Control" parent="." unique_id=863939678]
+anchors_preset = 0
+offset_left = 219.0
+offset_top = 130.0
+offset_right = 280.0
+offset_bottom = 194.0
+
+[node name="Fond" type="Panel" parent="Parfait" unique_id=1618495417]
+layout_mode = 0
+offset_right = 61.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_70on2")
+
+[node name="Titre" type="Label" parent="Parfait" unique_id=1274335088]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 61.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 11
+text = "Parfait"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Parfait" unique_id=1444931244]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 61.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Campagne" type="Control" parent="." unique_id=1787143256]
+anchors_preset = 0
+offset_left = 286.0
+offset_top = 130.0
+offset_right = 352.0
+offset_bottom = 194.0
+
+[node name="Fond" type="Panel" parent="Campagne" unique_id=1917933219]
+layout_mode = 0
+offset_right = 66.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_70on2")
+
+[node name="Titre" type="Label" parent="Campagne" unique_id=865647079]
+layout_mode = 0
+offset_top = 3.0
+offset_right = 66.0
+offset_bottom = 21.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 11
+text = "Campagne"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Valeur" type="Label" parent="Campagne" unique_id=360521711]
+layout_mode = 0
+offset_top = 20.0
+offset_right = 66.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.8745098, 0.5019608, 0, 1)
+theme_override_fonts/font = ExtResource("2_sriur")
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+vertical_alignment = 1

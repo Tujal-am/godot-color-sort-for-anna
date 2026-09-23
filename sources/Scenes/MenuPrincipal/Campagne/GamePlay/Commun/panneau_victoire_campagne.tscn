@@ -1,0 +1,166 @@
+[gd_scene format=3 uid="uid://dj67xrfwthpal"]
+
+[ext_resource type="Texture2D" uid="uid://bjcsl5wobrjl" path="res://Art/UI/Gameplay/Commun/victoire_titre.png" id="1_6h7mf"]
+[ext_resource type="Script" uid="uid://c14hx5g675px" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_campagne.gd" id="1_go645"]
+[ext_resource type="Texture2D" uid="uid://c1ui16e3cunss" path="res://Art/UI/Gameplay/Commun/defaite_bouton.png" id="3_dl2qx"]
+[ext_resource type="PackedScene" uid="uid://di0qsxjp8icsn" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_points.tscn" id="4_6h7mf"]
+[ext_resource type="PackedScene" uid="uid://tqkrgubh7ve4" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_4_items.tscn" id="4_141nh"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="4_lxdsy"]
+[ext_resource type="PackedScene" uid="uid://p38qs3folmow" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_ratio_2_items.tscn" id="5_sbnuv"]
+[ext_resource type="PackedScene" uid="uid://ilwtct2yykrk" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_1_items.tscn" id="6_141nh"]
+[ext_resource type="PackedScene" uid="uid://piphy5gwr6qk" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_2_items.tscn" id="6_lxdsy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gv5u"]
+bg_color = Color(1, 0.97255, 0.92941, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.99607843, 0.7137255, 0.4509804, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="InputEventKey" id="InputEventKey_141nh"]
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_4xrik"]
+events = [SubResource("InputEventKey_141nh")]
+
+[node name="PanneauVictoireCampagne" type="Control" unique_id=542009068]
+custom_minimum_size = Vector2(380, 720)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -100.0
+offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_go645")
+
+[node name="Fond" type="Panel" parent="." unique_id=188817741]
+layout_mode = 0
+offset_right = 380.0
+offset_bottom = 720.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4gv5u")
+
+[node name="Titre" type="TextureRect" parent="." unique_id=983561809]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 20.0
+offset_bottom = 61.0
+grow_horizontal = 2
+texture = ExtResource("1_6h7mf")
+stretch_mode = 3
+
+[node name="ScorePoints" parent="." unique_id=1892325867 instance=ExtResource("4_6h7mf")]
+layout_mode = 1
+anchors_preset = 10
+anchor_bottom = 0.0
+offset_left = 45.0
+offset_top = 80.0
+offset_right = -45.0
+offset_bottom = 150.0
+grow_vertical = 1
+
+[node name="Temps" parent="." unique_id=103398253 instance=ExtResource("4_141nh")]
+layout_mode = 1
+anchors_preset = 10
+anchor_bottom = 0.0
+offset_left = 45.0
+offset_top = 160.0
+offset_right = -45.0
+offset_bottom = 250.0
+grow_vertical = 1
+
+[node name="Ratio" parent="." unique_id=1624527657 instance=ExtResource("5_sbnuv")]
+layout_mode = 1
+anchors_preset = 10
+anchor_bottom = 0.0
+offset_left = 45.0
+offset_top = 260.0
+offset_right = -45.0
+offset_bottom = 350.0
+grow_vertical = 1
+_titre = "Ratio Réussite"
+
+[node name="Niveau" parent="." unique_id=1743768512 instance=ExtResource("6_lxdsy")]
+layout_mode = 1
+anchors_preset = 10
+anchor_bottom = 0.0
+offset_left = 45.0
+offset_top = 360.0
+offset_right = -45.0
+offset_bottom = 450.0
+grow_vertical = 1
+_titre = "Niveau"
+_chemin_logo = "uid://3sndnlmib6u4"
+
+[node name="NiveauParfait" parent="." unique_id=1227421417 instance=ExtResource("6_lxdsy")]
+layout_mode = 1
+anchors_preset = 10
+anchor_bottom = 0.0
+offset_left = 45.0
+offset_top = 460.0
+offset_right = -45.0
+offset_bottom = 550.0
+grow_vertical = 1
+_titre = "Niveau Parfait"
+_chemin_logo = "uid://6uf4ixacc4hi"
+
+[node name="Campagne" parent="." unique_id=1037615375 instance=ExtResource("6_141nh")]
+layout_mode = 1
+anchors_preset = 10
+anchor_bottom = 0.0
+offset_left = 45.0
+offset_top = 560.0
+offset_right = -45.0
+offset_bottom = 620.0
+grow_vertical = 1
+_titre = "Bonus Campagne"
+_chemin_logo = "uid://cnlyyx1bvn1m5"
+
+[node name="Control" type="Control" parent="." unique_id=1637383401]
+anchors_preset = 0
+offset_left = 25.0
+offset_top = 650.0
+offset_right = 361.0
+offset_bottom = 700.0
+
+[node name="Bouton" type="Button" parent="Control" unique_id=266241187]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+shortcut = SubResource("Shortcut_4xrik")
+icon = ExtResource("3_dl2qx")
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="Continuer" type="Label" parent="Control" unique_id=2046803792]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_lxdsy")
+theme_override_font_sizes/font_size = 22
+text = "Continuer"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[connection signal="draw" from="." to="." method="_on_draw"]
+[connection signal="pressed" from="Control/Bouton" to="." method="_on_bouton_pressed"]

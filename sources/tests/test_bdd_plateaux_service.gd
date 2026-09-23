@@ -1,70 +1,155 @@
 extends GutTest
 
 var singleton
+const RACINE_TEST = "tests/test_bdd_plateaux_service"
+
+func _nettoyer_fichiers_utilisateur():
+	FichiersJsonService.effacer_racine_utilisateur()
+
+func _ecrire_campagne_test(fichier: String, campagne: Dictionary) -> void:
+	FichiersJsonService.write_json_file(fichier, campagne)
 
 func before_all():
-	# Charger ton singleton
-	singleton = load("res://Singletons/Sauvegarde/bdd_plateaux_service.gd").new()
+	FichiersJsonService.definir_racine_utilisateur(RACINE_TEST)
+	_nettoyer_fichiers_utilisateur()
 
 func before_each():
-	# Réinitialiser le chemin JSON avant chaque test
-	singleton.chemin_campagne = "res://tests/bdd_plateaux_service_campagne.json"
-
-	# Réinitialiser le singleton
+	_nettoyer_fichiers_utilisateur()
+	singleton = add_child_autofree(load("res://Singletons/Sauvegarde/bdd_plateaux_service.gd").new())
 	singleton.plateau_campagne.clear()
+
+func after_each():
+	_nettoyer_fichiers_utilisateur()
+
+func after_all():
+	_nettoyer_fichiers_utilisateur()
+	FichiersJsonService.reinitialiser_racine_utilisateur()
+
+func test_initialiser_les_plateaux_charge_une_campagne_valide():
+	_ecrire_campagne_test("campagne.json", {
+		"campagne": {
+			"niveau_1": [
+				{"nom": "AAA.BBB.CCC", "difficulte": 1},
+				{"nom": "DDD.EEE.FFF", "difficulte": 1}
+			],
+			"niveau_2": [
+				{"nom": "GGG.HHH.III", "difficulte": 2}
+			]
+		}
+	})
+	singleton.chemin_campagne = "campagne.json"
 	singleton._initialiser_les_plateaux()
 
-# ---------------------------------------------------------
-# TESTS
-# ---------------------------------------------------------
+	assert_eq(singleton.nom_niveau(1), "niveau_1")
+	assert_eq(singleton.nom_niveau(0), "")
+	assert_eq(singleton.plateau_campagne.get("niveau_1").size(), 2)
+	assert_eq(singleton.plateau_campagne.get("niveau_2").size(), 1)
 
-func test_initialisation_charge_les_niveaux():
-	assert_true(singleton.niveau_existe(1))
-	assert_true(singleton.niveau_existe(2))
-	assert_true(singleton.niveau_existe(10))
-	assert_eq(singleton.nb_niveaux(), 3)
+func test_initialiser_les_plateaux_ignore_un_fichier_absent():
+	singleton.chemin_campagne = "campagne_inexistante.json"
+	singleton._initialiser_les_plateaux()
+	assert_true(singleton.plateau_campagne.is_empty())
 
-func test_niveau_min_et_max():
-	assert_eq(singleton.niveau_min(), 1)
-	assert_eq(singleton.niveau_max(), 10)
+func test_initialiser_les_plateaux_acepte_l_ancienne_cle_sans_casser_le_chargement():
+	_ecrire_campagne_test("campagne_obsolete.json", {
+		"liste difficulte des plateaux": true,
+		"campagne": {
+			"niveau_1": [
+				{"nom": "AAA.BBB.CCC", "difficulte": 1}
+			]
+		}
+	})
+	singleton.chemin_campagne = "campagne_obsolete.json"
+	singleton._initialiser_les_plateaux()
 
-func test_lire_liste_plateaux_du_niveau():
-	var liste = singleton.lire_liste_plateaux_du_niveau(1)
-	assert_eq(len(liste), 2)
-	assert_eq(liste[0]["niveau"], 1)
-	assert_eq(liste[0]["nom"], "AAA.BBB.CCC")
-	assert_eq(liste[0]["gameplay"], "CLASSIQUE")
-	assert_eq(liste[1]["niveau"], 2)
-	assert_eq(liste[1]["nom"], "DDD.EEE.FFF")
-	assert_eq(liste[1]["gameplay"], "MEMOIRE")
+	assert_true(singleton.plateau_campagne.has("niveau_1"))
+	assert_eq(singleton.plateau_campagne.get("niveau_1").size(), 1)
 
-	liste = singleton.lire_liste_plateaux_du_niveau(10)
-	assert_eq(len(liste), 1)
-	assert_eq(liste[0]["niveau"], 5)
-	assert_eq(liste[0]["nom"], "GGG.HHH.III")
-	assert_eq(liste[0]["gameplay"], "DEFI_DU_BOSS")
+func test_nom_niveau_et_duplicate_reste_une_copie_independante():
+	_ecrire_campagne_test("campagne.json", {
+		"campagne": {
+			"niveau_1": [
+				{"nom": "AAA.BBB.CCC", "difficulte": 1},
+				{"nom": "DDD.EEE.FFF", "difficulte": 1}
+			]
+		}
+	})
+	singleton.chemin_campagne = "campagne.json"
+	singleton._initialiser_les_plateaux()
 
-func test_nombre_plateaux_pour_le_niveau():
-	assert_eq(singleton.nombre_plateaux_pour_le_niveau(1), 2)
-	assert_eq(singleton.nombre_plateaux_pour_le_niveau(2), 1)
-	assert_eq(singleton.nombre_plateaux_pour_le_niveau(10), 1)
-	assert_eq(singleton.nombre_plateaux_pour_le_niveau(999), 0)
-
-func test_plateau_existe():
-	assert_true(singleton.plateau_existe(1, 0))
-	assert_true(singleton.plateau_existe(1, 1))
-	assert_false(singleton.plateau_existe(1, 2))
-	assert_false(singleton.plateau_existe(999, 0))
-
-func test_lire_plateau():
-	assert_eq(singleton.lire_plateau(1, 0), "AAA.BBB.CCC")
-	assert_eq(singleton.lire_plateau(1, 1), "DDD.EEE.FFF")
-	assert_eq(singleton.lire_plateau(1, 99), "")
-
-func test_duplicate_retourne_une_copie():
-	var copie = singleton.plateau_liste_difficulte_duplicate()
+	var copie = singleton.plateau_liste_niveaux_duplicate()
 	assert_eq(copie, singleton.plateau_campagne)
-	# Modifier le contenu pour voir que c'est disjoint.
-	copie[singleton.nom_niveau(1)][0]["niveau"] += 1
+
+	copie[singleton.nom_niveau(1)][0]["difficulte"] += 1
 	assert_ne(copie, singleton.plateau_campagne)
-	assert_eq(copie[singleton.nom_niveau(1)][0]["nom"], "AAA.BBB.CCC")
+	assert_eq(int(singleton.plateau_campagne.get("niveau_1")[0].get("difficulte")), 1)
+
+func test_initialiser_les_plateaux_ignore_un_fichier_sans_cle_campagne():
+	_ecrire_campagne_test("campagne_sans_cle.json", {
+		"autre_cle": "valeur"
+	})
+	singleton.chemin_campagne = "campagne_sans_cle.json"
+	singleton._initialiser_les_plateaux()
+
+	assert_true(singleton.plateau_campagne.is_empty())
+
+func test_initialiser_les_plateaux_une_nouvelle_campagne_efface_les_niveaux_inacheves():
+	# Charger une première campagne avec un niveau "niveau_1" inachevé
+	_ecrire_campagne_test("campagne_a.json", {
+		"campagne": {
+			"niveau_1": [{"nom": "AAA.BBB.CCC", "difficulte": 1}]
+		}
+	})
+	singleton.chemin_campagne = "campagne_a.json"
+	singleton._initialiser_les_plateaux()
+	assert_true(singleton.plateau_campagne.has("niveau_1"))
+
+	# Charger une nouvelle campagne ne définissant que "niveau_2" : les
+	# niveaux résiduels de l'ancienne campagne ("niveau_1") sont effacés.
+	_ecrire_campagne_test("campagne_b.json", {
+		"campagne": {
+			"niveau_2": [{"nom": "GGG.HHH.III", "difficulte": 2}]
+		}
+	})
+	singleton.chemin_campagne = "campagne_b.json"
+	singleton._initialiser_les_plateaux()
+
+	assert_false(singleton.plateau_campagne.has("niveau_1"))
+	assert_true(singleton.plateau_campagne.has("niveau_2"))
+
+func test_initialiser_les_plateaux_avec_une_cle_campagne_vide_ne_reinitialise_pas():
+	_ecrire_campagne_test("campagne_a.json", {
+		"campagne": {
+			"niveau_1": [{"nom": "AAA.BBB.CCC", "difficulte": 1}]
+		}
+	})
+	singleton.chemin_campagne = "campagne_a.json"
+	singleton._initialiser_les_plateaux()
+	assert_true(singleton.plateau_campagne.has("niveau_1"))
+
+	# Une campagne vide ("campagne": {}) est considérée comme absente de
+	# contenu : "niveau_1" n'est pas effacé.
+	_ecrire_campagne_test("campagne_vide.json", {
+		"campagne": {}
+	})
+	singleton.chemin_campagne = "campagne_vide.json"
+	singleton._initialiser_les_plateaux()
+
+	assert_true(singleton.plateau_campagne.has("niveau_1"))
+
+func test_nom_niveau_avec_une_valeur_negative_ou_nulle_retourne_une_chaine_vide():
+	# "niveau_0" ne correspond à aucun niveau réel : 0 et les négatifs sont
+	# ignorés au même titre.
+	assert_eq(singleton.nom_niveau(0), "")
+	assert_eq(singleton.nom_niveau(-1), "")
+
+func test_ready_charge_la_campagne_reelle_du_jeu_sans_erreur():
+	# Smoke test : reconstruire un service "frais" avec le chemin par défaut
+	# ("res://campagne.json", le vrai fichier du jeu) pour vérifier qu'il n'y
+	# a pas de régression de chargement au démarrage réel.
+	var service_reel = add_child_autofree(load("res://Singletons/Sauvegarde/bdd_plateaux_service.gd").new())
+	await get_tree().process_frame
+
+	assert_eq(service_reel.chemin_campagne, "res://campagne.json")
+	assert_true(service_reel.plateau_campagne.has("niveau_1"))
+	assert_false(service_reel.plateau_campagne.get("niveau_1").is_empty())

@@ -1,0 +1,164 @@
+[gd_scene format=3 uid="uid://p38qs3folmow"]
+
+[ext_resource type="Script" uid="uid://dswsgl8gc3665" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/carte_victoire_score_ratio_2_items.gd" id="1_2mna2"]
+[ext_resource type="PackedScene" uid="uid://by2t23xc0cw1r" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/ArcProgressBar/ArcProgressBar.tscn" id="2_2mna2"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="3_6jfji"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4gv5u"]
+bg_color = Color(0.9882353, 0.9607843, 0.92156863, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+shadow_color = Color(0.91764706, 0.7647059, 0.53333336, 1)
+shadow_size = 2
+shadow_offset = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c01oa"]
+bg_color = Color(0.9529412, 0.15294118, 0.08235294, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="ScoreRatio2Items" type="Control" unique_id=542009068]
+custom_minimum_size = Vector2(290, 90)
+custom_maximum_size = Vector2(290, 90)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -190.0
+offset_bottom = -630.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2mna2")
+
+[node name="Fond" type="Panel" parent="." unique_id=188817741]
+layout_mode = 0
+offset_right = 290.0
+offset_bottom = 90.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_4gv5u")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1816815383]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ArcProgressBar" parent="MarginContainer" unique_id=577004827 instance=ExtResource("2_2mna2")]
+position = Vector2(10, 10)
+percentage = 38.0
+
+[node name="Titre" type="Label" parent="." unique_id=570680190]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 94.0
+offset_top = 10.0
+offset_right = -6.0
+offset_bottom = -57.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+theme_override_fonts/font = ExtResource("3_6jfji")
+theme_override_font_sizes/font_size = 16
+text = "Titre Score"
+vertical_alignment = 1
+clip_text = true
+
+[node name="ListeItems" type="Control" parent="." unique_id=1637383401]
+anchors_preset = 0
+offset_left = 94.0
+offset_top = 37.0
+offset_right = 284.0
+offset_bottom = 77.0
+
+[node name="Item1" type="Control" parent="ListeItems" unique_id=238384602]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Pastile" type="Panel" parent="ListeItems/Item1" unique_id=591150240]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -5.0
+offset_right = 10.0
+offset_bottom = 5.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c01oa")
+
+[node name="Texte" type="Label" parent="ListeItems/Item1" unique_id=2016897195]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -6.5
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+theme_override_fonts/font = ExtResource("3_6jfji")
+theme_override_font_sizes/font_size = 13
+text = "texte item1"
+vertical_alignment = 1
+clip_text = true
+
+[node name="Item2" type="Control" parent="ListeItems" unique_id=163285211]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Pastile" type="Panel" parent="ListeItems/Item2" unique_id=1233850393]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -5.0
+offset_right = 10.0
+offset_bottom = 5.0
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_c01oa")
+
+[node name="Texte" type="Label" parent="ListeItems/Item2" unique_id=51345389]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 16.0
+offset_top = -6.5
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
+theme_override_fonts/font = ExtResource("3_6jfji")
+theme_override_font_sizes/font_size = 13
+text = "texte item2"
+vertical_alignment = 1
+clip_text = true
