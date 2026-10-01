@@ -2,6 +2,10 @@ extends CanvasLayer
 
 class_name MenuCampagne
 
+const ClassiqueHud = preload("res://Scenes/UI/Classique/classique_hud.gd")
+var classique_hud: Control
+var classique_background: TextureRect
+
 var formatter := FormatterMenuCampagne.new()
 const GradePresentationScript = preload("res://Scenes/MenuPrincipal/Grades/grade_presentation.gd")
 const QPG_BACKGROUND_TEXTURE := "res://Art/UI/IntegrationV4/Gameplay/qui_perd_gagne/qpg_background_clean_v2_480x720.png"
@@ -24,6 +28,31 @@ func _ready() -> void:
 	# L’écran d’accueil ne doit jamais exposer le gabarit de message/résultat.
 	$ResultsPanel.hide()
 	$MessageRiche.hide()
+	classique_background = TextureRect.new()
+	classique_background.texture = load("res://Art/UI/IntegrationV4/Gameplay/classique/MASTER_backgroundgameplay_classique_480x720.png")
+	classique_background.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	classique_background.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+	classique_background.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(classique_background)
+	classique_background.hide()
+	classique_hud = ClassiqueHud.new()
+	add_child(classique_hud)
+	classique_hud.action_requested.connect(_on_classique_action)
+	classique_hud.hide()
+	get_viewport().size_changed.connect(_resize_classique)
+	_resize_classique()
+
+func _resize_classique() -> void:
+	classique_background.size = get_viewport().get_visible_rect().size
+
+func _on_classique_action(action: String) -> void:
+	match action:
+		"play":
+			_on_preplateau_start_pressed()
+		"home":
+			_on_bouton_menu_principal_pressed()
+		"stats":
+			_on_bouton_statistiques_pressed()
 
 func _on_preplateau_start_pressed() -> void:
 	$PrePlateauPanel.hide()
@@ -42,21 +71,22 @@ func _afficher_preplateau_classique() -> void:
 	$PrePlateauPanel/StartButton.show()
 	$BoutonRetourFinCampagne.hide()
 	var nom := SauvegardeBddJoueursService.lire_nom_joueur()
-	var qpg := SauvegardeBddJoueursService.enregistrement_lire_gameplay_plateau() == "QUI_PERD_GAGNE"
+	var service := SauvegardeBddJoueursService
+	var niveau_suivant := service.enregistrement_lire_valeur_niveau_joueur() if service.enregistrement_niveau_en_cours() else service.campagne_lire_prochain_niveau()
+	var qpg: bool = service.campagne_lire_premier_plateau(niveau_suivant).get("gameplay", "") == "QUI_PERD_GAGNE"
 	if qpg:
+		classique_hud.hide()
+		classique_background.hide()
 		_configurer_preplateau_qpg(nom)
 		return
-	$PrePlateauPanel/Top/PlayerName.text = nom
-	var grade = GradePresentationScript.for_player(nom)
-	$PrePlateauPanel/Top/Medal.texture = load(str(grade.get("texture", "res://Art/UI/IntegrationV3/grades/medaille_bronze_48.png")))
-	$PrePlateauPanel/Top/Grade.text = str(grade.get("name", "Bronze"))
-	$PrePlateauPanel/Top/Grade.add_theme_color_override("font_color", Color(str(grade.get("color", "#A65A2E"))))
-	var niveau := SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()
-	var completion := clampi(SauvegardeBddJoueursService.lire_pourcentage_niveau_realise(), 0, 100)
-	$PrePlateauPanel/GameplayBar/LevelCaption.text = "Niveau"
-	$PrePlateauPanel/GameplayBar/LevelValue.text = str(niveau)
-	$PrePlateauPanel/GameplayBar/Completion.text = "Complétion %s %%" % completion
-	$PrePlateauPanel/GameplayBar/Progress.value = completion
+	$PrePlateauPanel.hide()
+	$Background.hide()
+	classique_background.show()
+	classique_hud.show()
+	classique_hud.set_active(false)
+	var grade: Dictionary = GradePresentationScript.for_save(service.sauvegarde_joueur) if service.le_joueur_existe() else {}
+	var ratio := service.lire_pourcentage_niveau_realise() / 100.0 if service.enregistrement_niveau_en_cours() else 0.0
+	classique_hud.set_profile(nom, niveau_suivant, ratio, str(grade.get("name", "")).to_lower())
 
 func _configurer_preplateau_qpg(nom: String) -> void:
 	var grade = GradePresentationScript.for_player(nom)
@@ -238,6 +268,8 @@ func afficher_plateau_suivant(_texte: String = ""):
 	_afficher_resultat_et_continuer()
 
 func cacher_accueil():
+	classique_hud.hide()
+	classique_background.hide()
 	_resultat_terminal = false
 	_fin_campagne_en_attente = false
 	$Background.hide()

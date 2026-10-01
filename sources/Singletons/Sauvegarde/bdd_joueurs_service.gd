@@ -60,6 +60,21 @@ var sauvegarde_joueur = {
 
 var fichier_sauvegarde = ""
 
+const HorlogePlateau = preload("res://Singletons/horloge_plateau.gd")
+var horloge_classique := HorlogePlateau.new()
+var _plateau_chronometre: Dictionary = {}
+
+func activer_horloge_classique() -> void:
+	"Démarre seulement après la construction effective du plateau Classique."
+	_plateau_chronometre = enregistrement_lire_dernier_plateau()
+	horloge_classique.start()
+
+func lire_duree_classique_ms() -> int:
+	if is_same(_plateau_chronometre, enregistrement_lire_dernier_plateau()):
+		return horloge_classique.elapsed_ms()
+	return floori(enregistrement_lire_duree_plateau() * 1000.0)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Connecter les signaux attendus
@@ -516,7 +531,7 @@ func lire_pourcentage_niveau_realise() -> int:
 		var nb_niveaux_realises = enregistrement_lire_niveau_longueur_realisee()
 		var nb_niveaux_restant = campagne_lire_nombre_de_plateaux_realisables_pour_niveau_courant()
 		var nb_niveaux_totaux = nb_niveaux_realises + nb_niveaux_restant
-		return roundi(100. * nb_niveaux_realises / nb_niveaux_totaux)
+		return roundi(100. * nb_niveaux_realises / nb_niveaux_totaux) if nb_niveaux_totaux > 0 else 0
 	return 0
 
 ###############################################
@@ -626,7 +641,7 @@ func enregistrement_terminer_plateau() -> void:
 		var niveau_courant = enregistrement_lire_dernier_niveau()
 		var plateau = niveau_courant.get('plateaux').back()
 		plateau['date_fin'] = Time.get_unix_time_from_system() # Timestamp
-		plateau['duree'] = plateau.get('date_fin') - plateau.get('date_debut')
+		plateau['duree'] = horloge_classique.stop() / 1000.0 if is_same(plateau, _plateau_chronometre) else plateau.get('date_fin') - plateau.get('date_debut')
 		_enregistrer_sauvegarde_joueur()
 
 func enregistrement_lire_nombre_plateaux_acheves() -> int:
@@ -670,6 +685,8 @@ func enregistrement_lire_gameplay_plateau() -> String:
 func enregistrement_lire_duree_plateau() -> float:
 	var plateau = enregistrement_lire_dernier_plateau()
 	if plateau:
+		if is_same(plateau, _plateau_chronometre):
+			return horloge_classique.elapsed_ms() / 1000.0
 		if not plateau.get('date_fin'):
 			# Plateau en cours
 			var now = Time.get_unix_time_from_system() # Timestamp

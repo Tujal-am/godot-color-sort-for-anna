@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1024 280"
+   width="1024"
+   height="280"
+   version="1.1"
+   id="svg54"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs28">
+    <linearGradient
+       id="panelFill"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         offset="0"
+         stop-color="#fffefa"
+         id="stop2" />
+      <stop
+         offset="0.48"
+         stop-color="#fff9f2"
+         id="stop4" />
+      <stop
+         offset="1"
+         stop-color="#f7e8db"
+         id="stop6" />
+    </linearGradient>
+    <linearGradient
+       id="panelStroke"
+       x1="0"
+       y1="0"
+       x2="1"
+       y2="0">
+      <stop
+         offset="0"
+         stop-color="#e7a17f"
+         id="stop9" />
+      <stop
+         offset="0.18"
+         stop-color="#f2bea4"
+         id="stop11" />
+      <stop
+         offset="0.5"
+         stop-color="#f7cbb5"
+         id="stop13" />
+      <stop
+         offset="0.82"
+         stop-color="#f2bea4"
+         id="stop15" />
+      <stop
+         offset="1"
+         stop-color="#e7a17f"
+         id="stop17" />
+    </linearGradient>
+    <linearGradient
+       id="panelGloss"
+       x1="0"
+       y1="0"
+       x2="0"
+       y2="1">
+      <stop
+         offset="0"
+         stop-color="#ffffff"
+         stop-opacity="0.74"
+         id="stop20" />
+      <stop
+         offset="1"
+         stop-color="#ffffff"
+         stop-opacity="0"
+         id="stop22" />
+    </linearGradient>
+    <clipPath
+       id="panelClip">
+      <rect
+         x="144"
+         y="85"
+         width="623"
+         height="160"
+         rx="33"
+         id="rect25" />
+    </clipPath>
+  </defs>
+  <g
+     id="g52">
+    <g
+       id="central-band"
+       transform="translate(45)">
+      <!-- Coque unique : un seul fond et un seul contour. -->
+      <path
+         id="rect30"
+         style="fill:url(#panelFill);stroke:url(#panelStroke);stroke-width:2.4"
+         d="m 177,85 h 557 c 18.282,0 33,14.718 33,33 v 94 c 0,18.282 -14.718,33 -33,33 H 177 c -18.282,0 -33,-14.718 -33,-33 v -94 c 0,-18.282 14.718,-33 33,-33 z" />
+      <!-- Brillance interne clipsée : remplissage uniquement, aucun second liseré. -->
+      <g
+         clip-path="url(#panelClip)"
+         id="g34">
+        <path
+           d="m 144,85 h 623 v 39 Q 650,104 512,104 H 280 q -80,0 -136,20 z"
+           fill="url(#panelGloss)"
+           id="path32" />
+      </g>
+      <!-- Identité joueur. -->
+      <g
+         id="player-identity">
+        <!-- R-LOCK HD : médaille Bronze officielle 1024 × 1024. -->
+        <g
+           transform="matrix(1.17,0,0,1.17,-29,-10)"
+           id="g36" />
+        <path
+           id="rect38"
+           style="fill:#d6a88b;fill-opacity:0.7"
+           d="m 242.9,106 c 0.4986,0 0.9,0.4014 0.9,0.9 v 57.2 c 0,0.4986 -0.4014,0.9 -0.9,0.9 -0.4986,0 -0.9,-0.4014 -0.9,-0.9 v -57.2 c 0,-0.4986 0.4014,-0.9 0.9,-0.9 z" />
+      </g>
+      <!-- Progression joueur. -->
+      <path
+         d="M 173,175 H 585"
+         fill="none"
+         stroke="#d6a88b"
+         stroke-opacity="0.42"
+         stroke-width="1.4"
+         id="path41" />
+      <g
+         aria-label="NIVEAU"
+         id="text43"
+         style="font-weight:700;font-size:29px;font-family:'DejaVu Sans';dominant-baseline:central;fill:#159e9b">
+        <path
+           d="m 175.66211,190.39209 h 6.08887 l 7.68896,14.5 v -14.5 h 5.16846 v 21.14111 h -6.08887 l -7.68896,-14.5 v 14.5 h -5.16846 z"
+           id="path60" />
+        <path
+           d="m 199.93262,190.39209 h 5.45166 v 21.14111 h -5.45166 z"
+           id="path62" />
+        <path
+           d="m 208.20215,190.39209 h 5.47998 l 5.60742,15.60449 5.59326,-15.60449 h 5.47998 l -7.83056,21.14111 h -6.49952 z"
+           id="path64" />
+        <path
+           d="m 233.1665,190.39209 h 14.71241 v 4.12061 h -9.26075 v 3.93652 h 8.7085 v 4.1206 h -8.7085 v 4.84278 h 9.57227 v 4.1206 H 233.1665 Z"
+           id="path66" />
+        <path
+           d="m 265.80566,207.68164 h -8.52441 l -1.34521,3.85156 h -5.47999 l 7.83057,-21.14111 h 6.49951 l 7.83057,21.14111 h -5.47998 z m -7.16504,-3.92236 h 5.79151 l -2.88867,-8.41114 z"
+           id="path68" />
+        <path
+           d="m 274.52832,190.39209 h 5.45166 v 12.67334 q 0,2.61963 0.84961,3.75244 0.86377,1.11865 2.80371,1.11865 1.9541,0 2.80371,-1.11865 0.86377,-1.13281 0.86377,-3.75244 v -12.67334 h 5.45166 v 12.67334 q 0,4.48877 -2.25146,6.68359 -2.25147,2.19483 -6.86768,2.19483 -4.60205,0 -6.85351,-2.19483 -2.25147,-2.19482 -2.25147,-6.68359 z"
+           id="path70" />
+      </g>
+      <path
+         d="m 373,190 v 28"
+         fill="none"
+         stroke="#d6a88b"
+         stroke-opacity="0.48"
+         stroke-width="1.4"
+         id="path45" />
+      <path
+         id="rect47"
+         style="fill:#e7ded7"
+         d="m 396,198 h 100 c 3.324,0 6,2.676 6,6 0,3.324 -2.676,6 -6,6 H 396 c -3.324,0 -6,-2.676 -6,-6 0,-3.324 2.676,-6 6,-6 z" />
+      <!-- Séparation action. -->
+      <path
+         d="M 600,111 V 219"
+         fill="none"
+         stroke="#d6a88b"
+         stroke-opacity="0.44"
+         stroke-width="1.4"
+         id="path49" />
+      <!-- V-NATIVE : bouton Jouer, même composant et même taille que Statistiques. -->
+    </g>
+  </g>
+</svg>

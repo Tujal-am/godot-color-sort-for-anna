@@ -6,6 +6,9 @@ extends Node
 
 class_name Campagne
 
+var _transaction := false
+var _classique_en_cours := false
+
 func gameplay_to_ui(gameplay : GameplayTypes.Gameplay) -> Node:
 	match gameplay:
 		GameplayTypes.Gameplay.CLASSIQUE:
@@ -38,16 +41,46 @@ func _ready() -> void:
 
 	cacher_les_gameplays()
 	$MenuCampagne.cacher_accueil()
-	call_deferred("_demarrer_premier_plateau")
+	$Classique.recommencer.connect(_on_classique_recommencer)
+	call_deferred("_presenter_premier_plateau")
+
+func _prochain_plateau() -> Dictionary:
+	var service := SauvegardeBddJoueursService
+	var niveau := service.enregistrement_lire_valeur_niveau_joueur() if service.enregistrement_niveau_en_cours() else service.campagne_lire_prochain_niveau()
+	return service.campagne_lire_premier_plateau(niveau)
+
+func _presenter_premier_plateau() -> void:
+	if _prochain_plateau().get("gameplay", "") == "CLASSIQUE":
+		$MenuCampagne.afficher_accueil_niveau_en_cours()
+	else:
+		_demarrer_premier_plateau()
 
 func _demarrer_premier_plateau() -> void:
-	# Le parcours automatique doit effectuer la même initialisation que le
-	# bouton Commencer avant de construire le premier plateau. Sans cela,
-	# la sauvegarde reste inactive et Plateau ignore les premiers clics.
+	if _transaction or _classique_en_cours:
+		return
+	_transaction = true
+	var prochain := _prochain_plateau()
+	var classique: bool = prochain.get("gameplay", "") == "CLASSIQUE"
+	if classique and not $Classique.est_valide(str(prochain.get("nom", ""))):
+		_on_classique_plateau_invalide()
+		_transaction = false
+		return
 	ProgressionCampagneService.commencer_un_plateau()
 	_lancer_plateau_de_campagne()
+	_transaction = false
 
 func _on_menu_commencer_plateau() -> void:
+	_demarrer_premier_plateau()
+
+func _on_classique_recommencer() -> void:
+	if _transaction or not _classique_en_cours:
+		return
+	_transaction = true
+	_classique_en_cours = false
+	# Règle existante : échec, durée conservée pour le score, même plateau.
+	ProgressionCampagneService.abandonner_un_plateau()
+	$Classique.hide()
+	_transaction = false
 	_demarrer_premier_plateau()
 
 func _lancer_plateau_de_campagne() -> void:
@@ -60,6 +93,7 @@ func _lancer_plateau_de_campagne() -> void:
 		$MenuCampagne.cacher_accueil()
 		montrer_le_gameplay(gameplay)
 		ui_gameplay.commencer_un_nouveau_plateau(plateau)
+		_classique_en_cours = gameplay == GameplayTypes.Gameplay.CLASSIQUE and ui_gameplay._active
 		AudioService.son_commencer_un_plateau()
 		AudioService.jouer_la_musique()
 	else:
@@ -67,10 +101,16 @@ func _lancer_plateau_de_campagne() -> void:
 
 
 func _on_classique_plateau_invalide() -> void:
-	# Pas de plateau invalide en campagne
-	LogService.log_erreur("_on_classique_plateau_invalide pour la campagne IMPOSSIBLE ! WTF !")
+	_classique_en_cours = false
+	$Classique.hide()
+	$MenuCampagne.afficher_accueil_niveau_en_cours()
+	$MenuCampagne.afficher_message_simple("Impossible de charger ce plateau.", 2.0)
 
 func _on_classique_victoire() -> void:
+	if _transaction or not SauvegardeBddJoueursService.enregistrement_plateau_en_cours():
+		return
+	_transaction = true
+	_classique_en_cours = false
 	ProgressionCampagneService.gagner_un_plateau()
 	$MenuCampagne.show()
 	$MenuCampagne.afficher_background()
@@ -84,8 +124,13 @@ func _on_classique_victoire() -> void:
 		$MenuCampagne.afficher_gagner_un_plateau()
 	AudioService.son_gagner_un_plateau()
 	AudioService.arreter_la_musique()
+	_transaction = false
 
 func _on_classique_abandon() -> void:
+	if _transaction or not SauvegardeBddJoueursService.enregistrement_plateau_en_cours():
+		return
+	_transaction = true
+	_classique_en_cours = false
 	# Mettre à jour les plateaux à jouer
 	ProgressionCampagneService.abandonner_un_plateau()
 	cacher_les_gameplays()
@@ -94,6 +139,7 @@ func _on_classique_abandon() -> void:
 	$MenuCampagne.afficher_abandonner_un_plateau()
 	AudioService.son_abandonner_un_plateau()
 	AudioService.arreter_la_musique()
+	_transaction = false
 
 
 func _on_qui_perd_gagne_plateau_invalide() -> void:

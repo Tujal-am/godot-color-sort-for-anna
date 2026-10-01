@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="656 99 132 136" width="132" height="136"><defs>
+    <linearGradient id="playFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a97c7"/>
+      <stop offset="0.3" stop-color="#137caf"/>
+      <stop offset="0.76" stop-color="#0a6397"/>
+      <stop offset="1" stop-color="#084e7d"/>
+    </linearGradient>
+    <linearGradient id="buttonGloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.78"/>
+      <stop offset="0.58" stop-color="#ffffff" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <clipPath id="playClip"><rect x="613" y="101" width="128" height="128" rx="32"/></clipPath>
+    </defs>
+
+  <g transform="translate(45 0)"><g id="button-play">
+      <rect x="613" y="105" width="128" height="128" rx="32" fill="#073e67" fill-opacity="0.24"/>
+      <rect x="613" y="101" width="128" height="128" rx="32" fill="url(#playFill)" stroke="#074872" stroke-width="2.4"/>
+      <g clip-path="url(#playClip)">
+        <path d="M615 103 H739 V145 Q677 126 615 145Z" fill="url(#buttonGloss)"/>
+      </g>
+      <!-- Flèche Jouer : forme vectorielle agrandie, sans cercle. -->
+      <path d="M656 139 Q656 134 661 137 L707 161 Q714 165 707 169 L661 193 Q656 196 656 190Z" fill="#ffffff"/>
+    </g>
+  </g></svg>
