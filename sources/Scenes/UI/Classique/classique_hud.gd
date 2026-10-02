@@ -17,6 +17,8 @@ var player_name: Label
 var level: Label
 var percent: Label
 var elapsed: Label
+var active_title: Label
+var active_legend: Label
 var medal: TextureRect
 var progress_material := ShaderMaterial.new()
 
@@ -40,6 +42,11 @@ func _ready() -> void:
 	percent.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	elapsed = _label(during, _rect(layout.dynamic.elapsed.rect), 38)
 	elapsed.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	active_title = _label(during, Rect2(64, 108, 350, 58), 38)
+	active_title.text = "CLASSIQUE"
+	active_legend = _label(during, Rect2(64, 166, 420, 48), 31)
+	active_legend.text = "Range tes couleurs"
+	active_legend.add_theme_color_override("font_color", Color("117f80"))
 	var fill := ColorRect.new()
 	fill.position = _rect(layout.dynamic.progress.rect).position
 	fill.size = _rect(layout.dynamic.progress.rect).size
@@ -122,21 +129,28 @@ func _resize() -> void:
 	var factor := viewport_size.x / 1024.0
 	scale = Vector2.ONE * factor
 	position = Vector2.ZERO
-	var physical_width := float(get_window().size.x)
+	var window_width := float(get_window().size.x)
 	if OS.has_feature("mobile"):
 		var safe := DisplayServer.get_display_safe_area()
 		var screen := DisplayServer.screen_get_size()
 		position.y = safe.position.y * viewport_size.y / maxf(screen.y, 1.0)
-		physical_width = screen.x
 	for key in buttons:
 		var button: Button = buttons[key]
 		var data: Dictionary = layout.asset_placements[key]
 		var face := _rect(data.face_rect)
-		var minimum := 44.0 * 1024.0 / maxf(physical_width, 1.0)
+		var minimum := 44.0 * 1024.0 / maxf(window_width, 1.0)
 		var hit_size := face.size.max(Vector2.ONE * minimum)
 		button.position = face.get_center() - hit_size * 0.5
 		button.size = hit_size
 		button.get_child(0).position = _rect(data.texture_rect).position - button.position
+	_layout_active_legend(window_width)
+
+func _layout_active_legend(window_width: float) -> void:
+	var font_size := 36 if window_width <= 375.0 else (34 if window_width <= 410.0 else 31)
+	active_legend.add_theme_font_size_override("font_size", font_size)
+	var natural_width := FONT.get_string_size(active_legend.text, HORIZONTAL_ALIGNMENT_LEFT, -1.0, font_size).x
+	var available_width := 336.0
+	active_legend.scale.x = minf(1.0, available_width / maxf(natural_width, 1.0))
 
 ## Les contrôles invisibles ne participent ni au focus ni aux transactions.
 func set_active(value: bool) -> void:
