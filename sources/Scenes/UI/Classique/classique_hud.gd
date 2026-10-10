@@ -6,7 +6,10 @@ signal action_requested(action: String)
 const ASSETS := "res://Art/UI/ClassiqueV18/"
 const FONT = preload("res://Art/UI/ClassiqueV18/font/DejaVuSans-Bold.ttf")
 const PROGRESS_SHADER = preload("res://Scenes/UI/Classique/progression.gdshader")
-var layout: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(ASSETS + "layout.json"))
+const QPG_ASSETS := "res://Art/UI/QPGV26/"
+var asset_root := ASSETS
+var skin := "classique"
+var layout: Dictionary
 var active := false
 var locked := false
 var reduced_motion := false
@@ -22,36 +25,51 @@ var active_legend: Label
 var medal: TextureRect
 var progress_material := ShaderMaterial.new()
 
+## Choisi avant l'ajout à l'arbre. Les contrôleurs Classique gardent le skin par défaut.
+func configure_skin(value: String) -> void:
+	skin = "qpg" if value.to_lower() == "qpg" else "classique"
+	asset_root = QPG_ASSETS if skin == "qpg" else ASSETS
+	layout = JSON.parse_string(FileAccess.get_file_as_string(asset_root + "layout.json"))
+
 func _ready() -> void:
+	if layout.is_empty():
+		configure_skin(skin)
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	size = Vector2(1024, 280)
 	for group in [before, during]:
 		group.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		add_child(group)
-	_texture(before, ASSETS + "svg/base_before.svg", Rect2(0, 0, 1024, 280))
-	_texture(during, ASSETS + "svg/base_active.svg", Rect2(0, 0, 1024, 280))
+	_texture(before, asset_root + "svg/base_before.svg", Rect2(0, 0, 1024, 280))
+	_texture(during, asset_root + "svg/base_active.svg", Rect2(0, 0, 1024, 280))
 	medal = _texture(before, "", _rect(layout.dynamic.medal.rect))
-	player_name = _label(before, _rect(layout.dynamic.player_name.rect), 28)
+	player_name = _label(before, _rect(layout.dynamic.player_name.rect), int(layout.dynamic.player_name.get("font_size", 28)))
 	player_name.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	player_name.max_lines_visible = 2
 	player_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
-	player_name.add_theme_constant_override("line_spacing", -9)
-	level = _label(before, Rect2(354, 180, 56, 48), 36)
-	percent = _label(before, Rect2(548, 180, 82, 48), 34)
+	player_name.add_theme_constant_override("line_spacing", -6 if skin == "qpg" else -9)
+	var level_anchor: Array = layout.dynamic.level.anchor_reference
+	level = _label(before, Rect2(level_anchor[0], level_anchor[1] - 24, 56, 48), int(layout.dynamic.level.get("font_size", 36)))
+	var percent_anchor: Array = layout.dynamic.progress_percent.anchor_reference
+	percent = _label(before, Rect2(percent_anchor[0] - 82, percent_anchor[1] - 24, 82, 48), int(layout.dynamic.progress_percent.get("font_size", 34)))
 	percent.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-	elapsed = _label(during, _rect(layout.dynamic.elapsed.rect), 38)
+	elapsed = _label(during, _rect(layout.dynamic.elapsed.rect), int(layout.dynamic.elapsed.get("font_size", 38)))
 	elapsed.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	active_title = _label(during, Rect2(64, 108, 350, 58), 38)
-	active_title.text = "CLASSIQUE"
-	active_legend = _label(during, Rect2(64, 166, 420, 48), 31)
-	active_legend.text = "Range tes couleurs"
-	active_legend.add_theme_color_override("font_color", Color("117f80"))
+	if skin == "classique":
+		active_title = _label(during, Rect2(64, 108, 350, 58), 38)
+		active_title.text = "CLASSIQUE"
+		active_legend = _label(during, Rect2(64, 166, 420, 48), 31)
+		active_legend.text = "Range tes couleurs"
+		active_legend.add_theme_color_override("font_color", Color("117f80"))
 	var fill := ColorRect.new()
-	fill.position = _rect(layout.dynamic.progress.rect).position
-	fill.size = _rect(layout.dynamic.progress.rect).size
+	var progress_rect := _rect(layout.dynamic.progress.rect)
+	fill.position = progress_rect.position
+	fill.size = progress_rect.size
 	fill.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	progress_material.shader = PROGRESS_SHADER
+	if skin == "qpg":
+		progress_material.set_shader_parameter("start_color", Color("d7ed20"))
+		progress_material.set_shader_parameter("end_color", Color("faff78"))
 	fill.material = progress_material
 	before.add_child(fill)
 	for key in layout.asset_placements:
@@ -84,7 +102,7 @@ func _label(parent: Control, rect: Rect2, font_size: int) -> Label:
 	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
 	label.add_theme_font_override("font", FONT)
 	label.add_theme_font_size_override("font_size", font_size)
-	label.add_theme_color_override("font_color", Color("063f78"))
+	label.add_theme_color_override("font_color", Color.WHITE if skin == "qpg" else Color("063f78"))
 	parent.add_child(label)
 	return label
 
@@ -92,7 +110,7 @@ func _build_button(key: String) -> void:
 	var data: Dictionary = layout.asset_placements[key]
 	var button := Button.new()
 	button.name = key
-	button.tooltip_text = {"home": "Accueil", "stats": "Statistiques", "play": "Jouer", "restart": "Recommencer", "pass": "Passer (échec)"}[key]
+	button.tooltip_text = {"home": "Accueil", "stats": "Statistiques", "play": "Jouer", "restart": "Recommencer", "pass": "Passer au plateau suivant"}[key]
 	button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 	for state in ["normal", "hover", "pressed", "disabled"]:
 		button.add_theme_stylebox_override(state, StyleBoxEmpty.new())
@@ -105,7 +123,8 @@ func _build_button(key: String) -> void:
 	button.add_theme_stylebox_override("focus", focus)
 	var group: Control = during if key in ["restart", "pass"] else before
 	group.add_child(button)
-	var picture := _texture(button, ASSETS + "svg/" + data.file + ".svg", _rect(data.texture_rect))
+	var asset_name := str(data.get("file", "button_" + key))
+	var picture := _texture(button, asset_root + "svg/" + asset_name + ".svg", _rect(data.texture_rect))
 	buttons[key] = button
 	button.button_down.connect(func():
 		if not reduced_motion:
@@ -129,7 +148,7 @@ func _resize() -> void:
 	var factor := viewport_size.x / 1024.0
 	scale = Vector2.ONE * factor
 	position = Vector2.ZERO
-	var window_width := float(get_window().size.x)
+	var window_width := viewport_size.x if skin == "qpg" else float(get_window().size.x)
 	if OS.has_feature("mobile"):
 		var safe := DisplayServer.get_display_safe_area()
 		var screen := DisplayServer.screen_get_size()
@@ -143,7 +162,8 @@ func _resize() -> void:
 		button.position = face.get_center() - hit_size * 0.5
 		button.size = hit_size
 		button.get_child(0).position = _rect(data.texture_rect).position - button.position
-	_layout_active_legend(window_width)
+	if skin == "classique":
+		_layout_active_legend(window_width)
 
 func _layout_active_legend(window_width: float) -> void:
 	var font_size := 36 if window_width <= 375.0 else (34 if window_width <= 410.0 else 31)

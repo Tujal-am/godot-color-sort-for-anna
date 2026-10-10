@@ -145,7 +145,8 @@ func detail_score_cumule() -> Dictionary:
 						score_rapidite += plateau_joue.get("score").get('duree', 0)
 						score_reussite += plateau_joue.get("score").get('ratio_reussite', 0)
 
-	if ProgressionCampagneService.la_campagne_est_terminee():
+	if ProgressionCampagneService.la_campagne_est_terminee() \
+		and SauvegardeBddJoueursService.enregistrement_lire_statut_plateau() != "passé":
 		score_fin_campagne = 500_000
 
 	return {
@@ -217,7 +218,7 @@ func nombre_de_plateau_acheves() -> int:
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
 		# Comptabiliser les plateaux reussis
 		var npra = nombre_de_plateau_reussis_abandonnes()
-		nb_plateaux_acheves = npra.get('reussis', 0)
+		nb_plateaux_acheves = npra.get('reussis', 0) + npra.get('passes', 0)
 	LogService.log_debug("joueur:",joueur, ' nb_plateaux_acheves=', nb_plateaux_acheves)
 	return nb_plateaux_acheves
 
@@ -238,7 +239,7 @@ func taux_completion_niveau() -> float:
 			var npra_pour_niveau = nombre_de_plateau_reussis_abandonnes_pour_niveau(nom_niveau)
 			var campagne_niveau = SauvegardeBddJoueursService.sauvegarde_joueur.get('campagne').get(nom_niveau, [])
 			var lg_restante: int = campagne_niveau.size()
-			var lg_realisee: int = npra_pour_niveau.get('reussis', 0)
+			var lg_realisee: int = npra_pour_niveau.get('reussis', 0) + npra_pour_niveau.get('passes', 0)
 			if (lg_realisee + lg_restante) != 0:
 				var completion: float = 1. * lg_realisee / (lg_realisee + lg_restante)
 				LogService.log_debug("joueur:",joueur,
@@ -303,10 +304,11 @@ func nombre_de_plateau_reussis_abandonnes() -> Dictionary:
 	var nb_plateaux_reussis: int = 0
 	# Nombre de plateau reussis
 	var nb_plateaux_abandonnes: int = 0
+	# Nombre de plateau passé
+	var nb_plateaux_passes: int = 0
 	# Parcourir la liste des enregistrements de la campagne
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
 		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
-			# Comptabiliser les plateaux reussis
 			if niveau.get("plateaux", null):
 				for plateau_joue in niveau.get("plateaux"):
 					if plateau_joue.get("date_debut") > date_debut_campagne:
@@ -314,10 +316,13 @@ func nombre_de_plateau_reussis_abandonnes() -> Dictionary:
 							nb_plateaux_reussis += 1
 						if plateau_joue.get("statut") == "abandonné":
 							nb_plateaux_abandonnes += 1
+						if plateau_joue.get("statut") == "passé":
+							nb_plateaux_passes += 1
 	LogService.log_debug("joueur:",joueur,
 						' nb_plateaux_reussis=', nb_plateaux_reussis,
-						' nb_plateaux_abandonnes=', nb_plateaux_abandonnes)
-	return {'reussis': nb_plateaux_reussis, 'abandonnes': nb_plateaux_abandonnes}
+						' nb_plateaux_abandonnes=', nb_plateaux_abandonnes,
+						' nb_plateaux_passes=', nb_plateaux_passes)
+	return {'reussis': nb_plateaux_reussis, 'abandonnes': nb_plateaux_abandonnes, 'passes': nb_plateaux_passes}
 
 func nombre_de_plateau_reussis_abandonnes_pour_niveau(nom_niveau : String) -> Dictionary:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
@@ -326,6 +331,8 @@ func nombre_de_plateau_reussis_abandonnes_pour_niveau(nom_niveau : String) -> Di
 	var nb_plateaux_reussis: int = 0
 	# Nombre de plateau reussis
 	var nb_plateaux_abandonnes: int = 0
+	# Nombre de plateau passé
+	var nb_plateaux_passes: int = 0
 	# Parcourir la liste des enregistrements de la campagne
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
 		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
@@ -338,19 +345,27 @@ func nombre_de_plateau_reussis_abandonnes_pour_niveau(nom_niveau : String) -> Di
 								nb_plateaux_reussis += 1
 							if plateau_joue.get("statut") == "abandonné":
 								nb_plateaux_abandonnes += 1
+							if plateau_joue.get("statut") == "passé":
+								nb_plateaux_passes += 1
 	LogService.log_debug("joueur:",joueur,
 						' niveau=', nom_niveau,
 						' nb_plateaux_reussis=', nb_plateaux_reussis,
-						' nb_plateaux_abandonnes=', nb_plateaux_abandonnes)
-	return {'niveau': nom_niveau, 'reussis': nb_plateaux_reussis, 'abandonnes': nb_plateaux_abandonnes}
+						' nb_plateaux_abandonnes=', nb_plateaux_abandonnes,
+						' nb_plateaux_passes=', nb_plateaux_passes)
+	return {'niveau': nom_niveau,
+			'reussis': nb_plateaux_reussis,
+			'abandonnes': nb_plateaux_abandonnes,
+			'passes': nb_plateaux_passes}
 
 func taux_de_reussite_des_plateaux() -> float:
 	var infos_plateaux = nombre_de_plateau_reussis_abandonnes()
 	var reussis = infos_plateaux.get('reussis')
 	var abandonne = infos_plateaux.get('abandonnes')
-	if (reussis + abandonne) == 0:
+	var passe = infos_plateaux.get('passes')
+	var total = reussis + abandonne + passe
+	if total == 0:
 		return 0.
-	return 1. * reussis / (reussis + abandonne)
+	return 1. * reussis / total
 
 func longueur_max_niveau_termine() -> int:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
@@ -393,7 +408,7 @@ func niveau_taux_reussite_les_infos() -> Dictionary:
 			var npra_pour_niveau = nombre_de_plateau_reussis_abandonnes_pour_niveau(nom_niveau)
 			var reussis = npra_pour_niveau.get("reussis", 0)
 			var abandonnes = npra_pour_niveau.get("abandonnes", 0)
-			var realises = reussis + abandonnes
+			var realises = reussis + abandonnes + npra_pour_niveau.get("passes", 0)
 			if realises:
 				a_des_donnees = true
 				var taux = 1. * reussis / realises
@@ -557,7 +572,7 @@ func serie_de_victoire_maximum() -> int:
 				for plateau_joue in niveau.get("plateaux"):
 					if plateau_joue.get("statut") == "reussi":
 						serie_de_victoire_courante += 1
-					if plateau_joue.get("statut") == "abandonné":
+					if plateau_joue.get("statut") in ["abandonné", "passé"]:
 						# Defaite : Enregistrer le max et repartir à zéro.
 						if serie_de_victoire_courante > serie_de_victoire_max:
 							serie_de_victoire_max = serie_de_victoire_courante
@@ -602,15 +617,18 @@ func gameplay_nombre_de_plateau_joues(gameplay : String) -> int:
 	var infos_plateaux = gameplay_nombre_de_plateau_reussis_abandonnes(gameplay)
 	var reussis = infos_plateaux.get('reussis')
 	var abandonne = infos_plateaux.get('abandonnes')
-	return reussis + abandonne
+	var passe = infos_plateaux.get('passes')
+	return reussis + abandonne + passe
 
 func gameplay_taux_de_reussite_des_plateaux(gameplay : String) -> float:
 	var infos_plateaux = gameplay_nombre_de_plateau_reussis_abandonnes(gameplay)
 	var reussis = infos_plateaux.get('reussis')
 	var abandonne = infos_plateaux.get('abandonnes')
-	if (reussis + abandonne) == 0:
+	var passe = infos_plateaux.get('passes')
+	var total = reussis + abandonne + passe
+	if total == 0:
 		return 0.
-	return 1. * reussis / (reussis + abandonne)
+	return 1. * reussis / total
 
 func gameplay_nombre_de_plateau_reussis_abandonnes(gameplay : String) -> Dictionary:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()
@@ -619,26 +637,28 @@ func gameplay_nombre_de_plateau_reussis_abandonnes(gameplay : String) -> Diction
 	var nb_plateaux_reussis: int = 0
 	# Nombre de plateau reussis
 	var nb_plateaux_abandonnes: int = 0
+	# Nombre de plateau reussis
+	var nb_plateaux_passes: int = 0
 	# Parcourir la liste des enregistrements de la campagne
 	if SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne", null):
 		for niveau in SauvegardeBddJoueursService.sauvegarde_joueur.get("enregistrement_campagne"):
 			# Comptabiliser les plateaux reussis
 			if niveau.get("plateaux", null):
 				for plateau_joue in niveau.get("plateaux"):
-					var gameplay_value = plateau_joue.get("gameplay", "")
-					if not gameplay_value is String or gameplay_value.is_empty():
-						continue
-					if _normaliser_gameplay(gameplay_value) != _normaliser_gameplay(gameplay):
+					if plateau_joue.get("gameplay").to_upper() != gameplay.to_upper():
 						continue
 					if plateau_joue.get("date_debut") > date_debut_campagne:
 						if plateau_joue.get("statut") == "reussi":
 							nb_plateaux_reussis += 1
 						if plateau_joue.get("statut") == "abandonné":
 							nb_plateaux_abandonnes += 1
+						if plateau_joue.get("statut") == "passé":
+							nb_plateaux_passes += 1
 	LogService.log_debug("joueur:",joueur,
 						' nb_plateaux_reussis=', nb_plateaux_reussis,
-						' nb_plateaux_abandonnes=', nb_plateaux_abandonnes)
-	return {'reussis': nb_plateaux_reussis, 'abandonnes': nb_plateaux_abandonnes}
+						' nb_plateaux_abandonnes=', nb_plateaux_abandonnes,
+						' nb_plateaux_passes=', nb_plateaux_passes)
+	return {'reussis': nb_plateaux_reussis, 'abandonnes': nb_plateaux_abandonnes, 'passes': nb_plateaux_passes}
 
 func gameplay_le_plus_rapide_les_infos(gameplay : String) -> Dictionary:
 	var joueur = SauvegardeBddJoueursService.lire_nom_joueur()

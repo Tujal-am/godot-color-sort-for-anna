@@ -119,3 +119,23 @@ func retourner_le_niveau_le_plus_bas() -> int:
 		if not SauvegardeBddJoueursService.campagne_le_niveau_est_termine(niveau_le_plus_bas):
 			return niveau_le_plus_bas
 	return 0
+
+func passer_un_plateau() -> bool:
+	# En cas de passage, pas d'enrgistrement du temps.
+	if not SauvegardeBddJoueursService.passer_un_plateau():
+		return false
+
+	# Déterminer si le niveau est achevé (pas de plateau suivant)
+	if not SauvegardeBddJoueursService.campagne_lire_prochain_plateau_pour_niveau_courant():
+		# BDD joueur + Préparer la jauge pour la prochaine ascension
+		fin_niveau.emit()
+
+	# Calculer le score du plateau et l'enregistrer dans l'historique du niveau
+	ScoreService.mettre_a_jour_score_pour_passer()
+
+
+	# Emmettre un signal de mise à jour du niveau
+	# TODO : Le signal n'est lu par personne. Normal ?
+	# progression_niveau.emit() # Pour mise à jour des bandeaux d'infos
+	afficher_niveau_plateau_parties()
+	return true

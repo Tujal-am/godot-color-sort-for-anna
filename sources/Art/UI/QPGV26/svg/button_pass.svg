@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="844 83 164 168" width="164" height="168"><defs>
+    <linearGradient id="greenFace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#82ee38"/>
+      <stop offset="0.26" stop-color="#3ba83d"/>
+      <stop offset="0.78" stop-color="#198043"/>
+      <stop offset="1" stop-color="#126049"/>
+    </linearGradient>
+    <linearGradient id="buttonGloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="passClip"><rect x="872" y="111" width="108" height="108" rx="27"/></clipPath>
+  <filter id="fluorescence" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+
+  <g><g>
+    <rect x="874" y="115" width="104" height="108" rx="25" fill="#2e520d" fill-opacity="0.25"/>
+    <rect x="872" y="111" width="108" height="108" rx="27" fill="none" stroke="#b1ff70" stroke-width="7" opacity="0.8" filter="url(#fluorescence)"/><rect x="872" y="111" width="108" height="108" rx="27" fill="url(#greenFace)" stroke="#b1ff70" stroke-width="3.2"/>
+    <g clip-path="url(#passClip)">
+      <rect x="875" y="114" width="102" height="42" rx="24" fill="url(#buttonGloss)" opacity="0.78"/>
+    </g>
+    <g fill="#ffffff" stroke="#ffffff" stroke-width="1" stroke-linejoin="round">
+      <path d="M895 137 L922 165 L895 193 Z"/>
+      <path d="M919 137 L946 165 L919 193 Z"/>
+      <rect x="951" y="136" width="8" height="58" rx="3" stroke="none"/>
+    </g>
+  </g>
+</g></svg>

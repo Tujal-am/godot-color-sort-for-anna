@@ -2,8 +2,40 @@ extends BaseGameplay
 
 class_name QuiPerdGagne
 
+var _active := false
+
+func commencer_un_nouveau_plateau(plateau_texte: String) -> void:
+	if not est_valide(plateau_texte):
+		plateau_invalide.emit()
+		return
+	$Plateau.commencer_un_nouveau_plateau(plateau_texte)
+	if $Plateau.liste_piles.is_empty():
+		return
+	# Le même chronomètre monotone est consommé par le HUD et par la sauvegarde du résultat.
+	SauvegardeBddJoueursService.activer_horloge_classique()
+	_active = true
+	show()
+
+func hide() -> void:
+	_active = false
+	super.hide()
+
+func _notification(what: int) -> void:
+	if not _active:
+		return
+	match what:
+		NOTIFICATION_PAUSED:
+			SauvegardeBddJoueursService.horloge_classique.pause("tree", true)
+		NOTIFICATION_UNPAUSED:
+			SauvegardeBddJoueursService.horloge_classique.pause("tree", false)
+		NOTIFICATION_APPLICATION_PAUSED:
+			SauvegardeBddJoueursService.horloge_classique.pause("application", true)
+		NOTIFICATION_APPLICATION_RESUMED:
+			SauvegardeBddJoueursService.horloge_classique.pause("application", false)
+
 func _ready() -> void:
 	super._ready()
+	$MenuPlateau.passe.connect(_on_menu_plateau_passe)
 
 	# Initialiser le menu
 	$MenuPlateau.enregistrer_gameplay("Qui perd gagne")
@@ -28,6 +60,9 @@ func est_termine(liste_piles) -> bool:
 	var termine = plateau_bloque and une_pile_en_desordre
 	if termine:
 		LogService.log_debug("QuiPerdGagne : victoire.emit()")
+		_active = false
+		if $MenuPlateau.qpg_hud:
+			$MenuPlateau.qpg_hud.set_locked(true)
 		$MenuPlateau/Top/BoutonRecommencer.hide()
 		victoire.emit()
 	return termine

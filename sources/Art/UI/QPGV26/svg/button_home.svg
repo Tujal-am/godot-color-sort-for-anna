@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="9 73 184 188" width="184" height="188"><defs>
+    <linearGradient id="buttonGloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.78"/>
+      <stop offset="0.58" stop-color="#ffffff" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="homeFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ff6cba"/>
+      <stop offset="0.31" stop-color="#f72b9b"/>
+      <stop offset="0.76" stop-color="#d5177d"/>
+      <stop offset="1" stop-color="#a70c5d"/>
+    </linearGradient>
+
+    <clipPath id="homeClip"><rect x="37" y="101" width="128" height="128" rx="32"/></clipPath>
+  <filter id="fluorescence" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+
+  <g><g id="button-home" shape-rendering="geometricPrecision">
+    <rect x="37" y="105" width="128" height="128" rx="32" fill="#8b3f14" fill-opacity="0.24"/>
+    <rect x="37" y="101" width="128" height="128" rx="32" fill="none" stroke="#ff97e2" stroke-width="7" opacity="0.8" filter="url(#fluorescence)"/><rect x="37" y="101" width="128" height="128" rx="32" fill="url(#homeFill)" stroke="#ff97e2" stroke-width="3.2"/>
+    <g clip-path="url(#homeClip)">
+      <path d="M39 103 H163 V145 Q101 126 39 145Z" fill="url(#buttonGloss)"/>
+    </g>
+    <path d="M67 160 L101 130 L135 160" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M75 164 L101 141 L127 164 V199 Q127 201 125 201 H113 V177 H89 V201 H77 Q75 201 75 199Z" fill="#ffffff"/>
+  </g>
+
+  </g></svg>

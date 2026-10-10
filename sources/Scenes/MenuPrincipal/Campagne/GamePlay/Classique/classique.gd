@@ -86,7 +86,7 @@ func _on_action(action: String) -> void:
 	if action == "restart":
 		recommencer.emit()
 	elif action == "pass":
-		abandon.emit()
+		passe.emit()
 
 func est_termine(liste_piles) -> bool:
 	if not _active:

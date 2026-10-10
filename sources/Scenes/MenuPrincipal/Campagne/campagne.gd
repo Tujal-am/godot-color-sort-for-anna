@@ -42,6 +42,8 @@ func _ready() -> void:
 	cacher_les_gameplays()
 	$MenuCampagne.cacher_accueil()
 	$Classique.recommencer.connect(_on_classique_recommencer)
+	$Classique.passe.connect(_on_plateau_passe)
+	$QuiPerdGagne.passe.connect(_on_plateau_passe)
 	call_deferred("_presenter_premier_plateau")
 
 func _prochain_plateau() -> Dictionary:
@@ -50,7 +52,8 @@ func _prochain_plateau() -> Dictionary:
 	return service.campagne_lire_premier_plateau(niveau)
 
 func _presenter_premier_plateau() -> void:
-	if _prochain_plateau().get("gameplay", "") == "CLASSIQUE":
+	var gameplay := str(_prochain_plateau().get("gameplay", ""))
+	if gameplay in ["CLASSIQUE", "QUI_PERD_GAGNE"]:
 		$MenuCampagne.afficher_accueil_niveau_en_cours()
 	else:
 		_demarrer_premier_plateau()
@@ -170,3 +173,16 @@ func instance_gameplay(gameplay : GameplayTypes.Gameplay) -> Node:
 		return $QuiPerdGagne
 	LogService.log_erreur("Gameplay inconnu : ", gameplay)
 	return null
+
+func _on_plateau_passe() -> void:
+	if _transaction or not SauvegardeBddJoueursService.enregistrement_plateau_en_cours():
+		return
+	_transaction = true
+	if ProgressionCampagneService.passer_un_plateau():
+		_classique_en_cours = false
+		$Classique.hide()
+		$QuiPerdGagne.hide()
+		AudioService.arreter_la_musique()
+		$MenuCampagne.show()
+		$MenuCampagne.afficher_passer_un_plateau()
+	_transaction = false

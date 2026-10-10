@@ -526,12 +526,16 @@ func lire_longueur_niveau_courant() -> int:
 	return lg_niveau
 
 func lire_pourcentage_niveau_realise() -> int:
-	"Pourcentage de réalisation (retourne 99 pour 99%, 15 pour 15% ...)"
+	"Avancement du niveau : plateaux réussis ou passés parmi les plateaux du niveau."
 	if enregistrement_niveau_en_cours():
-		var nb_niveaux_realises = enregistrement_lire_niveau_longueur_realisee()
-		var nb_niveaux_restant = campagne_lire_nombre_de_plateaux_realisables_pour_niveau_courant()
-		var nb_niveaux_totaux = nb_niveaux_realises + nb_niveaux_restant
-		return roundi(100. * nb_niveaux_realises / nb_niveaux_totaux) if nb_niveaux_totaux > 0 else 0
+		var nb_plateaux_acheves := 0
+		var dernier_niveau := enregistrement_lire_dernier_niveau()
+		for plateau in dernier_niveau.get('plateaux', []):
+			if plateau.get('statut') in ['reussi', 'passé']:
+				nb_plateaux_acheves += 1
+		var nb_plateaux_restants := campagne_lire_nombre_de_plateaux_realisables_pour_niveau_courant()
+		var nb_plateaux_total := nb_plateaux_acheves + nb_plateaux_restants
+		return roundi(100. * nb_plateaux_acheves / nb_plateaux_total) if nb_plateaux_total > 0 else 0
 	return 0
 
 ###############################################
@@ -837,3 +841,43 @@ func plateaux_libres_lire_liste_plateaux_de_difficulte(difficulte : int) -> Arra
 	if plateaux_libres_difficulte_existe(difficulte):
 		return plateaux_libres().get(str(difficulte))
 	return [] # Liste plateaux vide
+
+# Passer : portage ciblé de LEGUIMS/main 2ad3cd63.
+func passer_un_plateau() -> bool:
+	# Effacer de la liste des plateaux jouables
+	if not campagne_supprimer_et_oublier_plateau_courant():
+		return false
+
+	# En cas de passement, pas d'enrgistrement du temps.
+	enregistrement_modifier_statut_plateau('passé')
+	enregistrement_terminer_plateau()
+	if campagne_la_campagne_est_terminee():
+		_enregistrer_parcours_passe()
+	return true
+
+func campagne_supprimer_et_oublier_plateau_courant() -> bool:
+	"Efface et oublie le plateau courant."
+	if le_joueur_existe() and enregistrement_lire_statut_plateau() == 'en cours':
+		var niveau = enregistrement_lire_valeur_niveau_joueur()
+		if lire_campagne_liste_plateaux_du_niveau(niveau).is_empty():
+			return false
+		lire_campagne_liste_plateaux_du_niveau(niveau).pop_front()
+		if lire_campagne_liste_plateaux_du_niveau(niveau).is_empty():
+			# Le niveau est terminé, effacer sa reference dans les plateaux restants.
+			campagne().erase(nom_niveau(niveau))
+		_enregistrer_sauvegarde_joueur()
+		return true
+	return false
+
+func _enregistrer_parcours_passe() -> void:
+	# Fin de parcours sans victoire : ne pas alimenter le registre des grades.
+	var identifiant := str(sauvegarde_joueur.get("campagne_id", ""))
+	if not sauvegarde_joueur.has("parcours_termines"):
+		sauvegarde_joueur["parcours_termines"] = []
+	for entree in sauvegarde_joueur["parcours_termines"]:
+		if str(entree.get("id", "")) == identifiant:
+			return
+	sauvegarde_joueur["parcours_termines"].append({
+		"id": identifiant, "date_fin": Time.get_unix_time_from_system(), "statut": "passé"
+	})
+	_enregistrer_sauvegarde_joueur()

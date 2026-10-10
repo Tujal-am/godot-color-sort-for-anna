@@ -3,6 +3,7 @@ extends Node
 class_name MenuPlateau
 
 signal abandon
+signal passe
 signal deselection_pile
 
 const ASSET_ROOT := "res://Art/UI/IntegrationV4/Gameplay/"
@@ -14,9 +15,31 @@ const FONT_BOLD := preload("res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-b
 const MENU_PRINCIPAL_SCRIPT := preload("res://Scenes/MenuPrincipal/menu_principal.gd")
 const GradePresentationScript = preload("res://Scenes/MenuPrincipal/Grades/grade_presentation.gd")
 const AVATAR_FALLBACK := preload("res://Art/UI/IntegrationV4/Gameplay/classique/production_final/AVATAR_FALLBACK_TEST_64x64.png")
+const ClassiqueHud = preload("res://Scenes/UI/Classique/classique_hud.gd")
+var qpg_hud: Control
+var qpg_devil: TextureRect
+var qpg_action_pending := false
 @export var presentation_mode := ""
 func _ready() -> void:
 	_build_presentation()
+	if _is_qpg():
+		qpg_hud = ClassiqueHud.new()
+		qpg_hud.configure_skin("qpg")
+		qpg_hud.z_index = 30
+		add_child(qpg_hud)
+		qpg_hud.action_requested.connect(_on_qpg_hud_action)
+		qpg_hud.hide()
+		qpg_devil = TextureRect.new()
+		qpg_devil.texture = load("res://Art/UI/QPGV26/background/devil_decor.png")
+		qpg_devil.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		qpg_devil.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		qpg_devil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		qpg_devil.modulate.a = 0.8
+		qpg_devil.z_index = 5
+		add_child(qpg_devil)
+		qpg_devil.hide()
+		get_viewport().size_changed.connect(_resize_qpg_decor)
+		_resize_qpg_decor()
 
 func configurer_presentation(mode: String) -> void:
 	presentation_mode = mode
@@ -25,6 +48,8 @@ func configurer_presentation(mode: String) -> void:
 func _process(_delta: float) -> void:
 	_maj_chrono()
 	_maj_coups()
+	if _is_qpg() and is_instance_valid(qpg_hud) and qpg_hud.visible and qpg_hud.active:
+		qpg_hud.set_elapsed(roundi(SauvegardeBddJoueursService.enregistrement_lire_duree_plateau() * 1000.0))
 
 # #############
 # API Gameplay
@@ -50,11 +75,29 @@ func show():
 	if _is_qpg():
 		$BoutonRetour.hide()
 		$BoutonStatistiques.hide()
+		qpg_action_pending = false
+		qpg_hud.show()
+		qpg_hud.set_active(true)
+		qpg_hud.set_locked(false)
+		var service := SauvegardeBddJoueursService
+		var nom := service.lire_nom_joueur()
+		var niveau := service.enregistrement_lire_valeur_niveau_joueur()
+		var ratio := service.lire_pourcentage_niveau_realise() / 100.0
+		var grade: Dictionary = GradePresentationScript.for_save(service.sauvegarde_joueur) if service.le_joueur_existe() else {}
+		qpg_hud.set_profile(nom, niveau, ratio, str(grade.get("name", "")).to_lower())
+		qpg_hud.set_elapsed(roundi(service.enregistrement_lire_duree_plateau() * 1000.0))
+		$Top.hide()
+		$Top/BoutonRecommencer.hide()
+		$Fond.texture = load("res://masters/MASTER_backgroundgameplay_quiperdgagne.png")
+		qpg_devil.show()
 	else:
+		if is_instance_valid(qpg_hud):
+			qpg_hud.hide()
+			qpg_devil.hide()
 		$BoutonRetour.hide()
 		$BoutonStatistiques.hide()
-	$Top/BoutonRecommencer.show()
 	if not _is_qpg():
+		$Top/BoutonRecommencer.show()
 		var plateau := get_parent().get_node_or_null("Plateau")
 		if plateau:
 			for pile in plateau.liste_piles:
@@ -66,6 +109,10 @@ func hide():
 	$Top.hide()
 	$BoutonStatistiques.hide()
 	$Top/BoutonRecommencer.hide()
+	if is_instance_valid(qpg_hud):
+		qpg_hud.hide()
+	if is_instance_valid(qpg_devil):
+		qpg_devil.hide()
 
 func cacher_accueil():
 	hide()
@@ -104,6 +151,17 @@ func _build_presentation() -> void:
 	# choose or reset the gameplay itself; the exported value is only a
 	# compatibility hint for older scenes.
 	var qpg := get_parent().name == "QuiPerdGagne"
+	if qpg:
+		$PlayerCard.hide()
+		$Fond.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+		# L'HUD partagé est le seul rendu QPG : les anciens widgets restent masqués.
+		$Top.hide()
+		$BoutonRetour.hide()
+		$BoutonStatistiques.hide()
+		$Fond.texture = load("res://masters/MASTER_backgroundgameplay_quiperdgagne.png")
+		if is_instance_valid(qpg_devil):
+			_resize_qpg_decor()
+		return
 	$Fond.texture = load(QPG_BACKGROUND_TEXTURE if qpg else ASSET_ROOT + "classique/production_final/BACKGROUND_CLASSIQUE_HEADER_SAFE_480x720.png")
 	$Fond.position = Vector2.ZERO
 	$Fond.size = Vector2(480, 720)
@@ -145,6 +203,24 @@ func _build_presentation() -> void:
 
 func _is_qpg() -> bool:
 	return get_parent().name == "QuiPerdGagne"
+
+func _on_qpg_hud_action(action: String) -> void:
+	if action not in ["restart", "pass"] or qpg_action_pending:
+		return
+	qpg_action_pending = true
+	if action == "pass":
+		passe.emit()
+	else:
+		_on_bouton_recommencer_pressed()
+
+func _resize_qpg_decor() -> void:
+	if not is_instance_valid(qpg_devil):
+		return
+	var viewport_width: float = get_viewport().get_visible_rect().size.x
+	var factor := viewport_width / 1024.0
+	qpg_devil.scale = Vector2.ONE * factor
+	qpg_devil.position = Vector2(422, 285) * factor
+	qpg_devil.size = Vector2(180, 180)
 
 func _build_top_contents(qpg: bool) -> void:
 	if qpg:
