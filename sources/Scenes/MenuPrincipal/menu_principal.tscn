@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://biu2nmq2p0852" path="res://Art/UI/icons/icon_music.png" id="10_whlyn"]
 [ext_resource type="Texture2D" uid="uid://cpnowfnhgo8mg" path="res://Art/UI/icons/icon_sound.png" id="11_7woe0"]
 [ext_resource type="Texture2D" uid="uid://ctnnv3fa5dnek" path="res://Art/UI/icons/icon_vibration.png" id="12_vrk5l"]
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/PanneauImportQR/panneau_import_qr.tscn" id="13_import_qr"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v4mpx"]
 bg_color = Color(0.03137255, 0.105882354, 0.1764706, 1)
@@ -615,7 +616,11 @@ text = "VA.B.C"
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="PanneauImportQR" parent="." instance=ExtResource("13_import_qr")]
+
 [connection signal="pressed" from="CampaignButton" to="." method="_on_campaign_button_pressed"]
 [connection signal="text_submitted" from="LowerFlow/PlayerSection/PlayerRow/Add" to="." method="_on_nouveau_joueur_text_submitted"]
 [connection signal="pressed" from="LowerFlow/Scores/ScoresButton" to="." method="_on_bouton_scores_pressed"]
 [connection signal="pressed" from="LowerFlow/Apropos/AProposButton" to="." method="_on_bouton_a_propos_pressed"]
+[connection signal="accepter" from="PanneauImportQR" to="." method="_on_panneau_import_qr_accepter"]
+[connection signal="refuser" from="PanneauImportQR" to="." method="_on_panneau_import_qr_refuser"]

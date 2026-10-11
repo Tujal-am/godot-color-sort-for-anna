@@ -30,7 +30,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="CartePlateau" type="Control" unique_id=198575893]
-custom_minimum_size = Vector2(336, 164)
+custom_minimum_size = Vector2(370, 164)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 336.0
@@ -40,7 +40,7 @@ script = ExtResource("1_enw2v")
 
 [node name="Fond" type="Panel" parent="." unique_id=2037178864]
 layout_mode = 0
-offset_right = 336.0
+offset_right = 370.0
 offset_bottom = 176.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("inner")
@@ -56,11 +56,11 @@ texture = ExtResource("1_sjp16")
 [node name="Titre" type="Label" parent="." unique_id=1586345295]
 layout_mode = 0
 offset_left = 45.0
-offset_right = 320.0
+offset_right = 355.0
 offset_bottom = 40.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 27
 text = "Plateau"
 vertical_alignment = 1
 
@@ -68,26 +68,26 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 10.0
 offset_top = 40.0
-offset_right = 110.0
+offset_right = 121.0
 offset_bottom = 80.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("cell")
 
 [node name="Titre" type="Label" parent="Plateaux" unique_id=148008339]
 layout_mode = 0
-offset_right = 100.0
+offset_right = 111.0
 offset_bottom = 18.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_1wc8w")
 theme_override_font_sizes/font_size = 12
-text = "Plateaux"
+text = "Nombre"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Valeur" type="Label" parent="Plateaux" unique_id=1427059428]
 layout_mode = 0
 offset_top = 18.0
-offset_right = 100.0
+offset_right = 111.0
 offset_bottom = 40.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -97,16 +97,16 @@ vertical_alignment = 1
 
 [node name="TempsMoyen" type="Panel" parent="." unique_id=1687143466]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 127.0
 offset_top = 40.0
-offset_right = 216.0
+offset_right = 238.0
 offset_bottom = 80.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("cell")
 
 [node name="Titre" type="Label" parent="TempsMoyen" unique_id=1765483678]
 layout_mode = 0
-offset_right = 100.0
+offset_right = 111.0
 offset_bottom = 18.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_1wc8w")
@@ -118,7 +118,7 @@ vertical_alignment = 1
 [node name="Valeur" type="Label" parent="TempsMoyen" unique_id=1154875803]
 layout_mode = 0
 offset_top = 18.0
-offset_right = 100.0
+offset_right = 111.0
 offset_bottom = 40.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -128,16 +128,16 @@ vertical_alignment = 1
 
 [node name="Reussite" type="Panel" parent="." unique_id=1073389585]
 layout_mode = 0
-offset_left = 222.0
+offset_left = 244.0
 offset_top = 40.0
-offset_right = 322.0
+offset_right = 355.0
 offset_bottom = 80.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("cell")
 
 [node name="Titre" type="Label" parent="Reussite" unique_id=1641704394]
 layout_mode = 0
-offset_right = 100.0
+offset_right = 111.0
 offset_bottom = 18.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_1wc8w")
@@ -149,7 +149,7 @@ vertical_alignment = 1
 [node name="Valeur" type="Label" parent="Reussite" unique_id=2063165435]
 layout_mode = 0
 offset_top = 18.0
-offset_right = 100.0
+offset_right = 111.0
 offset_bottom = 40.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -169,7 +169,7 @@ anchors_preset = 0
 layout_mode = 0
 offset_left = 10.0
 offset_top = 73.0
-offset_right = 110.0
+offset_right = 121.0
 offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -180,9 +180,9 @@ vertical_alignment = 1
 
 [node name="2" type="Label" parent="Tableau/Entete" unique_id=722429309]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 127.0
 offset_top = 73.0
-offset_right = 216.0
+offset_right = 238.0
 offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -193,9 +193,9 @@ vertical_alignment = 1
 
 [node name="3" type="Label" parent="Tableau/Entete" unique_id=246371950]
 layout_mode = 0
-offset_left = 222.0
+offset_left = 244.0
 offset_top = 73.0
-offset_right = 322.0
+offset_right = 355.0
 offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -208,7 +208,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 10.0
 offset_top = 91.0
-offset_right = 326.0
+offset_right = 360.0
 offset_bottom = 92.0
 mouse_filter = 2
 color = Color(0.93725, 0.76863, 0.62353, 1)
@@ -220,7 +220,7 @@ anchors_preset = 0
 layout_mode = 0
 offset_left = 15.0
 offset_top = 91.0
-offset_right = 110.0
+offset_right = 121.0
 offset_bottom = 115.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_1wc8w")
@@ -230,9 +230,9 @@ vertical_alignment = 1
 
 [node name="Temps" type="Label" parent="Tableau/PlusRapide" unique_id=957700861]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 127.0
 offset_top = 91.0
-offset_right = 216.0
+offset_right = 238.0
 offset_bottom = 115.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -242,9 +242,9 @@ vertical_alignment = 1
 
 [node name="Difficulte" type="Label" parent="Tableau/PlusRapide" unique_id=2114913189]
 layout_mode = 0
-offset_left = 222.0
+offset_left = 244.0
 offset_top = 91.0
-offset_right = 322.0
+offset_right = 355.0
 offset_bottom = 115.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -256,7 +256,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 10.0
 offset_top = 115.0
-offset_right = 326.0
+offset_right = 360.0
 offset_bottom = 116.0
 mouse_filter = 2
 color = Color(0.93725, 0.76863, 0.62353, 1)
@@ -268,7 +268,7 @@ anchors_preset = 0
 layout_mode = 0
 offset_left = 15.0
 offset_top = 115.0
-offset_right = 110.0
+offset_right = 121.0
 offset_bottom = 139.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_1wc8w")
@@ -278,9 +278,9 @@ vertical_alignment = 1
 
 [node name="Temps" type="Label" parent="Tableau/PlusLent" unique_id=1247410400]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 127.0
 offset_top = 115.0
-offset_right = 216.0
+offset_right = 238.0
 offset_bottom = 139.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -290,9 +290,9 @@ vertical_alignment = 1
 
 [node name="Difficulte" type="Label" parent="Tableau/PlusLent" unique_id=988654760]
 layout_mode = 0
-offset_left = 222.0
+offset_left = 244.0
 offset_top = 115.0
-offset_right = 322.0
+offset_right = 355.0
 offset_bottom = 139.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -304,7 +304,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 10.0
 offset_top = 139.0
-offset_right = 326.0
+offset_right = 360.0
 offset_bottom = 140.0
 mouse_filter = 2
 color = Color(0.93725, 0.76863, 0.62353, 1)
@@ -316,7 +316,7 @@ anchors_preset = 0
 layout_mode = 0
 offset_left = 15.0
 offset_top = 139.0
-offset_right = 110.0
+offset_right = 121.0
 offset_bottom = 163.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_1wc8w")
@@ -326,9 +326,9 @@ vertical_alignment = 1
 
 [node name="Essais" type="Label" parent="Tableau/PlusGalere" unique_id=1531384954]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 127.0
 offset_top = 139.0
-offset_right = 216.0
+offset_right = 238.0
 offset_bottom = 163.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
@@ -338,9 +338,9 @@ vertical_alignment = 1
 
 [node name="Difficulte" type="Label" parent="Tableau/PlusGalere" unique_id=1070400034]
 layout_mode = 0
-offset_left = 222.0
+offset_left = 244.0
 offset_top = 139.0
-offset_right = 322.0
+offset_right = 355.0
 offset_bottom = 163.0
 theme_override_colors/font_color = Color(0.4745098, 0.1882353, 0.73333335, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")

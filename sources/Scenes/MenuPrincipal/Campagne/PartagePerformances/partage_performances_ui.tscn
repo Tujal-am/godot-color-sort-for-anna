@@ -1,0 +1,140 @@
+[gd_scene format=3 uid="uid://glu81aft3hoh"]
+
+[ext_resource type="Script" uid="uid://bc5ng6gild4ip" path="res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_ui.gd" id="1_ui"]
+[ext_resource type="Script" uid="uid://3hhig04cjiw" path="res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_api.gd" id="2_api"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="3_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(1, 0.97255, 0.92941, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.99607843, 0.7137255, 0.4509804, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="PanneauPartagePerformances" type="Control" unique_id=1221475505]
+custom_minimum_size = Vector2(380, 680)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ui")
+
+[node name="Fond" type="Panel" parent="." unique_id=1463730584]
+layout_mode = 0
+offset_right = 380.0
+offset_bottom = 644.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+
+[node name="Titre" type="Label" parent="." unique_id=1428239627]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 15.0
+offset_right = 360.0
+offset_bottom = 60.0
+theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 25
+text = "Partage tes performances"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ImageQR" type="TextureRect" parent="." unique_id=475289190]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 70.0
+offset_right = 310.0
+offset_bottom = 310.0
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Message" type="Label" parent="." unique_id=106254979]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 130.0
+offset_right = 345.0
+offset_bottom = 250.0
+theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 17
+text = "Le QR code apparaîtra ici."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Consigne" type="Label" parent="." unique_id=1050596598]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 320.0
+offset_right = 355.0
+offset_bottom = 430.0
+theme_override_colors/font_color = Color(0.2, 0.15, 0.2, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 17
+text = "Scanne ce QR pour lire les données signées.
+
+Partage le QR sur Android, ou fais une capture d'écran pour l'envoyer par courriel."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="AdresseCourriel" type="Label" parent="." unique_id=946470087]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 435.0
+offset_right = 350.0
+offset_bottom = 465.0
+theme_override_colors/font_color = Color(0.2, 0.15, 0.2, 1)
+theme_override_font_sizes/font_size = 14
+text = "rangelescouleurspouranna@gmail.com"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BoutonCopierCourriel" type="Button" parent="." unique_id=1403581164]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 470.0
+offset_right = 350.0
+offset_bottom = 505.0
+theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 17
+text = "Copier l'adresse courriel"
+
+[node name="BoutonPartagerQR" type="Button" parent="." unique_id=997482125]
+visible = false
+layout_mode = 0
+offset_left = 30.0
+offset_top = 520.0
+offset_right = 350.0
+offset_bottom = 565.0
+theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 17
+text = "Partager le QR code"
+
+[node name="BoutonFermer" type="Button" parent="." unique_id=1779941863]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 575.0
+offset_right = 350.0
+offset_bottom = 620.0
+theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+theme_override_fonts/font = ExtResource("3_font")
+theme_override_font_sizes/font_size = 18
+text = "Retour au score"
+
+[node name="PartagePerformancesAPI" type="Node" parent="." unique_id=1604442838]
+script = ExtResource("2_api")
+
+[connection signal="pressed" from="BoutonCopierCourriel" to="." method="_on_bouton_copier_courriel_pressed"]
+[connection signal="pressed" from="BoutonPartagerQR" to="." method="_on_bouton_partager_qr_pressed"]
+[connection signal="pressed" from="BoutonFermer" to="." method="_on_bouton_fermer_pressed"]

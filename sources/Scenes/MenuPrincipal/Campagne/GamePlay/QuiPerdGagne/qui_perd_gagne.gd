@@ -6,7 +6,7 @@ func _ready() -> void:
 	super._ready()
 
 	# Initialiser le menu
-	$MenuPlateau.enregistrer_gameplay("Qui Perd\nGagne")
+	$MenuPlateau.enregistrer_gameplay("Qui Perd Gagne", 22)
 
 # Callback pour "Plateau"
 func est_termine(liste_piles) -> bool:
@@ -29,5 +29,6 @@ func est_termine(liste_piles) -> bool:
 	if termine:
 		LogService.log_debug("QuiPerdGagne : victoire.emit()")
 		$MenuPlateau/Top/BoutonRecommencer.hide()
+		$MenuPlateau/Top/BoutonPasser.hide()
 		victoire.emit()
 	return termine

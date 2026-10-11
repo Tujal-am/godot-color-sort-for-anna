@@ -30,7 +30,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="CarteNiveau" type="Control" unique_id=198575893]
-custom_minimum_size = Vector2(336, 0)
+custom_minimum_size = Vector2(370, 0)
 layout_mode = 3
 anchors_preset = 0
 offset_right = 336.0
@@ -40,7 +40,7 @@ script = ExtResource("1_g85l4")
 
 [node name="Fond" type="Panel" parent="." unique_id=2037178864]
 layout_mode = 0
-offset_right = 336.0
+offset_right = 370.0
 offset_bottom = 152.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("inner")
@@ -56,7 +56,7 @@ texture = ExtResource("1_gpfl3")
 [node name="Titre" type="Label" parent="." unique_id=1586345295]
 layout_mode = 0
 offset_left = 45.0
-offset_right = 320.0
+offset_right = 355.0
 offset_bottom = 41.0
 theme_override_colors/font_color = Color(0, 0.6392157, 0.6313726, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
@@ -68,14 +68,14 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 10.0
 offset_top = 40.0
-offset_right = 165.0
+offset_right = 182.0
 offset_bottom = 80.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("cell")
 
 [node name="Titre" type="Label" parent="EnCours" unique_id=148008339]
 layout_mode = 0
-offset_right = 155.0
+offset_right = 172.0
 offset_bottom = 18.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_gpfl3")
@@ -87,7 +87,7 @@ vertical_alignment = 1
 [node name="Valeur" type="Label" parent="EnCours" unique_id=1427059428]
 layout_mode = 0
 offset_top = 18.0
-offset_right = 155.0
+offset_right = 172.0
 offset_bottom = 40.0
 theme_override_colors/font_color = Color(0, 0.6392157, 0.6313726, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
@@ -97,16 +97,16 @@ vertical_alignment = 1
 
 [node name="Completion" type="Panel" parent="." unique_id=1687143466]
 layout_mode = 0
-offset_left = 170.0
+offset_left = 187.0
 offset_top = 40.0
-offset_right = 325.0
+offset_right = 359.0
 offset_bottom = 80.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("cell")
 
 [node name="Titre" type="Label" parent="Completion" unique_id=1765483678]
 layout_mode = 0
-offset_right = 155.0
+offset_right = 172.0
 offset_bottom = 18.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_gpfl3")
@@ -118,7 +118,7 @@ vertical_alignment = 1
 [node name="Valeur" type="Label" parent="Completion" unique_id=1154875803]
 layout_mode = 0
 offset_top = 18.0
-offset_right = 155.0
+offset_right = 172.0
 offset_bottom = 40.0
 theme_override_colors/font_color = Color(0, 0.6392157, 0.6313726, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
@@ -138,20 +138,19 @@ anchors_preset = 0
 layout_mode = 0
 offset_left = 10.0
 offset_top = 73.0
-offset_right = 110.0
+offset_right = 121.0
 offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
 theme_override_font_sizes/font_size = 11
-text = "Repère"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="2" type="Label" parent="Tableau/Entete" unique_id=722429309]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 128.0
 offset_top = 73.0
-offset_right = 216.0
+offset_right = 239.0
 offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
@@ -162,9 +161,9 @@ vertical_alignment = 1
 
 [node name="3" type="Label" parent="Tableau/Entete" unique_id=246371950]
 layout_mode = 0
-offset_left = 222.0
+offset_left = 244.0
 offset_top = 73.0
-offset_right = 322.0
+offset_right = 355.0
 offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
@@ -177,7 +176,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 10.0
 offset_top = 91.0
-offset_right = 326.0
+offset_right = 360.0
 offset_bottom = 92.0
 mouse_filter = 2
 color = Color(0.93725, 0.76863, 0.62353, 1)
@@ -189,7 +188,7 @@ anchors_preset = 0
 layout_mode = 0
 offset_left = 15.0
 offset_top = 91.0
-offset_right = 110.0
+offset_right = 121.0
 offset_bottom = 115.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_gpfl3")
@@ -199,9 +198,9 @@ vertical_alignment = 1
 
 [node name="Pourcent" type="Label" parent="Tableau/ReussiteMinimum" unique_id=957700861]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 128.0
 offset_top = 91.0
-offset_right = 216.0
+offset_right = 239.0
 offset_bottom = 115.0
 theme_override_colors/font_color = Color(0, 0.6392157, 0.6313726, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
@@ -211,9 +210,9 @@ vertical_alignment = 1
 
 [node name="Difficulte" type="Label" parent="Tableau/ReussiteMinimum" unique_id=2114913189]
 layout_mode = 0
-offset_left = 222.0
+offset_left = 244.0
 offset_top = 91.0
-offset_right = 322.0
+offset_right = 355.0
 offset_bottom = 115.0
 theme_override_colors/font_color = Color(0, 0.6392157, 0.6313726, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
@@ -225,7 +224,7 @@ vertical_alignment = 1
 layout_mode = 0
 offset_left = 10.0
 offset_top = 115.0
-offset_right = 326.0
+offset_right = 360.0
 offset_bottom = 116.0
 mouse_filter = 2
 color = Color(0.93725, 0.76863, 0.62353, 1)
@@ -237,7 +236,7 @@ anchors_preset = 0
 layout_mode = 0
 offset_left = 15.0
 offset_top = 115.0
-offset_right = 110.0
+offset_right = 121.0
 offset_bottom = 139.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("2_gpfl3")
@@ -247,9 +246,9 @@ vertical_alignment = 1
 
 [node name="Pourcent" type="Label" parent="Tableau/ReussiteMaximum" unique_id=1247410400]
 layout_mode = 0
-offset_left = 116.0
+offset_left = 128.0
 offset_top = 115.0
-offset_right = 216.0
+offset_right = 239.0
 offset_bottom = 139.0
 theme_override_colors/font_color = Color(0, 0.6392157, 0.6313726, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")
@@ -259,9 +258,9 @@ vertical_alignment = 1
 
 [node name="Difficulte" type="Label" parent="Tableau/ReussiteMaximum" unique_id=988654760]
 layout_mode = 0
-offset_left = 222.0
+offset_left = 244.0
 offset_top = 115.0
-offset_right = 322.0
+offset_right = 355.0
 offset_bottom = 139.0
 theme_override_colors/font_color = Color(0, 0.6392157, 0.6313726, 1)
 theme_override_fonts/font = ExtResource("1_q3spe")

@@ -40,10 +40,20 @@ func _enregistrer_la_liste_des_joueurs() -> void:
 	FichiersJsonService.write_json_file("liste_des_joueurs.json", liste_des_joueurs.duplicate(true))
 	LogService.log_debug("Liste des joueurs sauvegardée")
 
+func le_nom_du_joueur_est_valide(nom_joueur : String) -> bool:
+	"""Verifie si le nom est valide"""
+	return not nom_joueur.strip_edges().is_empty()
+
 func le_joueur_existe(nom_joueur : String) -> bool:
 	"""Verifie si le joueur existe"""
+	# Verifier si le nom est valide
+	var nom_normalise := nom_joueur.strip_edges().to_lower()
+	if nom_normalise.is_empty():
+		return false
+
 	for joueur in liste_des_joueurs:
-		if joueur.get('nom') == nom_joueur:
+		var nom_joueur_normalise = str(joueur.get('nom')).strip_edges().to_lower()
+		if nom_joueur_normalise == nom_normalise:
 			return true
 	return false
 
@@ -63,9 +73,10 @@ func retourner_la_liste_des_joueurs() -> Variant:
 func ajouter_un_nouveau_joueur(nom_nouveau_joueur : String) -> bool:
 	"""Crée un nouveau joueur si le nom est libre"""
 	# Vérifie que le nom est libre
-	if not nom_nouveau_joueur:
+	var nom_normalise := nom_nouveau_joueur.strip_edges()
+	if nom_normalise.is_empty():
 		return false
-	if le_joueur_existe(nom_nouveau_joueur):
+	if le_joueur_existe(nom_normalise):
 		return false
 
 	# Definir l'indice du joueur
@@ -76,7 +87,7 @@ func ajouter_un_nouveau_joueur(nom_nouveau_joueur : String) -> bool:
 	# Crée le compte et l'enregistre
 	var compte = {
 		'indice': indice,
-		'nom': nom_nouveau_joueur,
+		'nom': nom_normalise,
 		'fichier_sauvegarde': 'sauvegarde_joueur_' + str(indice).pad_zeros(2) + '.json'
 	}
 	liste_des_joueurs.append(compte.duplicate(true))

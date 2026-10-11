@@ -12,6 +12,7 @@ const SON_MENU_CLICK = preload("res://Art/EffetSonore/menu-click.mp3")
 const SON_PARTIE_COMMENCER = preload("res://Art/EffetSonore/game-start.mp3")
 const SON_PARTIE_VICTOIRE = preload("res://Art/EffetSonore/game-win.mp3")
 const SON_PARTIE_ECHEC = preload("res://Art/EffetSonore/game-fail.mp3")
+const SON_PARTIE_PASSER = preload("res://Art/EffetSonore/game-skip.mp3")
 
 const SON_JETON_DEPLACER_DEBUT_SUCCES = preload("res://Art/EffetSonore/move-start-success.mp3")
 const SON_JETON_DEPLACER_PLEINE = preload("res://Art/EffetSonore/move-full.mp3")
@@ -75,6 +76,10 @@ func son_commencer_un_plateau():
 func son_abandonner_un_plateau():
 	if SauvegardeConfigurationService.effets_sonores_sont_actifs():
 		_effet_sonore_play(SON_PARTIE_ECHEC)
+
+func son_passer_un_plateau():
+	if SauvegardeConfigurationService.effets_sonores_sont_actifs():
+		_effet_sonore_play(SON_PARTIE_PASSER)
 
 func son_gagner_un_plateau():
 	if SauvegardeConfigurationService.effets_sonores_sont_actifs():

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://civ2upw8lhv4x" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_plateau.tscn" id="3_i48wp"]
 [ext_resource type="PackedScene" uid="uid://ct3na0n0v1odm" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_niveau.tscn" id="4_22vk1"]
 [ext_resource type="PackedScene" uid="uid://dj67xrfwthpal" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_campagne.tscn" id="5_mt8hf"]
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_ui.tscn" id="6_partage"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4v47e"]
 bg_color = Color(0, 0, 0, 1)
@@ -102,6 +103,10 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
+[node name="PanneauPartagePerformances" parent="Centrer" instance=ExtResource("6_partage")]
+visible = false
+layout_mode = 2
+
 [connection signal="pressed" from="BoutonMenuPrincipal" to="." method="_on_bouton_menu_principal_pressed"]
 [connection signal="pressed" from="BoutonStatistiques" to="." method="_on_bouton_statistiques_pressed"]
 [connection signal="pressed" from="BoutonCommencer" to="." method="_on_bouton_commencer_pressed"]
@@ -109,3 +114,4 @@ layout_mode = 2
 [connection signal="continuer" from="Centrer/PanneauVictoirePlateau" to="." method="_on_panneau_victoire_plateau_continuer"]
 [connection signal="continuer" from="Centrer/PanneauVictoireNiveau" to="." method="_on_panneau_victoire_niveau_continuer"]
 [connection signal="continuer" from="Centrer/PanneauVictoireCampagne" to="." method="_on_panneau_victoire_campagne_continuer"]
+[connection signal="fermer" from="Centrer/PanneauPartagePerformances" to="." method="_on_panneau_partage_performances_fermer"]

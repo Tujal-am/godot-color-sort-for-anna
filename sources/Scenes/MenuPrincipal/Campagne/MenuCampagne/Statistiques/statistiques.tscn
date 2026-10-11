@@ -11,10 +11,6 @@
 [ext_resource type="Texture2D" uid="uid://bsf63i5lw2xb" path="res://Art/UI/Statistiques/picto_modes_de_jeu_40x30.png" id="modes_i"]
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="regular"]
 
-[sub_resource type="AtlasTexture" id="body"]
-atlas = ExtResource("background")
-region = Rect2(0, 135, 1024, 1401)
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sqo1"]
 bg_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
 corner_radius_top_left = 23
@@ -60,16 +56,16 @@ horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 
 [node name="Content" type="Control" parent="Scroll" unique_id=884972116]
-custom_minimum_size = Vector2(480, 1230)
+custom_minimum_size = Vector2(480, 1300)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="Background" type="TextureRect" parent="Scroll/Content" unique_id=458257843]
 layout_mode = 0
 offset_right = 480.0
-offset_bottom = 1230.0
+offset_bottom = 1300.0
 mouse_filter = 2
-texture = SubResource("body")
+texture = ExtResource("background")
 expand_mode = 1
 
 [node name="Banniere" type="Control" parent="Scroll/Content" unique_id=915807125]
@@ -96,7 +92,7 @@ offset_bottom = 60.0
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("regular")
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 30
 text = "Statistiques"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -117,69 +113,67 @@ flat = true
 [node name="Score" parent="Scroll/Content" unique_id=198575893 instance=ExtResource("5_babj6")]
 layout_mode = 0
 offset_left = 55.0
-offset_top = 65.0
+offset_top = 90.0
 offset_right = 425.0
-offset_bottom = 271.0
+offset_bottom = 296.0
 
 [node name="Campagne" parent="Scroll/Content" unique_id=1850852991 instance=ExtResource("7_babj6")]
 layout_mode = 0
-offset_left = 72.0
-offset_top = 280.0
-offset_right = 408.0
-offset_bottom = 444.0
+offset_left = 55.0
+offset_top = 323.0
+offset_right = 425.0
+offset_bottom = 501.0
 
 [node name="Niveau" parent="Scroll/Content" unique_id=504557105 instance=ExtResource("8_4sqo1")]
 layout_mode = 0
-offset_left = 72.0
-offset_top = 464.0
-offset_right = 408.0
-offset_bottom = 628.0
+offset_left = 55.0
+offset_top = 517.0
+offset_right = 425.0
+offset_bottom = 681.0
 
 [node name="Plateau" parent="Scroll/Content" unique_id=1322759816 instance=ExtResource("mode")]
 layout_mode = 0
-offset_left = 72.0
-offset_top = 620.0
-offset_right = 408.0
-offset_bottom = 784.0
+offset_left = 55.0
+offset_top = 684.0
+offset_right = 425.0
+offset_bottom = 848.0
 
 [node name="BanniereMode" type="Control" parent="Scroll/Content" unique_id=456223986]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_left = 55.0
-offset_top = 793.0
-offset_right = -54.0
-offset_bottom = 1133.0
+offset_top = 878.0
+offset_right = -55.0
+offset_bottom = 1278.0
 grow_horizontal = 2
 
 [node name="Fond" type="Panel" parent="Scroll/Content/BanniereMode" unique_id=1220852638]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 360.0
+offset_right = 370.0
 offset_bottom = 400.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_babj6")
 
 [node name="ModesIcon" type="TextureRect" parent="Scroll/Content/BanniereMode" unique_id=996767029]
 layout_mode = 0
-offset_left = 18.0
-offset_top = 17.0
-offset_right = 65.0
-offset_bottom = 47.0
+offset_left = 8.0
+offset_top = 15.0
+offset_right = 55.0
+offset_bottom = 45.0
 mouse_filter = 2
 texture = ExtResource("modes_i")
 
 [node name="Titre" type="Label" parent="Scroll/Content/BanniereMode" unique_id=703393183]
 layout_mode = 0
-offset_left = 76.0
+offset_left = 68.0
 offset_top = 10.0
-offset_right = 360.0
+offset_right = 372.0
 offset_bottom = 55.0
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
 theme_override_fonts/font = ExtResource("regular")
-theme_override_font_sizes/font_size = 19
+theme_override_font_sizes/font_size = 27
 text = "Modes De Jeu"
 vertical_alignment = 1
 clip_text = true
@@ -187,17 +181,17 @@ clip_text = true
 [node name="Classique" parent="Scroll/Content" unique_id=1849457789 instance=ExtResource("10_86xq2")]
 layout_mode = 0
 offset_left = 72.0
-offset_top = 848.0
+offset_top = 930.0
 offset_right = 408.0
-offset_bottom = 1012.0
+offset_bottom = 1094.0
 _titre = "Classique"
 
 [node name="QuiPerdGagne" parent="Scroll/Content" unique_id=677782113 instance=ExtResource("10_86xq2")]
 layout_mode = 0
 offset_left = 72.0
-offset_top = 1018.0
+offset_top = 1102.0
 offset_right = 408.0
-offset_bottom = 1182.0
+offset_bottom = 1266.0
 _titre = "Qui Perd Gagne"
 
 [connection signal="pressed" from="Scroll/Content/Retour" to="." method="_on_retour_pressed"]

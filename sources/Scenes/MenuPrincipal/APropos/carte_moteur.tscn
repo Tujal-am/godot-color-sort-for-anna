@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://bv2flmd21pfgj"]
+
+[ext_resource type="Script" uid="uid://d8xg4adqqnuv" path="res://Scenes/MenuPrincipal/APropos/carte.gd" id="1_f06lb"]
+[ext_resource type="Texture2D" uid="uid://dcalkygldstcy" path="res://Art/UI/APropos/godot_icon_official.png" id="1_vb13s"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="2_cxjln"]
+[ext_resource type="FontFile" uid="uid://8pcourumhksh" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="3_cxjln"]
+
+[sub_resource type="StyleBoxFlat" id="inner"]
+bg_color = Color(1, 0.972549, 0.92156863, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.91764706, 0.8156863, 0.68235296, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="CarteMoteur" type="Control" unique_id=198575893]
+custom_minimum_size = Vector2(310, 85)
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_f06lb")
+
+[node name="Fond" type="Panel" parent="." unique_id=2037178864]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("inner")
+
+[node name="Colonne1" type="VBoxContainer" parent="." unique_id=1185419517]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 90.0
+grow_vertical = 2
+alignment = 1
+
+[node name="Logo" type="TextureRect" parent="Colonne1" unique_id=794046364]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("1_vb13s")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Colonne2" type="VBoxContainer" parent="." unique_id=1910800019]
+layout_mode = 0
+offset_left = 90.0
+offset_right = 310.0
+offset_bottom = 85.0
+alignment = 1
+
+[node name="Titre" type="Label" parent="Colonne2" unique_id=1586345295]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_fonts/font = ExtResource("2_cxjln")
+theme_override_font_sizes/font_size = 19
+text = "Moteur"
+vertical_alignment = 1
+
+[node name="Item1" type="Label" parent="Colonne2" unique_id=1334713980]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_fonts/font = ExtResource("3_cxjln")
+theme_override_font_sizes/font_size = 13
+text = "Godot Engine"
+vertical_alignment = 1
+
+[node name="Item2" type="Label" parent="Colonne2" unique_id=232644238]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_fonts/font = ExtResource("3_cxjln")
+theme_override_font_sizes/font_size = 13
+text = "Plugins: GUT, QRPlugin, SharePlugin"
+vertical_alignment = 1
+
+[node name="Lien" type="RichTextLabel" parent="Colonne2" unique_id=572726507]
+layout_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/default_color = Color(0.9411765, 0.3019608, 0.23529412, 1)
+theme_override_colors/selection_color = Color(0.9411765, 0.3019608, 0.23529412, 1)
+theme_override_fonts/normal_font = ExtResource("3_cxjln")
+theme_override_font_sizes/normal_font_size = 13
+bbcode_enabled = true
+text = "[url=\"https://godotengine.org\"][color=#f04d3c]godotengine.org[/color][/url]"
+fit_content = true
+scroll_active = false
+vertical_alignment = 1
+meta_underlined = false
+
+[connection signal="meta_clicked" from="Colonne2/Lien" to="." method="_on_lien_meta_clicked"]
+[connection signal="meta_hover_ended" from="Colonne2/Lien" to="." method="_on_lien_meta_hover_ended"]
+[connection signal="meta_hover_started" from="Colonne2/Lien" to="." method="_on_lien_meta_hover_started"]

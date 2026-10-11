@@ -1,7 +1,15 @@
 [gd_scene format=3 uid="uid://crh6v0vpu06u8"]
 
 [ext_resource type="Script" uid="uid://cmgsljgwmgwhn" path="res://Scenes/MenuPrincipal/APropos/a_propos.gd" id="1_about"]
-[ext_resource type="Texture2D" uid="uid://dyqudplf18flw" path="res://Art/UI/APropos/a_propos_underlay_480x720.png" id="2_77vjn"]
+[ext_resource type="Texture2D" uid="uid://cag2gtuwofgb3" path="res://Art/UI/APropos/background.png" id="2_68h0i"]
+[ext_resource type="PackedScene" uid="uid://ck64s8725qrbo" path="res://Scenes/MenuPrincipal/APropos/ornement.tscn" id="3_b4dqm"]
+[ext_resource type="PackedScene" uid="uid://bv2flmd21pfgj" path="res://Scenes/MenuPrincipal/APropos/carte_moteur.tscn" id="3_fmmw8"]
+[ext_resource type="PackedScene" uid="uid://i1gx4sivadsl" path="res://Scenes/MenuPrincipal/APropos/carte_musiques.tscn" id="4_vt736"]
+[ext_resource type="FontFile" uid="uid://8pcourumhksh" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="4_yeckh"]
+[ext_resource type="PackedScene" uid="uid://10fbtiv33i8v" path="res://Scenes/MenuPrincipal/APropos/carte_effets_sonores.tscn" id="5_m17g7"]
+[ext_resource type="PackedScene" uid="uid://bt47a3sxl235a" path="res://Scenes/MenuPrincipal/APropos/carte_didacticiel.tscn" id="6_b4dqm"]
+[ext_resource type="PackedScene" uid="uid://bgo2hk767xmes" path="res://Scenes/MenuPrincipal/APropos/carte_ia.tscn" id="9_y32de"]
+[ext_resource type="Texture2D" uid="uid://bgu2eftbss6qv" path="res://Art/UI/icons/icon_back.png" id="10_68h0i"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_c01oa"]
 bg_color = Color(1, 0.972549, 0.9098039, 1)
@@ -45,7 +53,7 @@ layout_mode = 0
 offset_right = 480.0
 offset_bottom = 720.0
 mouse_filter = 2
-texture = ExtResource("2_77vjn")
+texture = ExtResource("2_68h0i")
 expand_mode = 1
 stretch_mode = 2
 
@@ -53,18 +61,84 @@ stretch_mode = 2
 custom_minimum_size = Vector2(356, 625)
 layout_mode = 0
 offset_left = 62.0
-offset_top = 75.0
-offset_right = 102.0
-offset_bottom = 115.0
+offset_top = 18.0
+offset_right = 418.0
+offset_bottom = 710.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_c01oa")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanneauCredits" unique_id=745848759]
+layout_mode = 0
+offset_right = 356.0
+offset_bottom = 164.0
+alignment = 1
+
+[node name="VBox" type="VBoxContainer" parent="PanneauCredits/HBoxContainer" unique_id=1446413749]
+layout_mode = 2
+
+[node name="VBoxEntete" type="VBoxContainer" parent="PanneauCredits/HBoxContainer/VBox" unique_id=129061687]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="MargeHaute" type="Label" parent="PanneauCredits/HBoxContainer/VBox/VBoxEntete" unique_id=209249235]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_font_sizes/font_size = 1
+horizontal_alignment = 1
+
+[node name="Titre" type="Label" parent="PanneauCredits/HBoxContainer/VBox/VBoxEntete" unique_id=1784722280]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_font_sizes/font_size = 41
+text = "À propos"
+horizontal_alignment = 1
+
+[node name="Orenement" parent="PanneauCredits/HBoxContainer/VBox/VBoxEntete" unique_id=198575893 instance=ExtResource("3_b4dqm")]
+layout_mode = 2
+
+[node name="SousTitre" type="Label" parent="PanneauCredits/HBoxContainer/VBox/VBoxEntete" unique_id=1263578414]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9411765, 0.3019608, 0.23529412, 1)
+theme_override_fonts/font = ExtResource("4_yeckh")
+theme_override_font_sizes/font_size = 18
+text = "Crédits et ressources"
+horizontal_alignment = 1
+
+[node name="MargeBasse" type="Label" parent="PanneauCredits/HBoxContainer/VBox/VBoxEntete" unique_id=1698979331]
+custom_minimum_size = Vector2(0, 10)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_font_sizes/font_size = 1
+horizontal_alignment = 1
+
+[node name="VBoxCorps" type="VBoxContainer" parent="PanneauCredits/HBoxContainer/VBox" unique_id=664819482]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="CarteMoteur" parent="PanneauCredits/HBoxContainer/VBox/VBoxCorps" unique_id=1742898521 instance=ExtResource("3_fmmw8")]
+layout_mode = 2
+
+[node name="CarteIA" parent="PanneauCredits/HBoxContainer/VBox/VBoxCorps" unique_id=1842357003 instance=ExtResource("9_y32de")]
+layout_mode = 2
+
+[node name="CarteMusique" parent="PanneauCredits/HBoxContainer/VBox/VBoxCorps" unique_id=1091082428 instance=ExtResource("4_vt736")]
+layout_mode = 2
+
+[node name="CarteEffetsSonores" parent="PanneauCredits/HBoxContainer/VBox/VBoxCorps" unique_id=378650684 instance=ExtResource("5_m17g7")]
+layout_mode = 2
+
+[node name="CarteDidacticiel" parent="PanneauCredits/HBoxContainer/VBox/VBoxCorps" unique_id=810420654 instance=ExtResource("6_b4dqm")]
+layout_mode = 2
 
 [node name="Retour" type="Button" parent="." unique_id=169920233]
 layout_mode = 0
 offset_left = 18.0
 offset_top = 12.0
-offset_right = 90.0
-offset_bottom = 76.0
+offset_right = 88.0
+offset_bottom = 73.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_77vjn")
@@ -73,6 +147,8 @@ theme_override_styles/hover = SubResource("StyleBoxEmpty_vt736")
 theme_override_styles/disabled = SubResource("StyleBoxEmpty_n3y8f")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_m17g7")
 shortcut = SubResource("Shortcut_opeep")
+icon = ExtResource("10_68h0i")
 flat = true
+icon_alignment = 1
 
 [connection signal="pressed" from="Retour" to="." method="_on_retour_pressed"]

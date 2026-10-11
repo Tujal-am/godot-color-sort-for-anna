@@ -189,8 +189,10 @@ func test_le_joueur_existe_est_sensible_a_la_casse():
 		{"indice": 0, "nom": "Alice", "fichier_sauvegarde": "test_liste_joueurs_00.json"}
 	])
 
-	# Comportement documenté : la recherche est une comparaison stricte,
-	# donc une casse différente n'est pas considérée comme le même joueur.
-	assert_false(service.le_joueur_existe("alice"))
-	assert_true(service.ajouter_un_nouveau_joueur("alice"))
+	# Comportement documenté : la recherche est une comparaison stricte en minuscules,
+	# donc une casse différente est considérée comme le même joueur.
+	assert_true(service.le_joueur_existe("alice"))
+	assert_false(service.ajouter_un_nouveau_joueur("alice"))
+	assert_eq(service.liste_des_joueurs.size(), 1)
+	assert_true(service.ajouter_un_nouveau_joueur("A-lice"))
 	assert_eq(service.liste_des_joueurs.size(), 2)

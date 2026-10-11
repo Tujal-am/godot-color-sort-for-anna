@@ -75,6 +75,7 @@ offset_left = 45.0
 offset_top = -160.0
 offset_right = -45.0
 offset_bottom = -70.0
+_titre = "Temps"
 
 [node name="Ratio" parent="." unique_id=176967302 instance=ExtResource("5_4xrik")]
 layout_mode = 1

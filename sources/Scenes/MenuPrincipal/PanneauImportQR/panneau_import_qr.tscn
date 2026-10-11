@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://duntbi75ablgc"]
+
+[ext_resource type="Script" uid="uid://bbb5x58a1bxmt" path="res://Scenes/MenuPrincipal/PanneauImportQR/panneau_import_qr.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_import"]
+content_margin_left = 16.0
+content_margin_top = 16.0
+content_margin_right = 16.0
+content_margin_bottom = 16.0
+bg_color = Color(1, 0.97255, 0.92941, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.996078, 0.713726, 0.45098, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="PanneauImportQR" type="Control" unique_id=1024641969]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Fond" type="ColorRect" parent="." unique_id=1933126130]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panel" type="PanelContainer" parent="Fond" unique_id=1615020784]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -135.0
+offset_right = 190.0
+offset_bottom = 135.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_import")
+
+[node name="Contenu" type="VBoxContainer" parent="Fond/Panel" unique_id=2041300295]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Titre" type="Label" parent="Fond/Panel/Contenu" unique_id=81881260]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
+theme_override_font_sizes/font_size = 22
+text = "Importer un joueur"
+horizontal_alignment = 1
+
+[node name="Introduction" type="Label" parent="Fond/Panel/Contenu" unique_id=2108801481]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
+text = "Un QR code valide contient les statistiques du joueur :"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="NomJoueur" type="Label" parent="Fond/Panel/Contenu" unique_id=407796274]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="NomNiveau" type="Label" parent="Fond/Panel/Contenu" unique_id=1457600453]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
+horizontal_alignment = 1
+
+[node name="Boutons" type="HBoxContainer" parent="Fond/Panel/Contenu" unique_id=1071623966]
+layout_mode = 2
+theme_override_constants/separation = 18
+alignment = 1
+
+[node name="BoutonAccepter" type="Button" parent="Fond/Panel/Contenu/Boutons" unique_id=2053387602]
+custom_minimum_size = Vector2(135, 48)
+layout_mode = 2
+text = "Accepter"
+
+[node name="BoutonRefuser" type="Button" parent="Fond/Panel/Contenu/Boutons" unique_id=585076004]
+custom_minimum_size = Vector2(135, 48)
+layout_mode = 2
+text = "Refuser"
+
+[connection signal="pressed" from="Fond/Panel/Contenu/Boutons/BoutonAccepter" to="." method="_on_bouton_accepter_pressed"]
+[connection signal="pressed" from="Fond/Panel/Contenu/Boutons/BoutonRefuser" to="." method="_on_bouton_refuser_pressed"]

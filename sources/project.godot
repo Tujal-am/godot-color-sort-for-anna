@@ -32,6 +32,8 @@ StatsService="*res://Singletons/stats_service.gd"
 ScoreService="*res://Singletons/score_service.gd"
 ProgressionCampagneService="*res://Singletons/progression_campagne_service.gd"
 VibrationService="*res://Singletons/vibration_service.gd"
+ShareService="*res://Singletons/share_service.gd"
+PartagePerformancesImportService="*res://Singletons/partage_performances_import_service.gd"
 
 [display]
 
@@ -42,7 +44,11 @@ window/handheld/orientation=1
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/gut/plugin.cfg")
+enabled=PackedStringArray("res://addons/gut/plugin.cfg", "res://addons/QRPlugin/plugin.cfg", "res://addons/SharePlugin/plugin.cfg")
+
+[partage_performances]
+
+cle_hmac="b[zr8Jel$PDq'y;!lh%X_:eu1T%FQQ6,&><mNKau"
 
 [rendering]
 

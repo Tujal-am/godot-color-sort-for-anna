@@ -5,19 +5,28 @@ class_name MenuCampagne
 signal score_continuer
 
 var formatter := FormatterMenuCampagne.new()
+var beta_test: bool = true
 
 # Notifie la scene `Plateau` que le bouton est pressé
 signal commencer_plateau
+
+enum ActionApresPartage { AUCUNE, NIVEAU_SUIVANT, STATISTIQUES }
+
+var _action_apres_partage: ActionApresPartage = ActionApresPartage.AUCUNE
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Connecter les signaux attendus
 	var pcs = get_node("/root/ProgressionCampagneService")
 	pcs.detail_score_plateau.connect(_on_progression_campagne_service_detail_score_plateau)
+	pcs.fin_campagne.connect(_on_progression_campagne_service_fin_campagne)
 
 # ###### SIGNAUX##########
 func _on_progression_campagne_service_detail_score_plateau(detail_score: Dictionary):
 	afficher_detail_score(detail_score)
+
+func _on_progression_campagne_service_fin_campagne() -> void:
+	_on_bouton_statistiques_pressed()
 
 func _on_bouton_menu_principal_pressed() -> void:
 	AudioService.son_menu_click()
@@ -63,16 +72,46 @@ func _on_panneau_victoire_plateau_continuer() -> void:
 	score_continuer.emit() #Redonner la main à "campagne" pour la suite
 
 func _on_panneau_victoire_niveau_continuer() -> void:
-	$Centrer.hide()
-	$Centrer/PanneauVictoireNiveau.hide()
-	$BoutonCommencer.show()
-	score_continuer.emit() #Redonner la main à "campagne" pour la suite
+	_action_apres_partage = ActionApresPartage.NIVEAU_SUIVANT
+	_afficher_partage_dernier_niveau()
 
 func _on_panneau_victoire_campagne_continuer() -> void:
+	_action_apres_partage = ActionApresPartage.STATISTIQUES
+	_afficher_partage_dernier_niveau()
+
+func _on_panneau_partage_performances_fermer() -> void:
+	$Centrer/PanneauPartagePerformances.hide()
 	$Centrer.hide()
+
+	var action := _action_apres_partage
+	_action_apres_partage = ActionApresPartage.AUCUNE
+	match action:
+		ActionApresPartage.NIVEAU_SUIVANT:
+			$BoutonCommencer.show()
+			score_continuer.emit()
+		ActionApresPartage.STATISTIQUES:
+			_on_bouton_statistiques_pressed()
+			score_continuer.emit()
+
+func _afficher_partage_dernier_niveau() -> void:
+	$Centrer.hide()
+	$Centrer/PanneauVictoireNiveau.hide()
 	$Centrer/PanneauVictoireCampagne.hide()
-	_on_bouton_statistiques_pressed()
-	score_continuer.emit() #Redonner la main à "campagne" pour la suite
+	$BoutonCommencer.hide()
+	if beta_test:
+		$Centrer/PanneauPartagePerformances.afficher_dernier_niveau()
+		$Centrer.show()
+	else:
+		_on_panneau_partage_performances_fermer()
+
+## Affiche le panneau de partage à partir des enregistrements du dernier niveau terminé.
+func afficher_partage_performances(enregistrements: Dictionary) -> void:
+	$Centrer/PanneauDefaite.hide()
+	$Centrer/PanneauVictoirePlateau.hide()
+	$Centrer/PanneauVictoireNiveau.hide()
+	$Centrer/PanneauVictoireCampagne.hide()
+	$Centrer/PanneauPartagePerformances.afficher(enregistrements)
+	$Centrer.show()
 
 
 
@@ -106,6 +145,17 @@ func afficher_abandonner_un_plateau():
 	
 	$Centrer.show()
 	$Centrer/PanneauDefaite.show()
+
+func afficher_passer_un_plateau():
+	$BoutonMenuPrincipal.show()
+	$BoutonStatistiques.show()
+	mettre_a_jour_infos_joueur()
+	$InfosDuJoueur.show()
+
+	# TODO : Panneau pour le plateau passé
+	$BoutonCommencer.show()
+	# $Centrer.show()
+	# $Centrer/PanneauPasse.show()
 
 func afficher_gagner_un_plateau() -> void:
 	# TODO : Insérer ici un message positif pour le joueur apres le score

@@ -13,4 +13,5 @@ script = ExtResource("1_68vyc")
 
 [connection signal="abandon" from="MenuPlateau" to="." method="_on_menu_plateau_abandon"]
 [connection signal="deselection_pile" from="MenuPlateau" to="Plateau" method="_on_menu_plateau_deselection_pile"]
+[connection signal="passe" from="MenuPlateau" to="." method="_on_menu_plateau_passe"]
 [connection signal="plateau_invalide" from="Plateau" to="." method="_on_plateau_plateau_invalide"]

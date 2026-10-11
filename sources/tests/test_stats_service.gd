@@ -221,7 +221,7 @@ func test_niveau_taux_reussite_les_infos_traite_les_branchs_fallbacks():
 	assert_eq(infos_2.get("taux_max_lg"), 1)
 
 func test_reussis_abandonnes_par_niveau_et_completion_niveau_couvrent_les_zeros():
-	var par_niveau = service.nombre_de_plateau_reussis_abandonnes_pour_niveau("niveau_2")
+	var par_niveau = service.nombre_de_plateau_reussis_abandonnes_passes_pour_niveau("niveau_2")
 	assert_eq(par_niveau.get("reussis"), 2)
 	assert_eq(par_niveau.get("abandonnes"), 0)
 	assert_true(abs(service.taux_completion_niveau() - (2.0 / 3.0)) < 0.0001)
@@ -230,7 +230,7 @@ func test_reussis_abandonnes_par_niveau_et_completion_niveau_couvrent_les_zeros(
 	SauvegardeBddJoueursService.sauvegarde_joueur["enregistrement_campagne"] = [
 		{"niveau": "niveau_99", "date_debut": 1700000000, "date_fin": 1700001000, "plateaux": []}
 	]
-	assert_eq(service.nombre_de_plateau_reussis_abandonnes_pour_niveau("niveau_99").get("reussis"), 0)
+	assert_eq(service.nombre_de_plateau_reussis_abandonnes_passes_pour_niveau("niveau_99").get("reussis"), 0)
 	assert_true(abs(service.taux_completion_niveau()) < 0.0001)
 
 func test_gameplay_statistiques_classique():

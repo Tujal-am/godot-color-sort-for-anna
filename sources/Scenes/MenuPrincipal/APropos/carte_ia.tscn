@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bgo2hk767xmes"]
+
+[ext_resource type="Texture2D" uid="uid://8m1kiun6oxrq" path="res://Art/UI/APropos/icon_ia.png" id="2_u5alm"]
+[ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="3_gqb18"]
+[ext_resource type="FontFile" uid="uid://8pcourumhksh" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="4_h6ick"]
+
+[sub_resource type="StyleBoxFlat" id="inner"]
+bg_color = Color(1, 0.972549, 0.92156863, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.91764706, 0.8156863, 0.68235296, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="CarteIA" type="Control" unique_id=198575893]
+custom_minimum_size = Vector2(310, 70)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 310.0
+offset_bottom = 70.0
+mouse_filter = 2
+
+[node name="Fond" type="Panel" parent="." unique_id=2037178864]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("inner")
+
+[node name="Colonne1" type="VBoxContainer" parent="Fond" unique_id=1219550115]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 90.0
+grow_vertical = 2
+alignment = 1
+
+[node name="Logo" type="TextureRect" parent="Fond/Colonne1" unique_id=794046364]
+custom_minimum_size = Vector2(48, 42)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_u5alm")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Colonne2" type="VBoxContainer" parent="Fond" unique_id=1910800019]
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -220.0
+grow_horizontal = 0
+grow_vertical = 2
+alignment = 1
+
+[node name="Titre" type="Label" parent="Fond/Colonne2" unique_id=1586345295]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_fonts/font = ExtResource("3_gqb18")
+theme_override_font_sizes/font_size = 19
+text = "IA"
+vertical_alignment = 1
+
+[node name="Items" type="Label" parent="Fond/Colonne2" unique_id=232644238]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
+theme_override_fonts/font = ExtResource("4_h6ick")
+theme_override_font_sizes/font_size = 13
+text = "• Copilot, Github Copilat
+• ChatGPT, Codex"
+vertical_alignment = 1

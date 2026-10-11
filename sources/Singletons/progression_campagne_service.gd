@@ -3,7 +3,7 @@ extends Node
 # signal progression_niveau   # TODO : Le signal n'est lu par personne. Normal ?
 signal detail_score_plateau(detail_score : Dictionary)
 signal fin_niveau
-# TODO : signal fin_campagne
+signal fin_campagne
 
 ####################################
 # Gestion de données transverses Campagne
@@ -34,7 +34,8 @@ func liberer_le_joueur_pour_la_campagne():
 	SauvegardeBddJoueursService.liberer_le_joueur()
 
 func autoriser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur : String) -> bool:
-	return not SauvegardeListeJoueursService.le_joueur_existe(nom_nouveau_joueur)
+	return SauvegardeListeJoueursService.le_nom_du_joueur_est_valide(nom_nouveau_joueur) \
+			and not SauvegardeListeJoueursService.le_joueur_existe(nom_nouveau_joueur)
 
 func initialiser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur : String) -> bool:
 	if autoriser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur):
@@ -45,6 +46,48 @@ func initialiser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur : String)
 			if SauvegardeBddJoueursService.ajouter_un_nouveau_joueur(nom_nouveau_joueur, nom_fichier):
 				# Ajouter le joueur dans le tableau des scores
 				return SauvegardeTableauDesScoresService.ajouter_un_nouveau_joueur(nom_nouveau_joueur)
+	return false
+
+func importer_statistiques_nouveau_joueur_externe(nom_nouveau_joueur : String, enregistrement_niveau : Dictionary) -> bool:
+	if autoriser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur):
+		# Ajouter le joueur dans la liste des joueurs
+		if SauvegardeListeJoueursService.ajouter_un_nouveau_joueur(nom_nouveau_joueur):
+			var nom_fichier = SauvegardeListeJoueursService.retourner_le_fichier_de_sauvegarde(nom_nouveau_joueur)
+			# Ajouter la sauvegarde personnelle du joueur
+			if SauvegardeBddJoueursService.ajouter_un_nouveau_joueur(nom_nouveau_joueur, nom_fichier):
+				# Effacer sa campagne par defaut
+				SauvegardeBddJoueursService.campagne_supprimer_les_plateaux()
+				# Ajouter le joueur dans le tableau des scores
+				if SauvegardeTableauDesScoresService.ajouter_un_nouveau_joueur(nom_nouveau_joueur):
+					# importer ses statistiques de jeu
+					if SauvegardeBddJoueursService.enregistrement_niveau_importer(enregistrement_niveau):
+						# mettre à jour le tableau des scores
+						ScoreService.mettre_a_jour_score_pour_import(nom_nouveau_joueur, enregistrement_niveau)
+						LogService.log_debug("Import du QR du nouveau joueur *" + nom_nouveau_joueur
+											+ "* pour le niveau *" + enregistrement_niveau.get("niveau", "") + "*")
+						return true
+	LogService.log_erreur("Erreur : Impossible d'importer le QR du nouveau joueur *" + nom_nouveau_joueur
+							+ "* pour le niveau *" + enregistrement_niveau.get("niveau", "") + "*")
+	return false
+
+func importer_statistiques_joueur_externe(nom_joueur : String, enregistrement_niveau : Dictionary) -> bool:
+	if SauvegardeListeJoueursService.le_joueur_existe(nom_joueur):
+		var nom_fichier = SauvegardeListeJoueursService.retourner_le_fichier_de_sauvegarde(nom_joueur)
+		if SauvegardeBddJoueursService.choisir_le_joueur(nom_joueur, nom_fichier):
+			# Verifier qu'il s'agit bien d'un joueur importé (campagne effacée)
+			# TODO : identifier plus precisement un joueur importé que par sa campagne terminee
+			# TODO : existence de remote_uuid dans la liste des joueurs
+			if SauvegardeBddJoueursService.campagne_la_campagne_est_terminee():
+				# importer ses statistiques de jeu
+				if SauvegardeBddJoueursService.enregistrement_niveau_importer(enregistrement_niveau):
+					# mettre à jour le tableau des scores
+					ScoreService.mettre_a_jour_score_pour_import(nom_joueur, enregistrement_niveau)
+					LogService.log_debug("Import du QR du joueur *" + nom_joueur
+								+ "* pour le niveau *" + enregistrement_niveau.get("niveau", "") + "*")
+				# Si le niveau existe deja, considerer que l'importation est ok (car sinon repli sur un nouveau nom).
+				return true
+	LogService.log_erreur("Erreur : Impossible d'importer le QR du joueur *" + nom_joueur
+							+ "* pour le niveau *" + enregistrement_niveau.get("niveau", "") + "*")
 	return false
 
 ####################################
@@ -82,7 +125,7 @@ func gagner_un_plateau() -> void:
 	# Valider le plateau courant (effacer de la liste des plateaux jouables)
 	SauvegardeBddJoueursService.gagner_un_plateau()
 
-	# Déterminer si l'ascension est achevée (pas de plateau suivant)
+	# Déterminer si le niveau est achevé (pas de plateau suivant)
 	if not SauvegardeBddJoueursService.campagne_lire_prochain_plateau_pour_niveau_courant():
 		# BDD joueur + Préparer la jauge pour la prochaine ascension
 		fin_niveau.emit()
@@ -101,6 +144,26 @@ func abandonner_un_plateau() -> void:
 	SauvegardeBddJoueursService.abandonner_un_plateau()
 	# On reste sur le même plateau
 	# La campagne et le niveaux sont inchangés
+
+func passer_un_plateau() -> void:
+	# En cas de passage, pas d'enrgistrement du temps.
+	SauvegardeBddJoueursService.passer_un_plateau()
+
+	# Déterminer si le niveau est achevé (pas de plateau suivant)
+	if not SauvegardeBddJoueursService.campagne_lire_prochain_plateau_pour_niveau_courant():
+		# BDD joueur + Préparer la jauge pour la prochaine ascension
+		fin_niveau.emit()
+
+	# Calculer le score du plateau et l'enregistrer dans l'historique du niveau
+	ScoreService.mettre_a_jour_score_pour_passer()
+
+	if SauvegardeBddJoueursService.campagne_la_campagne_est_terminee():
+		fin_campagne.emit()
+
+	# Emmettre un signal de mise à jour du niveau
+	# TODO : Le signal n'est lu par personne. Normal ?
+	# progression_niveau.emit() # Pour mise à jour des bandeaux d'infos
+	afficher_niveau_plateau_parties()
 
 func afficher_niveau_plateau_parties():
 	LogService.log_debug("[Campagne] Niveau = ", str(SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()),

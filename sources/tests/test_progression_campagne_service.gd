@@ -114,6 +114,36 @@ func test_liberer_le_joueur_pour_la_campagne_vides_la_sauvegarde_active():
 func test_autoriser_le_nouveau_joueur_pour_la_campagne():
 	assert_true(service.autoriser_le_nouveau_joueur_pour_la_campagne("Gamma"))
 	assert_false(service.autoriser_le_nouveau_joueur_pour_la_campagne("Alpha"))
+	assert_false(service.autoriser_le_nouveau_joueur_pour_la_campagne("alpha"))
+	assert_false(service.autoriser_le_nouveau_joueur_pour_la_campagne("   "))
+
+func test_importer_statistiques_cree_un_joueur_sans_plateaux_a_jouer():
+	var niveau := {
+		"niveau": "niveau_1",
+		"score": {"niveau": 10, "niveau_parfait": 0},
+		"plateaux": []
+	}
+
+	assert_true(service.importer_statistiques_nouveau_joueur_externe("Gamma", niveau))
+	assert_true(SauvegardeListeJoueursService.le_joueur_existe("Gamma"))
+	assert_true(SauvegardeBddJoueursService.campagne_la_campagne_est_terminee())
+	assert_eq(SauvegardeBddJoueursService.enregistrement_lire_dernier_niveau(), niveau)
+
+func test_importer_un_niveau_supplementaire_ne_recompte_pas_les_scores_existants():
+	var premier_niveau := {
+		"niveau": "niveau_1",
+		"score": {"niveau": 10, "niveau_parfait": 0},
+		"plateaux": []
+	}
+	var deuxieme_niveau := {
+		"niveau": "niveau_2",
+		"score": {"niveau": 20, "niveau_parfait": 0},
+		"plateaux": []
+	}
+
+	assert_true(service.importer_statistiques_nouveau_joueur_externe("Gamma", premier_niveau))
+	assert_true(service.importer_statistiques_joueur_externe("Gamma", deuxieme_niveau))
+	assert_eq(SauvegardeTableauDesScoresService.lire_score_joueur("Gamma"), 30)
 
 func test_initialiser_le_nouveau_joueur_pour_la_campagne_cree_le_compte():
 	assert_true(service.initialiser_le_nouveau_joueur_pour_la_campagne("Gamma"))

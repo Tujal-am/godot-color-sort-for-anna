@@ -33,6 +33,24 @@ func _build_ui() -> void:
 	configuration.get_node("Version").text = SauvegardeConfigurationService.lire_la_version()
 	_show_campaign_players(false)
 
+
+func afficher_import_qr(qr_data: Dictionary) -> void:
+	var nom_joueur := str(qr_data.get("nom", ""))
+	var niveau: Dictionary = qr_data.get("niveau", {})
+	var nom_niveau := str(niveau.get("niveau", "")).replace("_", " ")
+	$PanneauImportQR.afficher_import(nom_joueur, nom_niveau)
+
+func _on_panneau_import_qr_accepter() -> void:
+	PartagePerformancesImportService.accepter_import()
+
+func _on_panneau_import_qr_refuser() -> void:
+	$PanneauImportQR.fermer()
+	PartagePerformancesImportService.refuser_import()
+
+func fermer_import_qr() -> void:
+	$PanneauImportQR.fermer()
+
+
 func _on_campaign_button_pressed() -> void:
 	_show_campaign_players(not expanded)
 	AudioService.son_menu_click()
@@ -188,18 +206,18 @@ func _mettre_a_jour_configuration(conf_node_name : String):
 	button.button_pressed = status
 
 func filtrer_click() -> bool:
+	"Filtre les clics rapides et parasites d'ANDROID."
 	var current_time = Time.get_ticks_msec()
 	if current_time - last_click_time < delay_ms:
-		print("filtrer_click() filtré ", current_time,"ms")
+		# print("filtrer_click() filtré ", current_time,"ms")
 		return true # Absorbe l'evenement qui ne sera pas trasnmis
 	else:
-		print("filtrer_click() accepté ", current_time,"ms")
+		# print("filtrer_click() accepté ", current_time,"ms")
 		last_click_time = current_time
 		return false
 
 func _on_bouton_musiques_toggled(on: bool):
 	if filtrer_click():
-		 # Corriger le changement parasite
 		_mettre_a_jour_configuration("Musique")
 		return
 	if on: SauvegardeConfigurationService.activer_musiques()
@@ -209,7 +227,6 @@ func _on_bouton_musiques_toggled(on: bool):
 
 func _on_bouton_effets_sonores_toggled(on: bool):
 	if filtrer_click():
-		 # Corriger le changement parasite
 		_mettre_a_jour_configuration("EffetsSonores")
 		return
 	if on: SauvegardeConfigurationService.activer_effets_sonores()
@@ -219,7 +236,6 @@ func _on_bouton_effets_sonores_toggled(on: bool):
 
 func _on_bouton_vibrations_toggled(on: bool):
 	if filtrer_click():
-		 # Corriger le changement parasite
 		_mettre_a_jour_configuration("Vibration")
 		return
 	if on: SauvegardeConfigurationService.activer_vibrations()

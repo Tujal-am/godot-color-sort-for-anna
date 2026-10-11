@@ -6,6 +6,15 @@ Documentation de l'architecture et la conception du jeu:
 Outils de productions et de résolution des plateaux de jeux:
 - [Color sort for Anna TOOLS](https://github.com/leguims/color_sort_for_anna_tools)
 
+# Plugins GODOT
+Liste des plugins GODOT utilisés :
+| Addon | Usage | Version testée |
+|---|---|---|
+| [Godot QR Plugin](https://github.com/godot-mobile-plugins/godot-qr/releases/tag/v1.2) | Génération du QR sur Android/iOS | v1.2 |
+| [Godot Share Plugin](https://github.com/godot-mobile-plugins/godot-share/releases/tag/v6.0) | Partage natif de l’image sur Android | v6.0 |
+| GMPShared | Scripts partagés nécessaires aux plugins mobiles | fournis avec les addons |
+| [GUT](https://github.com/bitwes/Gut) | Exécution des tests GUT, développement uniquement | v9.7.1 |
+
 # Demandes d'évolutions
 Listes des évolutions votées par les testeurs:
 - [Evolutions](Evolutions.md)
@@ -81,11 +90,22 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Effacer automatiquement un joueur sans fichier de statistiques.
 - Ajouter un menu pour effacer un joueur (avec resolution d'un plateau pour confirmer)
 - (Anatole) Gagner des pieces sur des reussite majeur et les utiliser pour passer un plateau.
-- (Dorian/Anatole) Ajouter un bouton pour passer un plateau.
-  - Le plateau n'est pas ajouté dans les plateaux "jeu libre"
-  - Le plateau est effacé de la campagne actuelle
-  - Le plateau a un status "passé" qui sera comptabilisé avec les plateaux "abandonné"
-  - Le plateau ne rapporte aucun point => Prévoir une variante du panneau "Abandon".
+- ~~(Dorian/Anatole) Ajouter un bouton pour passer un plateau.~~
+  - ~~Le plateau n'est pas ajouté dans les plateaux "jeu libre"~~
+  - ~~Le plateau est effacé de la campagne actuelle~~
+  - ~~Le plateau a un status "passé" qui sera comptabilisé avec les plateaux "abandonné"~~
+  - ~~Le plateau ne rapporte aucun point => Prévoir une variante du panneau "Abandon".~~
+- Gerer les homonymes:
+  - Ajouter un UUID avec chaque joueur dans la liste des joueurs
+  - Utiliser l'UUID pour identifier le joueur dans toutes les transactions internes : score, campagne, statistiques.
+  - Ajouter l'UUID dans le QR code
+  - étudier si l'uuid devrait etre dans le nom du fichier de sauvegarde à la place de l'indice.
+  - compte local :
+    - uuid = uuid du joueur local
+  - compte remote :
+    - remote_uuid = uuid initial du joueur distant
+    - uuid = uuid local sur le phone receveur (si l'original uuid existe deja)
+- Au Démarrage, la configuration pourrait resserer les indexes de fichiers des joueurs.
 
 #### Web
 - Ajouter un menu pour exporter les sauvegardes (avec chiffrage secret)
@@ -166,6 +186,25 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Augmenter le contraste des cases vides
 - Augmenter le temps de deselection automatique
 
+#### Beta test : calibrer les temps
+_S'appuie sur le partage des score de la V2.0._
+Developpé par GitHub Copilot avec 'GPT-6 Luna'
+- [outil] Réaliser une campagne triple plateaux pour calibrer les temps:
+  - [outil] Meilleur 1er temps de réussite = temps reference
+  - [outil] Meilleur temps de réussite = temps record (score augmenté)
+- ~~À chaque fin de niveau:~~
+  - ~~produire un QR code avec:~~
+    - ~~Nom du joueur~~
+    - ~~Nom du niveau~~
+    - ~~Liste des enregistrements du niveau (temps, nombre de coups ...)~~
+  - ~~Citer le mail "rangelescouleurs"~~
+  - ~~Réaliser un panneau pour indiquer la consigne + bouton partage.~~
+- ~~Plugin QR-Code creation/lecture : Godot QR Plugin~~
+- ~~Plugin chiffrement : HMAC natif à GODOT~~
+- ~~Plugin de partage (sms, whatsapp ...) : Share Plugin (par cengiz-pz)~~
+- Supprimer le panneau 'Beta test' et introduire un bouton dans la page des scores de Niveau/Campagne.
+- Ajouter un bouton dans la page des statistiquesS
+
 ## V1.0 : Pour une version long terme
 
 ### Campagne
@@ -238,16 +277,14 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 
 Prévoir un processus de partage des scores fiable ente les joueurs:
 - discussion GEMINI : https://gemini.google.com/app/bf9720baa3e191eb
-- Utiliser un ADDON pour signer les données.
+- ~~Utiliser un ADDON pour signer les données.~~
   - ~~Encryption Plugin : Permet de chiffrer et déchiffrer les données pour un partage sécurisé. Très peu documenté.~~
   - ~~Godot Secp256k1 : Permet de gérer les clés et signatures basées sur l'algorithme Secp256k1, souvent utilisé pour la cryptographie dans les blockchains.~~
-  - HMAC (Hash-based Message Authentication Code) : Permet de vérifier l'intégrité et l'authenticité des données partagées. Intégré dans GODOT.
-  - AES-GCM : Permet de chiffrer et déchiffrer les données avec un haut niveau de sécurité. Intégré dans GODOT.
-- Utiliser un ADDON pour produire et lire un QR-CODE:
-  - Godot QR Plugin : couplé avec la version ANDROID. Gère la lecture et génération de QR-Code
-  - QR Code Generator de Kenyoni Software : grosse popularité. Gère uniquement la génération de QR-Code.
-- Utiliser un ADDON pour partager le QR-Code:
-  - Share Plugin (par cengiz-pz) : Ouvre la fenêtre de partage native pour partager le QR-Code.
+  - ~~HMAC (Hash-based Message Authentication Code) : Permet de vérifier l'intégrité et l'authenticité des données partagées. Intégré dans GODOT.~~
+- ~~Utiliser un ADDON pour produire et lire un QR-CODE:~~
+  - ~~Godot QR Plugin : couplé avec la version ANDROID. Gère la lecture et génération de QR-Code~~
+- ~~Utiliser un ADDON pour partager le QR-Code:~~
+  - ~~Share Plugin (par cengiz-pz) : Ouvre la fenêtre de partage native pour partager le QR-Code.~~
 - RTC : Produit des données chiffrées de la page de statistiques avec la version du jeu.
 - RTC : Partage le QR-Code sur les media sociaux.
 - RTC : Lit un QR-Code contenant les données chiffrées de la page de statistiques avec la version du jeu.

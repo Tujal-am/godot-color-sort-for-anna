@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dyqudplf18flw"
-path="res://.godot/imported/a_propos_underlay_480x720.png-bf1da701ae15298fd3d80cfce31d5743.ctex"
+uid="uid://cag2gtuwofgb3"
+path="res://.godot/imported/background.png-19790afd4e72cb9482f32960a16ee95c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/UI/APropos/a_propos_underlay_480x720.png"
-dest_files=["res://.godot/imported/a_propos_underlay_480x720.png-bf1da701ae15298fd3d80cfce31d5743.ctex"]
+source_file="res://Art/UI/APropos/background.png"
+dest_files=["res://.godot/imported/background.png-19790afd4e72cb9482f32960a16ee95c.ctex"]
 
 [params]
 

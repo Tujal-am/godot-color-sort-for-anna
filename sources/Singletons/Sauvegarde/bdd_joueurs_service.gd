@@ -45,7 +45,7 @@ var sauvegarde_joueur = {
 # 					'date_debut': 1748785865.997,
 # 					'date_fin': 1748785855.0,
 # 					'difficulte': 18,
-# 					'statut': 'reussi', # 'en cours', 'abandonné', 'reussi'
+# 					'statut': 'reussi', # 'en cours', 'abandonné', 'passé', 'reussi'
 # 					'duree': 0,
 # 					'score': { 'duree': 4000, 'ratio_reussite': 2000 },
 # 					'coups joués': [
@@ -141,7 +141,7 @@ func remplacer_campagne_des_joueurs():
 
 func gagner_un_plateau() -> void:
 	# Valider le plateau courant (effacer de la liste des plateaux jouables)
-	campagne_supprimer_plateau_courant()
+	campagne_supprimer_et_memoriser_plateau_courant()
 
 	# Ajouter le temps de jeu dans le niveau courant
 	enregistrement_modifier_statut_plateau('reussi')
@@ -150,6 +150,14 @@ func gagner_un_plateau() -> void:
 func abandonner_un_plateau() -> void:
 	# En cas d'abandon, pas d'enrgistrement du temps.
 	enregistrement_modifier_statut_plateau('abandonné')
+	enregistrement_terminer_plateau()
+
+func passer_un_plateau() -> void:
+	# Effacer de la liste des plateaux jouables
+	campagne_supprimer_et_oublier_plateau_courant()
+
+	# En cas de passement, pas d'enrgistrement du temps.
+	enregistrement_modifier_statut_plateau('passé')
 	enregistrement_terminer_plateau()
 
 func commencer_un_plateau() -> void:
@@ -273,8 +281,8 @@ func campagne_lire_prochain_plateau_pour_niveau_courant() -> Dictionary:
 	var niveau = enregistrement_lire_valeur_niveau_joueur()
 	return campagne_lire_premier_plateau(niveau)
 
-func campagne_supprimer_plateau_courant() -> bool:
-	"Efface le plateau courant."
+func campagne_supprimer_et_memoriser_plateau_courant() -> bool:
+	"Efface le plateau courant et memorise dans le jeu libre."
 	if le_joueur_existe() and enregistrement_lire_statut_plateau() == 'en cours':
 		var niveau = enregistrement_lire_valeur_niveau_joueur()
 		var plateau_courant = lire_campagne_liste_plateaux_du_niveau(niveau).pop_front()
@@ -291,6 +299,24 @@ func campagne_supprimer_plateau_courant() -> bool:
 		_enregistrer_sauvegarde_joueur()
 		return true
 	return false
+
+func campagne_supprimer_et_oublier_plateau_courant() -> bool:
+	"Efface et oublie le plateau courant."
+	if le_joueur_existe() and enregistrement_lire_statut_plateau() == 'en cours':
+		var niveau = enregistrement_lire_valeur_niveau_joueur()
+		var plateau_courant = lire_campagne_liste_plateaux_du_niveau(niveau).pop_front()
+		if lire_campagne_liste_plateaux_du_niveau(niveau).is_empty():
+			# Le niveau est terminé, effacer sa reference dans les plateaux restants.
+			campagne().erase(nom_niveau(niveau))
+		_enregistrer_sauvegarde_joueur()
+		return true
+	return false
+
+func campagne_supprimer_les_plateaux() -> void:
+	"Efface toute la campagne."
+	if le_joueur_existe():
+		campagne().clear()
+		_enregistrer_sauvegarde_joueur()
 
 func campagne_lire_nombre_de_plateaux_realisables_pour_niveau_courant() -> int:
 	if le_joueur_existe():
@@ -361,7 +387,7 @@ func lire_nombre_de_parties_pour_difficulte_courante() -> int:
 # 					'date_debut': 1748785865.997,
 # 					'date_fin': 1748785855.0,
 # 					'difficulte': 18,
-# 					'statut': 'reussi', # 'en cours', 'abandonné', 'reussi'
+# 					'statut': 'reussi', # 'en cours', 'abandonné', 'passé', 'reussi'
 # 					'duree': 0,
 # 					'score': { 'duree': 4000, 'ratio_reussite': 2000 },
 # 					'coups joués': [
@@ -438,6 +464,38 @@ func lire_prochain_niveau_de_campagne() -> int:
 
 	LogService.log_erreur('\t', "Prochain niveau inconnu")
 	return 0
+
+func enregistrement_niveau_inserer(niveau : Dictionary) -> bool:
+	"Insere un niveau dans le respect de sa chronologie"
+	var nom_niveau = niveau.get('niveau', '')
+	if nom_niveau:
+		var date_debut_niveau = niveau.get('date_debut', 0.)
+		# Parcourir les niveaux dans l'ordre croissant de date
+		for index in range(enregistrement().size()):
+			var enregistrement_courant = enregistrement()[index]
+			if enregistrement_courant.get('date_debut', 0.) > date_debut_niveau:
+				# Le niveau à inserer est antérieur, prendre la place du niveau courant
+				enregistrement().insert(index, niveau)
+				_enregistrer_sauvegarde_joueur()
+				return true
+		# Le niveau à inserer est le dernier
+		enregistrement().append(niveau)
+		_enregistrer_sauvegarde_joueur()
+		return true
+	LogService.log_erreur("Bdd joueurs : Aucune insertion enregistrement du niveau ", nom_niveau)
+	return false
+
+func enregistrement_niveau_importer(niveau : Dictionary) -> bool:
+	"Importe un niveau dans l'enregistrement du joueur"
+	var nom_niveau = niveau.get('niveau', '')
+	if nom_niveau:
+		for niveau_enregistrement in enregistrement():
+			if niveau_enregistrement.get('niveau', '') == nom_niveau:
+				# Le niveau est déjà importé
+				return false
+		return enregistrement_niveau_inserer(niveau)
+	LogService.log_erreur("Bdd joueurs : Aucun enregistrement du niveau ", nom_niveau)
+	return false
 
 ###############################################
 # Niveaux / Niveau
@@ -522,11 +580,23 @@ func enregistrement_modifier_score_niveau_parfait(score : int) -> void:
 		niveau_courant['score']['niveau_parfait'] = score
 		_enregistrer_sauvegarde_joueur()
 
-func enregistrement_lire_score_niveau() -> int:
+func enregistrement_lire_score_dernier_niveau() -> int:
 	var niveau_courant = enregistrement_lire_dernier_niveau()
 	if niveau_courant:
 		if niveau_courant.get('score') and niveau_courant.get('score').get('niveau'):
 			return niveau_courant.get('score').get('niveau')
+	return 0
+
+func enregistrement_lire_score_niveau(niveau  : Dictionary) -> int:
+	if niveau:
+		if niveau.get('score') and niveau.get('score').get('niveau'):
+			return niveau.get('score').get('niveau')
+	return 0
+
+func enregistrement_lire_score_niveau_parfait(niveau  : Dictionary) -> int:
+	if niveau:
+		if niveau.get('score') and niveau.get('score').get('niveau_parfait'):
+			return niveau.get('score').get('niveau_parfait')
 	return 0
 
 
@@ -538,7 +608,7 @@ func enregistrement_lire_score_niveau() -> int:
 # 			'date_debut': 1748785865.997,
 # 			'date_fin': 1748785855.0,
 # 			'difficulte': 18,
-# 			'statut': 'reussi', # 'en cours', 'abandonné', 'reussi'
+# 			'statut': 'reussi', # 'en cours', 'abandonné', 'passé', 'reussi'
 # 			'duree': 0,
 # 			'score': { 'duree': 4000, 'ratio_reussite': 2000 },
 # 			'coups joués': [
@@ -573,7 +643,7 @@ func enregistrement_initialiser_un_nouveau_plateau(nom : String,
 			'date_fin': 0.,
 			'duree': 0,
 			'difficulte': roundi(difficulte),
-			'statut': 'en cours', # 'en cours', 'abandonné', 'reussi'
+			'statut': 'en cours', # 'en cours', 'abandonné', 'passé', 'reussi'
 			'score': {},
 			'coups joués': []
 			}
@@ -698,13 +768,13 @@ func enregistrement_lire_difficulte_plateau() -> int:
 
 ###############################################
 # Niveaux / Plateaux / Statut
-# 'statut': 'en cours', # 'en cours', 'abandonné', 'reussi'
+# 'statut': 'en cours', # 'en cours', 'abandonné', 'passé', 'reussi'
 ###############################################
 
 func enregistrement_modifier_statut_plateau(statut : String) -> void:
 	var plateau = enregistrement_lire_dernier_plateau()
 	if plateau:
-		plateau['statut'] = statut # 'en cours', 'abandonné', 'reussi'
+		plateau['statut'] = statut # 'en cours', 'abandonné', 'passé', 'reussi'
 		_enregistrer_sauvegarde_joueur()
 
 func enregistrement_lire_statut_plateau() -> String:
@@ -733,6 +803,18 @@ func enregistrement_modifier_score_ratio_reussite_plateau(score : int) -> void:
 			plateau['score'] = {}
 		plateau['score']['ratio_reussite'] = score
 		_enregistrer_sauvegarde_joueur()
+
+func enregistrement_lire_score_duree_plateau(plateau : Dictionary) -> int:
+	if plateau:
+		if plateau.get('score') and plateau.get('score').get('duree'):
+			return plateau.get('score').get('duree')
+	return 0
+
+func enregistrement_lire_score_ratio_reussite_plateau(plateau : Dictionary) -> int:
+	if plateau:
+		if plateau.get('score') and plateau.get('score').get('ratio_reussite'):
+			return plateau.get('score').get('ratio_reussite')
+	return 0
 
 ###############################################
 # Niveaux / Plateaux / Coups joués

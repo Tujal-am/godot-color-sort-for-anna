@@ -85,6 +85,15 @@ func _on_classique_abandon() -> void:
 	AudioService.son_abandonner_un_plateau()
 	AudioService.arreter_la_musique()
 
+func _on_classique_passe() -> void:
+	# Mettre à jour les plateaux à jouer
+	ProgressionCampagneService.passer_un_plateau()
+	cacher_les_gameplays()
+	$MenuCampagne.show()
+	$MenuCampagne.afficher_passer_un_plateau()
+	AudioService.son_passer_un_plateau()
+	AudioService.arreter_la_musique()
+
 func _on_menu_campagne_score_continuer() -> void:
 	# Fin d'affichage du score, réactiver le menu
 	if not ProgressionCampagneService.la_campagne_est_terminee():
@@ -99,6 +108,9 @@ func _on_qui_perd_gagne_victoire() -> void:
 
 func _on_qui_perd_gagne_abandon() -> void:
 	_on_classique_abandon()
+
+func _on_qui_perd_gagne_passe() -> void:
+	_on_classique_passe()
 
 func cacher_les_gameplays() -> void:
 	$Classique.cacher_accueil()

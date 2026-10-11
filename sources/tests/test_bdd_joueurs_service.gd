@@ -154,7 +154,7 @@ func test_campagne_plateau_courant_et_suppression_couvrent_les_branches():
 	_charger_joueur_test("joueur_test.json", _sauvegarde_joueur_de_test())
 
 	assert_eq(singleton.campagne_lire_prochain_plateau_pour_niveau_courant().get("nom"), "A1")
-	assert_true(singleton.campagne_supprimer_plateau_courant())
+	assert_true(singleton.campagne_supprimer_et_memoriser_plateau_courant())
 	assert_true(singleton.campagne_le_niveau_est_termine(1))
 	assert_eq(singleton.plateaux_libres_lire_liste_plateaux_de_difficulte(1).size(), 2)
 
@@ -174,7 +174,7 @@ func test_campagne_plateau_courant_et_suppression_couvrent_les_branches():
 			]
 		}
 	]
-	assert_false(singleton.campagne_supprimer_plateau_courant())
+	assert_false(singleton.campagne_supprimer_et_memoriser_plateau_courant())
 
 func test_nombre_de_parties_de_la_difficulte_courante_est_majoree():
 	_charger_joueur_test("joueur_test.json", _sauvegarde_joueur_de_test())
@@ -238,11 +238,11 @@ func test_enregistrement_niveau_et_scores_couvrent_les_branches():
 	assert_eq(singleton.enregistrement_lire_dernier_niveau().get("niveau"), "niveau_2")
 	assert_true(singleton.enregistrement_niveau_en_cours())
 	assert_eq(singleton.enregistrement_lire_valeur_niveau_joueur(), 2)
-	assert_eq(singleton.enregistrement_lire_score_niveau(), 0)
+	assert_eq(singleton.enregistrement_lire_score_dernier_niveau(), 0)
 
 	singleton.enregistrement_modifier_score_niveau(123)
 	singleton.enregistrement_modifier_score_niveau_parfait(456)
-	assert_eq(singleton.enregistrement_lire_score_niveau(), 123)
+	assert_eq(singleton.enregistrement_lire_score_dernier_niveau(), 123)
 
 	var niveau_courant = singleton.enregistrement_lire_dernier_niveau()
 	niveau_courant["date_fin"] = 12

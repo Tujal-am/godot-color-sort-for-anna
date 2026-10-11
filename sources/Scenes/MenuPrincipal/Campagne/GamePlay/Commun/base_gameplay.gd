@@ -4,6 +4,7 @@ class_name BaseGameplay
 
 signal plateau_invalide
 signal abandon
+signal passe
 signal victoire
 
 func _ready() -> void:
@@ -46,3 +47,6 @@ func _on_plateau_plateau_invalide() -> void:
 
 func _on_menu_plateau_abandon() -> void:
 	abandon.emit()
+
+func _on_menu_plateau_passe() -> void:
+	passe.emit()

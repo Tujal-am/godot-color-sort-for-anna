@@ -10,6 +10,11 @@ offset_right = 480.0
 offset_bottom = 720.0
 color = Color(0.34363, 8.53118e-05, 0.346463, 1)
 
+[node name="FondEntete" type="ColorRect" parent="." unique_id=2035357710]
+offset_right = 480.0
+offset_bottom = 122.0
+color = Color(0, 0, 0, 1)
+
 [node name="Top" type="FlowContainer" parent="." unique_id=1870961026]
 custom_maximum_size = Vector2(480, 170)
 anchors_preset = 10
@@ -44,12 +49,19 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="BoutonRecommencer" type="Button" parent="Top" unique_id=2057181850]
-custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.675529, 0.00038495, 0.685483, 1)
 theme_override_colors/font_hover_color = Color(0.994947, 0.331387, 1, 1)
-theme_override_font_sizes/font_size = 60
+theme_override_font_sizes/font_size = 44
 text = "Recommencer"
+
+[node name="BoutonPasser" type="Button" parent="Top" unique_id=1139057712]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.675529, 0.00038495, 0.685483, 1)
+theme_override_colors/font_hover_color = Color(0.994947, 0.331387, 1, 1)
+theme_override_font_sizes/font_size = 44
+text = "Passer"
 
 [connection signal="gui_input" from="Fond" to="." method="_on_fond_gui_input"]
 [connection signal="pressed" from="Top/BoutonRecommencer" to="." method="_on_bouton_recommencer_pressed"]
+[connection signal="pressed" from="Top/BoutonPasser" to="." method="_on_bouton_passer_pressed"]

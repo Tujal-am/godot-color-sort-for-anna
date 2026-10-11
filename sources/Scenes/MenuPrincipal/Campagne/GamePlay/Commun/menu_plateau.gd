@@ -3,6 +3,7 @@ extends Node
 class_name MenuPlateau
 
 signal abandon
+signal passe
 signal deselection_pile
 
 func _process(_delta: float) -> void:
@@ -13,8 +14,9 @@ func _process(_delta: float) -> void:
 
 # #############
 # API Gameplay
-func enregistrer_gameplay(gameplay : String):
+func enregistrer_gameplay(gameplay : String, font_size : int = 35):
 	$Top/Gameplay.text = gameplay
+	$Top/Gameplay.add_theme_font_size_override("font_size", font_size)
 
 func enregistrer_chrono(minutes : String,
 						secondes : String,
@@ -27,17 +29,22 @@ func enregistrer_coups(coups : String):
 
 func show():
 	$Fond.show()
+	$FondEntete.show()
 	$Top.show()
 	$Top/BoutonRecommencer.show()
+	$Top/BoutonPasser.show()
 
 func hide():
 	$Fond.hide()
+	$FondEntete.hide()
 	$Top.hide()
 	$Top/BoutonRecommencer.hide()
+	$Top/BoutonPasser.hide()
 
 func cacher_accueil():
 	hide()
 	$Fond.show()
+	$FondEntete.hide()
 
 # ########
 # Interne
@@ -67,7 +74,13 @@ func _maj_coups() -> void:
 # Usine >>
 func _on_bouton_recommencer_pressed() -> void:
 	$Top/BoutonRecommencer.hide()
+	$Top/BoutonPasser.hide()
 	abandon.emit()
+
+func _on_bouton_passer_pressed() -> void:
+	$Top/BoutonRecommencer.hide()
+	$Top/BoutonPasser.hide()
+	passe.emit()
 
 func _on_fond_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
