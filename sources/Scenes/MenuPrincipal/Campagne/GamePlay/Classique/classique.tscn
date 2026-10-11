@@ -3,11 +3,43 @@
 [ext_resource type="Script" uid="uid://b2i1rc4hk5ctg" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/classique.gd" id="1_ho47t"]
 [ext_resource type="PackedScene" uid="uid://cfqcdseqsuy1l" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/plateau.tscn" id="2_sr5dy"]
 [ext_resource type="PackedScene" uid="uid://bc7veft26tc06" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/menu_plateau.tscn" id="3_sr5dy"]
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/classique_menu_plateau.gd" id="4_ui"]
+[ext_resource type="Texture2D" path="res://Art/UI/ClassiqueV18/background/MASTER_backgroundgameplay_classique_480x720.png" id="5_classique_bg"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Classique/classique_hud.tscn" id="6_classique_hud"]
 
 [node name="Classique" type="Node" unique_id=1128983127]
 script = ExtResource("1_ho47t")
 
 [node name="MenuPlateau" parent="." unique_id=64406982 instance=ExtResource("3_sr5dy")]
+script = ExtResource("4_ui")
+
+[node name="ClassiqueInputCapture" type="ColorRect" parent="MenuPlateau"]
+offset_right = 480.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0)
+mouse_filter = 0
+visible = false
+
+[node name="ClassiqueBackgroundLayer" type="CanvasLayer" parent="MenuPlateau"]
+layer = -1
+visible = false
+
+[node name="ClassiqueBackground" type="TextureRect" parent="MenuPlateau/ClassiqueBackgroundLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_classique_bg")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="ClassiqueHudLayer" type="CanvasLayer" parent="MenuPlateau"]
+layer = 2
+visible = false
+
+[node name="ClassiqueHud" parent="MenuPlateau/ClassiqueHudLayer" instance=ExtResource("6_classique_hud")]
 
 [node name="Plateau" parent="." unique_id=561806520 instance=ExtResource("2_sr5dy")]
 

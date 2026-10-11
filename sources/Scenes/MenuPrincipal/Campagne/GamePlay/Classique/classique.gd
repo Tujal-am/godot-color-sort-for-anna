@@ -7,6 +7,7 @@ func _ready() -> void:
 
 	# Initialiser le menu
 	$MenuPlateau.enregistrer_gameplay("Classique")
+	$MenuPlateau.retirer_interface_heritage()
 
 # Callback pour "Plateau"
 func est_termine(liste_piles) -> bool:
@@ -19,7 +20,5 @@ func est_termine(liste_piles) -> bool:
 			break
 	if termine:
 		LogService.log_debug("Classique : victoire.emit()")
-		$MenuPlateau/Top/BoutonRecommencer.hide()
-		$MenuPlateau/Top/BoutonPasser.hide()
 		victoire.emit()
 	return termine

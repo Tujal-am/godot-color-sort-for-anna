@@ -72,14 +72,18 @@ func _maj_coups() -> void:
 
 # ########
 # Usine >>
+func _masquer_boutons_actions_heritage() -> void:
+	for node_path in ["Top/BoutonRecommencer", "Top/BoutonPasser"]:
+		var button := get_node_or_null(node_path) as CanvasItem
+		if button:
+			button.hide()
+
 func _on_bouton_recommencer_pressed() -> void:
-	$Top/BoutonRecommencer.hide()
-	$Top/BoutonPasser.hide()
+	_masquer_boutons_actions_heritage()
 	abandon.emit()
 
 func _on_bouton_passer_pressed() -> void:
-	$Top/BoutonRecommencer.hide()
-	$Top/BoutonPasser.hide()
+	_masquer_boutons_actions_heritage()
 	passe.emit()
 
 func _on_fond_gui_input(event: InputEvent) -> void:

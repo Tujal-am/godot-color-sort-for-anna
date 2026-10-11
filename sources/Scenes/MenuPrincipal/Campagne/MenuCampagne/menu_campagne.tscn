@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://ct3na0n0v1odm" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_niveau.tscn" id="4_22vk1"]
 [ext_resource type="PackedScene" uid="uid://dj67xrfwthpal" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_campagne.tscn" id="5_mt8hf"]
 [ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_ui.tscn" id="6_partage"]
+[ext_resource type="Texture2D" path="res://Art/UI/ClassiqueV18/background/MASTER_backgroundgameplay_classique_480x720.png" id="7_classique_bg"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/Classique/classique_hud.tscn" id="8_classique_hud"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4v47e"]
 bg_color = Color(0, 0, 0, 1)
@@ -23,7 +25,23 @@ bg_color = Color(0, 0, 0, 1)
 bg_color = Color(0, 0, 0, 1)
 
 [node name="MenuCampagne" type="CanvasLayer" unique_id=162026973]
+layer = 3
 script = ExtResource("1_v46tq")
+
+[node name="ClassiqueBackground" type="TextureRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_classique_bg")
+expand_mode = 1
+stretch_mode = 0
+mouse_filter = 2
+
+[node name="ClassiqueHud" parent="." instance=ExtResource("8_classique_hud")]
+visible = false
 
 [node name="BoutonMenuPrincipal" type="Button" parent="." unique_id=935163631]
 anchors_preset = 10

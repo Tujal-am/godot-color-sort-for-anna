@@ -1,0 +1,181 @@
+{
+  "design_canvas": [
+    1024,
+    1536
+  ],
+  "hud_canvas": [
+    1024,
+    280
+  ],
+  "reference_viewport": [
+    480,
+    720
+  ],
+  "scale_rule": "uniform viewport_width/1024; preserve aspect ratio; safe-area top offset applied to BOTH states",
+  "visible_panel_y": 85,
+  "visible_panel_height": 160,
+  "asset_placements": {
+    "home": {
+      "texture_rect": [
+        35,
+        99,
+        132,
+        136
+      ],
+      "face_rect": [
+        37,
+        101,
+        128,
+        128
+      ],
+      "file": "button_home",
+      "input": "TextureButton; transparent padding is decorative, hit rect at least face rect"
+    },
+    "stats": {
+      "texture_rect": [
+        834,
+        99,
+        132,
+        136
+      ],
+      "face_rect": [
+        836,
+        101,
+        128,
+        128
+      ],
+      "file": "button_stats",
+      "input": "TextureButton; transparent padding is decorative, hit rect at least face rect"
+    },
+    "play": {
+      "texture_rect": [
+        656,
+        99,
+        132,
+        136
+      ],
+      "face_rect": [
+        658,
+        101,
+        128,
+        128
+      ],
+      "file": "button_play",
+      "input": "TextureButton; transparent padding is decorative, hit rect at least face rect"
+    },
+    "restart": {
+      "texture_rect": [
+        430,
+        109,
+        112,
+        116
+      ],
+      "face_rect": [
+        432,
+        111,
+        108,
+        108
+      ],
+      "file": "button_restart"
+    },
+    "pass": {
+      "texture_rect": [
+        870,
+        109,
+        112,
+        116
+      ],
+      "face_rect": [
+        872,
+        111,
+        108,
+        108
+      ],
+      "file": "button_pass"
+    }
+  },
+  "dynamic": {
+    "player_name": {
+      "text_example": "Alain Konu",
+      "rect": [
+        308,
+        109,
+        320,
+        54
+      ],
+      "font_size": 28,
+      "weight": "bold",
+      "color": "#063f78",
+      "anchor_reference": [
+        308,
+        136
+      ],
+      "rule": "1 line vertically centered; long names up to 2 lines, 28px line height; then ellipsis. No uppercase transform."
+    },
+    "medal": {
+      "rect": [
+        218.41,
+        102.32,
+        63.18,
+        63.18
+      ],
+      "rule": "official trophy PNG; preserve transparent margins and aspect; no Bronze label; empty trophy hides image without moving separators"
+    },
+    "level": {
+      "text_example": "04",
+      "anchor_reference": [
+        354,
+        204
+      ],
+      "font_size": 36,
+      "color": "#063f78",
+      "rule": "Native Label: min2digits; size36 for2digits, size28 for3digits; available x354..410 before separator418; reflow explicit for4+digits."
+    },
+    "progress": {
+      "rect": [
+        435,
+        198,
+        112,
+        12
+      ],
+      "range": [
+        0,
+        1
+      ],
+      "radius": 6,
+      "colors": [
+        "#19b9af",
+        "#51d2c3"
+      ],
+      "rule": "track in base_before; fill drawn dynamically, never bake 62%; clamp invalid to0; rounded ends radius=min(6,fill_width/2); percentage and fill same data"
+    },
+    "progress_percent": {
+      "anchor_reference": [
+        630,
+        204
+      ],
+      "align": "right",
+      "font_size": 34,
+      "color": "#063f78",
+      "text_example": "62%"
+    },
+    "elapsed": {
+      "rect": [
+        637,
+        139,
+        199,
+        52
+      ],
+      "anchor_reference": [
+        737,
+        165
+      ],
+      "font_size": 38,
+      "color": "#063f78",
+      "letter_spacing": 0.5,
+      "text_example": "00:36.45",
+      "format": "MM:SS.cc",
+      "rule": "monotonic active elapsed milliseconds; display centiseconds with floor; do not add frame delta; freeze at outcome; do not cap elapsed at99 minutes; use HH:MM:SS above1hour (same8characters)"
+    }
+  }
+}
