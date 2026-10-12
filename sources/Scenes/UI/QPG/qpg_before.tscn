@@ -1,0 +1,158 @@
+[gd_scene load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://Scenes/UI/QPG/qpg_hud.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Art/UI/QPGV26/background/background.png" id="2"]
+[ext_resource type="Texture2D" path="res://Art/UI/QPGV26/svg/base_before.svg" id="3"]
+[ext_resource type="Texture2D" path="res://Art/UI/QPGV26/svg/button_home.svg" id="4"]
+[ext_resource type="Texture2D" path="res://Art/UI/QPGV26/svg/button_stats.svg" id="5"]
+[ext_resource type="Texture2D" path="res://Art/UI/QPGV26/svg/button_play.svg" id="6"]
+[ext_resource type="Texture2D" path="res://Art/UI/QPGV26/svg/button_restart.svg" id="7"]
+[ext_resource type="Texture2D" path="res://Art/UI/QPGV26/svg/button_pass.svg" id="8"]
+[ext_resource type="Texture2D" path="res://Art/UI/QPGV26/background/devil_decor.png" id="9"]
+[ext_resource type="FontFile" path="res://Art/UI/ClassiqueV18/font/DejaVuSans-Bold.ttf" id="10"]
+[ext_resource type="Shader" path="res://Scenes/UI/QPG/qpg_progress.gdshader" id="11"]
+
+[sub_resource type="ShaderMaterial" id="ProgressMaterial"]
+shader = ExtResource("11")
+shader_parameter/ratio = 0.0
+
+[node name="QpgBefore" type="Control"]
+custom_minimum_size = Vector2(1024, 1536)
+offset_right = 1024.0
+offset_bottom = 1536.0
+mouse_filter = 2
+script = ExtResource("1")
+state = "before"
+
+[node name="Background" type="TextureRect" parent="."]
+offset_right = 1024.0
+offset_bottom = 1536.0
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+mouse_filter = 2
+
+[node name="Hud" type="Control" parent="."]
+offset_right = 1024.0
+offset_bottom = 280.0
+mouse_filter = 2
+
+[node name="Before" type="Control" parent="Hud"]
+offset_right = 1024.0
+offset_bottom = 280.0
+mouse_filter = 2
+
+[node name="Base" type="TextureRect" parent="Hud/Before"]
+offset_right = 1024.0
+offset_bottom = 280.0
+texture = ExtResource("3")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Medal" type="TextureRect" parent="Hud/Before"]
+offset_left = 218.41
+offset_top = 102.32
+offset_right = 281.59
+offset_bottom = 165.5
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="PlayerName" type="Label" parent="Hud/Before"]
+offset_left = 308.0
+offset_top = 104.0
+offset_right = 628.0
+offset_bottom = 168.0
+theme_override_fonts/font = ExtResource("10")
+theme_override_font_sizes/font_size = 32
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text_overrun_behavior = 3
+mouse_filter = 2
+
+[node name="Level" type="Label" parent="Hud/Before"]
+offset_left = 354.0
+offset_top = 180.0
+offset_right = 410.0
+offset_bottom = 228.0
+theme_override_fonts/font = ExtResource("10")
+theme_override_font_sizes/font_size = 36
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+text = "01"
+mouse_filter = 2
+
+[node name="ProgressFill" type="ColorRect" parent="Hud/Before"]
+offset_left = 435.0
+offset_top = 198.0
+offset_right = 547.0
+offset_bottom = 210.0
+material = SubResource("ProgressMaterial")
+mouse_filter = 2
+
+[node name="Percent" type="Label" parent="Hud/Before"]
+offset_left = 548.0
+offset_top = 180.0
+offset_right = 630.0
+offset_bottom = 228.0
+theme_override_fonts/font = ExtResource("10")
+theme_override_font_sizes/font_size = 34
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+horizontal_alignment = 2
+text = "0%"
+mouse_filter = 2
+
+[node name="Home" type="Button" parent="Hud/Before"]
+offset_left = 37.0
+offset_top = 101.0
+offset_right = 165.0
+offset_bottom = 229.0
+text = ""
+
+[node name="Image" type="TextureRect" parent="Hud/Before/Home"]
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 154.0
+offset_bottom = 158.0
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Stats" type="Button" parent="Hud/Before"]
+offset_left = 836.0
+offset_top = 101.0
+offset_right = 964.0
+offset_bottom = 229.0
+text = ""
+
+[node name="Image" type="TextureRect" parent="Hud/Before/Stats"]
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 154.0
+offset_bottom = 158.0
+texture = ExtResource("5")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[node name="Play" type="Button" parent="Hud/Before"]
+offset_left = 658.0
+offset_top = 101.0
+offset_right = 786.0
+offset_bottom = 229.0
+text = ""
+
+[node name="Image" type="TextureRect" parent="Hud/Before/Play"]
+offset_left = -30.0
+offset_top = -30.0
+offset_right = 154.0
+offset_bottom = 158.0
+texture = ExtResource("6")
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+
+[connection signal="pressed" from="Hud/Before/Home" to="." method="_request" binds=["home"]]
+[connection signal="pressed" from="Hud/Before/Stats" to="." method="_request" binds=["stats"]]
+[connection signal="pressed" from="Hud/Before/Play" to="." method="_request" binds=["play"]]

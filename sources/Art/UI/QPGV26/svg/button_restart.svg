@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="404 83 164 168" width="164" height="168"><defs>
+    <linearGradient id="coralFace" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e63da9"/>
+      <stop offset="0.25" stop-color="#b01c82"/>
+      <stop offset="0.78" stop-color="#7c125d"/>
+      <stop offset="1" stop-color="#510c46"/>
+    </linearGradient>
+    <linearGradient id="buttonGloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.72"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="restartClip"><rect x="432" y="111" width="108" height="108" rx="27"/></clipPath>
+    <filter id="fluorescence" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="7"/></filter></defs>
+
+  <g><g>
+    <rect x="434" y="115" width="104" height="108" rx="25" fill="#87332d" fill-opacity="0.24"/>
+    <rect x="432" y="111" width="108" height="108" rx="27" fill="none" stroke="#ff8bd7" stroke-width="7" opacity="0.8" filter="url(#fluorescence)"/><rect x="432" y="111" width="108" height="108" rx="27" fill="url(#coralFace)" stroke="#ff8bd7" stroke-width="3.2"/>
+    <g clip-path="url(#restartClip)" opacity="0.3">
+      <rect x="435" y="114" width="102" height="42" rx="24" fill="url(#buttonGloss)" opacity="0.78"/>
+    </g>
+    </g>
+
+  <g id="restartTraceOriginal" data-source-sha256="cea4987b4e38d3afcb0f21956c03a330430cc68e29518fb47407d4d070be0ebd" transform="translate(438.7 122) scale(.86)" fill="#ffffff" fill-rule="nonzero" shape-rendering="geometricPrecision">
+      <path d="M28 37L29 37L29 35L30 35L30 33L31 33L31 32L32 32L32 31L33 31L33 30L34 30L34 29L35 29L35 28L36 28L36 27L37 27L37 26L39 26L39 25L40 25L40 24L42 24L42 23L45 23L45 22L48 22L48 21L59 21L59 22L63 22L63 23L65 23L65 24L67 24L67 25L69 25L69 26L70 26L70 27L72 27L72 28L73 28L73 29L74 29L74 30L75 30L75 32L76 32L76 33L77 33L77 32L78 32L78 31L80 31L80 30L81 30L81 29L84 29L84 30L85 30L85 38L84 38L84 48L83 48L83 49L82 49L82 50L81 50L81 49L76 49L76 48L72 48L72 47L69 47L69 46L66 46L66 45L65 45L65 44L64 44L64 43L65 43L65 42L66 42L66 41L67 41L67 40L68 40L68 39L69 39L69 38L68 38L68 37L67 37L67 36L66 36L66 35L65 35L65 34L63 34L63 33L62 33L62 32L59 32L59 31L48 31L48 32L46 32L46 33L44 33L44 34L42 34L42 35L41 35L41 36L40 36L40 37L39 37L39 38L38 38L38 40L37 40L37 41L36 41L36 42L35 42L35 43L33 43L33 42L31 42L31 41L29 41L29 40L28 40Z"/>
+      <path d="M44 58L43 58L43 59L41 59L41 60L40 60L40 61L39 61L39 63L40 63L40 64L41 64L41 65L42 65L42 66L43 66L43 67L44 67L44 68L46 68L46 69L49 69L49 70L60 70L60 69L62 69L62 68L64 68L64 67L65 67L65 66L67 66L67 65L68 65L68 64L69 64L69 63L70 63L70 61L71 61L71 60L72 60L72 58L73 58L73 57L75 57L75 58L78 58L78 59L79 59L79 60L80 60L80 61L81 61L81 62L80 62L80 64L79 64L79 66L78 66L78 67L77 67L77 69L76 69L76 70L75 70L75 71L74 71L74 72L73 72L73 73L72 73L72 74L70 74L70 75L69 75L69 76L67 76L67 77L64 77L64 78L61 78L61 79L47 79L47 78L44 78L44 77L42 77L42 76L40 76L40 75L39 75L39 74L38 74L38 73L37 73L37 72L36 72L36 71L35 71L35 70L34 70L34 69L33 69L33 68L30 68L30 69L29 69L29 70L28 70L28 71L25 71L25 70L24 70L24 52L25 52L25 51L26 51L26 50L27 50L27 51L32 51L32 52L35 52L35 53L39 53L39 54L43 54L43 55L44 55Z"/>
+    </g>
+  </g></svg>

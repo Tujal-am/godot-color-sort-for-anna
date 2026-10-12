@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_ui.tscn" id="6_partage"]
 [ext_resource type="Texture2D" path="res://Art/UI/ClassiqueV18/background/MASTER_backgroundgameplay_classique_480x720.png" id="7_classique_bg"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/Classique/classique_hud.tscn" id="8_classique_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/UI/QPG/qpg_before.tscn" id="9_qpg_before"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4v47e"]
 bg_color = Color(0, 0, 0, 1)
@@ -133,3 +134,6 @@ layout_mode = 2
 [connection signal="continuer" from="Centrer/PanneauVictoireNiveau" to="." method="_on_panneau_victoire_niveau_continuer"]
 [connection signal="continuer" from="Centrer/PanneauVictoireCampagne" to="." method="_on_panneau_victoire_campagne_continuer"]
 [connection signal="fermer" from="Centrer/PanneauPartagePerformances" to="." method="_on_panneau_partage_performances_fermer"]
+
+[node name="QpgBefore" parent="." instance=ExtResource("9_qpg_before")]
+visible = false

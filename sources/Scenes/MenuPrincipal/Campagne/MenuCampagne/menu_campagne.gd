@@ -4,6 +4,7 @@ class_name MenuCampagne
 
 var _classique_background: TextureRect
 var _classique_hud: Control
+var _qpg_before: Control
 var _classique_heritage_detache: Array[Dictionary] = []
 
 signal score_continuer
@@ -29,9 +30,12 @@ func _ready() -> void:
 func _initialiser_presentation_classique() -> void:
 	_classique_background = $ClassiqueBackground
 	_classique_hud = $ClassiqueHud
+	_qpg_before = $QpgBefore
 	_classique_hud.action_requested.connect(_on_classique_hud_action)
+	_qpg_before.action_requested.connect(_on_qpg_hud_action)
 	_classique_background.hide()
 	_classique_hud.hide()
+	_qpg_before.hide()
 
 func detacher_heritage_classique() -> void:
 	if not _classique_heritage_detache.is_empty():
@@ -61,6 +65,24 @@ func _mettre_a_jour_hud_classique() -> void:
 	var medaille: String = {1: "or", 2: "argent", 3: "bronze"}.get(rang, "bronze")
 	var progression := float(SauvegardeBddJoueursService.lire_pourcentage_niveau_realise()) / 100.0
 	_classique_hud.set_profile(SauvegardeBddJoueursService.lire_nom_joueur(), niveau, progression, medaille)
+
+func _mode_qpg() -> bool:
+	return SauvegardeBddJoueursService.enregistrement_lire_gameplay_plateau() == "QUI_PERD_GAGNE"
+
+func _mettre_a_jour_hud_qpg() -> void:
+	var niveau := SauvegardeBddJoueursService.enregistrement_lire_valeur_niveau_joueur()
+	if not SauvegardeBddJoueursService.enregistrement_niveau_en_cours():
+		niveau = SauvegardeBddJoueursService.lire_prochain_niveau_de_campagne()
+	var rang := SauvegardeTableauDesScoresService.lire_rang_joueur(SauvegardeBddJoueursService.lire_nom_joueur())
+	var medaille: String = {1:"or", 2:"argent", 3:"bronze"}.get(rang, "bronze")
+	var progression := float(SauvegardeBddJoueursService.lire_pourcentage_niveau_realise()) / 100.0
+	_qpg_before.set_profile(SauvegardeBddJoueursService.lire_nom_joueur(), niveau, progression, medaille)
+
+func _on_qpg_hud_action(action: String) -> void:
+	match action:
+		"home": _on_bouton_menu_principal_pressed()
+		"stats": _on_bouton_statistiques_pressed()
+		"play": _on_bouton_commencer_pressed()
 
 func _activer_presentation_classique(activer: bool, restaurer_anciens_controles := true) -> void:
 	if activer:
@@ -191,6 +213,15 @@ func mettre_a_jour_infos_joueur() -> void:
 	$InfosDuJoueur/TexteInfosDuJoueur.bbcode_text = formatter.formater_infos_joueur()
 
 func afficher_plateau_suivant():
+	if _mode_qpg():
+		detacher_heritage_classique()
+		_classique_background.hide()
+		_classique_hud.hide()
+		_qpg_before.show()
+		_qpg_before.set_state_active(true)
+		_mettre_a_jour_hud_qpg()
+		return
+	_qpg_before.hide()
 	_reattacher_heritage_classique()
 	$BoutonMenuPrincipal.show()
 	$BoutonStatistiques.show()
@@ -200,6 +231,7 @@ func afficher_plateau_suivant():
 	_activer_presentation_classique(true)
 
 func cacher_accueil():
+	_qpg_before.hide()
 	_activer_presentation_classique(false, false)
 	# Legacy controls are detached while the replacement gameplay UI is active.
 	for node_name in ["BoutonMenuPrincipal", "BoutonStatistiques", "InfosDuJoueur", "BoutonCommencer"]:
@@ -231,6 +263,15 @@ func afficher_abandonner_un_plateau():
 	$Centrer/PanneauDefaite.show()
 
 func afficher_passer_un_plateau():
+	if _mode_qpg():
+		detacher_heritage_classique()
+		_classique_background.hide()
+		_classique_hud.hide()
+		_qpg_before.show()
+		_qpg_before.set_state_active(true)
+		_mettre_a_jour_hud_qpg()
+		return
+	_qpg_before.hide()
 	mettre_a_jour_infos_joueur()
 	$BoutonMenuPrincipal.show()
 	$BoutonStatistiques.show()
