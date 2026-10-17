@@ -5,12 +5,15 @@
 [ext_resource type="PackedScene" uid="uid://bc7veft26tc06" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/menu_plateau.tscn" id="3_4eka4"]
 [ext_resource type="PackedScene" path="res://Scenes/UI/QPG/qpg_active.tscn" id="4_qpg_active"]
 
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/QuiPerdGagne/Jetons/pile_qpg.tscn" id="5_jetons_qpg"]
+
 [node name="QuiPerdGagne" type="Node" unique_id=1128983127]
 script = ExtResource("1_68vyc")
 
 [node name="MenuPlateau" parent="." unique_id=406386789 instance=ExtResource("3_4eka4")]
 
 [node name="Plateau" parent="." unique_id=561806520 instance=ExtResource("2_0fkrr")]
+pile_scene = ExtResource("5_jetons_qpg")
 
 [node name="QpgHudLayer" type="Node" parent="."]
 

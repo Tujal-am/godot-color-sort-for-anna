@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/Pile/Jeton/jeton.tscn" id="1"]
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/QuiPerdGagne/Jetons/jeton_qpg.gd" id="2"]
+
+[node name="JetonQPG" instance=ExtResource("1")]
+script = ExtResource("2")
+
+[node name="VisuelQPG" type="TextureRect" parent="Carre" index="0"]
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 35.0
+offset_bottom = 35.0
+mouse_filter = 2
+texture_filter = 4
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SoudureHaute" parent="." index="1"]
+z_index = 1
+
+[node name="SoudureBasse" parent="." index="3"]
+z_index = 1

@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/Pile/pile.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/QuiPerdGagne/Jetons/jeton_qpg.tscn" id="2"]
+
+[node name="PileQPG" instance=ExtResource("1")]
+jeton_scene = ExtResource("2")
