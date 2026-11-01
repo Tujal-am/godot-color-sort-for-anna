@@ -75,43 +75,15 @@ func mettre_a_jour_score_pour_passer() -> Dictionary:
 
 func mettre_a_jour_score_duree() -> Dictionary:
 	"Calculer le score relatif au temps"
-	var temps_reference_par_difficulte = {
-		9 : 9.,
-		10 : 12.,
-		20 : 14.,
-		30 : 16.,
-		40 : 18.,
-		50 : 20.,
-		60 : 25.,
-		71 : 30.,
-		81 : 60.,
-		100 : 120.
-		}
-
 	var difficulte = SauvegardeBddJoueursService.enregistrement_campagne_lire_difficulte_plateau()
-	var temps_reference_en_s = temps_reference_par_difficulte[9]
-	if difficulte <= 9:
-		temps_reference_en_s = temps_reference_par_difficulte[9]
-	elif difficulte <= 10:
-		temps_reference_en_s = temps_reference_par_difficulte[10]
-	elif difficulte <= 20:
-		temps_reference_en_s = temps_reference_par_difficulte[20]
-	elif difficulte <= 30:
-		temps_reference_en_s = temps_reference_par_difficulte[30]
-	elif difficulte <= 40:
-		temps_reference_en_s = temps_reference_par_difficulte[40]
-	elif difficulte <= 50:
-		temps_reference_en_s = temps_reference_par_difficulte[50]
-	elif difficulte <= 60:
-		temps_reference_en_s = temps_reference_par_difficulte[60]
-	elif difficulte <= 71:
-		temps_reference_en_s = temps_reference_par_difficulte[71]
-	elif difficulte <= 81:
-		temps_reference_en_s = temps_reference_par_difficulte[81]
-	elif difficulte <= 100:
-		temps_reference_en_s = temps_reference_par_difficulte[100]
-	else :
-		LogService.log_erreur("Erreur : Difficulté inattendue pour le score !")
+	var gameplay = SauvegardeBddJoueursService.enregistrement_campagne_lire_gameplay_plateau()
+	var temps_reference_en_s = 0.
+	if gameplay == "classique":
+		temps_reference_en_s = _classique_temps_reference_par_difficulte(difficulte)
+	elif gameplay == "qui_perd_gagne":
+		temps_reference_en_s = _qui_perd_gagne_temps_reference_par_difficulte(difficulte)
+	else:
+		LogService.log_erreur("Erreur : Gameplay inattendu pour le score !")
 
 	var bonus_duree = 0
 	var nom_joueur = SauvegardeBddJoueursService.lire_nom_joueur()
@@ -130,6 +102,50 @@ func mettre_a_jour_score_duree() -> Dictionary:
 			'recommence': duree_recommence_en_s,
 			'realise': duree_realise_en_s,
 			'points': bonus_duree}
+
+func _classique_temps_reference_par_difficulte(difficulte: int) -> int:
+	var temps_reference_par_difficulte = {
+		9 : 23.5,
+		23 : 32.1,
+		34 : 35.,
+		40 : 35.,
+		50 : 43.,
+		59 : 54.7,
+		72 : 274.,
+		78 : 102.,
+		90 : 114.8,
+		95 : 120.5,
+		100 : 120.5
+		}
+	return _temps_reference_par_difficulte(difficulte, temps_reference_par_difficulte)
+
+func _qui_perd_gagne_temps_reference_par_difficulte(difficulte: int) -> int:
+	var temps_reference_par_difficulte = {
+		20 : 28.7,
+		29 : 28.7,
+		42 : 32.9,
+		52 : 32.9,
+		60 : 32.9,
+		71 : 41.4,
+		79 : 75.,
+		88 : 75.,
+		95 : 75.,
+		100 : 75.
+		}
+	return _temps_reference_par_difficulte(difficulte, temps_reference_par_difficulte)
+
+func _temps_reference_par_difficulte(difficulte: int, temps_reference_par_difficulte: Dictionary) -> int:
+	var temps_reference_en_s = 0.
+	var liste_ref_difficulte_croissant = temps_reference_par_difficulte.keys()
+	liste_ref_difficulte_croissant.sort()
+	for ref_difficulte in liste_ref_difficulte_croissant:
+		if difficulte <= ref_difficulte:
+			temps_reference_en_s = temps_reference_par_difficulte[ref_difficulte]
+		else:
+			break
+	if temps_reference_en_s == 0.:
+		LogService.log_erreur("Erreur : Difficulté inattendue pour le score !")
+	return temps_reference_en_s
 
 func mettre_a_jour_score_ratio_reussite() -> Dictionary:
 	"Calculer le score relatif au temps"
