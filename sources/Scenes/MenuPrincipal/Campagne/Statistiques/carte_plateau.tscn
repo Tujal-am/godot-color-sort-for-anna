@@ -255,7 +255,7 @@ offset_bottom = 91.0
 theme_override_colors/font_color = Color(0.06275, 0.16863, 0.31373, 1)
 theme_override_fonts/font = ExtResource("1_bcspv")
 theme_override_font_sizes/font_size = 11
-text = "Difficulté"
+text = "Niveau"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -295,7 +295,7 @@ theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Difficulte" type="Label" parent="Tableau/PlusRapide" unique_id=2114913189]
+[node name="Niveau" type="Label" parent="Tableau/PlusRapide" unique_id=2114913189]
 layout_mode = 0
 offset_left = 244.0
 offset_top = 91.0
@@ -343,7 +343,7 @@ theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Difficulte" type="Label" parent="Tableau/PlusLent" unique_id=988654760]
+[node name="Niveau" type="Label" parent="Tableau/PlusLent" unique_id=988654760]
 layout_mode = 0
 offset_left = 244.0
 offset_top = 115.0
@@ -391,7 +391,7 @@ theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Difficulte" type="Label" parent="Tableau/PlusGalere" unique_id=1070400034]
+[node name="Niveau" type="Label" parent="Tableau/PlusGalere" unique_id=1070400034]
 layout_mode = 0
 offset_left = 244.0
 offset_top = 139.0

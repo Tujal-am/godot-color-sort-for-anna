@@ -136,21 +136,21 @@ func plateaux():
 	var plus_rapide = StatsService.plateau_plus_rapide_infos()
 	valeur = str_arrondir_temps_en_s(plus_rapide.get('temps_en_s'))
 	ui_plateau.plus_rapide_temps(valeur)
-	valeur = str(plus_rapide.get('difficulte'))
-	ui_plateau.plus_rapide_difficulte(valeur)
+	valeur = str(plus_rapide.get('niveau'))
+	ui_plateau.plus_rapide_niveau(valeur)
 
 	var plus_lent = StatsService.plateau_plus_lent_infos()
 	valeur = str_arrondir_temps_en_s(plus_lent.get('temps_en_s'))
 	ui_plateau.plus_lent_temps(valeur)
-	valeur = str(plus_lent.get('difficulte'))
-	ui_plateau.plus_lent_difficulte(valeur)
+	valeur = str(plus_lent.get('niveau'))
+	ui_plateau.plus_lent_niveau(valeur)
 
 	var plus_galere = StatsService.plateau_plus_galere_infos()
 	var accord_en_nombre = 's' if plus_galere.get('essais') > 1 else ''
 	valeur = str(plus_galere.get('essais')) + ' essai' + accord_en_nombre
 	ui_plateau.plus_galere_essais(valeur)
-	valeur = str(plus_galere.get('difficulte'))
-	ui_plateau.plus_galere_difficulte(valeur)
+	valeur = str(plus_galere.get('niveau'))
+	ui_plateau.plus_galere_niveau(valeur)
 
 func classique():
 	# Identifier le joueur
@@ -177,21 +177,21 @@ func classique():
 	var plus_rapide = StatsService.classique_plus_rapide_infos()
 	valeur = str_arrondir_temps_en_s(plus_rapide.get('temps_en_s'))
 	ui_classique.plus_rapide_temps(valeur)
-	valeur = str(plus_rapide.get('difficulte'))
-	ui_classique.plus_rapide_difficulte(valeur)
+	valeur = str(plus_rapide.get('niveau'))
+	ui_classique.plus_rapide_niveau(valeur)
 
 	var plus_lent = StatsService.classique_plus_lent_infos()
 	valeur = str_arrondir_temps_en_s(plus_lent.get('temps_en_s'))
 	ui_classique.plus_lent_temps(valeur)
-	valeur = str(plus_lent.get('difficulte'))
-	ui_classique.plus_lent_difficulte(valeur)
+	valeur = str(plus_lent.get('niveau'))
+	ui_classique.plus_lent_niveau(valeur)
 
 	var plus_galere = StatsService.classique_plus_galere_infos()
 	var accord_en_nombre = 's' if plus_galere.get('essais') > 1 else ''
 	valeur = str(plus_galere.get('essais')) + ' essai' + accord_en_nombre
 	ui_classique.plus_galere_essais(valeur)
-	valeur = str(plus_galere.get('difficulte'))
-	ui_classique.plus_galere_difficulte(valeur)
+	valeur = str(plus_galere.get('niveau'))
+	ui_classique.plus_galere_niveau(valeur)
 	# TODO : representer le plateau en miniature
 
 func qui_perd_gagne():
@@ -219,21 +219,21 @@ func qui_perd_gagne():
 	var plus_rapide = StatsService.qui_perd_gagne_plus_rapide_infos()
 	valeur = str_arrondir_temps_en_s(plus_rapide.get('temps_en_s'))
 	ui_qui_perd_gagne.plus_rapide_temps(valeur)
-	valeur = str(plus_rapide.get('difficulte'))
-	ui_qui_perd_gagne.plus_rapide_difficulte(valeur)
+	valeur = str(plus_rapide.get('niveau'))
+	ui_qui_perd_gagne.plus_rapide_niveau(valeur)
 
 	var plus_lent = StatsService.qui_perd_gagne_plus_lent_infos()
 	valeur = str_arrondir_temps_en_s(plus_lent.get('temps_en_s'))
 	ui_qui_perd_gagne.plus_lent_temps(valeur)
-	valeur = str(plus_lent.get('difficulte'))
-	ui_qui_perd_gagne.plus_lent_difficulte(valeur)
+	valeur = str(plus_lent.get('niveau'))
+	ui_qui_perd_gagne.plus_lent_niveau(valeur)
 
 	var plus_galere = StatsService.qui_perd_gagne_plus_galere_infos()
 	var accord_en_nombre = 's' if plus_galere.get('essais') > 1 else ''
 	valeur = str(plus_galere.get('essais')) + ' essai' + accord_en_nombre
 	ui_qui_perd_gagne.plus_galere_essais(valeur)
-	valeur = str(plus_galere.get('difficulte'))
-	ui_qui_perd_gagne.plus_galere_difficulte(valeur)
+	valeur = str(plus_galere.get('niveau'))
+	ui_qui_perd_gagne.plus_galere_niveau(valeur)
 	# TODO : representer le plateau en miniature
 
 func str_arrondir_pourcentage(pourcentage: float) -> String:
