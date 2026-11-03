@@ -42,7 +42,7 @@ func _score(ecran: Node, rang: int) -> String:
 func test_les_medailles_se_chargent_sans_avertissement_de_casse() -> void:
 	_ecran_avec([_joueur("A", 1, 5), _joueur("B", 2, 4)])
 
-	assert_eq(_avertissements_de_casse, 0, "ASSET_DIR 'Art/UI/scores/' alors que le dossier est 'Art/UI/Scores/'")
+	assert_eq(_avertissements_de_casse, 0, "ASSET_DIR doit avoir la même casse que le dossier 'Art/UI/Scores/'")
 
 func test_l_ecran_construit_un_classement_de_cinq_lignes() -> void:
 	var ecran := _ecran_avec([])
@@ -124,14 +124,14 @@ func test_chaque_ligne_affiche_la_medaille_de_son_rang() -> void:
 		_joueur("A", 1, 5), _joueur("B", 2, 4), _joueur("C", 3, 3), _joueur("D", 4, 2), _joueur("E", 5, 1)
 	])
 
-	assert_eq(_ligne(ecran, 1).get_node("Medaille").texture.resource_path, "res://Art/UI/scores/medaille_rang_1_72x88_transparente.png")
+	assert_eq(_ligne(ecran, 1).get_node("Medaille").texture.resource_path, "res://Art/UI/Scores/medaille_rang_1_72x88_transparente.png")
 	for rang in range(2, 6):
-		assert_eq(_ligne(ecran, rang).get_node("Medaille").texture.resource_path, "res://Art/UI/scores/medaille_rang_%d_58x58.png" % rang)
+		assert_eq(_ligne(ecran, rang).get_node("Medaille").texture.resource_path, "res://Art/UI/Scores/medaille_rang_%d_58x58.png" % rang)
 
 func test_un_ex_aequo_reprend_la_medaille_du_rang_partage() -> void:
 	var ecran := _ecran_avec([_joueur("A", 1, 5), _joueur("B", 2, 4), _joueur("C", 2, 4)])
 
-	assert_eq(_ligne(ecran, 3).get_node("Medaille").texture.resource_path, "res://Art/UI/scores/medaille_rang_2_58x58.png")
+	assert_eq(_ligne(ecran, 3).get_node("Medaille").texture.resource_path, "res://Art/UI/Scores/medaille_rang_2_58x58.png")
 
 func test_le_premier_est_mis_en_avant_avec_une_police_plus_grande() -> void:
 	var ecran := _ecran_avec([_joueur("A", 1, 5), _joueur("B", 2, 4)])

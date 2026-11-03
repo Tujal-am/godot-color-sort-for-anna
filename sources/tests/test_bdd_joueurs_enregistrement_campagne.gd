@@ -245,9 +245,9 @@ func test_campagne_lire_prochain_niveau_compare_les_valeurs_numeriques():
 	_charger([], {"niveau_10": [_entree("A")], "niveau_2": [_entree("B")], "niveau_3": []})
 	assert_eq(singleton.campagne_lire_prochain_niveau(), 2)
 
-func test_campagne_lire_prochain_niveau_sans_niveau_retourne_la_sentinelle():
+func test_campagne_lire_prochain_niveau_sans_niveau_retourne_zero():
 	_charger([], {"niveau_1": []})
-	assert_eq(singleton.campagne_lire_prochain_niveau(), 9999)
+	assert_eq(singleton.campagne_lire_prochain_niveau(), 0)
 
 func test_campagne_lire_prochain_gameplay():
 	_charger([], {"niveau_2": [_entree("B", 2, "MEMOIRE")], "niveau_1": [_entree("A", 1, "DICO")]})

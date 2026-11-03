@@ -231,7 +231,8 @@ func test_sous_titre_sadapte_a_limage_qr_haute_resolution() -> void:
 	assert_eq(image_partage.get_width(), 512)
 	assert_eq(image_partage.get_height(), 668)
 
-func test_api_emet_partage_qr_code_apres_decodage_et_verification() -> void:
+# Import QR volontairement interdit dans cette version : un QR valide est refusé.
+func test_api_refuse_l_import_d_un_qr_valide_dans_cette_version() -> void:
 	var api: PartagePerformancesAPI = add_child_autofree(API_PARTAGE.new())
 	var donnees_attendues := {
 		"joueur": "Joueuse",
@@ -246,12 +247,15 @@ func test_api_emet_partage_qr_code_apres_decodage_et_verification() -> void:
 	var cle_hmac: String = ProjectSettings.get_setting("partage_performances/cle_hmac", "")
 	var enveloppe: Dictionary = logique.preparer_enveloppe(donnees_attendues, cle_hmac)
 	var qr_valide: Array[Dictionary] = []
+	var erreurs: Array[String] = []
 	api.partage_qr_code.connect(func(donnees: Dictionary) -> void: qr_valide.append(donnees))
+	api.erreur_decodage_qr.connect(func(message: String) -> void: erreurs.append(message))
 
 	api._on_qr_detected(enveloppe.get("contenu_qr", ""))
 
-	assert_eq(qr_valide.size(), 1)
-	assert_eq(qr_valide[0], donnees_attendues)
+	assert_eq(qr_valide.size(), 0)
+	assert_eq(erreurs.size(), 1)
+	assert_true(erreurs[0].contains("plus compatible"))
 
 func test_api_signale_quand_le_decodage_nest_pas_disponible() -> void:
 	if Engine.has_singleton("QRPlugin"):
@@ -266,7 +270,7 @@ func test_api_signale_quand_le_decodage_nest_pas_disponible() -> void:
 	assert_eq(erreurs.size(), 1)
 	assert_true(erreurs[0].contains("plateforme"))
 
-func test_scene_recoit_une_image_et_expose_le_signal_partage_qr_code() -> void:
+func test_scene_n_emet_pas_partage_qr_code_pour_un_qr_valide_dans_cette_version() -> void:
 	var panneau: PartagePerformancesUI = add_child_autofree(SCENE_PARTAGE.instantiate())
 	var api: PartagePerformancesAPI = panneau.get_node("PartagePerformancesAPI")
 	var donnees_attendues := {
@@ -287,22 +291,22 @@ func test_scene_recoit_une_image_et_expose_le_signal_partage_qr_code() -> void:
 	api._on_qr_detected(enveloppe.get("contenu_qr", ""))
 
 	assert_true(panneau.has_method("recevoir_image_qr"))
-	assert_eq(qr_valide, [donnees_attendues])
+	assert_eq(qr_valide.size(), 0)
 
 func test_api_lit_le_nom_du_joueur_et_le_dernier_niveau() -> void:
 	var api: PartagePerformancesAPI = add_child_autofree(API_PARTAGE.new())
 	var donnees: Dictionary = api.lire_donnees_dernier_niveau()
 
-	assert_eq(donnees.size(), 3)
+	assert_eq(donnees.size(), 5)
 	assert_eq(donnees.get("joueur"), SauvegardeBddJoueursService.lire_nom_joueur())
-	var campagne_attendue: Dictionary = SauvegardeBddJoueursService.enregistrement_campagne_lire_derniere_campagne().duplicate(true)
-	campagne_attendue.erase("niveaux")
-	assert_eq(donnees.get("campagne"), campagne_attendue)
-	var niveau_attendu: Dictionary = SauvegardeBddJoueursService.enregistrement_campagne_lire_dernier_niveau().duplicate(true)
-	assert_eq(
-		donnees.get("niveau"),
-		niveau_attendu
-	)
+	assert_eq(donnees.get("campagne"), SauvegardeBddJoueursService.enregistrement_campagne_lire_nom_derniere_campagne())
+	assert_eq(donnees.get("niveau"), SauvegardeBddJoueursService.enregistrement_campagne_lire_nom_dernier_niveau())
+	assert_eq(donnees.get("Status"), "Ne pas importer")
+	var plateaux = donnees.get("plateaux")
+	assert_true(plateaux is Array)
+	for plateau in plateaux:
+		for cle in ["coups joués", "date_debut", "date_fin", "score"]:
+			assert_false(plateau.has(cle), "champ allege attendu absent : " + cle)
 
 func test_panneau_explique_lindisponibilite_du_qr_sur_une_plateforme_non_supportee() -> void:
 	if Engine.has_singleton("QRPlugin"):

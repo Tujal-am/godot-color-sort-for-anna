@@ -128,17 +128,22 @@ func test_campagne_et_niveau_statistiques():
 
 
 func test_plateau_statistiques():
-	assert_eq(service.plateau_nombre_de_plateaux_joues(), 6)
+	# 5 plateaux réussis, 1 essai abandonné : 5 plateaux joués pour 6 essais
+	assert_eq(service.plateau_nombre_de_plateaux_joues(), 5)
+	assert_eq(service.plateau_nombre_essais_de_plateaux(), 6)
 	assert_true(abs(service.plateau_taux_de_reussite() - (5.0 / 6.0)) < 0.0001)
+	assert_true(abs(service.plateau_taux_de_realisation() - 1.0) < 0.0001)
 	assert_true(abs(service.campagne_temps_total_en_s() - 68.0) < 0.0001)
-	assert_true(abs(service.plateau_temps_moyen_en_s() - (57.0 / 5.0)) < 0.0001)
+	# Temps de tous les essais / nombre de plateaux réussis
+	assert_true(abs(service.plateau_temps_moyen_en_s() - (68.0 / 5.0)) < 0.0001)
 
 	var plus_rapide = service.plateau_plus_rapide_infos()
 	assert_true(abs(plus_rapide.get("temps_en_s") - 8.0) < 0.0001)
 	assert_eq(plus_rapide.get("difficulte"), 4)
 
+	# B : essai abandonné (11 s) + essai réussi (15 s) cumulés
 	var plus_lent = service.plateau_plus_lent_infos()
-	assert_true(abs(plus_lent.get("temps_en_s") - 15.0) < 0.0001)
+	assert_true(abs(plus_lent.get("temps_en_s") - 26.0) < 0.0001)
 	assert_eq(plus_lent.get("difficulte"), 2)
 
 	var plus_galere = service.plateau_plus_galere_infos()
@@ -272,7 +277,10 @@ func test_plateaux_passes_sont_comptes_et_interrompent_les_series_de_victoires()
 		"abandonnes": 1,
 		"passes": 1
 	})
-	assert_eq(service.nombre_de_plateau_joues(), 7)
+	# Plateaux joués = réussis + passés ; essais = joués + abandonnés
+	assert_eq(service.nombre_de_plateaux_joues(), 6)
+	assert_eq(service.nombre_essais_de_plateaux(), 7)
+	assert_true(abs(service.taux_de_realisation_des_plateaux() - (5.0 / 6.0)) < 0.0001)
 	assert_true(abs(service.taux_de_reussite_des_plateaux() - (5.0 / 7.0)) < 0.0001)
 	assert_eq(service.serie_de_victoire_maximum(), 2)
 
@@ -298,7 +306,8 @@ func test_statistiques_excluent_les_donnees_a_la_date_de_debut_de_campagne():
 
 	assert_eq(service.nombre_de_plateaux_totaux(), 8)
 	assert_true(abs(service.taux_completion_campagne() - (5.0 / 8.0)) < 0.0001)
-	assert_eq(service.plateau_nombre_de_plateaux_joues(), 6)
+	assert_eq(service.plateau_nombre_de_plateaux_joues(), 5)
+	assert_eq(service.plateau_nombre_essais_de_plateaux(), 6)
 	assert_true(abs(service.campagne_temps_total_en_s() - 68.0) < 0.0001)
 	assert_eq(service.campagne_serie_max_reussite(), 4)
 	assert_eq(service.detail_score_cumule().get("rapidite"), 135)
@@ -333,16 +342,17 @@ func test_gameplay_statistiques_classique():
 	assert_eq(plus_galere.get("difficulte"), 1)
 
 func test_gameplay_statistiques_qui_perd_gagne():
-	assert_eq(service.qui_perd_gagne_nombre_de_plateaux_joues(), 3)
+	assert_eq(service.qui_perd_gagne_nombre_de_plateaux_joues(), 2)
+	assert_eq(service.qui_perd_gagne_nombre_essais_de_plateaux(), 3)
 	assert_true(abs(service.qui_perd_gagne_taux_de_reussite() - (2.0 / 3.0)) < 0.0001)
-	assert_true(abs(service.qui_perd_gagne_temps_moyen_en_s() - (23.0 / 2.0)) < 0.0001)
+	assert_true(abs(service.qui_perd_gagne_temps_moyen_en_s() - (34.0 / 2.0)) < 0.0001)
 
 	var plus_rapide = service.qui_perd_gagne_plus_rapide_infos()
 	assert_true(abs(plus_rapide.get("temps_en_s") - 8.0) < 0.0001)
 	assert_eq(plus_rapide.get("difficulte"), 4)
 
 	var plus_lent = service.qui_perd_gagne_plus_lent_infos()
-	assert_true(abs(plus_lent.get("temps_en_s") - 15.0) < 0.0001)
+	assert_true(abs(plus_lent.get("temps_en_s") - 26.0) < 0.0001)
 	assert_eq(plus_lent.get("difficulte"), 2)
 
 	var plus_galere = service.qui_perd_gagne_plus_galere_infos()
@@ -523,7 +533,8 @@ func test_detail_score_cumule_a_la_date_exacte_de_debut_incoherent_avec_les_autr
 	_definir_niveaux([niveau])
 	assert_eq(service.detail_score_cumule().get("niveau"), 7)
 	assert_eq(service.nombre_niveaux_termines(), 0)
-	assert_eq(service.nombre_de_plateau_joues(), 0)
+	assert_eq(service.nombre_de_plateaux_joues(), 0)
+	assert_eq(service.nombre_essais_de_plateaux(), 0)
 
 
 # ---------------------------------------------------------
@@ -546,8 +557,10 @@ func test_statistiques_sans_enregistrement_de_campagne():
 	assert_eq(service.niveau_terminees(), 0)
 	assert_eq(service.duree_moyenne_niveaux_terminees_en_s(), 0.0)
 	assert_eq(service.nombre_de_plateau_reussis_abandonnes_passes(), {"reussis": 0, "abandonnes": 0, "passes": 0})
-	assert_eq(service.nombre_de_plateau_joues(), 0)
+	assert_eq(service.nombre_de_plateaux_joues(), 0)
+	assert_eq(service.nombre_essais_de_plateaux(), 0)
 	assert_eq(service.taux_de_reussite_des_plateaux(), 0.0)
+	assert_eq(service.taux_de_realisation_des_plateaux(), 0.0)
 	assert_eq(service.campagne_taux_reussite(), 0.0)
 	assert_eq(service.longueur_max_niveau_termine(), 0)
 	assert_eq(service.niveau_longueur_max(), 0)
@@ -602,9 +615,10 @@ func test_taux_completion_campagne_compte_les_plateaux_passes_comme_acheves():
 		_plateau("B", "passé", 0, 1),
 		_plateau("C", "abandonné", 4, 1)
 	])])
-	assert_eq(service.nombre_de_plateau_acheves(), 2)
-	assert_eq(service.nombre_de_plateaux_totaux(), 5)
-	assert_almost_eq(service.taux_completion_campagne(), 2.0 / 5.0, 0.0001)
+	# Un plateau passé n'est plus à jouer mais n'est pas réussi : il n'est pas compté comme achevé
+	assert_eq(service.nombre_de_plateau_acheves(), 1)
+	assert_eq(service.nombre_de_plateaux_totaux(), 4)
+	assert_almost_eq(service.taux_completion_campagne(), 1.0 / 4.0, 0.0001)
 
 func test_plateaux_en_cours_ne_sont_ni_acheves_ni_comptes_dans_le_taux_de_reussite():
 	_definir_niveaux([_niveau("niveau_1", [
@@ -612,7 +626,8 @@ func test_plateaux_en_cours_ne_sont_ni_acheves_ni_comptes_dans_le_taux_de_reussi
 		_plateau("B", "en cours", 0, 1)
 	], false)])
 	assert_eq(service.nombre_de_plateau_reussis_abandonnes_passes(), {"reussis": 1, "abandonnes": 0, "passes": 0})
-	assert_eq(service.nombre_de_plateau_joues(), 1)
+	assert_eq(service.nombre_de_plateaux_joues(), 1)
+	assert_eq(service.nombre_essais_de_plateaux(), 1)
 	assert_eq(service.taux_de_reussite_des_plateaux(), 1.0)
 
 func test_taux_de_reussite_nul_quand_aucun_plateau_reussi():
@@ -620,8 +635,10 @@ func test_taux_de_reussite_nul_quand_aucun_plateau_reussi():
 		_plateau("A", "abandonné", 5, 1),
 		_plateau("B", "passé", 0, 1)
 	])])
-	assert_eq(service.nombre_de_plateau_joues(), 2)
+	assert_eq(service.nombre_de_plateaux_joues(), 1)
+	assert_eq(service.nombre_essais_de_plateaux(), 2)
 	assert_eq(service.taux_de_reussite_des_plateaux(), 0.0)
+	assert_eq(service.taux_de_realisation_des_plateaux(), 0.0)
 
 
 # ---------------------------------------------------------
@@ -646,7 +663,8 @@ func test_statistiques_ignorent_les_campagnes_precedentes():
 func test_statistiques_ne_lisent_que_la_derniere_campagne():
 	SauvegardeBddJoueursService._sauvegarde_joueur["enregistrement_campagne"].append(_campagne_suivante())
 	assert_eq(service.nombre_de_plateau_reussis_abandonnes_passes(), {"reussis": 1, "abandonnes": 1, "passes": 0})
-	assert_eq(service.nombre_de_plateau_joues(), 2)
+	assert_eq(service.nombre_de_plateaux_joues(), 1)
+	assert_eq(service.nombre_essais_de_plateaux(), 2)
 	assert_eq(service.nombre_de_plateau_acheves(), 1)
 	assert_eq(service.nombre_de_plateau_inacheves(), 3)
 	assert_eq(service.nombre_de_plateaux_totaux(), 4)
@@ -657,7 +675,7 @@ func test_statistiques_ne_lisent_que_la_derniere_campagne():
 	assert_eq(service.niveau_longueur_max(), 1)
 	assert_eq(service.duree_totale_plateaux_tous_les_niveaux_en_s(), {"toutes": 10.0, "terminees": 10.0})
 	assert_eq(service.duree_moyenne_niveaux_terminees_en_s(), 10.0)
-	assert_eq(service.plateau_le_temps_moyen_en_s(), 4.0)
+	assert_eq(service.plateau_le_temps_moyen_en_s(), 10.0)
 	assert_eq(service.plateau_le_plus_rapide_les_infos(), {"temps_en_s": 4.0, "difficulte": 3})
 	assert_eq(service.plateau_le_plus_lent_les_infos(), {"temps_en_s": 4.0, "difficulte": 3})
 	assert_eq(service.plateau_le_plus_galere_les_infos(), {"nom": "N1", "essais": 1, "difficulte": 3})
@@ -674,8 +692,8 @@ func test_detail_score_et_gameplay_de_la_derniere_campagne():
 	assert_eq(service.score_total(), 958)
 	assert_eq(service.classique_nombre_de_plateaux_joues(), 1)
 	assert_eq(service.classique_taux_de_reussite(), 1.0)
-	assert_eq(service.qui_perd_gagne_nombre_de_plateaux_joues(), 1)
-	assert_eq(service.qui_perd_gagne_taux_de_reussite(), 0.0)
+	assert_eq(service.qui_perd_gagne_nombre_de_plateaux_joues(), 0)
+	assert_eq(service.qui_perd_gagne_nombre_essais_de_plateaux(), 1)
 
 
 # ---------------------------------------------------------
@@ -763,7 +781,7 @@ func test_niveau_taux_reussite_infos_retourne_les_niveaux_min_et_max():
 	assert_eq(infos.get("taux_max_niveau"), 2)
 	assert_eq(service.niveau_taux_reussite_infos(), infos)
 
-func test_niveau_taux_reussite_infos_ex_aequo_garde_le_premier_niveau():
+func test_niveau_taux_reussite_infos_ex_aequo_cherche_le_niveau_min_et_le_niveau_max():
 	_definir_niveaux([
 		_niveau("niveau_4", [_plateau("A", "reussi", 1, 1), _plateau("B", "abandonné", 1, 1)], true),
 		_niveau("niveau_5", [_plateau("C", "reussi", 1, 1), _plateau("D", "abandonné", 1, 1)], true)
@@ -772,7 +790,7 @@ func test_niveau_taux_reussite_infos_ex_aequo_garde_le_premier_niveau():
 	assert_eq(infos.get("taux_min"), 0.5)
 	assert_eq(infos.get("taux_max"), 0.5)
 	assert_eq(infos.get("taux_min_niveau"), 4)
-	assert_eq(infos.get("taux_max_niveau"), 4)
+	assert_eq(infos.get("taux_max_niveau"), 5)
 
 func test_niveau_taux_reussite_infos_niveau_sans_nom():
 	_definir_niveaux([{"date_debut": DATE_VALIDE, "date_fin": DATE_VALIDE + 1, "plateaux": [_plateau("A", "reussi", 1, 1)]}])
@@ -814,7 +832,7 @@ func test_taux_completion_niveau_vaut_zero_sans_plateau_realise():
 # Plateaux : temps moyen, plus rapide, plus lent, plus galère
 # ---------------------------------------------------------
 
-func test_plateau_temps_moyen_ne_compte_que_les_plateaux_reussis_avec_duree():
+func test_plateau_temps_moyen_cumule_tous_les_essais_et_divise_par_les_plateaux_reussis():
 	_definir_niveaux([_niveau("niveau_1", [
 		_plateau("A", "reussi", 10, 1),
 		_plateau("B", "reussi", 20, 1),
@@ -822,8 +840,9 @@ func test_plateau_temps_moyen_ne_compte_que_les_plateaux_reussis_avec_duree():
 		_plateau("D", "passé", 50, 1),
 		_plateau("E", "reussi", 0, 1)
 	])])
-	assert_eq(service.plateau_le_temps_moyen_en_s(), 15.0)
-	assert_eq(service.plateau_temps_moyen_en_s(), 15.0)
+	# (10 + 20 + 100 + 50 + 0) s cumulés sur 3 plateaux réussis
+	assert_eq(service.plateau_le_temps_moyen_en_s(), 60.0)
+	assert_eq(service.plateau_temps_moyen_en_s(), 60.0)
 
 func test_plateau_temps_moyen_ignore_les_niveaux_anterieurs_a_la_date_de_debut():
 	var date_debut = SauvegardeConfigurationService.lire_la_date_debut_campagne_timestamp()
@@ -833,15 +852,16 @@ func test_plateau_temps_moyen_ignore_les_niveaux_anterieurs_a_la_date_de_debut()
 	])
 	assert_eq(service.plateau_le_temps_moyen_en_s(), 8.0)
 
-func test_plateau_plus_rapide_et_plus_lent_ignorent_abandonnes_et_passes():
+func test_plateau_plus_rapide_et_plus_lent_cumulent_les_essais_jusquau_plateau_reussi():
 	_definir_niveaux([_niveau("niveau_1", [
 		_plateau("A", "abandonné", 1, 9),
 		_plateau("B", "passé", 2, 9),
 		_plateau("C", "reussi", 30, 3),
-		_plateau("D", "reussi", 12, 4),
-		_plateau("E", "reussi", 50, 6),
-		_plateau("F", "reussi", 0, 8)
+		_plateau("D", "abandonné", 5, 4),
+		_plateau("E", "reussi", 7, 4),
+		_plateau("F", "reussi", 50, 6)
 	])])
+	# Le plateau passé remet le cumul à zéro ; E cumule l'essai abandonné D : 12 s
 	assert_eq(service.plateau_plus_rapide_infos(), {"temps_en_s": 12.0, "difficulte": 4})
 	assert_eq(service.plateau_plus_lent_infos(), {"temps_en_s": 50.0, "difficulte": 6})
 
@@ -916,14 +936,14 @@ func test_serie_de_victoire_classe_les_niveaux_par_ordre_chronologique():
 	])
 	assert_eq(service.serie_de_victoire_maximum(), 4)
 
-func test_serie_de_victoire_trie_en_place_les_niveaux_enregistres():
+func test_serie_de_victoire_ne_modifie_pas_lordre_des_niveaux_enregistres():
 	_definir_niveaux([
 		_niveau("niveau_2", [_plateau("C", "reussi", 1, 1)], true, DATE_VALIDE + 2000),
 		_niveau("niveau_1", [_plateau("A", "reussi", 1, 1)], true, DATE_VALIDE)
 	])
 	service.serie_de_victoire_maximum()
-	assert_eq(_niveaux()[0].get("niveau"), "niveau_1")
-	assert_eq(_niveaux()[1].get("niveau"), "niveau_2")
+	assert_eq(_niveaux()[0].get("niveau"), "niveau_2")
+	assert_eq(_niveaux()[1].get("niveau"), "niveau_1")
 
 func test_serie_de_victoire_coupee_par_abandon_et_passage_pas_par_en_cours():
 	_definir_niveaux([_niveau("niveau_1", [
@@ -971,8 +991,10 @@ func _definir_niveau_gameplays() -> void:
 func test_gameplay_appels_directs_sur_la_campagne_de_reference():
 	assert_eq(service.gameplay_nombre_de_plateau_reussis_abandonnes_passes("CLASSIQUE"), {"reussis": 3, "abandonnes": 0, "passes": 0})
 	assert_eq(service.gameplay_nombre_de_plateau_reussis_abandonnes_passes("QUI_PERD_GAGNE"), {"reussis": 2, "abandonnes": 1, "passes": 0})
-	assert_eq(service.gameplay_nombre_de_plateau_joues("CLASSIQUE"), 3)
-	assert_eq(service.gameplay_nombre_de_plateau_joues("QUI_PERD_GAGNE"), 3)
+	assert_eq(service.gameplay_nombre_de_plateaux_joues("CLASSIQUE"), 3)
+	assert_eq(service.gameplay_nombre_essais_de_plateaux("CLASSIQUE"), 3)
+	assert_eq(service.gameplay_nombre_de_plateaux_joues("QUI_PERD_GAGNE"), 2)
+	assert_eq(service.gameplay_nombre_essais_de_plateaux("QUI_PERD_GAGNE"), 3)
 	assert_almost_eq(service.gameplay_taux_de_reussite_des_plateaux("QUI_PERD_GAGNE"), 2.0 / 3.0, 0.0001)
 	assert_almost_eq(service.gameplay_le_temps_moyen_en_s("CLASSIQUE"), 34.0 / 3.0, 0.0001)
 	assert_eq(service.gameplay_le_plus_rapide_les_infos("CLASSIQUE"), {"temps_en_s": 9.0, "difficulte": 3})
@@ -980,16 +1002,17 @@ func test_gameplay_appels_directs_sur_la_campagne_de_reference():
 	assert_eq(service.gameplay_le_plus_galere_les_infos("QUI_PERD_GAGNE"), {"nom": "B", "essais": 2, "difficulte": 2})
 
 func test_gameplay_est_insensible_a_la_casse():
-	assert_eq(service.gameplay_nombre_de_plateau_joues("classique"), 3)
-	assert_eq(service.gameplay_nombre_de_plateau_joues("Classique"), 3)
-	assert_eq(service.gameplay_nombre_de_plateau_joues("qui_perd_gagne"), 3)
+	assert_eq(service.gameplay_nombre_de_plateaux_joues("classique"), 3)
+	assert_eq(service.gameplay_nombre_de_plateaux_joues("Classique"), 3)
+	assert_eq(service.gameplay_nombre_de_plateaux_joues("qui_perd_gagne"), 2)
 	assert_eq(service.gameplay_le_plus_rapide_les_infos("classique"), service.gameplay_le_plus_rapide_les_infos("CLASSIQUE"))
 	assert_eq(service.gameplay_le_plus_galere_les_infos("qui_perd_gagne"), service.gameplay_le_plus_galere_les_infos("QUI_PERD_GAGNE"))
 
 func test_gameplay_inconnu_ou_vide_retourne_zero():
 	for gameplay in ["INCONNU", ""]:
 		assert_eq(service.gameplay_nombre_de_plateau_reussis_abandonnes_passes(gameplay), {"reussis": 0, "abandonnes": 0, "passes": 0})
-		assert_eq(service.gameplay_nombre_de_plateau_joues(gameplay), 0)
+		assert_eq(service.gameplay_nombre_de_plateaux_joues(gameplay), 0)
+		assert_eq(service.gameplay_nombre_essais_de_plateaux(gameplay), 0)
 		assert_eq(service.gameplay_taux_de_reussite_des_plateaux(gameplay), 0.0)
 		assert_eq(service.gameplay_le_temps_moyen_en_s(gameplay), 0.0)
 		assert_eq(service.gameplay_le_plus_rapide_les_infos(gameplay), {"temps_en_s": 0.0, "difficulte": 0})
@@ -999,19 +1022,23 @@ func test_gameplay_inconnu_ou_vide_retourne_zero():
 func test_gameplay_statuts_mixtes_comptes_et_taux():
 	_definir_niveau_gameplays()
 	assert_eq(service.gameplay_nombre_de_plateau_reussis_abandonnes_passes("CLASSIQUE"), {"reussis": 2, "abandonnes": 1, "passes": 1})
-	assert_eq(service.classique_nombre_de_plateaux_joues(), 4)
+	assert_eq(service.classique_nombre_de_plateaux_joues(), 3)
+	assert_eq(service.classique_nombre_essais_de_plateaux(), 4)
 	assert_eq(service.classique_taux_de_reussite(), 0.5)
 	assert_eq(service.qui_perd_gagne_nombre_de_plateaux_joues(), 1)
+	assert_eq(service.qui_perd_gagne_nombre_essais_de_plateaux(), 1)
 	assert_eq(service.qui_perd_gagne_taux_de_reussite(), 1.0)
 
-func test_gameplay_temps_moyen_ignore_non_reussis_et_durees_nulles():
+func test_gameplay_temps_moyen_cumule_tous_les_essais_sur_les_plateaux_reussis():
 	_definir_niveau_gameplays()
-	assert_eq(service.classique_temps_moyen_en_s(), 10.0)
+	# CLASSIQUE : (10 + 0 + 7 + 0) s sur 2 plateaux réussis
+	assert_eq(service.classique_temps_moyen_en_s(), 8.5)
 	assert_eq(service.qui_perd_gagne_temps_moyen_en_s(), 20.0)
 
-func test_gameplay_plus_rapide_plus_lent_ignorent_non_reussis_et_durees_nulles():
+func test_gameplay_plus_rapide_plus_lent_cumulent_les_essais_abandonnes():
 	_definir_niveau_gameplays()
-	assert_eq(service.classique_plus_rapide_infos(), {"temps_en_s": 10.0, "difficulte": 2})
+	# d (réussi) cumule l'essai abandonné c : 7 s, le passé b remet le cumul à zéro
+	assert_eq(service.classique_plus_rapide_infos(), {"temps_en_s": 7.0, "difficulte": 1})
 	assert_eq(service.classique_plus_lent_infos(), {"temps_en_s": 10.0, "difficulte": 2})
 	assert_eq(service.qui_perd_gagne_plus_rapide_infos(), {"temps_en_s": 20.0, "difficulte": 4})
 	assert_eq(service.qui_perd_gagne_plus_lent_infos(), {"temps_en_s": 20.0, "difficulte": 4})
@@ -1053,3 +1080,193 @@ func test_gameplay_ignore_les_plateaux_sans_gameplay():
 	assert_eq(service.classique_plus_rapide_infos().get("temps_en_s"), 5.0)
 	assert_eq(service.classique_plus_lent_infos().get("temps_en_s"), 5.0)
 	assert_eq(service.classique_plus_galere_infos().get("nom"), "A")
+
+
+# ---------------------------------------------------------
+# Plateaux joués / essais de plateaux
+# ---------------------------------------------------------
+
+func test_plateaux_joues_et_essais_sont_distincts():
+	_definir_niveaux([_niveau("niveau_1", [
+		_plateau("A", "abandonné", 4, 1),
+		_plateau("A", "abandonné", 3, 1),
+		_plateau("A", "reussi", 5, 1),
+		_plateau("B", "passé", 0, 1),
+		_plateau("C", "reussi", 6, 1),
+		_plateau("D", "en cours", 0, 1)
+	])])
+	assert_eq(service.nombre_de_plateau_reussis_abandonnes_passes(), {"reussis": 2, "abandonnes": 2, "passes": 1})
+	assert_eq(service.nombre_de_plateaux_joues(), 3)
+	assert_eq(service.plateau_nombre_de_plateaux_joues(), 3)
+	assert_eq(service.nombre_essais_de_plateaux(), 5)
+	assert_eq(service.plateau_nombre_essais_de_plateaux(), 5)
+	assert_eq(service.classique_nombre_de_plateaux_joues(), 3)
+	assert_eq(service.classique_nombre_essais_de_plateaux(), 5)
+	assert_eq(service.qui_perd_gagne_nombre_de_plateaux_joues(), 0)
+	assert_eq(service.qui_perd_gagne_nombre_essais_de_plateaux(), 0)
+
+func test_taux_de_reussite_porte_sur_les_essais_et_taux_de_realisation_sur_les_plateaux_joues():
+	_definir_niveaux([_niveau("niveau_1", [
+		_plateau("A", "abandonné", 4, 1),
+		_plateau("A", "reussi", 5, 1),
+		_plateau("B", "passé", 0, 1),
+		_plateau("C", "reussi", 6, 1)
+	])])
+	# 2 réussis sur 4 essais ; 2 réussis sur 3 plateaux joués (réussis + passés)
+	assert_almost_eq(service.taux_de_reussite_des_plateaux(), 2.0 / 4.0, 0.0001)
+	assert_almost_eq(service.plateau_taux_de_reussite(), 2.0 / 4.0, 0.0001)
+	assert_almost_eq(service.taux_de_realisation_des_plateaux(), 2.0 / 3.0, 0.0001)
+	assert_almost_eq(service.plateau_taux_de_realisation(), 2.0 / 3.0, 0.0001)
+
+func test_taux_de_realisation_sans_reussi_ni_passe_vaut_zero():
+	_definir_niveaux([_niveau("niveau_1", [_plateau("A", "abandonné", 4, 1)])])
+	assert_eq(service.taux_de_realisation_des_plateaux(), 0.0)
+	_definir_niveaux([])
+	assert_eq(service.taux_de_realisation_des_plateaux(), 0.0)
+
+func test_taux_de_realisation_vaut_zero_sans_reussi_avec_passe():
+	_definir_niveaux([_niveau("niveau_1", [_plateau("A", "passé", 0, 1)])])
+	assert_eq(service.taux_de_realisation_des_plateaux(), 0.0)
+	assert_eq(service.nombre_de_plateaux_joues(), 1)
+
+func test_gameplay_essais_et_plateaux_joues_distincts():
+	_definir_niveaux([_niveau("niveau_1", [
+		_plateau("A", "abandonné", 4, 1, "QUI_PERD_GAGNE"),
+		_plateau("A", "reussi", 5, 1, "QUI_PERD_GAGNE"),
+		_plateau("B", "passé", 0, 1, "QUI_PERD_GAGNE"),
+		_plateau("C", "abandonné", 6, 1, "CLASSIQUE")
+	])])
+	assert_eq(service.qui_perd_gagne_nombre_de_plateaux_joues(), 2)
+	assert_eq(service.qui_perd_gagne_nombre_essais_de_plateaux(), 3)
+	assert_eq(service.classique_nombre_de_plateaux_joues(), 0)
+	assert_eq(service.classique_nombre_essais_de_plateaux(), 1)
+	assert_almost_eq(service.qui_perd_gagne_taux_de_reussite(), 1.0 / 3.0, 0.0001)
+
+
+# ---------------------------------------------------------
+# Temps cumulé sur tous les essais
+# ---------------------------------------------------------
+
+func test_temps_moyen_cumule_les_essais_abandonnes_et_passes():
+	_definir_niveaux([_niveau("niveau_1", [
+		_plateau("A", "abandonné", 10, 1),
+		_plateau("A", "reussi", 20, 1),
+		_plateau("B", "passé", 6, 1),
+		_plateau("C", "reussi", 4, 1)
+	])])
+	# (10 + 20 + 6 + 4) s sur 2 plateaux réussis
+	assert_eq(service.plateau_le_temps_moyen_en_s(), 20.0)
+
+func test_temps_moyen_sans_plateau_reussi_vaut_zero():
+	_definir_niveaux([_niveau("niveau_1", [_plateau("A", "abandonné", 10, 1), _plateau("B", "passé", 3, 1)])])
+	assert_eq(service.plateau_le_temps_moyen_en_s(), 0.0)
+	assert_eq(service.classique_temps_moyen_en_s(), 0.0)
+
+func test_plus_rapide_et_plus_lent_le_passe_remet_le_cumul_a_zero():
+	_definir_niveaux([_niveau("niveau_1", [
+		_plateau("A", "abandonné", 100, 1),
+		_plateau("B", "passé", 100, 1),
+		_plateau("C", "reussi", 9, 2)
+	])])
+	assert_eq(service.plateau_le_plus_rapide_les_infos(), {"temps_en_s": 9.0, "difficulte": 2})
+	assert_eq(service.plateau_le_plus_lent_les_infos(), {"temps_en_s": 9.0, "difficulte": 2})
+
+func test_plus_rapide_et_plus_lent_le_cumul_traverse_les_niveaux():
+	_definir_niveaux([
+		_niveau("niveau_1", [_plateau("A", "abandonné", 10, 3)], false),
+		_niveau("niveau_2", [_plateau("A", "reussi", 5, 3)], true, DATE_VALIDE + 2000)
+	])
+	assert_eq(service.plateau_le_plus_rapide_les_infos(), {"temps_en_s": 15.0, "difficulte": 3})
+	assert_eq(service.plateau_le_plus_lent_les_infos(), {"temps_en_s": 15.0, "difficulte": 3})
+
+func test_gameplay_cumul_ignore_les_plateaux_des_autres_gameplays():
+	_definir_niveaux([_niveau("niveau_1", [
+		_plateau("A", "abandonné", 10, 1, "QUI_PERD_GAGNE"),
+		_plateau("B", "reussi", 3, 1, "CLASSIQUE"),
+		_plateau("A", "reussi", 5, 1, "QUI_PERD_GAGNE")
+	])])
+	assert_eq(service.qui_perd_gagne_plus_lent_infos(), {"temps_en_s": 15.0, "difficulte": 1})
+	assert_eq(service.classique_plus_lent_infos(), {"temps_en_s": 3.0, "difficulte": 1})
+	assert_eq(service.qui_perd_gagne_temps_moyen_en_s(), 15.0)
+
+
+# ---------------------------------------------------------
+# Ratio min/max par niveau
+# ---------------------------------------------------------
+
+func test_niveau_taux_reussite_ratio_min_ex_aequo_retient_le_plus_bas_niveau_et_max_le_plus_haut():
+	_definir_niveaux([
+		_niveau("niveau_7", [_plateau("A", "reussi", 1, 1), _plateau("B", "abandonné", 1, 1)], true),
+		_niveau("niveau_3", [_plateau("C", "reussi", 1, 1), _plateau("D", "abandonné", 1, 1)], true),
+		_niveau("niveau_5", [_plateau("E", "reussi", 1, 1), _plateau("F", "abandonné", 1, 1)], true)
+	])
+	var infos = service.niveau_taux_reussite_les_infos()
+	assert_eq(infos.get("taux_min"), 0.5)
+	assert_eq(infos.get("taux_min_niveau"), 3)
+	assert_eq(infos.get("taux_max"), 0.5)
+	assert_eq(infos.get("taux_max_niveau"), 7)
+
+func test_niveau_taux_reussite_ratio_compte_les_essais_abandonnes_et_passes():
+	_definir_niveaux([
+		_niveau("niveau_1", [_plateau("A", "abandonné", 1, 1), _plateau("A", "reussi", 1, 1), _plateau("B", "reussi", 1, 1)], true),
+		_niveau("niveau_2", [_plateau("C", "reussi", 1, 1), _plateau("D", "passé", 0, 1)], true)
+	])
+	var infos = service.niveau_taux_reussite_les_infos()
+	assert_almost_eq(infos.get("taux_min"), 0.5, 0.0001)
+	assert_eq(infos.get("taux_min_lg"), 1)
+	assert_eq(infos.get("taux_min_niveau"), 2)
+	assert_almost_eq(infos.get("taux_max"), 2.0 / 3.0, 0.0001)
+	assert_eq(infos.get("taux_max_lg"), 2)
+	assert_eq(infos.get("taux_max_niveau"), 1)
+
+func test_niveau_taux_reussite_un_seul_niveau_est_min_et_max():
+	_definir_niveaux([_niveau("niveau_4", [_plateau("A", "reussi", 1, 1), _plateau("B", "abandonné", 1, 1)], true)])
+	var infos = service.niveau_taux_reussite_les_infos()
+	assert_eq(infos.get("taux_min_niveau"), 4)
+	assert_eq(infos.get("taux_max_niveau"), 4)
+	assert_eq(infos.get("taux_min_lg"), 1)
+	assert_eq(infos.get("taux_max_lg"), 1)
+
+
+# ---------------------------------------------------------
+# Bonus de campagne : ratio de réussite x ratio de plateaux réalisés
+# ---------------------------------------------------------
+
+func _terminer_la_campagne_avec(plateaux: Array) -> void:
+	SauvegardeBddJoueursService._sauvegarde_joueur["campagne"] = {}
+	_definir_niveaux([_niveau("niveau_1", plateaux, true)])
+	assert_true(ProgressionCampagneService.la_campagne_est_terminee())
+
+func test_bonus_campagne_depend_du_ratio_de_reussite_et_des_plateaux_passes():
+	_terminer_la_campagne_avec([
+		_plateau("A", "reussi", 1, 1),
+		_plateau("B", "reussi", 1, 1),
+		_plateau("C", "reussi", 1, 1),
+		_plateau("D", "abandonné", 1, 1),
+		_plateau("E", "passé", 0, 1)
+	])
+	# réussite 3/5, réalisation 3/4
+	assert_almost_eq(service.campagne_taux_reussite(), 3.0 / 5.0, 0.0001)
+	assert_almost_eq(service.plateau_taux_de_realisation(), 3.0 / 4.0, 0.0001)
+	var attendu = roundi(ScoreService.FIN_CAMPAGNE * (3.0 / 5.0) * (3.0 / 4.0))
+	var resultat = ScoreService.mettre_a_jour_score_campagne()
+	assert_eq(resultat.get("type"), "campagne")
+	assert_eq(resultat.get("points"), attendu)
+	assert_eq(service.detail_score_cumule().get("fin_campagne"), attendu)
+
+func test_bonus_campagne_complet_sans_plateau_passe_ne_depend_que_de_la_reussite():
+	_terminer_la_campagne_avec([
+		_plateau("A", "abandonné", 1, 1),
+		_plateau("A", "reussi", 1, 1),
+		_plateau("B", "reussi", 1, 1)
+	])
+	var attendu = roundi(ScoreService.FIN_CAMPAGNE * (2.0 / 3.0))
+	assert_eq(ScoreService.mettre_a_jour_score_campagne().get("points"), attendu)
+
+func test_bonus_campagne_nul_si_tous_les_plateaux_sont_passes():
+	_terminer_la_campagne_avec([_plateau("A", "passé", 0, 1), _plateau("B", "passé", 0, 1)])
+	assert_eq(ScoreService.mettre_a_jour_score_campagne().get("points"), 0)
+
+func test_bonus_campagne_non_attribue_tant_que_la_campagne_nest_pas_terminee():
+	assert_false(ProgressionCampagneService.la_campagne_est_terminee())
+	assert_eq(ScoreService.mettre_a_jour_score_campagne(), {})

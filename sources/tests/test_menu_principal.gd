@@ -176,7 +176,7 @@ func test_le_fond_du_curseur_change_de_couleur_selon_l_etat() -> void:
 func test_filtrer_click_absorbe_les_clics_rapproches() -> void:
 	var menu := _menu()
 	menu.delay_ms = 100000
-	menu.last_click_time = 0
+	menu.last_click_time = -100000
 
 	assert_false(menu.filtrer_click())
 	assert_true(menu.filtrer_click())
@@ -210,7 +210,6 @@ func test_un_clic_filtre_sur_effets_sonores_retablit_l_etat_reel() -> void:
 	menu.last_click_time = Time.get_ticks_msec()
 
 	bouton.button_pressed = true
-	print("DBG pressed=", bouton.button_pressed, " actif=", SauvegardeConfigurationService.effets_sonores_sont_actifs())
 
 	assert_false(bouton.button_pressed)
 

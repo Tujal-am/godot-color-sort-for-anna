@@ -192,6 +192,16 @@ func _creer_fichier_texte(nom: String) -> String:
 	fichier.close()
 	return chemin
 
+func _accepter_erreurs_moteur_de_chargement_image() -> void:
+	var erreurs_gerees := 0
+	for erreur in get_errors():
+		if erreur.is_engine_error() and (erreur.contains_text("image") or erreur.contains_text("PNG") \
+				or erreur.contains_text("opening file") or erreur.contains_text("f.is_null()") \
+				or erreur.contains_text("ERR_FILE_CORRUPT")):
+			erreur.handled = true
+			erreurs_gerees += 1
+	assert_gt(erreurs_gerees, 0, "le moteur doit signaler l'echec de chargement de l'image")
+
 func _installer_faux_api() -> FauxApi:
 	var faux = FauxApi.new()
 	service.add_child(faux)
@@ -256,7 +266,7 @@ func test_share_recu_sans_methodes_attendues_declenche_une_erreur():
 	var scene = _installer_fausse_scene()
 	service._on_share_received(RefCounted.new())
 	service._on_share_received(PartageIncomplet.new())
-	service._on_share_received(Node.new())
+	service._on_share_received(autofree(Node.new()))
 	assert_eq(scene.fermetures, 3)
 	assert_eq(faux_api.images.size(), 0)
 	_etat_repos_attendu()
@@ -283,6 +293,7 @@ func test_share_recu_fichier_inexistant_declenche_une_erreur():
 	var faux_api = _installer_faux_api()
 	var scene = _installer_fausse_scene()
 	service._on_share_received(FauxPartage.new(PackedStringArray([_chemin_image("absent.png")]), "image/png"))
+	_accepter_erreurs_moteur_de_chargement_image()
 	assert_eq(scene.fermetures, 1)
 	assert_eq(faux_api.images.size(), 0)
 	_etat_repos_attendu()
@@ -292,6 +303,7 @@ func test_share_recu_fichier_non_image_declenche_une_erreur_et_supprime_le_fichi
 	var scene = _installer_fausse_scene()
 	var chemin = _creer_fichier_texte("faux.png")
 	service._on_share_received(FauxPartage.new(PackedStringArray([chemin]), "image/png"))
+	_accepter_erreurs_moteur_de_chargement_image()
 	assert_eq(scene.fermetures, 1)
 	assert_eq(faux_api.images.size(), 0)
 	assert_false(FileAccess.file_exists(chemin))
@@ -359,10 +371,17 @@ func test_share_recu_ignore_ne_ferme_pas_le_panneau_en_cours():
 	assert_eq(scene.fermetures, 0)
 
 func test_share_recu_via_le_signal_du_service_de_partage():
+	# L'autoload ecoute deja le meme signal : on l'isole pour ne tester que ce service.
+	var autoload_import = PartagePerformancesImportService
+	var autoload_connecte = ShareService.share_received.is_connected(autoload_import._on_share_received)
+	if autoload_connecte:
+		ShareService.share_received.disconnect(autoload_import._on_share_received)
 	var faux_api = _installer_faux_api()
 	var chemin = _creer_png("qr.png")
 	ShareService.share_received.emit(FauxPartage.new(PackedStringArray([chemin]), "image/png"))
 	assert_eq(faux_api.images.size(), 1)
+	if autoload_connecte:
+		ShareService.share_received.connect(autoload_import._on_share_received)
 
 func test_share_recu_api_qui_refuse_le_decodage_ne_bloque_pas_les_imports_suivants():
 	# Défaut attendu : si l'API retourne false sans émettre d'erreur, le service doit revenir au repos.

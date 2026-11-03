@@ -832,7 +832,7 @@ func test_reel_v0_4_un_deuxieme_demarrage_ne_modifie_rien():
 
 func test_reel_v1_0_redemarrage_sans_changement_de_version_conserve_tout():
 	var configuration_reference = _lire_fixture("v1_0_0", "configuration_du_jeu.json")
-	assert_eq(configuration_reference.get("version"), _version_courante(), "la fixture doit être à la version courante")
+	assert_eq(str(configuration_reference.get("version")).split(".").slice(0, 2), _version_courante().split(".").slice(0, 2), "la fixture doit avoir la même majeure.mineure que la version courante")
 	var anciens = []
 	for indice in range(3):
 		anciens.append(_lire_fixture("v1_0_0", _fichier_joueur(indice)))

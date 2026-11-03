@@ -230,6 +230,7 @@ func test_carte_niveau_ecrit_chaque_indicateur() -> void:
 
 func _verifier_carte_de_plateaux(carte: Control) -> void:
 	carte.nb_plateaux("6")
+	carte.nb_essais("8")
 	carte.temps_moyen("11s")
 	carte.taux_reussite("83%")
 	carte.plus_rapide_temps("8.0s")
@@ -239,7 +240,8 @@ func _verifier_carte_de_plateaux(carte: Control) -> void:
 	carte.plus_galere_essais("3")
 	carte.plus_galere_difficulte("5")
 
-	assert_eq(carte.get_node("Plateaux/Valeur").text, "6")
+	assert_eq(carte.get_node("Nombre/Valeur").text, "6")
+	assert_eq(carte.get_node("Essais/Valeur").text, "8")
 	assert_eq(carte.get_node("TempsMoyen/Valeur").text, "11s")
 	assert_eq(carte.get_node("Reussite/Valeur").text, "83%")
 	assert_eq(carte.get_node("Tableau/PlusRapide/Temps").text, "8.0s")
@@ -315,37 +317,44 @@ func test_l_ecran_affiche_les_statistiques_de_niveau() -> void:
 func test_l_ecran_affiche_les_statistiques_de_tous_les_plateaux() -> void:
 	var ecran := _ecran()
 
-	assert_eq(_valeur(ecran, "Plateau/Plateaux/Valeur"), "6")
-	assert_eq(_valeur(ecran, "Plateau/TempsMoyen/Valeur"), "11s")
+	# 5 plateaux joués (réussis) pour 6 essais (dont 1 abandonné) ; temps cumulé de tous les essais / plateaux réussis
+	assert_eq(_valeur(ecran, "Plateau/Nombre/Valeur"), "5")
+	assert_eq(_valeur(ecran, "Plateau/Essais/Valeur"), "6")
+	assert_eq(_valeur(ecran, "Plateau/TempsMoyen/Valeur"), "14s")
 	assert_eq(_valeur(ecran, "Plateau/Reussite/Valeur"), "83%")
 	assert_eq(_valeur(ecran, "Plateau/Tableau/PlusRapide/Temps"), "8.0s")
 	assert_eq(_valeur(ecran, "Plateau/Tableau/PlusRapide/Difficulte"), "4")
-	assert_eq(_valeur(ecran, "Plateau/Tableau/PlusLent/Temps"), "15s")
+	assert_eq(_valeur(ecran, "Plateau/Tableau/PlusLent/Temps"), "26s")
 	assert_eq(_valeur(ecran, "Plateau/Tableau/PlusLent/Difficulte"), "2")
-	assert_eq(_valeur(ecran, "Plateau/Tableau/PlusGalere/Essais"), "2")
+	assert_eq(_valeur(ecran, "Plateau/Tableau/PlusGalere/Essais"), "2 essais")
 	assert_eq(_valeur(ecran, "Plateau/Tableau/PlusGalere/Difficulte"), "2")
 
 func test_l_ecran_affiche_les_statistiques_du_gameplay_classique() -> void:
 	var ecran := _ecran()
 
-	assert_eq(_valeur(ecran, "Classique/Plateaux/Valeur"), "3")
+	assert_eq(_valeur(ecran, "Classique/Nombre/Valeur"), "3")
+	assert_eq(_valeur(ecran, "Classique/Essais/Valeur"), "3")
 	assert_eq(_valeur(ecran, "Classique/TempsMoyen/Valeur"), "11s")
 	assert_eq(_valeur(ecran, "Classique/Reussite/Valeur"), "100%")
 	assert_eq(_valeur(ecran, "Classique/Tableau/PlusRapide/Temps"), "9.0s")
 	assert_eq(_valeur(ecran, "Classique/Tableau/PlusRapide/Difficulte"), "3")
 	assert_eq(_valeur(ecran, "Classique/Tableau/PlusLent/Temps"), "15s")
 	assert_eq(_valeur(ecran, "Classique/Tableau/PlusLent/Difficulte"), "2")
+	assert_eq(_valeur(ecran, "Classique/Tableau/PlusGalere/Essais"), "1 essai")
+	assert_eq(_valeur(ecran, "Classique/Tableau/PlusGalere/Difficulte"), "1")
 
 func test_l_ecran_affiche_les_statistiques_du_gameplay_qui_perd_gagne() -> void:
 	var ecran := _ecran()
 
-	assert_eq(_valeur(ecran, "QuiPerdGagne/Plateaux/Valeur"), "3")
+	assert_eq(_valeur(ecran, "QuiPerdGagne/Nombre/Valeur"), "2")
+	assert_eq(_valeur(ecran, "QuiPerdGagne/Essais/Valeur"), "3")
+	assert_eq(_valeur(ecran, "QuiPerdGagne/TempsMoyen/Valeur"), "17s")
 	assert_eq(_valeur(ecran, "QuiPerdGagne/Reussite/Valeur"), "67%")
 	assert_eq(_valeur(ecran, "QuiPerdGagne/Tableau/PlusRapide/Temps"), "8.0s")
 	assert_eq(_valeur(ecran, "QuiPerdGagne/Tableau/PlusRapide/Difficulte"), "4")
-	assert_eq(_valeur(ecran, "QuiPerdGagne/Tableau/PlusLent/Temps"), "15s")
+	assert_eq(_valeur(ecran, "QuiPerdGagne/Tableau/PlusLent/Temps"), "26s")
 	assert_eq(_valeur(ecran, "QuiPerdGagne/Tableau/PlusLent/Difficulte"), "2")
-	assert_eq(_valeur(ecran, "QuiPerdGagne/Tableau/PlusGalere/Essais"), "2")
+	assert_eq(_valeur(ecran, "QuiPerdGagne/Tableau/PlusGalere/Essais"), "2 essais")
 	assert_eq(_valeur(ecran, "QuiPerdGagne/Tableau/PlusGalere/Difficulte"), "2")
 
 func test_l_ecran_s_affiche_sans_enregistrement_de_campagne() -> void:
@@ -356,11 +365,14 @@ func test_l_ecran_s_affiche_sans_enregistrement_de_campagne() -> void:
 	var ecran := _ecran()
 
 	assert_eq(_valeur(ecran, "Niveau/EnCours/Valeur"), "0")
-	assert_eq(_valeur(ecran, "Plateau/Plateaux/Valeur"), "0")
+	assert_eq(_valeur(ecran, "Plateau/Nombre/Valeur"), "0")
+	assert_eq(_valeur(ecran, "Plateau/Essais/Valeur"), "0")
 	assert_eq(_valeur(ecran, "Plateau/Reussite/Valeur"), "0.0%")
 	assert_eq(_valeur(ecran, "Campagne/SerieMax/Valeur"), "0")
-	assert_eq(_valeur(ecran, "Classique/Plateaux/Valeur"), "0")
-	assert_eq(_valeur(ecran, "QuiPerdGagne/Plateaux/Valeur"), "0")
+	assert_eq(_valeur(ecran, "Classique/Nombre/Valeur"), "0")
+	assert_eq(_valeur(ecran, "Classique/Essais/Valeur"), "0")
+	assert_eq(_valeur(ecran, "QuiPerdGagne/Nombre/Valeur"), "0")
+	assert_eq(_valeur(ecran, "QuiPerdGagne/Essais/Valeur"), "0")
 
 func test_retour_ramene_au_menu_de_campagne_tant_que_la_campagne_n_est_pas_terminee() -> void:
 	var ecran := _ecran()
