@@ -105,20 +105,22 @@ func on_pile_clique_gauche(indice_pile : int) -> void:
 		# Ignorer les cliques sur les jetons quand il n'y a pas de partie ne cours
 		return
 	var pile_cible = liste_piles[indice_pile]
-	if sauvegarde_indice_pile_depart == -1 \
-		and regles.pile_de_depart_de_tansfert_valide(pile_cible):
-		$SelectionPile.start()
-		AudioService.son_jeton_deplacer_debut()
-		sauvegarde_indice_pile_depart = indice_pile
-		# Selecitonner la pile de depart
-		pile_cible.selectionner()
-		
-		# Parcourir chaque pile pour voir si elle peut etre destination
-		for pile_arrivee in range(len(liste_piles)):
-			if pile_arrivee != indice_pile \
-				and regles.est_valide_le_tansfert_de_pile(liste_piles, indice_pile, pile_arrivee):
-				liste_piles[pile_arrivee].selectionner_deplacement_valide()
+	if sauvegarde_indice_pile_depart == -1:
+		# Pile de depart sélectionnée
+		if regles.pile_de_depart_de_tansfert_valide(pile_cible):
+			$SelectionPile.start()
+			AudioService.son_jeton_deplacer_debut()
+			sauvegarde_indice_pile_depart = indice_pile
+			# Selecitonner la pile de depart
+			pile_cible.selectionner()
+			
+			# Parcourir chaque pile pour voir si elle peut etre destination
+			for pile_arrivee in range(len(liste_piles)):
+				if pile_arrivee != indice_pile \
+					and regles.est_valide_le_tansfert_de_pile(liste_piles, indice_pile, pile_arrivee):
+					liste_piles[pile_arrivee].selectionner_deplacement_valide()
 	else:
+		# Pile d'arrivée sélectionnée
 		$SelectionPile.stop()
 		if regles.realiser_le_tansfert_de_pile(liste_piles, sauvegarde_indice_pile_depart, indice_pile):
 			if pile_cible.est_termine():
