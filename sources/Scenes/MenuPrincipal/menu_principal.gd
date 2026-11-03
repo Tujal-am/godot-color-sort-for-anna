@@ -12,10 +12,19 @@ var expanded := false
 var player_buttons: Dictionary = {}
 
 var delay_ms: int = 100
-var last_click_time: int = 0
+var last_click_time : Dictionary= {
+	"Musique": 0,
+	"EffetsSonores": 0,
+	"Vibration": 0
+	}
 
 func _ready() -> void:
 	_build_ui()
+
+	# Initialiser les boutons 'TOGGLE' de configuration
+	_mettre_a_jour_configuration("Musique")
+	_mettre_a_jour_configuration("EffetsSonores")
+	_mettre_a_jour_configuration("Vibration")
 
 func _build_ui() -> void:
 	var configuration = $LowerFlow/CenterConfiguration/Configuration/Lignes
@@ -207,19 +216,20 @@ func _mettre_a_jour_configuration(conf_node_name : String):
 	var button = configuration.get_node(conf_node_name).get_node("Button")
 	button.button_pressed = status
 
-func filtrer_click() -> bool:
+func filtrer_click(conf_node_name: String) -> bool:
 	"Filtre les clics rapides et parasites d'ANDROID."
 	var current_time = Time.get_ticks_msec()
-	if current_time - last_click_time < delay_ms:
+	if current_time - last_click_time.get(conf_node_name, 0) < delay_ms:
 		# print("filtrer_click() filtré ", current_time,"ms")
 		return true # Absorbe l'evenement qui ne sera pas trasnmis
 	else:
 		# print("filtrer_click() accepté ", current_time,"ms")
-		last_click_time = current_time
+		last_click_time[conf_node_name] = current_time
 		return false
 
 func _on_bouton_musiques_toggled(on: bool):
-	if filtrer_click():
+	# print("on = ", on)
+	if filtrer_click("Musique"):
 		_mettre_a_jour_configuration("Musique")
 		return
 	if on: SauvegardeConfigurationService.activer_musiques()
@@ -228,7 +238,7 @@ func _on_bouton_musiques_toggled(on: bool):
 	VibrationService.vibration_click()
 
 func _on_bouton_effets_sonores_toggled(on: bool):
-	if filtrer_click():
+	if filtrer_click("EffetsSonores"):
 		_mettre_a_jour_configuration("EffetsSonores")
 		return
 	if on: SauvegardeConfigurationService.activer_effets_sonores()
@@ -237,7 +247,7 @@ func _on_bouton_effets_sonores_toggled(on: bool):
 	VibrationService.vibration_click()
 
 func _on_bouton_vibrations_toggled(on: bool):
-	if filtrer_click():
+	if filtrer_click("Vibration"):
 		_mettre_a_jour_configuration("Vibration")
 		return
 	if on: SauvegardeConfigurationService.activer_vibrations()
