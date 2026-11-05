@@ -160,12 +160,10 @@ func gagner_un_plateau() -> void:
 	# Valider le plateau courant (effacer de la liste des plateaux jouables)
 	campagne_supprimer_et_memoriser_plateau_courant()
 
-	# Ajouter le temps de jeu dans le niveau courant
 	enregistrement_campagne_modifier_statut_plateau('reussi')
 	enregistrement_campagne_terminer_plateau()
 
 func abandonner_un_plateau() -> void:
-	# En cas d'abandon, pas d'enrgistrement du temps.
 	enregistrement_campagne_modifier_statut_plateau('abandonné')
 	enregistrement_campagne_terminer_plateau()
 
@@ -173,7 +171,6 @@ func passer_un_plateau() -> void:
 	# Effacer de la liste des plateaux jouables
 	campagne_supprimer_et_oublier_plateau_courant()
 
-	# En cas de passement, pas d'enrgistrement du temps.
 	enregistrement_campagne_modifier_statut_plateau('passé')
 	enregistrement_campagne_terminer_plateau()
 
@@ -883,7 +880,7 @@ func enregistrement_campagne_terminer_plateau() -> void:
 		var niveau_courant = enregistrement_campagne_lire_dernier_niveau()
 		var plateau = niveau_courant.get('plateaux').back()
 		if plateau.get('statut') == 'en cours':
-			# Reprise avec un plateau inachevé
+			# Reprise avec un plateau inachevé => durée nulle + statut 'passé'
 			plateau['date_fin'] = plateau['date_debut'] # Timestamp
 			plateau['duree'] = 0.
 			plateau['statut'] = 'passé'
