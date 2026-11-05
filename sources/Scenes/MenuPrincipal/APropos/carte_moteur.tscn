@@ -78,7 +78,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.039215688, 0.15294118, 0.3019608, 1)
 theme_override_fonts/font = ExtResource("3_cxjln")
 theme_override_font_sizes/font_size = 13
-text = "Plugins: GUT, QRPlugin, SharePlugin"
+text = "Plugins: GUT, SharePlugin"
 vertical_alignment = 1
 
 [node name="Lien" type="RichTextLabel" parent="Colonne2" unique_id=572726507]

@@ -806,64 +806,33 @@ func test_inserer_campagne_sans_cle_score_ne_plante_pas():
 	singleton.enregistrement_campagne_inserer_campagne("campagne_x", {"campagne": "campagne_x"})
 	assert_eq(singleton.enregistrement_campagne().size(), 1)
 
-func _donnees_campagne_import(nom: String = "campagne_x", score: Dictionary = {"fin_campagne": 123}) -> Dictionary:
-	return {"campagne": nom, "date_debut": 5.0, "date_fin": 9.0, "score": score, "niveaux": [_niveau("niveau_ignore")]}
-
-func test_importer_niveau_cree_la_campagne_et_le_niveau():
+func test_importer_une_campagne_complete_conserve_tous_les_niveaux_et_plateaux():
 	_charger()
-	assert_true(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import(), _niveau("niveau_1", [_plateau("P1")], 6.0, 8.0)))
-	assert_eq(singleton.enregistrement_campagne().size(), 1)
-	assert_eq(_noms_niveaux("campagne_x"), ["niveau_1"])
-	assert_eq(singleton.enregistrement_campagne_lire_score_derniere_fin_campagne(), 123)
-	assert_eq(singleton.enregistrement_campagne_lire_niveau("campagne_x", "niveau_1").get("plateaux").size(), 1)
-	var relu = _derniere_campagne_relue()
-	assert_eq(relu["campagne"], "campagne_x")
-	assert_eq(relu["niveaux"].size(), 1)
+	var campagne := {
+		"campagne": "campagne_x",
+		"date_debut": 5.0,
+		"date_fin": 9.0,
+		"score": {"fin_campagne": 123},
+		"niveaux": [
+			_niveau("niveau_1", [_plateau("P1")], 6.0, 8.0),
+			_niveau("niveau_2", [_plateau("P2")], 10.0, 12.0)
+		]
+	}
+	assert_true(singleton.enregistrement_campagne_importer_campagne(campagne))
+	assert_eq(singleton.enregistrement_campagne_lire_derniere_campagne(), campagne)
 
-func test_importer_deux_fois_le_meme_niveau_retourne_false_la_seconde_fois():
+func test_importer_campagne_refuse_les_donnees_invalides_et_les_noms_existants():
 	_charger()
-	assert_true(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import(), _niveau("niveau_1", [], 6.0)))
-	assert_false(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import(), _niveau("niveau_1", [], 6.0)))
-	assert_eq(singleton.enregistrement_campagne().size(), 1)
-	assert_eq(_noms_niveaux("campagne_x"), ["niveau_1"])
-
-func test_importer_plusieurs_niveaux_dans_la_meme_campagne_respecte_la_chronologie():
-	_charger()
-	assert_true(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import(), _niveau("niveau_2", [], 20.0)))
-	assert_true(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import(), _niveau("niveau_1", [], 10.0)))
-	assert_true(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import(), _niveau("niveau_3", [], 30.0)))
-	assert_eq(singleton.enregistrement_campagne().size(), 1)
-	assert_eq(_noms_niveaux("campagne_x"), ["niveau_1", "niveau_2", "niveau_3"])
-
-func test_importer_dans_plusieurs_campagnes():
-	_charger()
-	assert_true(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import("campagne_x"), _niveau("niveau_1", [], 10.0)))
-	assert_true(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import("campagne_y", {"fin_campagne": 8}), _niveau("niveau_1", [], 10.0)))
-	assert_eq(singleton.enregistrement_campagne().size(), 2)
-	assert_eq(_noms_niveaux("campagne_x"), ["niveau_1"])
-	assert_eq(_noms_niveaux("campagne_y"), ["niveau_1"])
-	assert_eq(singleton.enregistrement_campagne_lire_score_fin_campagne(singleton.enregistrement_campagne_lire_campagne("campagne_y")), 8)
-
-func test_importer_un_niveau_met_a_jour_le_score_de_la_campagne_existante():
-	_charger([_campagne_enreg("campagne_x", [], 5.0, 9.0, {"fin_campagne": 1})])
-	assert_true(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import("campagne_x", {"fin_campagne": 500}), _niveau("niveau_1", [], 6.0)))
-	assert_eq(singleton.enregistrement_campagne().size(), 1)
-	assert_eq(singleton.enregistrement_campagne_lire_score_derniere_fin_campagne(), 500)
-
-func test_importer_niveau_refuse_les_donnees_invalides():
-	_charger()
-	assert_false(singleton.enregistrement_campagne_importer_niveau({"score": {}}, _niveau("niveau_1")))
-	assert_false(singleton.enregistrement_campagne_importer_niveau({"campagne": "", "score": {}}, _niveau("niveau_1")))
-	assert_false(singleton.enregistrement_campagne_importer_niveau({"campagne": 12, "score": {}}, _niveau("niveau_1")))
-	assert_false(singleton.enregistrement_campagne_importer_niveau(_donnees_campagne_import(), {"date_debut": 1.0}))
-	assert_false(singleton.enregistrement_campagne_importer_niveau({}, {}))
-	assert_eq(singleton.enregistrement_campagne(), [])
-
-func test_importer_niveau_sans_cle_score_dans_la_campagne_importe_quand_meme():
-	_charger()
-	var resultat = singleton.enregistrement_campagne_importer_niveau({"campagne": "campagne_x"}, _niveau("niveau_1", [], 6.0))
-	assert_true(resultat)
-	assert_eq(_noms_niveaux("campagne_x"), ["niveau_1"])
+	assert_false(singleton.enregistrement_campagne_importer_campagne({"campagne": "", "niveaux": []}))
+	assert_false(singleton.enregistrement_campagne_importer_campagne({"campagne": "campagne_x", "niveaux": "invalid"}))
+	assert_true(singleton.enregistrement_campagne_importer_campagne({
+		"campagne": "campagne_x",
+		"niveaux": [_niveau("niveau_1")]
+	}))
+	assert_false(singleton.enregistrement_campagne_importer_campagne({
+		"campagne": "campagne_x",
+		"niveaux": [_niveau("niveau_2")]
+	}))
 
 
 # ---------------------------------------------------------

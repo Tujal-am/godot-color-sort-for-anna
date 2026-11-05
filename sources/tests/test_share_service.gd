@@ -3,6 +3,8 @@ extends GutTest
 class FauxPartage extends Node:
 	signal share_received(received_data)
 	signal share_failed(message)
+	signal share_completed(activity_type)
+	signal share_canceled
 	var appels: Array = []
 	var cible_definie = null
 
@@ -11,6 +13,9 @@ class FauxPartage extends Node:
 
 	func share_texture(texture, title, subject, content) -> void:
 		appels.append([texture, title, subject, content])
+
+	func share_file(path, mime_type, title, subject, content) -> void:
+		appels.append([path, mime_type, title, subject, content])
 
 var service
 
@@ -22,6 +27,8 @@ func _installer_faux_partage() -> FauxPartage:
 	var faux = FauxPartage.new()
 	faux.share_received.connect(service._on_share_received)
 	faux.share_failed.connect(service._on_share_failed)
+	faux.share_completed.connect(service._on_share_completed)
+	faux.share_canceled.connect(service._on_share_canceled)
 	service.add_child(faux)
 	service._share_node = faux
 	return faux
@@ -78,6 +85,31 @@ func test_share_failed_du_plugin_est_reemis():
 	faux.share_failed.emit("erreur")
 	assert_signal_emitted_with_parameters(service, "share_failed", ["erreur"])
 	assert_signal_not_emitted(service, "share_received")
+
+func test_share_file_transmet_le_fichier_et_ses_metadonnees():
+	var faux = _installer_faux_partage()
+	var chemin := "user://share_service_test.json"
+	var fichier := FileAccess.open(chemin, FileAccess.WRITE)
+	fichier.store_string("{}")
+	fichier.close()
+
+	assert_true(service.share_file(chemin, "application/json", "titre", "sujet", "contenu"))
+	assert_eq(faux.appels, [[chemin, "application/json", "titre", "sujet", "contenu"]])
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(chemin))
+
+func test_share_file_refuse_un_fichier_absent_ou_un_type_mime_vide():
+	_installer_faux_partage()
+
+	assert_false(service.share_file("user://inexistant.json", "application/json", "", "", ""))
+	assert_false(service.share_file("user://share_service_test.json", "", "", "", ""))
+
+func test_signaux_de_fin_et_annulation_du_plugin_sont_reemis():
+	var faux = _installer_faux_partage()
+	faux.share_completed.emit("mail")
+	faux.share_canceled.emit()
+
+	assert_signal_emitted_with_parameters(service, "share_completed", ["mail"])
+	assert_signal_emitted(service, "share_canceled")
 
 func test_on_share_received_reemet_tout_type_de_donnee():
 	service._on_share_received(null)

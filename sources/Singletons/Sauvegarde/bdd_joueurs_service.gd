@@ -458,6 +458,44 @@ func enregistrement_campagne_lire_derniere_campagne() -> Dictionary:
 		return enregistrement_campagne().back()
 	return {}
 
+func enregistrement_campagne_importer_campagne(campagne: Dictionary) -> bool:
+	"Importe l'intégralité d'une campagne dans la sauvegarde du joueur."
+	var nom_campagne: Variant = campagne.get('campagne', '')
+	var niveaux: Variant = campagne.get('niveaux', null)
+	if not le_joueur_existe() or not nom_campagne is String \
+		or nom_campagne.strip_edges().is_empty() or not niveaux is Array:
+		LogService.log_erreur("Bdd joueurs : données de campagne importées invalides.")
+		return false
+	if enregistrement_campagne_lire_campagne(nom_campagne):
+		LogService.log_erreur("Bdd joueurs : campagne déjà présente dans la sauvegarde.")
+		return false
+	if not lire_sauvegarde().has('enregistrement_campagne'):
+		lire_sauvegarde()['enregistrement_campagne'] = []
+	enregistrement_campagne().append(campagne.duplicate(true))
+	_enregistrer_sauvegarde_joueur()
+	return true
+
+func enregistrement_campagne_fichier_est_partage(empreinte: String) -> bool:
+	if not le_joueur_existe() or empreinte.is_empty():
+		return false
+	var campagnes_partagees: Variant = lire_sauvegarde().get('campagnes_partagees_fichiers', [])
+	return campagnes_partagees is Array and campagnes_partagees.has(empreinte)
+
+func enregistrement_campagne_marquer_fichier_partage(empreinte: String) -> bool:
+	if not le_joueur_existe() or empreinte.is_empty():
+		return false
+	var sauvegarde := lire_sauvegarde()
+	if not sauvegarde.has('campagnes_partagees_fichiers'):
+		sauvegarde['campagnes_partagees_fichiers'] = []
+	var campagnes_partagees: Variant = sauvegarde['campagnes_partagees_fichiers']
+	if not campagnes_partagees is Array:
+		LogService.log_erreur("Bdd joueurs : liste des campagnes partagées invalide.")
+		return false
+	if not campagnes_partagees.has(empreinte):
+		campagnes_partagees.append(empreinte)
+		_enregistrer_sauvegarde_joueur()
+	return true
+
 func enregistrement_campagne_lire_nom_derniere_campagne() -> String:
 	"Retourne le nom de la dernière campagne"
 	if enregistrement_campagne_existe():
@@ -693,22 +731,6 @@ func enregistrement_campagne_inserer_campagne(nom_campagne : String, donnees_cam
 		var campagne_enregistree : Dictionary = enregistrement_campagne_lire_campagne(nom_campagne)
 		campagne_enregistree['score'] = campagne_importee['score'].duplicate(true)
 		_enregistrer_sauvegarde_joueur()
-
-# Haut niveau
-func enregistrement_campagne_importer_niveau(donnees_campagne : Dictionary, donnees_niveau : Dictionary) -> bool:
-	"Importe un niveau dans l'enregistrement du joueur"
-	var nom_campagne: Variant = donnees_campagne.get('campagne', '')
-	var _nom_niveau = donnees_niveau.get('niveau', '')
-	if nom_campagne is String and not nom_campagne.is_empty() and _nom_niveau:
-		enregistrement_campagne_inserer_campagne(nom_campagne, donnees_campagne)
-
-		var niveau_enregistrement = enregistrement_campagne_lire_niveau(nom_campagne, _nom_niveau)
-		if niveau_enregistrement:
-			# Le niveau est déjà importé
-			return false
-		return enregistrement_campagne_inserer_niveau(nom_campagne, donnees_niveau)
-	LogService.log_erreur("Bdd joueurs : Aucun enregistrement du niveau ", _nom_niveau, " dans la campagne ", nom_campagne)
-	return false
 
 ###############################################
 # Niveaux / Niveau

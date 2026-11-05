@@ -426,60 +426,66 @@ func test_joueur_dont_la_sauvegarde_est_illisible_est_retire_de_la_liste() -> vo
 	assert_false(SauvegardeListeJoueursService.le_joueur_existe("Orphelin"))
 
 # ------------------------------------------------------------------
-# Import QR
+# Import de fichier JSON
 
-func _donnees_qr() -> Dictionary:
-	return {"joueur": "Alice", "campagne": {"campagne": "campagne_test"}, "niveau": {"niveau": "niveau_03"}}
+func _donnees_import() -> Dictionary:
+	return {
+		"joueur": "Alice",
+		"campagne": {
+			"campagne": "campagne_test",
+			"niveaux": [{"niveau": "niveau_03", "plateaux": []}]
+		}
+	}
 
-func test_le_panneau_d_import_est_cache_au_demarrage() -> void:
+func test_le_panneau_d_import_fichier_est_cache_au_demarrage() -> void:
 	var menu := _menu()
 
-	assert_false(menu.get_node("PanneauImportQR").visible)
+	assert_false(menu.get_node("PanneauImportFichier").visible)
 
-func test_afficher_import_qr_renseigne_et_montre_le_panneau() -> void:
+func test_afficher_import_fichier_renseigne_et_montre_le_panneau() -> void:
 	var menu := _menu()
 
-	menu.afficher_import_qr(_donnees_qr())
+	menu.afficher_import_fichier(_donnees_import())
 
-	var contenu := "PanneauImportQR/Fond/Panel/Contenu/"
-	assert_true(menu.get_node("PanneauImportQR").visible)
+	var contenu := "PanneauImportFichier/Fond/Panel/Contenu/"
+	assert_true(menu.get_node("PanneauImportFichier").visible)
 	assert_eq(menu.get_node(contenu + "NomJoueur").text, "Joueur : Alice")
 	assert_eq(menu.get_node(contenu + "NomCampagne").text, "Campagne : Campagne Test")
 	assert_eq(menu.get_node(contenu + "NomNiveau").text, "Niveau : Niveau 03")
 
-func test_afficher_import_qr_gere_des_donnees_incompletes() -> void:
+func test_afficher_import_fichier_gere_des_donnees_incompletes() -> void:
 	var menu := _menu()
 
-	menu.afficher_import_qr({})
+	menu.afficher_import_fichier({})
 
-	var contenu := "PanneauImportQR/Fond/Panel/Contenu/"
-	assert_true(menu.get_node("PanneauImportQR").visible)
-	assert_eq(menu.get_node(contenu + "NomJoueur").text, "Joueur : ")
+	var contenu := "PanneauImportFichier/Fond/Panel/Contenu/"
+	assert_true(menu.get_node("PanneauImportFichier").visible)
+	assert_eq(menu.get_node(contenu + "NomJoueur").text, "Joueur : inconnue")
 	assert_eq(menu.get_node(contenu + "NomCampagne").text, "Campagne : ")
-	assert_eq(menu.get_node(contenu + "NomNiveau").text, "Niveau : ")
+	assert_eq(menu.get_node(contenu + "NomNiveau").text, "Niveau : Inconnu")
 
-func test_fermer_import_qr_cache_le_panneau() -> void:
+func test_fermer_import_fichier_cache_le_panneau() -> void:
 	var menu := _menu()
-	menu.afficher_import_qr(_donnees_qr())
+	menu.afficher_import_fichier(_donnees_import())
 
-	menu.fermer_import_qr()
+	menu.fermer_import_fichier()
 
-	assert_false(menu.get_node("PanneauImportQR").visible)
+	assert_false(menu.get_node("PanneauImportFichier").visible)
 
 func test_refuser_l_import_ferme_le_panneau() -> void:
 	var menu := _menu()
-	menu.afficher_import_qr(_donnees_qr())
+	menu.afficher_import_fichier(_donnees_import())
 
-	menu.get_node("PanneauImportQR/Fond/Panel/Contenu/Boutons/BoutonRefuser").emit_signal("pressed")
+	menu.get_node("PanneauImportFichier/Fond/Panel/Contenu/Boutons/BoutonRefuser").emit_signal("pressed")
 
-	assert_false(menu.get_node("PanneauImportQR").visible)
+	assert_false(menu.get_node("PanneauImportFichier").visible)
 
 func test_accepter_sans_import_en_attente_ne_change_rien() -> void:
 	var menu := _menu()
-	menu.afficher_import_qr(_donnees_qr())
+	menu.afficher_import_fichier(_donnees_import())
 	var scene_avant := get_tree().current_scene
 
-	menu.get_node("PanneauImportQR/Fond/Panel/Contenu/Boutons/BoutonAccepter").emit_signal("pressed")
+	menu.get_node("PanneauImportFichier/Fond/Panel/Contenu/Boutons/BoutonAccepter").emit_signal("pressed")
 	await wait_process_frames(3)
 
 	assert_same(get_tree().current_scene, scene_avant)

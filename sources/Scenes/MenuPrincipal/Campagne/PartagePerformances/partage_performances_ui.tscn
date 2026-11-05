@@ -17,7 +17,7 @@ corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
 [node name="PanneauPartagePerformances" type="Control" unique_id=1221475505]
-custom_minimum_size = Vector2(380, 680)
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,98 +26,106 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ui")
 
-[node name="Fond" type="Panel" parent="." unique_id=1463730584]
-layout_mode = 0
-offset_right = 380.0
-offset_bottom = 570.0
-mouse_filter = 2
+[node name="Fond" type="ColorRect" parent="." unique_id=1463730584]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panneau" type="PanelContainer" parent="." unique_id=1047661193]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -250.0
+offset_right = 190.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 
-[node name="Titre" type="Label" parent="." unique_id=1428239627]
-layout_mode = 0
-offset_left = 20.0
-offset_top = 15.0
-offset_right = 360.0
-offset_bottom = 60.0
-theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+[node name="Contenu" type="VBoxContainer" parent="Panneau" unique_id=2041300295]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Titre" type="Label" parent="Panneau/Contenu" unique_id=81881260]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
 theme_override_fonts/font = ExtResource("3_font")
-theme_override_font_sizes/font_size = 25
-text = "Partage tes performances"
+theme_override_font_sizes/font_size = 22
+text = "Partager ta campagne"
 horizontal_alignment = 1
-vertical_alignment = 1
+
+[node name="NomJoueur" type="Label" parent="Panneau/Contenu" unique_id=407796274]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="ImageQR" type="TextureRect" parent="." unique_id=475289190]
-layout_mode = 0
-offset_left = 35.0
-offset_top = 65.0
-offset_right = 345.0
-offset_bottom = 360.0
-expand_mode = 1
-stretch_mode = 5
-
-[node name="Message" type="Label" parent="." unique_id=106254979]
-layout_mode = 0
-offset_left = 35.0
-offset_top = 130.0
-offset_right = 345.0
-offset_bottom = 250.0
-theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
-theme_override_fonts/font = ExtResource("3_font")
-theme_override_font_sizes/font_size = 17
-text = "Le QR code apparaîtra ici."
+[node name="NomCampagne" type="Label" parent="Panneau/Contenu" unique_id=2118866273]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
 horizontal_alignment = 1
-vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="AdresseCourriel" type="Label" parent="." unique_id=946470087]
-layout_mode = 0
-offset_left = 30.0
-offset_top = 365.0
-offset_right = 350.0
-offset_bottom = 395.0
-theme_override_colors/font_color = Color(0.2, 0.15, 0.2, 1)
-theme_override_font_sizes/font_size = 14
-text = "rangelescouleurspouranna@gmail.com"
+[node name="NomNiveau" type="Label" parent="Panneau/Contenu" unique_id=1457600453]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
 horizontal_alignment = 1
-vertical_alignment = 1
+autowrap_mode = 2
 
-[node name="BoutonCopierCourriel" type="Button" parent="." unique_id=1403581164]
-layout_mode = 0
-offset_left = 30.0
-offset_top = 400.0
-offset_right = 350.0
-offset_bottom = 435.0
-theme_override_colors/font_color = Color(1, 0.972549, 0.92941177, 1)
+[node name="InstructionCourriel" type="Label" parent="Panneau/Contenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
+text = "Pour envoyer la campagne par courriel :"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AdresseCourriel" type="Label" parent="Panneau/Contenu"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BoutonCopierCourriel" type="Button" parent="Panneau/Contenu"]
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 17
 text = "Copier l'adresse courriel"
 
-[node name="BoutonPartagerQR" type="Button" parent="." unique_id=997482125]
-layout_mode = 0
-offset_left = 30.0
-offset_top = 445.0
-offset_right = 350.0
-offset_bottom = 490.0
-theme_override_colors/font_color = Color(1, 0.972549, 0.92941177, 1)
+[node name="Message" type="Label" parent="Panneau/Contenu" unique_id=106254979]
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.67451, 0, 0.686275, 1)
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="BoutonPartagerFichier" type="Button" parent="Panneau/Contenu" unique_id=997482125]
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 17
-text = "Partager le QR code"
+text = "Partager le fichier JSON"
 
-[node name="BoutonFermer" type="Button" parent="." unique_id=1779941863]
-layout_mode = 0
-offset_left = 30.0
-offset_top = 500.0
-offset_right = 350.0
-offset_bottom = 545.0
-theme_override_colors/font_color = Color(1, 0.972549, 0.92941177, 1)
+[node name="BoutonRetourStatistiques" type="Button" parent="Panneau/Contenu" unique_id=1779941863]
+custom_minimum_size = Vector2(280, 48)
+layout_mode = 2
 theme_override_fonts/font = ExtResource("3_font")
 theme_override_font_sizes/font_size = 18
-text = "Retour au score"
+text = "Retour aux statistiques"
 
 [node name="PartagePerformancesAPI" type="Node" parent="." unique_id=1604442838]
 script = ExtResource("2_api")
 
-[connection signal="pressed" from="BoutonCopierCourriel" to="." method="_on_bouton_copier_courriel_pressed"]
-[connection signal="pressed" from="BoutonPartagerQR" to="." method="_on_bouton_partager_qr_pressed"]
-[connection signal="pressed" from="BoutonFermer" to="." method="_on_bouton_fermer_pressed"]
+[connection signal="pressed" from="Panneau/Contenu/BoutonPartagerFichier" to="." method="_on_bouton_partager_fichier_pressed"]
+[connection signal="pressed" from="Panneau/Contenu/BoutonCopierCourriel" to="." method="_on_bouton_copier_courriel_pressed"]
+[connection signal="pressed" from="Panneau/Contenu/BoutonRetourStatistiques" to="." method="_on_bouton_retour_statistiques_pressed"]

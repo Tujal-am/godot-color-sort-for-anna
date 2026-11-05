@@ -1,82 +1,46 @@
 # Module de partage des performances
 
-Le module `PartagePerformances` fournit une API pour signer des enregistrements JSON et les présenter dans un QR. Il ne collecte pas les enregistrements : le code appelant lui transmet le dictionnaire extrait du niveau terminé.
+Le module `PartagePerformances` exporte la dernière campagne complète du joueur dans un fichier JSON signé. Il utilise le dialogue natif du plugin SHARE sur Android pour l'export et l'import. La collecte des enregistrements reste gérée par le jeu.
 
-## Intégration avec les enregistrements du niveau
+## Données exportées
 
-Après avoir extrait les enregistrements, appeler le menu de campagne :
-
-```gdscript
-$MenuCampagne.afficher_partage_performances(enregistrements_du_niveau)
-```
-
-Le dictionnaire doit être sérialisable en JSON. À la fin d'un niveau ou de la campagne, le panneau de score s'affiche en premier. Lorsque le joueur le quitte, le partage s'ouvre automatiquement et lit les données via `PartagePerformancesAPI.lire_donnees_dernier_niveau()` :
-
-```gdscript
-var campagne = SauvegardeBddJoueursService.enregistrement_campagne_lire_derniere_campagne().duplicate(true)
-campagne.erase("niveaux")
-{
-    "joueur": SauvegardeBddJoueursService.lire_nom_joueur(),
-    "campagne": campagne,
-    "niveau": SauvegardeBddJoueursService.enregistrement_campagne_lire_dernier_niveau()
-}
-```
-
-Le dictionnaire `campagne` conserve les métadonnées de l'archive (nom, dates et score) ; seuls les niveaux sont transmis séparément dans `niveau`.
-
-Après fermeture du partage, le jeu reprend son parcours normal : niveau suivant ou statistiques de campagne. `MenuCampagne.afficher_partage_performances()` reste disponible pour afficher le panneau avec un dictionnaire fourni par un appelant.
-
-Le panneau conserve deux options :
-
-- Sur Android, « Partager le QR code » transmet l'image QR au dialogue natif de partage (`Share.share_texture`). Le joueur choisit ensuite l'application de destination.
-- L'image partagée contient le QR et un sous-titre au format « Nom - Niveau X », placé sous le QR sans empiéter sur sa zone de lecture.
-- L'aperçu du panneau reste à sa résolution normale ; au partage, le QR est régénéré en haute résolution avec le même contenu signé.
-- L'adresse `rangelescouleurspouranna@gmail.com` reste affichée et peut être copiée. Pour l'envoyer manuellement par courriel, le joueur peut faire une capture d'écran du QR et la joindre à son message.
-
-Le projet n'envoie aucun courriel automatiquement.
-
-## Réception et validation d'un QR
-
-La scène expose `recevoir_image_qr(image: Image)`. Le décodage est asynchrone via Godot QR Plugin. Après validation de l'enveloppe et du HMAC avec la clé configurée, la scène émet `partage_qr_code(donnees_json: Dictionary)`. Aucune donnée n'est émise si le QR est mal formé, si la signature est invalide ou si le plugin n'est pas disponible.
-
-```gdscript
-$PanneauPartagePerformances.partage_qr_code.connect(_on_partage_qr_code)
-$PanneauPartagePerformances.recevoir_image_qr(image_qr)
-
-func _on_partage_qr_code(donnees_json: Dictionary) -> void:
-    print(donnees_json)
-```
-
-Sur Android, l'autoload `ShareService` maintient le plugin SHARE disponible et active la réception d'images dans le sélecteur de partage. `PartagePerformancesImportService` écoute `share_received`, charge l'image reçue et la transmet au décodeur existant. Après validation de la signature et de la structure attendue, il émet également son signal global `partage_qr_code(qr_data: Dictionary)`.
-
-Un QR valide ouvre le menu principal et son panneau de confirmation, qui affiche le nom et le niveau importés. « Refuser » annule l'opération et laisse le joueur dans le menu. « Accepter » crée le profil sous le nom du QR s'il est disponible (comparaison insensible à la casse) ; sinon, le suffixe « (import) » est essayé. Si ce profil suffixé existe déjà, les statistiques sont importées dans ce profil, à condition que sa campagne soit terminée. Après un import réussi, le jeu ouvre les statistiques de ce joueur.
-
-Un QR invalide ne déclenche aucune navigation ni modification de sauvegarde. L'image reçue et les ressources de décodage sont libérées, puis `LogService.log_erreur("Erreur sur import QR, aucune action.")` trace l'échec.
-
-## Format du QR
-
-Le QR contient un objet JSON de la forme :
+Le contenu signé est un objet JSON avec le nom du joueur et l'enregistrement complet de sa dernière campagne :
 
 ```json
 {
-  "version": 1,
-  "algorithme": "HMAC-SHA256",
-  "donnees_json": "{\"joueur\":\"Joueuse\",\"campagne\":{\"campagne\":\"campagne_2\",\"date_debut\":100,\"date_fin\":200,\"score\":{}},\"niveau\":{\"niveau\":\"niveau_3\"}}",
-  "signature": "empreinte hexadécimale"
+  "joueur": "Joueuse",
+  "campagne": {
+    "campagne": "campagne_2",
+    "date_debut": 100,
+    "date_fin": 200,
+    "score": {},
+    "niveaux": [
+      {
+        "niveau": "niveau_3",
+        "score": {},
+        "plateaux": []
+      }
+    ]
+  }
 }
 ```
 
-La signature porte sur les octets UTF-8 exacts de `donnees_json`. Le texte JSON des enregistrements est donc conservé dans l'enveloppe pour permettre au destinataire de recalculer la signature sans ambiguïté de sérialisation.
+Le fichier transmis est une enveloppe JSON contenant `version`, `algorithme`, `donnees_json` et `signature`. Le HMAC-SHA256 est calculé sur les octets UTF-8 exacts de `donnees_json`; l'import vérifie la signature avant de valider la structure ou de modifier une sauvegarde.
 
-## Clé et sécurité
+## Export et rattrapage
 
-La clé est définie par `partage_performances/cle_hmac` dans `sources/project.godot`. La valeur livrée est une clé de démonstration à remplacer. Toute clé incluse dans une application distribuée peut être extraite : ce HMAC aide à détecter une altération accidentelle, mais ne prouve pas l'authenticité d'un score face à un client modifié. Pour une validation fiable, le HMAC devra être produit par un service serveur qui conserve la clé hors du jeu.
+Après la fin d'une campagne, l'écran des statistiques affiche le panneau de partage si cette campagne n'a pas déjà été partagée. Il indique le joueur, le nom de la campagne et le dernier niveau. « Retour aux statistiques » masque le panneau et laisse les statistiques accessibles.
 
-## Plateformes
+Sur Android, « Partager le fichier JSON » ouvre le dialogue SHARE. Le panneau affiche aussi l'adresse `rangelescouleurspouranna@gmail.com` et permet de la copier dans le presse-papiers, afin que le joueur puisse joindre le fichier JSON à un courriel. Une campagne n'est marquée comme partagée qu'après le signal `share_completed`; une annulation ou un échec ne la marque pas comme telle. Le suivi est stocké dans la sauvegarde du joueur à partir d'une empreinte SHA-256 de la campagne, sans ajouter de métadonnée interne aux données exportées.
 
-Le plugin QR Godot Mobile v1.2 est utilisé pour Android et iOS. Le partage natif Godot Share v6.0 est utilisé pour l'envoi et la réception sur Android. Ces addons sont exclus du dépôt par le `.gitignore` racine et doivent être installés localement. La génération et le décodage du QR dépendent de l'extension native; la réception par le sélecteur de partage et le partage natif sont réservés à Android. L'adresse du courriel reste copiable sur toutes les plateformes.
+## Import
 
-## À développer
+Le fichier `.json` reçu par SHARE est contrôlé pour son type, sa signature, le nom du joueur et la structure complète de campagne. Après validation, le menu principal présente le joueur, la campagne et le dernier niveau avant confirmation. « Refuser » ne modifie pas les sauvegardes. « Accepter » crée un profil si le nom est disponible; en cas de collision, le suffixe « (import) » est essayé. La campagne et ses scores sont importés dans le profil, puis les statistiques s'ouvrent.
 
-- À terme, remplacer le panneau dédié par un bouton « Partager » directement dans le panneau de score de fin de niveau ou de fin de campagne.
-- Le panneau de partage détaillé actuel est conservé uniquement pour la bêta-test et pourra être retiré lorsque l'export depuis les panneaux de score sera prêt.
+Un fichier invalide est refusé sans navigation ni changement de sauvegarde. Les fichiers temporaires reçus sont supprimés après traitement.
+
+## Sécurité et limites
+
+La clé est définie par `partage_performances/cle_hmac` dans `sources/project.godot`. Une clé embarquée dans l'application peut être extraite par un client modifié : le HMAC détecte les altérations faites sans cette clé, mais ne constitue pas une preuve d'authenticité face à un client hostile. Pour garantir l'origine des scores, la signature doit être produite par un serveur qui conserve la clé.
+
+Le partage et la réception via SHARE sont disponibles sur Android. Le projet n'envoie pas de courriel automatiquement; l'utilisateur copie l'adresse affichée et choisit son application de messagerie pour joindre le fichier.

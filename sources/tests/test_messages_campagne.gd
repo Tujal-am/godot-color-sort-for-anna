@@ -78,17 +78,13 @@ func _scene_apres_changement() -> String:
 	await wait_process_frames(3)
 	return get_tree().current_scene.scene_file_path
 
-func test_fin_de_campagne_est_traitee_par_la_fin_de_niveau_et_n_affiche_rien() -> void:
+func test_fin_de_campagne_affiche_le_panneau_de_victoire_de_campagne() -> void:
 	var menu: MessagesCampagne = add_child_autofree(SCENE_MESSAGES_CAMPAGNE.instantiate())
-	var panneau_partage: Control = menu.get_node("Centrer/PanneauPartagePerformances")
-	var continuations: Array[bool] = []
-	menu.score_continuer.connect(func() -> void: continuations.append(true))
 
-	await menu._on_progression_campagne_service_fin_campagne()
+	menu._on_progression_campagne_service_fin_campagne()
 
-	# Le partage de fin de campagne est affiché par la fin du dernier niveau.
-	assert_false(panneau_partage.visible)
-	assert_eq(continuations, [])
+	assert_true(menu.get_node("Centrer").visible)
+	assert_true(menu.get_node("Centrer/PanneauVictoireCampagne").visible)
 
 func test_passer_un_plateau_redonne_la_main_a_la_campagne_sans_panneau() -> void:
 	var menu: MessagesCampagne = add_child_autofree(SCENE_MESSAGES_CAMPAGNE.instantiate())
@@ -100,7 +96,7 @@ func test_passer_un_plateau_redonne_la_main_a_la_campagne_sans_panneau() -> void
 	assert_eq(continuations, [])
 	assert_false(menu.get_node("Centrer").visible)
 
-func test_messages_de_victoire_ne_redonnent_pas_la_main_avant_le_panneau_de_score() -> void:
+func test_messages_de_victoire_affichent_le_panneau_de_fin_de_campagne() -> void:
 	var menu: MessagesCampagne = add_child_autofree(SCENE_MESSAGES_CAMPAGNE.instantiate())
 	var continuations: Array[bool] = []
 	menu.score_continuer.connect(func() -> void: continuations.append(true))
@@ -110,12 +106,13 @@ func test_messages_de_victoire_ne_redonnent_pas_la_main_avant_le_panneau_de_scor
 	menu.afficher_fin_campagne()
 
 	assert_eq(continuations, [])
+	assert_eq(continuations, [])
 
-func test_le_panneau_de_partage_et_le_panneau_de_defaite_sont_caches_au_depart() -> void:
+func test_les_panneaux_de_score_sont_caches_au_depart() -> void:
 	var menu := _messages()
 
 	assert_false(menu.get_node("Centrer").visible)
-	for nom in ["PanneauDefaite", "PanneauVictoirePlateau", "PanneauVictoireNiveau", "PanneauVictoireCampagne", "PanneauPartagePerformances"]:
+	for nom in ["PanneauDefaite", "PanneauVictoirePlateau", "PanneauVictoireNiveau", "PanneauVictoireCampagne"]:
 		assert_false(menu.get_node("Centrer/" + nom).visible, nom)
 
 func test_afficher_plateau_invalide_n_affiche_rien() -> void:
@@ -271,71 +268,28 @@ func test_lire_score_campagne_formate_les_points() -> void:
 	assert_eq(menu.lire_score_campagne({}), "0")
 	assert_eq(menu.lire_score_campagne({"points": 1234567}), "1.234.567")
 
-func test_continuer_apres_victoire_de_campagne_affiche_le_partage_puis_les_statistiques() -> void:
+func test_continuer_apres_victoire_de_campagne_ouvre_les_statistiques() -> void:
 	var menu := _messages()
 	var continuations: Array[bool] = []
 	menu.score_continuer.connect(func() -> void: continuations.append(true))
 
 	await menu._on_panneau_victoire_campagne_continuer()
-	assert_true(menu.get_node("Centrer/PanneauPartagePerformances").visible)
-	assert_eq(continuations, [])
-
-	menu.get_node("Centrer/PanneauPartagePerformances").fermer.emit()
-
-	assert_false(menu.get_node("Centrer/PanneauPartagePerformances").visible)
 	assert_false(menu.get_node("Centrer").visible)
 	assert_eq(continuations, [true])
 	assert_eq(await _scene_apres_changement(), SCENE_STATISTIQUES)
 
-func test_fermer_le_partage_sans_action_en_attente_ne_fait_rien_de_plus() -> void:
+func test_continuer_apres_victoire_de_niveau_reprend_sans_afficher_un_partage() -> void:
 	var menu := _messages()
 	var continuations: Array[bool] = []
 	menu.score_continuer.connect(func() -> void: continuations.append(true))
-	menu.get_node("Centrer").show()
-	menu.get_node("Centrer/PanneauPartagePerformances").show()
-
-	menu._on_panneau_partage_performances_fermer()
-
-	assert_false(menu.get_node("Centrer").visible)
-	assert_false(menu.get_node("Centrer/PanneauPartagePerformances").visible)
-	assert_eq(continuations, [])
-
-func test_l_action_apres_partage_n_est_executee_qu_une_fois() -> void:
-	var menu := _messages()
-	var continuations: Array[bool] = []
-	menu.score_continuer.connect(func() -> void: continuations.append(true))
-	await menu._on_panneau_victoire_niveau_continuer()
-
-	menu._on_panneau_partage_performances_fermer()
-	menu._on_panneau_partage_performances_fermer()
-
-	assert_eq(continuations, [true])
-
-func test_sans_beta_test_la_fin_de_niveau_saute_le_partage() -> void:
-	var menu := _messages()
-	menu.beta_test = false
-	var continuations: Array[bool] = []
-	menu.score_continuer.connect(func() -> void: continuations.append(true))
-	menu.get_node("Centrer/PanneauVictoireNiveau").show()
+	var panneau_niveau: Control = menu.get_node("Centrer/PanneauVictoireNiveau")
+	panneau_niveau.show()
 
 	await menu._on_panneau_victoire_niveau_continuer()
 
-	assert_false(menu.get_node("Centrer/PanneauVictoireNiveau").visible)
-	assert_false(menu.get_node("Centrer/PanneauPartagePerformances").visible)
+	assert_false(panneau_niveau.visible)
 	assert_false(menu.get_node("Centrer").visible)
 	assert_eq(continuations, [true])
-
-func test_sans_beta_test_la_fin_de_campagne_ouvre_directement_les_statistiques() -> void:
-	var menu := _messages()
-	menu.beta_test = false
-	var continuations: Array[bool] = []
-	menu.score_continuer.connect(func() -> void: continuations.append(true))
-
-	await menu._on_panneau_victoire_campagne_continuer()
-
-	assert_false(menu.get_node("Centrer/PanneauPartagePerformances").visible)
-	assert_eq(continuations, [true])
-	assert_eq(await _scene_apres_changement(), SCENE_STATISTIQUES)
 
 func test_le_bouton_statistiques_ouvre_l_ecran_de_statistiques() -> void:
 	var menu := _messages()
@@ -343,16 +297,3 @@ func test_le_bouton_statistiques_ouvre_l_ecran_de_statistiques() -> void:
 	menu._on_bouton_statistiques_pressed()
 
 	assert_eq(await _scene_apres_changement(), SCENE_STATISTIQUES)
-
-func test_afficher_partage_performances_masque_les_autres_panneaux() -> void:
-	var menu := _messages()
-	menu.get_node("Centrer/PanneauDefaite").show()
-	menu.get_node("Centrer/PanneauVictoirePlateau").show()
-	menu.get_node("Centrer/PanneauVictoireNiveau").show()
-	menu.get_node("Centrer/PanneauVictoireCampagne").show()
-
-	await menu.afficher_partage_performances({"niveau": 4})
-
-	for nom in ["PanneauDefaite", "PanneauVictoirePlateau", "PanneauVictoireNiveau", "PanneauVictoireCampagne"]:
-		assert_false(menu.get_node("Centrer/" + nom).visible, nom)
-	assert_true(menu.get_node("Centrer/PanneauPartagePerformances").visible)

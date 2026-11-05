@@ -48,8 +48,8 @@ func initialiser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur : String)
 				return SauvegardeTableauDesScoresService.ajouter_un_nouveau_joueur(nom_nouveau_joueur)
 	return false
 
-func importer_statistiques_nouveau_joueur_externe(nom_nouveau_joueur : String, enregistrement_campagne_campagne : Dictionary, enregistrement_campagne_niveau : Dictionary) -> bool:
-	var nom_campagne: String = enregistrement_campagne_campagne.get("campagne", "")
+func importer_campagne_nouveau_joueur_externe(nom_nouveau_joueur: String, campagne: Dictionary) -> bool:
+	var nom_campagne: String = campagne.get("campagne", "")
 	if autoriser_le_nouveau_joueur_pour_la_campagne(nom_nouveau_joueur):
 		# Ajouter le joueur dans la liste des joueurs
 		if SauvegardeListeJoueursService.ajouter_un_nouveau_joueur(nom_nouveau_joueur):
@@ -60,21 +60,17 @@ func importer_statistiques_nouveau_joueur_externe(nom_nouveau_joueur : String, e
 				SauvegardeBddJoueursService.campagne_supprimer_les_plateaux()
 				# Ajouter le joueur dans le tableau des scores
 				if SauvegardeTableauDesScoresService.ajouter_un_nouveau_joueur(nom_nouveau_joueur):
-					# importer ses statistiques de jeu
-					if SauvegardeBddJoueursService.enregistrement_campagne_importer_niveau(enregistrement_campagne_campagne, enregistrement_campagne_niveau):
-						# mettre à jour le tableau des scores
-						ScoreService.mettre_a_jour_score_pour_import(nom_nouveau_joueur, enregistrement_campagne_campagne, enregistrement_campagne_niveau)
-						LogService.log_debug("Import du QR du nouveau joueur *" + nom_nouveau_joueur
-											+ "* pour la campagne *" + nom_campagne + "*"
-											+ "* pour le niveau *" + enregistrement_campagne_niveau.get("niveau", "") + "*")
+					if SauvegardeBddJoueursService.enregistrement_campagne_importer_campagne(campagne):
+						ScoreService.mettre_a_jour_score_pour_import_campagne(nom_nouveau_joueur, campagne)
+						LogService.log_debug("Import de la campagne du nouveau joueur *", nom_nouveau_joueur,
+							"* : ", nom_campagne)
 						return true
-	LogService.log_erreur("Erreur : Impossible d'importer le QR du nouveau joueur *" + nom_nouveau_joueur
-							+ "* pour la campagne *" + nom_campagne + "*"
-							+ "* pour le niveau *" + enregistrement_campagne_niveau.get("niveau", "") + "*")
+	LogService.log_erreur("Erreur : Impossible d'importer la campagne pour le nouveau joueur *",
+		nom_nouveau_joueur, "* : ", nom_campagne)
 	return false
 
-func importer_statistiques_joueur_externe(nom_joueur : String, enregistrement_campagne_campagne : Dictionary, enregistrement_campagne_niveau : Dictionary) -> bool:
-	var nom_campagne: String = enregistrement_campagne_campagne.get("campagne", "")
+func importer_campagne_joueur_externe(nom_joueur: String, campagne: Dictionary) -> bool:
+	var nom_campagne: String = campagne.get("campagne", "")
 	if SauvegardeListeJoueursService.le_joueur_existe(nom_joueur):
 		var nom_fichier = SauvegardeListeJoueursService.retourner_le_fichier_de_sauvegarde(nom_joueur)
 		if SauvegardeBddJoueursService.choisir_le_joueur(nom_joueur, nom_fichier):
@@ -82,18 +78,11 @@ func importer_statistiques_joueur_externe(nom_joueur : String, enregistrement_ca
 			# TODO : identifier plus precisement un joueur importé que par sa campagne terminee
 			# TODO : existence de remote_uuid dans la liste des joueurs
 			if SauvegardeBddJoueursService.campagne_la_campagne_est_terminee():
-				# importer ses statistiques de jeu
-				if SauvegardeBddJoueursService.enregistrement_campagne_importer_niveau(enregistrement_campagne_campagne, enregistrement_campagne_niveau):
-					# mettre à jour le tableau des scores
-					ScoreService.mettre_a_jour_score_pour_import(nom_joueur, enregistrement_campagne_campagne,enregistrement_campagne_niveau)
-					LogService.log_debug("Import du QR du joueur *" + nom_joueur
-										+ "* pour la campagne *" + nom_campagne + "*"
-										+ "* pour le niveau *" + enregistrement_campagne_niveau.get("niveau", "") + "*")
-				# Si le niveau existe deja, considerer que l'importation est ok (car sinon repli sur un nouveau nom).
-				return true
-	LogService.log_erreur("Erreur : Impossible d'importer le QR du joueur *" + nom_joueur
-							+ "* pour la campagne *" + nom_campagne + "*"
-							+ "* pour le niveau *" + enregistrement_campagne_niveau.get("niveau", "") + "*")
+				if SauvegardeBddJoueursService.enregistrement_campagne_importer_campagne(campagne):
+					ScoreService.mettre_a_jour_score_pour_import_campagne(nom_joueur, campagne)
+					LogService.log_debug("Import de la campagne pour le joueur *", nom_joueur, "* : ", nom_campagne)
+					return true
+	LogService.log_erreur("Erreur : Impossible d'importer la campagne pour le joueur *", nom_joueur, "* : ", nom_campagne)
 	return false
 
 ####################################

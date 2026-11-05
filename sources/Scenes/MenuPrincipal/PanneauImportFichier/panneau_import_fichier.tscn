@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://duntbi75ablgc"]
 
-[ext_resource type="Script" uid="uid://bbb5x58a1bxmt" path="res://Scenes/MenuPrincipal/PanneauImportQR/panneau_import_qr.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://bbb5x58a1bxmt" path="res://Scenes/MenuPrincipal/PanneauImportFichier/panneau_import_fichier.gd" id="1_script"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_import"]
 content_margin_left = 16.0
@@ -18,7 +18,7 @@ corner_radius_top_right = 12
 corner_radius_bottom_right = 12
 corner_radius_bottom_left = 12
 
-[node name="PanneauImportQR" type="Control" unique_id=1024641969]
+[node name="PanneauImportFichier" type="Control" unique_id=1024641969]
 visible = false
 layout_mode = 3
 anchors_preset = 15
@@ -66,7 +66,7 @@ horizontal_alignment = 1
 [node name="Introduction" type="Label" parent="Fond/Panel/Contenu" unique_id=2108801481]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.0392157, 0.105882, 0.176471, 1)
-text = "Un QR code valide contient les statistiques du joueur :"
+text = "Ce fichier contient la campagne partagée :"
 horizontal_alignment = 1
 autowrap_mode = 2
 

@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://cgv1kmgwtdr3m" path="res://Scenes/MenuPrincipal/Campagne/Statistiques/carte_plateau.tscn" id="mode"]
 [ext_resource type="Texture2D" uid="uid://bsf63i5lw2xb" path="res://Art/UI/Statistiques/picto_modes_de_jeu_40x30.png" id="modes_i"]
 [ext_resource type="FontFile" uid="uid://dbs77if6q2gtc" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="regular"]
+[ext_resource type="PackedScene" uid="uid://glu81aft3hoh" path="res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_ui.tscn" id="partage"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4sqo1"]
 bg_color = Color(0.0627451, 0.16862746, 0.3137255, 1)
@@ -194,4 +195,8 @@ offset_right = 408.0
 offset_bottom = 1266.0
 _titre = "Qui Perd Gagne"
 
+[node name="PanneauPartagePerformances" parent="." unique_id=1005821048 instance=ExtResource("partage")]
+layout_mode = 1
+
 [connection signal="pressed" from="Scroll/Content/Retour" to="." method="_on_retour_pressed"]
+[connection signal="fermer" from="PanneauPartagePerformances" to="." method="_on_panneau_partage_performances_fermer"]

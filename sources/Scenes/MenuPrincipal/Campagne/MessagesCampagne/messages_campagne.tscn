@@ -5,7 +5,6 @@
 [ext_resource type="PackedScene" uid="uid://civ2upw8lhv4x" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_plateau.tscn" id="3_i48wp"]
 [ext_resource type="PackedScene" uid="uid://ct3na0n0v1odm" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_niveau.tscn" id="4_22vk1"]
 [ext_resource type="PackedScene" uid="uid://dj67xrfwthpal" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/panneau_victoire_campagne.tscn" id="5_mt8hf"]
-[ext_resource type="PackedScene" uid="uid://glu81aft3hoh" path="res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_ui.tscn" id="6_partage"]
 
 [node name="MessagesCampagne" type="CanvasLayer" unique_id=162026973]
 script = ExtResource("1_v46tq")
@@ -34,12 +33,7 @@ layout_mode = 2
 visible = false
 layout_mode = 2
 
-[node name="PanneauPartagePerformances" parent="Centrer" unique_id=984998134 instance=ExtResource("6_partage")]
-visible = false
-layout_mode = 2
-
 [connection signal="continuer" from="Centrer/PanneauDefaite" to="." method="_on_panneau_defaite_continuer"]
 [connection signal="continuer" from="Centrer/PanneauVictoirePlateau" to="." method="_on_panneau_victoire_plateau_continuer"]
 [connection signal="continuer" from="Centrer/PanneauVictoireNiveau" to="." method="_on_panneau_victoire_niveau_continuer"]
 [connection signal="continuer" from="Centrer/PanneauVictoireCampagne" to="." method="_on_panneau_victoire_campagne_continuer"]
-[connection signal="fermer" from="Centrer/PanneauPartagePerformances" to="." method="_on_panneau_partage_performances_fermer"]

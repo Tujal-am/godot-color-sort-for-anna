@@ -1069,7 +1069,7 @@ func test_gameplay_temps_moyen_ne_filtre_pas_les_plateaux_par_date_contrairement
 	assert_eq(service.classique_temps_moyen_en_s(), 3.5)
 
 func test_gameplay_ignore_les_plateaux_sans_gameplay():
-	# Un plateau importé (QR) sans clé 'gameplay' ne doit pas faire planter les statistiques.
+	# Un plateau importé sans clé 'gameplay' ne doit pas faire planter les statistiques.
 	_definir_niveaux([_niveau("niveau_1", [
 		_plateau("A", "reussi", 5, 1, "CLASSIQUE"),
 		{"nom": "B", "date_debut": DATE_VALIDE + 20, "duree": 7, "difficulte": 2, "statut": "reussi"}

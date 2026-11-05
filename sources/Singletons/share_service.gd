@@ -2,6 +2,8 @@ extends Node
 
 signal share_received(received_data: Variant)
 signal share_failed(message: String)
+signal share_completed(activity_type: String)
+signal share_canceled
 
 const SHARE_SCRIPT_PATH := "res://addons/SharePlugin/Share.gd"
 
@@ -31,6 +33,10 @@ func _ready() -> void:
 
 	_share_node.connect("share_received", _on_share_received)
 	_share_node.connect("share_failed", _on_share_failed)
+	if _share_node.has_signal("share_completed"):
+		_share_node.connect("share_completed", _on_share_completed)
+	if _share_node.has_signal("share_canceled"):
+		_share_node.connect("share_canceled", _on_share_canceled)
 	add_child(_share_node)
 	_share_node.call("set_share_target", true)
 
@@ -43,8 +49,20 @@ func share_texture(texture: Texture2D, title: String, subject: String, content: 
 	_share_node.call("share_texture", texture, title, subject, content)
 	return true
 
+func share_file(path: String, mime_type: String, title: String, subject: String, content: String) -> bool:
+	if not is_available() or path.is_empty() or mime_type.is_empty() or not FileAccess.file_exists(path):
+		return false
+	_share_node.call("share_file", path, mime_type, title, subject, content)
+	return true
+
 func _on_share_received(received_data: Variant) -> void:
 	share_received.emit(received_data)
 
 func _on_share_failed(message: String) -> void:
 	share_failed.emit(message)
+
+func _on_share_completed(activity_type: String) -> void:
+	share_completed.emit(activity_type)
+
+func _on_share_canceled() -> void:
+	share_canceled.emit()

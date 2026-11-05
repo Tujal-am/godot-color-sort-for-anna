@@ -23,33 +23,30 @@ func mettre_a_jour_score_pour_victoire() -> Dictionary:
 		score_global['bonus_anna'] = bonus_anna
 	return score_global
 
-func mettre_a_jour_score_pour_import(nom_joueur : String, campagne : Dictionary, niveau : Dictionary) -> void:
-	"Calculer le score du niveau importé via QR"
+func mettre_a_jour_score_pour_import_campagne(nom_joueur: String, campagne: Dictionary) -> void:
+	"Ajoute au score du joueur les points de la campagne importée."
 	var score_fin_campagne = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_fin_campagne(campagne)
 	SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_fin_campagne)
-	# LogService.log_debug("Score : +", score_fin_campagne," points pour la campagne.")
-
-	var score_niveau = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_niveau(niveau)
-	SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_niveau)
-	# LogService.log_debug("Score : +", score_niveau," points pour le niveau.")
-
-	var score_niveau_parfait = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_niveau_parfait(niveau)
-	SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_niveau_parfait)
-	# LogService.log_debug("Score : +", score_niveau_parfait," points pour le niveau parfait.")
-	
-	# Vérifier le type de 'plateaux'
-	if not niveau.get('plateaux') or not niveau.get('plateaux') is Array:
+	var niveaux: Variant = campagne.get("niveaux", [])
+	if not niveaux is Array:
 		return
-	# Parcourir tous les plateaux
-	for plateau in niveau.get('plateaux', []):
-		if not plateau is Dictionary:
+	for niveau in niveaux:
+		if not niveau is Dictionary:
 			continue
-		var score_duree_plateau = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_duree_plateau(plateau)
-		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_duree_plateau)
-		# LogService.log_debug("Score '", plateau.get('nom', ''),"' : +", score_duree_plateau," points pour la duree.")
-		var score_ratio_reussite_plateau = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_ratio_reussite_plateau(plateau)
-		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_ratio_reussite_plateau)
-		# LogService.log_debug("Score '", plateau.get('nom', ''),"' : +", score_ratio_reussite_plateau," points pour le ratio.")
+		var score_niveau = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_niveau(niveau)
+		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_niveau)
+		var score_niveau_parfait = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_niveau_parfait(niveau)
+		SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_niveau_parfait)
+		var plateaux: Variant = niveau.get('plateaux', [])
+		if not plateaux is Array:
+			continue
+		for plateau in plateaux:
+			if not plateau is Dictionary:
+				continue
+			var score_duree_plateau = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_duree_plateau(plateau)
+			SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_duree_plateau)
+			var score_ratio_reussite_plateau = SauvegardeBddJoueursService.enregistrement_campagne_lire_score_ratio_reussite_plateau(plateau)
+			SauvegardeTableauDesScoresService.incrementer_score_joueur(nom_joueur, score_ratio_reussite_plateau)
 
 func mettre_a_jour_score_pour_passer() -> Dictionary:
 	"Calculer et enregistrer le score suite au passage d'un plateau"

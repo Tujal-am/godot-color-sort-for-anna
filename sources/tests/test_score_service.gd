@@ -264,115 +264,38 @@ func _level_finishes_current_level_as_won():
 	SauvegardeBddJoueursService._enregistrer_sauvegarde_joueur()
 
 
-# ---------------------------------------------------------
-# mettre_a_jour_score_pour_import
-# ---------------------------------------------------------
-
 func _score(nom: String = "Joueur Test") -> int:
 	return SauvegardeTableauDesScoresService.lire_score_joueur(nom)
 
-func _niveau_importe(plateaux) -> Dictionary:
-	return {"niveau": "niveau_7", "score": {"niveau": 3500, "niveau_parfait": 3500}, "plateaux": plateaux}
+func test_import_additionne_les_scores_de_toute_la_campagne():
+	var campagne := {
+		"score": {"fin_campagne": 400000},
+		"niveaux": [
+			{
+				"score": {"niveau": 3500, "niveau_parfait": 3500},
+				"plateaux": [
+					{"score": {"duree": 120, "ratio_reussite": 800}},
+					{"score": {"duree": 30, "ratio_reussite": 500}}
+				]
+			},
+			{
+				"score": {"niveau": 100, "niveau_parfait": 0},
+				"plateaux": [{"score": {"duree": 10, "ratio_reussite": 20}}]
+			}
+		]
+	}
 
-func test_import_additionne_campagne_niveau_niveau_parfait_et_plateaux():
-	var campagne = {"score": {"fin_campagne": 400000}}
-	var niveau = _niveau_importe([
-		{"nom": "P1", "score": {"duree": 120, "ratio_reussite": 800}},
-		{"nom": "P2", "score": {"duree": 30, "ratio_reussite": 500}}
-	])
-	service.mettre_a_jour_score_pour_import("Joueur Test", campagne, niveau)
-	assert_eq(_score(), 400000 + 3500 + 3500 + 120 + 800 + 30 + 500)
+	service.mettre_a_jour_score_pour_import_campagne("Joueur Test", campagne)
 
-func test_import_ne_modifie_pas_les_donnees_importees():
-	var campagne = {"score": {"fin_campagne": 10}}
-	var niveau = _niveau_importe([{"nom": "P1", "score": {"duree": 1, "ratio_reussite": 2}}])
-	var campagne_avant = campagne.duplicate(true)
-	var niveau_avant = niveau.duplicate(true)
-	service.mettre_a_jour_score_pour_import("Joueur Test", campagne, niveau)
-	assert_eq(campagne, campagne_avant)
-	assert_eq(niveau, niveau_avant)
+	assert_eq(_score(), 400000 + 3500 + 3500 + 120 + 800 + 30 + 500 + 100 + 10 + 20)
+	assert_eq(SauvegardeTableauDesScoresService.lire_score_txt_joueur("Joueur Test"), "408.580")
 
-func test_import_ne_modifie_pas_la_sauvegarde_du_joueur_courant():
-	var sauvegarde_avant = SauvegardeBddJoueursService._sauvegarde_joueur.duplicate(true)
-	service.mettre_a_jour_score_pour_import("Joueur Test", {"score": {"fin_campagne": 10}}, _niveau_importe([]))
-	assert_eq(SauvegardeBddJoueursService._sauvegarde_joueur, sauvegarde_avant)
+func test_import_campagne_vide_ou_inconnue_n_ajoute_pas_de_score():
+	service.mettre_a_jour_score_pour_import_campagne("Joueur Test", {})
+	service.mettre_a_jour_score_pour_import_campagne("Inconnu", {"niveaux": [{"plateaux": []}]})
 
-func test_import_met_a_jour_le_texte_et_le_rang():
-	service.mettre_a_jour_score_pour_import("Joueur Test", {"score": {"fin_campagne": 1234567}}, {})
-	assert_eq(SauvegardeTableauDesScoresService.lire_score_txt_joueur("Joueur Test"), "1.234.567")
-	assert_eq(SauvegardeTableauDesScoresService.retourner_classement()[0].get("nom"), "Joueur Test")
-
-func test_import_campagne_et_niveau_vides_n_ajoute_rien():
-	service.mettre_a_jour_score_pour_import("Joueur Test", {}, {})
 	assert_eq(_score(), 0)
-
-func test_import_sans_cle_plateaux_ne_compte_que_campagne_et_niveau():
-	service.mettre_a_jour_score_pour_import("Joueur Test", {"score": {"fin_campagne": 100}}, {"score": {"niveau": 10, "niveau_parfait": 1}})
-	assert_eq(_score(), 111)
-
-func test_import_plateaux_vide_ne_compte_que_campagne_et_niveau():
-	service.mettre_a_jour_score_pour_import("Joueur Test", {"score": {"fin_campagne": 100}}, {"score": {"niveau": 10, "niveau_parfait": 1}, "plateaux": []})
-	assert_eq(_score(), 111)
-
-func test_import_plateaux_non_tableau_est_ignore():
-	for valeur in ["texte", {"a": 1}, 12, true]:
-		SauvegardeTableauDesScoresService.modifier_score_joueur("Joueur Test", 0)
-		service.mettre_a_jour_score_pour_import("Joueur Test", {}, {"score": {"niveau": 10}, "plateaux": valeur})
-		assert_eq(_score(), 10)
-
-func test_import_plateaux_null_est_ignore():
-	service.mettre_a_jour_score_pour_import("Joueur Test", {}, {"score": {"niveau": 10}, "plateaux": null})
-	assert_eq(_score(), 10)
-
-func test_import_ignore_les_plateaux_qui_ne_sont_pas_des_dictionnaires():
-	var niveau = _niveau_importe([5, "texte", null, [1, 2], {"score": {"duree": 7, "ratio_reussite": 3}}])
-	service.mettre_a_jour_score_pour_import("Joueur Test", {}, niveau)
-	assert_eq(_score(), 3500 + 3500 + 7 + 3)
-
-func test_import_plateau_sans_score_ou_score_partiel():
-	var niveau = {"plateaux": [
-		{"nom": "A"},
-		{"nom": "B", "score": {}},
-		{"nom": "C", "score": {"duree": 4}},
-		{"nom": "D", "score": {"ratio_reussite": 6}},
-		{"nom": "E", "score": {"duree": 0, "ratio_reussite": 0}}
-	]}
-	service.mettre_a_jour_score_pour_import("Joueur Test", {}, niveau)
-	assert_eq(_score(), 10)
-
-func test_import_scores_a_zero_n_ajoutent_rien():
-	service.mettre_a_jour_score_pour_import("Joueur Test", {"score": {"fin_campagne": 0}}, {"score": {"niveau": 0, "niveau_parfait": 0}, "plateaux": []})
-	assert_eq(_score(), 0)
-
-func test_import_cumule_sur_le_score_existant_et_sur_plusieurs_appels():
-	SauvegardeTableauDesScoresService.modifier_score_joueur("Joueur Test", 1000)
-	service.mettre_a_jour_score_pour_import("Joueur Test", {"score": {"fin_campagne": 5}}, {})
-	service.mettre_a_jour_score_pour_import("Joueur Test", {"score": {"fin_campagne": 5}}, {})
-	assert_eq(_score(), 1010)
-
-func test_import_joueur_inconnu_ne_plante_pas_et_ne_modifie_aucun_score():
-	service.mettre_a_jour_score_pour_import("Inconnu", {"score": {"fin_campagne": 100}}, _niveau_importe([{"score": {"duree": 1, "ratio_reussite": 1}}]))
 	assert_eq(_score("Inconnu"), 0)
-	assert_eq(_score(), 0)
-	assert_eq(_score(service.lire_nom_anna_triche()), 0)
-
-func test_import_nom_vide_ne_plante_pas():
-	service.mettre_a_jour_score_pour_import("", {"score": {"fin_campagne": 100}}, {})
-	assert_eq(_score(), 0)
-
-func test_import_n_applique_pas_le_bonus_anna():
-	var nom_anna = service.lire_nom_anna_triche()
-	service.mettre_a_jour_score_pour_import(nom_anna, {"score": {"fin_campagne": 100}}, {"score": {"niveau": 10, "niveau_parfait": 1}, "plateaux": [{"score": {"duree": 2, "ratio_reussite": 3}}]})
-	assert_eq(_score(nom_anna), 116)
-
-func test_import_score_nul_ou_non_entier_dans_la_campagne():
-	service.mettre_a_jour_score_pour_import("Joueur Test", {"score": null}, {"score": null, "plateaux": []})
-	assert_eq(_score(), 0)
-
-func test_import_scores_negatifs_sont_retranches():
-	SauvegardeTableauDesScoresService.modifier_score_joueur("Joueur Test", 100)
-	service.mettre_a_jour_score_pour_import("Joueur Test", {}, {"score": {"niveau": -30}})
-	assert_eq(_score(), 70)
 
 
 # ---------------------------------------------------------

@@ -10,8 +10,7 @@ Outils de productions et de résolution des plateaux de jeux:
 Liste des plugins GODOT utilisés :
 | Addon | Usage | Version testée |
 |---|---|---|
-| [Godot QR Plugin](https://github.com/godot-mobile-plugins/godot-qr/releases/tag/v1.2) | Génération du QR sur Android/iOS | v1.2 |
-| [Godot Share Plugin](https://github.com/godot-mobile-plugins/godot-share/releases/tag/v6.0) | Partage natif de l’image sur Android | v6.0 |
+| [Godot Share Plugin](https://github.com/godot-mobile-plugins/godot-share/releases/tag/v6.0) | Partage natif de fichiers sur Android | v6.0 |
 | GMPShared | Scripts partagés nécessaires aux plugins mobiles | fournis avec les addons |
 | [GUT](https://github.com/bitwes/Gut) | Exécution des tests GUT, développement uniquement | v9.7.1 |
 
@@ -33,14 +32,18 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 #### Bug V0.4.0 :
 - Définir une combinaison secrete pour declencher l'export des fichiers JSON.
 
+#### Bug V1.0.0 :
+- un clic sur une pile vide sans sélection déplace un jeton depuis la dernière pile (indice −1) et enregistre un coup invalide. Bug corrigé, mais historique à nettoyer au demarrage en supprimant les "coups" avec '-1'.
+
+
 #### à faire d'urgence pour livrer la V1.0.0 en test:
 - ~~Jouer la campagne complete~~ => ok
 - ~~Vérifier l'avancement dans le niveau (pourcentage)~~ => ok
 - ~~Vérifier les statistiques et corriger~~ => ok
 - ~~Vérifier "Recommencer" dans les stats~~ => ok
 - ~~Vérifier "Passer" dans les stats~~ => ok
-- ~~Vérifier les exports QR~~ => ok
-- ~~Vérifier les imports QR~~ => ok
+- ~~Vérifier les exports de fichiers JSON signés~~ => ok
+- ~~Vérifier les imports de fichiers JSON signés~~ => ok
 - ~~Coder la conversion des enregistrements V0.4.x => V1.0.0~~ => ok
 - ~~Vérifier la conversion des enregistrements V0.4.x => V1.0.0~~ => ok
 - ~~Le nom de campagne dans la sauvegarde est 'campagne' ! Il doit etre 'campagne_2'.~~ => ok
@@ -51,7 +54,7 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Effacer les scores
 - Supprimer le TAG "beta-test"
 - Incorporer le partage dans statistiques et score de niveau/campagne
-- Vérifier que le QR est partageable avec la vraie campagne (taille des infos)
+- Vérifier le partage du fichier JSON signé avec les données complètes de la campagne
 
 #### Relecture Anna pour livrer la V1.0.0:
 - ~~numero du niveau sur 2 caracteres pour le bandeau de menu.~~ => ok
@@ -124,7 +127,7 @@ Depuis la phase de tests internes de la version V0.3.0, les fonctionnalités son
 - Gerer les homonymes:
   - Ajouter un UUID avec chaque joueur dans la liste des joueurs
   - Utiliser l'UUID pour identifier le joueur dans toutes les transactions internes : score, campagne, statistiques.
-  - Ajouter l'UUID dans le QR code
+  - Ajouter l'UUID dans le fichier JSON signé
   - étudier si l'uuid devrait etre dans le nom du fichier de sauvegarde à la place de l'indice.
   - compte local :
     - uuid = uuid du joueur local
@@ -220,14 +223,13 @@ Developpé par GitHub Copilot avec 'GPT-6 Luna'
   - [outil] Meilleur 1er temps de réussite = temps reference
   - [outil] Meilleur temps de réussite = temps record (score augmenté)
 - ~~À chaque fin de niveau:~~
-  - ~~produire un QR code avec:~~
+  - ~~produire un fichier JSON signé avec:~~
     - ~~Nom du joueur~~
     - ~~Nom du niveau~~
     - ~~Liste des enregistrements du niveau (temps, nombre de coups ...)~~
   - ~~Citer le mail "rangelescouleurs"~~
   - ~~Réaliser un panneau pour indiquer la consigne + bouton partage.~~
-- ~~Plugin QR-Code creation/lecture : Godot QR Plugin~~
-- ~~Plugin chiffrement : HMAC natif à GODOT~~
+- ~~Signature HMAC du fichier JSON avec l'API native de Godot~~
 - ~~Plugin de partage (sms, whatsapp ...) : Share Plugin (par cengiz-pz)~~
 - Supprimer le panneau 'Beta test' et introduire un bouton dans la page des scores de Niveau/Campagne.
 - Ajouter un bouton dans la page des statistiquesS
@@ -308,20 +310,17 @@ Prévoir un processus de partage des scores fiable ente les joueurs:
   - ~~Encryption Plugin : Permet de chiffrer et déchiffrer les données pour un partage sécurisé. Très peu documenté.~~
   - ~~Godot Secp256k1 : Permet de gérer les clés et signatures basées sur l'algorithme Secp256k1, souvent utilisé pour la cryptographie dans les blockchains.~~
   - ~~HMAC (Hash-based Message Authentication Code) : Permet de vérifier l'intégrité et l'authenticité des données partagées. Intégré dans GODOT.~~
-- ~~Utiliser un ADDON pour produire et lire un QR-CODE:~~
-  - ~~Godot QR Plugin : couplé avec la version ANDROID. Gère la lecture et génération de QR-Code~~
-- ~~Utiliser un ADDON pour partager le QR-Code:~~
-  - ~~Share Plugin (par cengiz-pz) : Ouvre la fenêtre de partage native pour partager le QR-Code.~~
+- ~~Utiliser un ADDON pour partager le fichier JSON signé:~~
+  - ~~Share Plugin : ouvre le dialogue de partage natif Android pour l'export et l'import.~~
 - RTC : Produit des données chiffrées de la page de statistiques avec la version du jeu.
-- RTC : Partage le QR-Code sur les media sociaux.
-- RTC : Lit un QR-Code contenant les données chiffrées de la page de statistiques avec la version du jeu.
+- RTC : Partage le fichier JSON signé via les applications disponibles sur l'appareil.
+- RTC : Importe un fichier de performances signé et vérifie son intégrité.
 - RTC : Peut insérer ce joueur dans le telephone local.
 - RTC : Indique que c'est un joueur "statistiques", donc non jouable même avec une nouvelle campagne.
 - RTC : Peut insérer le score dans le tableau des scores locaux.
 - RTC : dois pouvoir effacer ce joueur (supprimer des score + statistiques)
-- Insérer un QR-Code pour partager l'application RTC.
-- QR : inclure la version du jeu dans le QR code ou vérifier que la campagne correspond à la campagne courante.
-- QR : Refuser d'importer un QR d'une autre campagne.
+- Ajouter la version du jeu et l'identifiant de campagne au format de partage.
+- Refuser l'import de données incompatibles avec la version courante.
 
 ### Jeu libre
 

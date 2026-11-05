@@ -303,6 +303,43 @@ func test_l_ecran_affiche_les_statistiques_de_campagne() -> void:
 	assert_eq(_valeur(ecran, "Campagne/Reussite/Valeur"), "83%")
 	assert_eq(_valeur(ecran, "Campagne/SerieMax/Valeur"), "4")
 
+func test_l_ecran_propose_le_partage_d_une_campagne_terminee_non_partagee() -> void:
+	var donnees := _donnees_joueur()
+	donnees["enregistrement_campagne"][0]["campagne"] = "[test]campagne_2"
+	donnees["enregistrement_campagne"][0]["date_fin"] = 1700003000
+	_activer_joueur(donnees)
+	var ecran := _ecran()
+
+	assert_true(ecran.get_node("PanneauPartagePerformances").visible)
+	ecran.get_node("PanneauPartagePerformances/Panneau/Contenu/BoutonRetourStatistiques").emit_signal("pressed")
+	assert_false(ecran.get_node("PanneauPartagePerformances").visible)
+	assert_true(ecran.get_node("Scroll/Content/Campagne").visible)
+
+func test_l_ecran_ne_propose_pas_le_partage_d_une_campagne_deja_partagee() -> void:
+	var donnees := _donnees_joueur()
+	donnees["enregistrement_campagne"][0]["campagne"] = "[test]campagne_2"
+	donnees["enregistrement_campagne"][0]["date_fin"] = 1700003000
+	_activer_joueur(donnees)
+	var api: PartagePerformancesAPI = add_child_autofree(
+		load("res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_api.gd").new()
+	)
+	var empreinte := api._calculer_empreinte_campagne(donnees["enregistrement_campagne"][0])
+	assert_true(SauvegardeBddJoueursService.enregistrement_campagne_marquer_fichier_partage(empreinte))
+	assert_true(api.campagne_a_deja_ete_partagee(api.lire_donnees_derniere_campagne()))
+
+	var ecran := _ecran()
+
+	assert_false(ecran.get_node("PanneauPartagePerformances").visible)
+
+func test_l_ecran_ne_propose_pas_le_partage_hors_de_la_campagne_de_test() -> void:
+	var donnees := _donnees_joueur()
+	donnees["enregistrement_campagne"][0]["date_fin"] = 1700003000
+	_activer_joueur(donnees)
+
+	var ecran := _ecran()
+
+	assert_false(ecran.get_node("PanneauPartagePerformances").visible)
+
 func test_l_ecran_affiche_les_statistiques_de_niveau() -> void:
 	var ecran := _ecran()
 	var infos: Dictionary = StatsService.niveau_taux_reussite_infos()

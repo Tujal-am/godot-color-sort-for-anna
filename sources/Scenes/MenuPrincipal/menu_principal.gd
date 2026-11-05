@@ -43,23 +43,25 @@ func _build_ui() -> void:
 	_show_campaign_players(false)
 
 
-func afficher_import_qr(qr_data: Dictionary) -> void:
-	var nom_joueur := str(qr_data.get("joueur", ""))
-	var campagne: Dictionary = qr_data.get("campagne", {})
+func afficher_import_fichier(donnees: Dictionary) -> void:
+	var nom_joueur := str(donnees.get("joueur", "inconnue"))
+	var campagne: Dictionary = donnees.get("campagne", {})
 	var nom_campagne := str(campagne.get("campagne", "")).capitalize()
-	var niveau: Dictionary = qr_data.get("niveau", {})
-	var nom_niveau := str(niveau.get("niveau", "")).capitalize()
-	$PanneauImportQR.afficher_import(nom_joueur, nom_campagne, nom_niveau)
+	var niveaux: Array = campagne.get("niveaux", [])
+	var nom_niveau := "Inconnu"
+	if not niveaux.is_empty():
+		nom_niveau = str(niveaux.back().get("niveau", "inconnu")).capitalize()
+	$PanneauImportFichier.afficher_import(nom_joueur, nom_campagne, nom_niveau)
 
-func _on_panneau_import_qr_accepter() -> void:
+func _on_panneau_import_fichier_accepter() -> void:
 	PartagePerformancesImportService.accepter_import()
 
-func _on_panneau_import_qr_refuser() -> void:
-	$PanneauImportQR.fermer()
+func _on_panneau_import_fichier_refuser() -> void:
+	$PanneauImportFichier.fermer()
 	PartagePerformancesImportService.refuser_import()
 
-func fermer_import_qr() -> void:
-	$PanneauImportQR.fermer()
+func fermer_import_fichier() -> void:
+	$PanneauImportFichier.fermer()
 
 
 func _on_campaign_button_pressed() -> void:

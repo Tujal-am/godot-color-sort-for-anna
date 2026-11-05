@@ -2,244 +2,117 @@ extends Node
 
 class_name PartagePerformancesAPI
 
-signal partage_qr_code(donnees_json: Dictionary)
-signal erreur_decodage_qr(message: String)
-
 const LOGIQUE := preload("res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_logic.gd")
-const QR_SCRIPT_PATH := "res://addons/QRPlugin/QR.gd"
-const POLICE_SOUS_TITRE := "res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf"
-const TAILLE_QR_AFFICHAGE := 512
-const FACTEUR_TAILLE_QR_PARTAGE := 2
-const TAILLE_QR_PARTAGE := TAILLE_QR_AFFICHAGE * FACTEUR_TAILLE_QR_PARTAGE
-var _logique: PartagePerformancesLogic = LOGIQUE.new()
-var _qr_scanner: Node
+const TYPE_MIME_JSON := "application/json"
+const NOM_FICHIER_PARTAGE := "partage_performances.json"
 
-## Retourne le nom du joueur et les enregistrements de son dernier niveau.
-func lire_donnees_dernier_niveau() -> Dictionary:
-	var niveau = SauvegardeBddJoueursService.enregistrement_campagne_lire_dernier_niveau()
-	var plateaux = SauvegardeBddJoueursService.enregistrement_campagne_lire_plateaux(niveau).duplicate(true)
-	for plateau in plateaux:
-		# Allegement des données utile pour réduire le poids du QR code
-		plateau.erase('coups joués')
-		plateau.erase('date_debut')
-		plateau.erase('date_fin')
-		plateau.erase('score')
+var _logique: PartagePerformancesLogic = LOGIQUE.new()
+var _empreinte_partage_en_attente := ""
+
+func _ready() -> void:
+	if not ShareService.share_completed.is_connected(_on_share_completed):
+		ShareService.share_completed.connect(_on_share_completed)
+	if not ShareService.share_canceled.is_connected(_on_share_canceled):
+		ShareService.share_canceled.connect(_on_share_canceled)
+	if not ShareService.share_failed.is_connected(_on_share_failed):
+		ShareService.share_failed.connect(_on_share_failed)
+
+## Retourne le joueur et l'intégralité des données de sa dernière campagne.
+func lire_donnees_derniere_campagne() -> Dictionary:
 	return {
 		"joueur": SauvegardeBddJoueursService.lire_nom_joueur(),
-		"campagne": SauvegardeBddJoueursService.enregistrement_campagne_lire_nom_derniere_campagne(),
-		"niveau": SauvegardeBddJoueursService.enregistrement_campagne_lire_nom_dernier_niveau(),
-		"plateaux": plateaux,
-		"Status": 'Ne pas importer'
+		"campagne": SauvegardeBddJoueursService.enregistrement_campagne_lire_derniere_campagne().duplicate(true)
 	}
 
-## Prépare les données JSON du niveau, leur signature HMAC et le contenu du QR.
-func preparer_partage(enregistrements: Dictionary) -> Dictionary:
+## Prépare les données JSON de la campagne et leur signature HMAC.
+func preparer_partage(donnees: Dictionary) -> Dictionary:
 	var cle_hmac: String = ProjectSettings.get_setting("partage_performances/cle_hmac", "")
-	return _logique.preparer_enveloppe(enregistrements, cle_hmac)
+	return _logique.preparer_enveloppe(donnees, cle_hmac)
 
-## Génère l'image du QR avec le plugin natif sur Android ou iOS.
-func generer_image_qr(contenu: String, taille: int = TAILLE_QR_AFFICHAGE) -> Dictionary:
-	return _logique.generer_image_qr(contenu, self, taille)
+## Vérifie une enveloppe JSON signée reçue depuis SHARE.
+func decoder_fichier_signe(contenu_fichier: String) -> Dictionary:
+	var cle_hmac: String = ProjectSettings.get_setting("partage_performances/cle_hmac", "")
+	return _logique.decoder_fichier_signe(contenu_fichier, cle_hmac)
 
-## Compose l'image QR avec les libellés destinés aux joueurs.
-func ajouter_sous_titre_qr(image_qr: Image, facteur_echelle: float = 1.0) -> Dictionary:
-	if image_qr == null or image_qr.is_empty():
-		return {"succes": false, "erreur": "L'image du QR est vide."}
-	if facteur_echelle <= 0.0:
-		return {"succes": false, "erreur": "L'échelle du sous-titre QR est invalide."}
-	var texte_sous_titre := lire_sous_titre_qr()
-	if texte_sous_titre.is_empty():
-		return {"succes": false, "erreur": "Le nom du joueur ou sa campagne ou son niveau est indisponible."}
-	var police := load(POLICE_SOUS_TITRE) as Font
-	if police == null:
-		return {"succes": false, "erreur": "La police du sous-titre QR est introuvable."}
+## Signe et transmet les données de campagne comme fichier JSON via SHARE.
+func partager_campagne(share: Node, donnees: Dictionary) -> Dictionary:
+	if not is_instance_valid(share) or not share.has_method("is_available") \
+		or not share.call("is_available") or not share.has_method("share_file"):
+		return {"succes": false, "erreur": "Le partage natif Android n'est pas disponible."}
 
-	var taille_police_minimale := maxi(1, roundi(12 * facteur_echelle))
-	var taille_police := maxi(taille_police_minimale, roundi(22 * facteur_echelle))
-	var marge_horizontale := roundi(24 * facteur_echelle)
-	while taille_police > taille_police_minimale and police.get_string_size(
-		texte_sous_titre,
-		HORIZONTAL_ALIGNMENT_LEFT,
-		-1,
-		taille_police
-	).x > image_qr.get_width() - marge_horizontale * 2:
-		taille_police -= 1
-	while police.get_string_size(
-		texte_sous_titre,
-		HORIZONTAL_ALIGNMENT_LEFT,
-		-1,
-		taille_police
-	).x > image_qr.get_width() - marge_horizontale * 2:
-		var candidat := texte_sous_titre.left(texte_sous_titre.length() - 1).strip_edges() + "..."
-		if police.get_string_size(
-			candidat,
-			HORIZONTAL_ALIGNMENT_LEFT,
-			-1,
-			taille_police
-		).x <= image_qr.get_width() - marge_horizontale * 2:
-			texte_sous_titre = candidat
-			break
-		texte_sous_titre = texte_sous_titre.left(texte_sous_titre.length() - 1).strip_edges()
-	if texte_sous_titre.is_empty():
-		return {"succes": false, "erreur": "Le sous-titre QR est trop long."}
+	var enveloppe: Dictionary = preparer_partage(donnees)
+	if not enveloppe.get("succes", false):
+		return enveloppe
 
-	var hauteur_sous_titre := roundi(78 * facteur_echelle)
-	var viewport := SubViewport.new()
-	viewport.size = Vector2i(image_qr.get_width(), hauteur_sous_titre)
-	viewport.transparent_bg = false
-	viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	var chemin_fichier := OS.get_user_data_dir().path_join(NOM_FICHIER_PARTAGE)
+	var fichier := FileAccess.open(chemin_fichier, FileAccess.WRITE)
+	if fichier == null:
+		return {"succes": false, "erreur": "Impossible de créer le fichier de partage JSON."}
+	fichier.store_string(enveloppe.get("contenu_fichier", ""))
+	fichier.flush()
+	var erreur_ecriture := fichier.get_error()
+	fichier.close()
+	if erreur_ecriture != OK:
+		return {"succes": false, "erreur": "Impossible d'écrire le fichier de partage JSON."}
 
-	var fond := ColorRect.new()
-	fond.color = Color.WHITE
-	fond.size = Vector2(viewport.size)
-	viewport.add_child(fond)
+	var nom_joueur := str(donnees.get("joueur", "inconnue"))
+	var campagne: Dictionary = donnees.get("campagne", {})
+	var nom_campagne := str(campagne.get("campagne", "inconnue")).capitalize()
+	if not share.call(
+		"share_file",
+		chemin_fichier,
+		TYPE_MIME_JSON,
+		nom_joueur + " partage ses performances",
+		"Campagne " + nom_campagne,
+		"Campagne " + nom_campagne + " de " + nom_joueur
+	):
+		return {"succes": false, "erreur": "SHARE n'a pas pu transmettre le fichier JSON."}
 
-	var separateur := ColorRect.new()
-	var marge_separateur := roundi(40 * facteur_echelle)
-	separateur.position = Vector2(marge_separateur, roundi(12 * facteur_echelle))
-	separateur.size = Vector2(
-		maxi(0, image_qr.get_width() - marge_separateur * 2),
-		maxi(1, roundi(2 * facteur_echelle))
-	)
-	separateur.color = Color("edc9a5")
-	viewport.add_child(separateur)
+	_empreinte_partage_en_attente = _calculer_empreinte_campagne(campagne)
+	return {"succes": true, "chemin": chemin_fichier}
 
-	var etiquette := Label.new()
-	etiquette.position = Vector2(0, roundi(24 * facteur_echelle))
-	etiquette.size = Vector2(image_qr.get_width(), roundi(40 * facteur_echelle))
-	etiquette.text = texte_sous_titre
-	etiquette.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	etiquette.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	etiquette.add_theme_font_override("font", police)
-	etiquette.add_theme_font_size_override("font_size", taille_police)
-	etiquette.add_theme_color_override("font_color", Color("0a274d"))
-	viewport.add_child(etiquette)
-	add_child(viewport)
+## Indique si les données de campagne ont déjà été partagées depuis ce profil.
+func campagne_a_deja_ete_partagee(donnees: Dictionary) -> bool:
+	var campagne: Variant = donnees.get("campagne", {})
+	if not campagne is Dictionary:
+		return false
+	var empreinte := _calculer_empreinte_campagne(campagne)
+	return SauvegardeBddJoueursService.enregistrement_campagne_fichier_est_partage(empreinte)
 
-	if DisplayServer.get_name() == "headless":
-		await get_tree().process_frame
-	else:
-		await RenderingServer.frame_post_draw
-	var image_sous_titre := viewport.get_texture().get_image()
-	viewport.queue_free()
-	if image_sous_titre == null or image_sous_titre.is_empty():
-		return {"succes": false, "erreur": "Impossible de dessiner le sous-titre du QR."}
-
-	var image_finale := Image.create(
-		image_qr.get_width(),
-		image_qr.get_height() + hauteur_sous_titre,
-		false,
-		Image.FORMAT_RGBA8
-	)
-	image_finale.fill(Color.WHITE)
-	image_finale.blit_rect(image_qr, Rect2i(Vector2i.ZERO, image_qr.get_size()), Vector2i.ZERO)
-	image_finale.blit_rect(
-		image_sous_titre,
-		Rect2i(Vector2i.ZERO, image_sous_titre.get_size()),
-		Vector2i(0, image_qr.get_height())
-	)
-	return {"succes": true, "image": image_finale}
-
-## Génère une seconde image haute résolution pour le partage, sans modifier l'aperçu.
-func generer_image_qr_pour_partage(contenu: String) -> Dictionary:
-	var resultat_qr := generer_image_qr(contenu, TAILLE_QR_PARTAGE)
-	if not resultat_qr.get("succes", false):
-		return resultat_qr
-	return await ajouter_sous_titre_qr(
-		resultat_qr.get("image"),
-		FACTEUR_TAILLE_QR_PARTAGE
-	)
-
-## Retourne le libellé affiché sous le QR au format « Nom - Niveau X ».
-func lire_sous_titre_qr() -> String:
-	var nom_joueur : String = SauvegardeBddJoueursService.lire_nom_joueur()
-	var nom_campagne : String = SauvegardeBddJoueursService.enregistrement_campagne_lire_nom_derniere_campagne().capitalize()
-	var nom_niveau : String = SauvegardeBddJoueursService.enregistrement_campagne_lire_nom_dernier_niveau().capitalize()
-	if nom_joueur.is_empty() or nom_campagne.is_empty() or nom_niveau.is_empty():
+func _calculer_empreinte_campagne(campagne: Dictionary) -> String:
+	var contexte := HashingContext.new()
+	if contexte.start(HashingContext.HASH_SHA256) != OK:
 		return ""
-	return "%s - %s - %s" % [nom_joueur, nom_campagne, nom_niveau]
+	var json_normalise := JSON.stringify(_normaliser_valeur_pour_empreinte(campagne))
+	contexte.update(json_normalise.to_utf8_buffer())
+	return contexte.finish().hex_encode()
 
-## Reçoit une image QR et lance son décodage asynchrone avec le plugin.
-func recevoir_image_qr(image: Image) -> bool:
-	if image == null or image.is_empty():
-		erreur_decodage_qr.emit("L'image QR est vide ou invalide.")
-		return false
-	if not Engine.has_singleton("QRPlugin"):
-		erreur_decodage_qr.emit("Le décodage QR n'est pas disponible sur cette plateforme.")
-		return false
-	if is_instance_valid(_qr_scanner):
-		erreur_decodage_qr.emit("Un décodage QR est déjà en cours.")
-		return false
+func _normaliser_valeur_pour_empreinte(valeur: Variant) -> Variant:
+	if typeof(valeur) == TYPE_INT:
+		return float(valeur)
+	if valeur is Array:
+		var tableau_normalise: Array = []
+		for element in valeur:
+			tableau_normalise.append(_normaliser_valeur_pour_empreinte(element))
+		return tableau_normalise
+	if valeur is Dictionary:
+		var dictionnaire_normalise := {}
+		var cles: Array = valeur.keys()
+		cles.sort()
+		for cle in cles:
+			dictionnaire_normalise[cle] = _normaliser_valeur_pour_empreinte(valeur[cle])
+		return dictionnaire_normalise
+	return valeur
 
-	var qr_script := load(QR_SCRIPT_PATH) as Script
-	if qr_script == null:
-		erreur_decodage_qr.emit("Le script du plugin QR est introuvable.")
-		return false
-
-	_qr_scanner = qr_script.new() as Node
-	if _qr_scanner == null:
-		erreur_decodage_qr.emit("Impossible d'initialiser le décodeur QR.")
-		return false
-	if not _qr_scanner.has_signal("qr_detected") or not _qr_scanner.has_signal("qr_scan_failed"):
-		_qr_scanner.free()
-		_qr_scanner = null
-		erreur_decodage_qr.emit("Le plugin QR n'expose pas les signaux de décodage attendus.")
-		return false
-
-	_qr_scanner.connect("qr_detected", _on_qr_detected)
-	_qr_scanner.connect("qr_scan_failed", _on_qr_scan_failed)
-	add_child(_qr_scanner)
-	_qr_scanner.call("scan_qr_image", image)
-	return true
-
-## Retourne l'adresse courriel à afficher ou à copier.
-func lire_adresse_courriel() -> String:
-	return _logique.DESTINATAIRE_COURRIEL
-
-## Partage l'image du QR avec le dialogue natif Android.
-func partager_qr_android(share: Node, texture_qr: Texture2D) -> bool:
-	if not OS.has_feature("android"):
-		return false
-	if not Engine.has_singleton("SharePlugin"):
-		return false
-	if texture_qr == null:
-		return false
-
-	var qr_data = lire_donnees_dernier_niveau()
-	var nom_joueur = qr_data.get("joueur", "")
-	var nom_campagne = qr_data.get("campagne", "").capitalize()
-	var nom_niveau = qr_data.get("niveau", "").capitalize()
-	share.call(
-		"share_texture",
-		texture_qr,
-		nom_joueur + " partage ses performances", # titre
-		nom_campagne + " - Performances du " + nom_niveau,          # sujet
-		nom_joueur + " partage ses performances de la " + nom_campagne + " sur le " + nom_niveau + "." # texte du partage
-	)
-	return true
-
-func _on_qr_detected(contenu_qr: String) -> void:
-	_liberer_qr_scanner()
-	var cle_hmac: String = ProjectSettings.get_setting("partage_performances/cle_hmac", "")
-	var resultat: Dictionary = _logique.decoder_et_verifier_qr(contenu_qr, cle_hmac)
-	# TODO : rétablir l'import de QR ou l'import JSON
-	erreur_decodage_qr.emit("Dans cette version, l'import de QR n'est plus compatible.")
-	LogService.log_erreur("Dans cette version, l'import de QR n'est plus compatible.")
-	return
-
-	if not resultat.get("succes", false):
-		erreur_decodage_qr.emit(resultat.get("erreur", "Le QR ne peut pas être validé."))
+func _on_share_completed(_activity_type: String) -> void:
+	if _empreinte_partage_en_attente.is_empty():
 		return
-	partage_qr_code.emit(resultat.get("donnees"))
+	if not SauvegardeBddJoueursService.enregistrement_campagne_marquer_fichier_partage(_empreinte_partage_en_attente):
+		LogService.log_erreur("Impossible d'enregistrer le partage de la campagne.")
+	_empreinte_partage_en_attente = ""
 
-func _on_qr_scan_failed(erreur: Object) -> void:
-	_liberer_qr_scanner()
-	var description := "Le plugin QR n'a pas pu décoder l'image."
-	if erreur.has_method("get_description"):
-		description = erreur.call("get_description")
-	erreur_decodage_qr.emit(description)
+func _on_share_canceled() -> void:
+	_empreinte_partage_en_attente = ""
 
-func _liberer_qr_scanner() -> void:
-	if is_instance_valid(_qr_scanner):
-		_qr_scanner.queue_free()
-	_qr_scanner = null
+func _on_share_failed(_message: String) -> void:
+	_empreinte_partage_en_attente = ""

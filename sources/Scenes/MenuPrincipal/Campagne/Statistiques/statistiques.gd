@@ -1,5 +1,7 @@
 extends Control
 
+const PREFIXE_CAMPAGNE_TEST := "[test]"
+
 func _ready():
 	score()
 	campagne()
@@ -8,6 +10,24 @@ func _ready():
 	plateaux()
 	classique()
 	qui_perd_gagne()
+	_afficher_le_partage_si_necessaire()
+
+func _afficher_le_partage_si_necessaire() -> void:
+	var campagne: Dictionary = SauvegardeBddJoueursService.enregistrement_campagne_lire_derniere_campagne()
+	var nom_campagne: Variant = campagne.get("campagne", "")
+	var niveaux: Variant = campagne.get("niveaux", [])
+	if not nom_campagne is String or not nom_campagne.begins_with(PREFIXE_CAMPAGNE_TEST) \
+		or not campagne.get("date_fin", 0) or not niveaux is Array or niveaux.is_empty():
+		return
+
+	var panneau: PartagePerformancesUI = $PanneauPartagePerformances
+	var api: PartagePerformancesAPI = panneau.get_node("PartagePerformancesAPI")
+	var donnees: Dictionary = api.lire_donnees_derniere_campagne()
+	if not api.campagne_a_deja_ete_partagee(donnees):
+		panneau.afficher_export(donnees)
+
+func _on_panneau_partage_performances_fermer() -> void:
+	$PanneauPartagePerformances.hide()
 
 func _on_retour_pressed() -> void:
 	AudioService.son_menu_click()
