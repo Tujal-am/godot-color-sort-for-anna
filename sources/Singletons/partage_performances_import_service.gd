@@ -49,7 +49,7 @@ func _on_share_received(received_data: Variant) -> void:
 
 	_chemins_fichiers_recus = chemins
 	var chemin_fichier := chemins[0]
-	if chemin_fichier.get_extension().to_lower() != "json":
+	if not _extension_fichier_est_acceptee(chemin_fichier):
 		LogService.log_debug("Import JSON : le fichier reçu n'a pas l'extension .json.")
 		_erreur_import()
 		return
@@ -110,6 +110,8 @@ func accepter_import() -> void:
 			_erreur_import()
 			return
 
+	if not _api.call("marquer_campagne_comme_partagee", _import_en_attente):
+		LogService.log_erreur("Impossible de marquer la campagne importée comme déjà partagée.")
 	_liberer_import()
 	var erreur_changement := get_tree().change_scene_to_file(STATISTIQUES_PATH)
 	if erreur_changement != OK:
@@ -118,6 +120,10 @@ func accepter_import() -> void:
 ## Annule l'import sans modifier les sauvegardes.
 func refuser_import() -> void:
 	_liberer_import()
+
+func _extension_fichier_est_acceptee(chemin_fichier: String) -> bool:
+	var extension := chemin_fichier.get_extension().to_lower()
+	return extension.is_empty() or extension == "json"
 
 func _fichier_est_exploitable(donnees: Dictionary) -> bool:
 	var joueur: Variant = donnees.get("joueur", "")

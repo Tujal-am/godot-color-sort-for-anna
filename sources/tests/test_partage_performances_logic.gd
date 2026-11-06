@@ -66,3 +66,12 @@ func test_api_lit_l_integralite_de_la_derniere_campagne() -> void:
 	assert_eq(donnees.get("campagne", {}).get("niveaux", [])[0].get("plateaux", [])[0].get("duree"), 12.5)
 	SauvegardeBddJoueursService._sauvegarde_joueur = sauvegarde_initiale
 	SauvegardeBddJoueursService.fichier_sauvegarde = fichier_initial
+
+func test_api_construit_un_nom_de_fichier_avec_campagne_et_joueur() -> void:
+	var api: PartagePerformancesAPI = add_child_autofree(API_PARTAGE.new())
+
+	assert_eq(
+		api._construire_nom_fichier_partage("[test]campagne/2", "Anna:Marie"),
+		"rtc_[test]campagne_2_Anna_Marie.json"
+	)
+	assert_eq(api._construire_nom_fichier_partage("", ""), "rtc_inconnue_inconnue.json")

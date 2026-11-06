@@ -4,7 +4,6 @@ class_name PartagePerformancesAPI
 
 const LOGIQUE := preload("res://Scenes/MenuPrincipal/Campagne/PartagePerformances/partage_performances_logic.gd")
 const TYPE_MIME_JSON := "application/json"
-const NOM_FICHIER_PARTAGE := "partage_performances.json"
 
 var _logique: PartagePerformancesLogic = LOGIQUE.new()
 var _empreinte_partage_en_attente := ""
@@ -44,7 +43,12 @@ func partager_campagne(share: Node, donnees: Dictionary) -> Dictionary:
 	if not enveloppe.get("succes", false):
 		return enveloppe
 
-	var chemin_fichier := OS.get_user_data_dir().path_join(NOM_FICHIER_PARTAGE)
+	var nom_joueur := str(donnees.get("joueur", "inconnue"))
+	var campagne: Dictionary = donnees.get("campagne", {})
+	var nom_campagne := str(campagne.get("campagne", "inconnue"))
+	var chemin_fichier := OS.get_user_data_dir().path_join(
+		_construire_nom_fichier_partage(nom_campagne, nom_joueur)
+	)
 	var fichier := FileAccess.open(chemin_fichier, FileAccess.WRITE)
 	if fichier == null:
 		return {"succes": false, "erreur": "Impossible de créer le fichier de partage JSON."}
@@ -55,21 +59,28 @@ func partager_campagne(share: Node, donnees: Dictionary) -> Dictionary:
 	if erreur_ecriture != OK:
 		return {"succes": false, "erreur": "Impossible d'écrire le fichier de partage JSON."}
 
-	var nom_joueur := str(donnees.get("joueur", "inconnue"))
-	var campagne: Dictionary = donnees.get("campagne", {})
-	var nom_campagne := str(campagne.get("campagne", "inconnue")).capitalize()
+	var nom_campagne_affiche := nom_campagne.capitalize()
 	if not share.call(
 		"share_file",
 		chemin_fichier,
 		TYPE_MIME_JSON,
 		nom_joueur + " partage ses performances",
-		"Campagne " + nom_campagne,
-		"Campagne " + nom_campagne + " de " + nom_joueur
+		"Campagne " + nom_campagne_affiche,
+		"Campagne " + nom_campagne_affiche + " de " + nom_joueur
 	):
 		return {"succes": false, "erreur": "SHARE n'a pas pu transmettre le fichier JSON."}
 
 	_empreinte_partage_en_attente = _calculer_empreinte_campagne(campagne)
 	return {"succes": true, "chemin": chemin_fichier}
+
+func _construire_nom_fichier_partage(nom_campagne: String, nom_joueur: String) -> String:
+	var campagne_validee := nom_campagne.validate_filename().strip_edges()
+	var joueur_valide := nom_joueur.validate_filename().strip_edges()
+	if campagne_validee.is_empty():
+		campagne_validee = "inconnue"
+	if joueur_valide.is_empty():
+		joueur_valide = "inconnue"
+	return "rtc_%s_%s.json" % [campagne_validee, joueur_valide]
 
 ## Indique si les données de campagne ont déjà été partagées depuis ce profil.
 func campagne_a_deja_ete_partagee(donnees: Dictionary) -> bool:
@@ -78,6 +89,16 @@ func campagne_a_deja_ete_partagee(donnees: Dictionary) -> bool:
 		return false
 	var empreinte := _calculer_empreinte_campagne(campagne)
 	return SauvegardeBddJoueursService.enregistrement_campagne_fichier_est_partage(empreinte)
+
+## Marque localement une campagne comme déjà partagée, notamment après un import.
+func marquer_campagne_comme_partagee(donnees: Dictionary) -> bool:
+	var campagne: Variant = donnees.get("campagne", {})
+	if not campagne is Dictionary:
+		return false
+	var empreinte := _calculer_empreinte_campagne(campagne)
+	if empreinte.is_empty():
+		return false
+	return SauvegardeBddJoueursService.enregistrement_campagne_marquer_fichier_partage(empreinte)
 
 func _calculer_empreinte_campagne(campagne: Dictionary) -> String:
 	var contexte := HashingContext.new()

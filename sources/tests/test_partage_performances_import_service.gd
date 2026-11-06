@@ -50,6 +50,11 @@ func test_fichier_est_exploitable_exige_une_campagne_complete() -> void:
 		"campagne": {"campagne": "nom", "niveaux": [{"niveau": "niveau_1", "plateaux": [1]}]}
 	}))
 
+func test_extension_vide_ou_json_est_acceptee() -> void:
+	assert_true(service._extension_fichier_est_acceptee("user://toto."))
+	assert_true(service._extension_fichier_est_acceptee("user://campagne.JSON"))
+	assert_false(service._extension_fichier_est_acceptee("user://campagne.png"))
+
 func test_import_refuse_efface_les_donnees_en_attente() -> void:
 	service._import_en_attente = {"joueur": "Joueuse", "campagne": _campagne()}
 
@@ -78,6 +83,10 @@ func test_accepter_import_cree_un_joueur_avec_toute_la_campagne() -> void:
 	assert_eq(campagnes[0].get("niveaux").size(), 2)
 	assert_eq(campagnes[0].get("niveaux")[1].get("niveau"), "niveau_2")
 	assert_eq(campagnes[0].get("niveaux")[1].get("plateaux")[0].get("nom"), "P2")
+	var empreintes_partagees: Array = sauvegarde.get("campagnes_partagees_fichiers", [])
+	var api: Node = service.get("_api")
+	var empreinte_campagne: String = api.call("_calculer_empreinte_campagne", campagnes[0])
+	assert_true(empreintes_partagees.has(empreinte_campagne))
 	assert_true(sauvegarde.get("campagne", {}).is_empty())
 	assert_true(service._import_en_attente.is_empty())
 	assert_false(service._import_en_cours)
