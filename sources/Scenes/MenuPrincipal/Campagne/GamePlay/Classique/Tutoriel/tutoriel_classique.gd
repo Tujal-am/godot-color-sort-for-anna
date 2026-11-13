@@ -30,6 +30,7 @@ const PLATEAU_SUIVANT := [
 @onready var jeton_b_2: Control = $Surface/Cartouche/Demo/B2
 
 var _phase_actuelle := 0
+var _vu_dans_la_session := false
 var _cinematique: Tween
 
 func _ready() -> void:
@@ -45,7 +46,7 @@ func _ready() -> void:
 	demo.get_node("B3/Jeton").choisir_jeton(1)
 
 func afficher_si_necessaire() -> void:
-	if not _pref_masquee():
+	if not _vu_dans_la_session and not _pref_masquee():
 		_demarrer()
 
 func afficher_manuellement() -> void:
@@ -82,6 +83,7 @@ func _stop_animation() -> void:
 		_cinematique.kill()
 
 func _demarrer() -> void:
+	_vu_dans_la_session = true
 	_stop_animation()
 	case_ne_plus_afficher.button_pressed = _pref_masquee()
 	jeton_b_1.position = Vector2(100, 190)
