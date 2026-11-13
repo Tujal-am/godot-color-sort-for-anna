@@ -4,10 +4,10 @@ extends Control
 ## Les 15 cellules et leurs sous-noeuds sont définis dans mini_plateau_classique.tscn.
 
 const COULEURS := {
-	"A": Color("#df4c40"),
-	"B": Color("#7433cb"),
-	"C": Color("#36a947"),
-	"D": Color("#36a9d2")
+	"A": "RED",
+	"B": "BLUE_VIOLET",
+	"C": "FOREST_GREEN",
+	"D": "AQUA"
 }
 
 func configurer(valeurs: Array) -> void:
@@ -21,4 +21,4 @@ func configurer(valeurs: Array) -> void:
 		lettre.text = nom
 		lettre.visible = nom != ""
 		if nom != "":
-			carre.color = COULEURS.get(nom, Color("#7854b5"))
+			carre.color = Color(COULEURS.get(nom, "BLUE_VIOLET"))
