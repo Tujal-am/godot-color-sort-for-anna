@@ -1,0 +1,428 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/mini_plateau_classique.gd" id="1_script"]
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="case"]
+bg_color = Color(1, 0.98, 0.94, 0.18)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.7, 0.43, 0.29, 0.6)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="MiniPlateauClassique" type="Control"]
+custom_minimum_size = Vector2(192, 125)
+offset_right = 192.0
+offset_bottom = 125.0
+mouse_filter = 2
+script = ExtResource("1_script")
+
+[node name="Cell0" type="Panel" parent="."]
+offset_left = 6.0
+offset_top = 8.0
+offset_right = 39.0
+offset_bottom = 41.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell0"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell0"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell1" type="Panel" parent="."]
+offset_left = 43.0
+offset_top = 8.0
+offset_right = 76.0
+offset_bottom = 41.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell1"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell1"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell2" type="Panel" parent="."]
+offset_left = 80.0
+offset_top = 8.0
+offset_right = 113.0
+offset_bottom = 41.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell2"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell2"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell3" type="Panel" parent="."]
+offset_left = 117.0
+offset_top = 8.0
+offset_right = 150.0
+offset_bottom = 41.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell3"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell3"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell4" type="Panel" parent="."]
+offset_left = 154.0
+offset_top = 8.0
+offset_right = 187.0
+offset_bottom = 41.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell4"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell4"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell5" type="Panel" parent="."]
+offset_left = 6.0
+offset_top = 45.0
+offset_right = 39.0
+offset_bottom = 78.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell5"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell5"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell6" type="Panel" parent="."]
+offset_left = 43.0
+offset_top = 45.0
+offset_right = 76.0
+offset_bottom = 78.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell6"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell6"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell7" type="Panel" parent="."]
+offset_left = 80.0
+offset_top = 45.0
+offset_right = 113.0
+offset_bottom = 78.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell7"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell7"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell8" type="Panel" parent="."]
+offset_left = 117.0
+offset_top = 45.0
+offset_right = 150.0
+offset_bottom = 78.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell8"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell8"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell9" type="Panel" parent="."]
+offset_left = 154.0
+offset_top = 45.0
+offset_right = 187.0
+offset_bottom = 78.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell9"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell9"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell10" type="Panel" parent="."]
+offset_left = 6.0
+offset_top = 82.0
+offset_right = 39.0
+offset_bottom = 115.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell10"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell10"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell11" type="Panel" parent="."]
+offset_left = 43.0
+offset_top = 82.0
+offset_right = 76.0
+offset_bottom = 115.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell11"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell11"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell12" type="Panel" parent="."]
+offset_left = 80.0
+offset_top = 82.0
+offset_right = 113.0
+offset_bottom = 115.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell12"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell12"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell13" type="Panel" parent="."]
+offset_left = 117.0
+offset_top = 82.0
+offset_right = 150.0
+offset_bottom = 115.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell13"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell13"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Cell14" type="Panel" parent="."]
+offset_left = 154.0
+offset_top = 82.0
+offset_right = 187.0
+offset_bottom = 115.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Couleur" type="ColorRect" parent="Cell14"]
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 31.0
+offset_bottom = 31.0
+mouse_filter = 2
+color = Color(0.45, 0.2, 0.8, 1)
+
+[node name="Lettre" type="Label" parent="Cell14"]
+offset_right = 33.0
+offset_bottom = 33.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 22
+text = "B"
+horizontal_alignment = 1
+vertical_alignment = 1

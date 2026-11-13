@@ -9,6 +9,7 @@ signal deselection_pile
 
 # Bandeau du menu
 # Notifie la scene `campagne` que le bouton est pressé
+signal aide_demandee
 signal commencer_plateau
 
 func _process(_delta: float) -> void:
@@ -57,11 +58,15 @@ func show_fond():
 
 func show_menu():
 	$Fond.show()
+	if has_node("BoutonAide"):
+		$BoutonAide.show()
 	show_bandeau_menu()
 	hide_bandeau_en_jeu()
 
 func show_jeu():
 	$Fond.show()
+	if has_node("BoutonAide"):
+		$BoutonAide.show()
 	show_bandeau_en_jeu()
 	hide_bandeau_menu()
 
@@ -87,6 +92,8 @@ func show_bandeau_menu():
 
 func hide():
 	$Fond.hide()
+	if has_node("BoutonAide"):
+		$BoutonAide.hide()
 	hide_bandeau_en_jeu()
 	hide_bandeau_menu()
 
@@ -185,3 +192,6 @@ func _on_bouton_commencer_pressed() -> void:
 	else:
 		LogService.log_debug("[menu_plateau] emission signal : commencer_plateau")
 		commencer_plateau.emit()
+
+func _on_bouton_aide_pressed() -> void:
+	aide_demandee.emit()

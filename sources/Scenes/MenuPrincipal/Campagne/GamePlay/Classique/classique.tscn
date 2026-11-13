@@ -4,12 +4,16 @@
 [ext_resource type="PackedScene" uid="uid://cfqcdseqsuy1l" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/plateau.tscn" id="2_sr5dy"]
 [ext_resource type="PackedScene" uid="uid://bam876b5yqom6" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/menu_plateau_classique.tscn" id="3_7ilye"]
 
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/tutoriel_classique.tscn" id="4_tutoriel"]
+
 [node name="Classique" type="Node" unique_id=1128983127]
 script = ExtResource("1_ho47t")
 
 [node name="MenuPlateau" parent="." unique_id=561806520 instance=ExtResource("3_7ilye")]
 
 [node name="Plateau" parent="." unique_id=1226306511 instance=ExtResource("2_sr5dy")]
+
+[node name="TutorielClassique" parent="." instance=ExtResource("4_tutoriel")]
 
 [connection signal="abandon" from="MenuPlateau" to="." method="_on_menu_plateau_abandon"]
 [connection signal="commencer_plateau" from="MenuPlateau" to="." method="_on_menu_plateau_commencer_plateau"]
