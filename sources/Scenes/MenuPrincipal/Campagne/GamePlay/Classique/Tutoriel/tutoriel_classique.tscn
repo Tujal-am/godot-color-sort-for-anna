@@ -1,313 +1,535 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=22 format=3]
 
-[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/tutoriel_classique.gd" id="1_script"]
-[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/Pile/Jeton/jeton.tscn" id="2_jeton"]
-[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/mini_plateau_classique.tscn" id="3_plateau"]
-[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="4_bold"]
-[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="5_regular"]
-[ext_resource type="Texture2D" path="res://Art/UI/Gameplay/Classique/button_play.svg" id="6_play"]
-[ext_resource type="Texture2D" path="res://Art/UI/Gameplay/Classique/button_restart.png" id="7_restart"]
-[ext_resource type="Texture2D" path="res://Art/UI/Gameplay/Classique/button_pass.svg" id="8_pass"]
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/tutoriel_classique.gd" id="script"]
+
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/jeton_tutoriel.tscn" id="jeton"]
+
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/mini_plateau_classique.tscn" id="plateau"]
+
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-bold.otf" id="bold"]
+
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/TeXGyreAdventor/texgyreadventor-regular.otf" id="regular"]
+
+[ext_resource type="Texture2D" path="res://Art/UI/Gameplay/Classique/button_play.svg" id="play"]
+
+[ext_resource type="Texture2D" path="res://Art/UI/Gameplay/Classique/button_restart.png" id="restart"]
+
+[ext_resource type="Texture2D" path="res://Art/UI/Gameplay/Classique/button_pass.svg" id="pass"]
+
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/menu_plateau_classique.tscn" id="menu"]
 
 [sub_resource type="StyleBoxFlat" id="verre"]
 bg_color = Color(1, 0.965, 0.91, 0.7)
+border_color = Color(0.89, 0.48, 0.28, 0.85)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
 border_width_bottom = 2
-border_color = Color(0.96, 0.55, 0.32, 0.82)
-corner_radius_top_left = 25
-corner_radius_top_right = 25
-corner_radius_bottom_right = 25
-corner_radius_bottom_left = 25
-anti_aliasing = true
+corner_radius_top_left = 24
+corner_radius_top_right = 24
+corner_radius_bottom_right = 24
+corner_radius_bottom_left = 24
 
-[sub_resource type="StyleBoxFlat" id="colonne"]
-bg_color = Color(1, 1, 1, 0.16)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.7, 0.49, 0.39, 0.65)
-corner_radius_top_left = 14
-corner_radius_top_right = 14
-corner_radius_bottom_right = 14
-corner_radius_bottom_left = 14
+[sub_resource type="StyleBoxFlat" id="leger"]
+bg_color = Color(1, 0.965, 0.91, 0.38)
+border_color = Color(0.89, 0.48, 0.28, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="bouton"]
-bg_color = Color(0.73, 0.2, 0.12, 1)
-corner_radius_top_left = 18
-corner_radius_top_right = 18
-corner_radius_bottom_right = 18
-corner_radius_bottom_left = 18
+bg_color = Color(0.88, 0.24, 0.11, 1)
+border_color = Color(0.96, 0.38, 0.16, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
 
-[sub_resource type="StyleBoxFlat" id="bouton_bleu"]
-bg_color = Color(0.05, 0.42, 0.65, 1)
+[sub_resource type="StyleBoxFlat" id="bouton_hover"]
+bg_color = Color(0.95, 0.32, 0.14, 1)
+border_color = Color(1, 0.6, 0.32, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="StyleBoxFlat" id="bouton_pressed"]
+bg_color = Color(0.73, 0.17, 0.07, 1)
+border_color = Color(0.95, 0.38, 0.16, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="StyleBoxFlat" id="navigation"]
+bg_color = Color(1, 0.965, 0.91, 0.9)
+border_color = Color(0.89, 0.48, 0.28, 0.8)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
 corner_radius_top_left = 16
 corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 
+[sub_resource type="StyleBoxFlat" id="focus"]
+bg_color = Color(1, 1, 1, 0)
+border_color = Color(0.02, 0.25, 0.46, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 28
+corner_radius_top_right = 28
+corner_radius_bottom_right = 28
+corner_radius_bottom_left = 28
+
+[sub_resource type="FontVariation" id="final_font"]
+base_font = ExtResource("bold")
+variation_transform = Transform2D(1, 0, -0.16, 1, 0, 0)
+
+[sub_resource type="StyleBoxEmpty" id="empty"]
+
+[sub_resource type="StyleBoxFlat" id="case"]
+bg_color = Color(0.97, 0.83, 0.65, 0.85)
+border_color = Color(0.03, 0.28, 0.48, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_left = 2
+corner_radius_bottom_right = 2
+
+[sub_resource type="Gradient" id="transparent"]
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="case_reserve"]
+gradient = SubResource("transparent")
+width = 30
+height = 30
+
 [node name="TutorielClassique" type="CanvasLayer"]
 visible = false
 layer = 10
-script = ExtResource("1_script")
+script = ExtResource("script")
+
+[node name="ApercuMenu" parent="." instance=ExtResource("menu")]
+process_mode = 4
 
 [node name="Surface" type="Control" parent="."]
+mouse_filter = 0
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_right = 0.0
-offset_bottom = 0.0
-mouse_filter = 0
 
 [node name="Cartouche" type="Panel" parent="Surface"]
-offset_left = 26.0
-offset_top = 150.0
-offset_right = 454.0
-offset_bottom = 657.0
-mouse_filter = 0
+offset_left = 32.0
+offset_top = 168.0
+offset_right = 448.0
+offset_bottom = 275.0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("verre")
 
 [node name="Titre" type="Label" parent="Surface/Cartouche"]
-offset_left = 24.0
+offset_left = 15.0
 offset_top = 18.0
-offset_right = 404.0
-offset_bottom = 75.0
+offset_right = 401.0
+offset_bottom = 80.0
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.027, 0.18, 0.4, 1)
-theme_override_fonts/font = ExtResource("4_bold")
-theme_override_font_sizes/font_size = 26
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 24
 text = "Même couleur, même voyage !"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
+
 [node name="Description" type="Label" parent="Surface/Cartouche"]
-offset_left = 23.0
-offset_top = 74.0
-offset_right = 405.0
-offset_bottom = 139.0
+offset_left = 124.0
+offset_top = 49.0
+offset_right = 400.0
+offset_bottom = 112.0
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.025, 0.215, 0.41, 1)
-theme_override_fonts/font = ExtResource("5_regular")
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("regular")
 theme_override_font_sizes/font_size = 18
-text = "Deux jetons B au sommet voyagent ensemble."
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+autowrap_mode = 3
+
+
+[node name="Separateur" type="ColorRect" parent="Surface/Cartouche"]
+offset_left = 103.0
+offset_top = 20.0
+offset_right = 105.0
+offset_bottom = 99.0
+color = Color(0.89, 0.48, 0.28, 0.8)
+
+[node name="Demo" type="Control" parent="Surface/Cartouche"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 416.0
+offset_bottom = 400.0
+mouse_filter = 2
+
+
+[node name="Cadre" type="Panel" parent="Surface/Cartouche/Demo"]
+offset_left = 85.0
+offset_top = 120.0
+offset_right = 333.0
+offset_bottom = 370.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("leger")
+
+[node name="B1" type="Control" parent="Surface/Cartouche/Demo"]
+offset_left = 126.0
+offset_top = 166.0
+offset_right = 188.0
+offset_bottom = 228.0
+mouse_filter = 2
+scale = Vector2(1.9375, 1.9375)
+
+[node name="Jeton" parent="Surface/Cartouche/Demo/B1" instance=ExtResource("jeton")]
+
+
+[node name="B2" type="Control" parent="Surface/Cartouche/Demo"]
+offset_left = 126.0
+offset_top = 228.0
+offset_right = 188.0
+offset_bottom = 290.0
+mouse_filter = 2
+scale = Vector2(1.9375, 1.9375)
+
+[node name="Jeton" parent="Surface/Cartouche/Demo/B2" instance=ExtResource("jeton")]
+
+
+[node name="C" type="Control" parent="Surface/Cartouche/Demo"]
+offset_left = 126.0
+offset_top = 290.0
+offset_right = 188.0
+offset_bottom = 352.0
+mouse_filter = 2
+scale = Vector2(1.9375, 1.9375)
+
+[node name="Jeton" parent="Surface/Cartouche/Demo/C" instance=ExtResource("jeton")]
+
+
+[node name="B3" type="Control" parent="Surface/Cartouche/Demo"]
+offset_left = 224.0
+offset_top = 290.0
+offset_right = 286.0
+offset_bottom = 352.0
+mouse_filter = 2
+scale = Vector2(1.9375, 1.9375)
+
+[node name="Jeton" parent="Surface/Cartouche/Demo/B3" instance=ExtResource("jeton")]
+
+
+[node name="Commandes" type="Control" parent="Surface/Cartouche"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 416.0
+offset_bottom = 400.0
+mouse_filter = 2
+visible = false
+
+[node name="Jouer" type="TextureRect" parent="Surface/Cartouche/Commandes"]
+offset_left = 24.0
+offset_top = 30.0
+offset_right = 82.0
+offset_bottom = 88.0
+mouse_filter = 2
+visible = false
+texture = ExtResource("play")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Recommencer" type="TextureRect" parent="Surface/Cartouche/Commandes"]
+offset_left = 24.0
+offset_top = 30.0
+offset_right = 82.0
+offset_bottom = 88.0
+mouse_filter = 2
+visible = false
+texture = ExtResource("restart")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Passer" type="TextureRect" parent="Surface/Cartouche/Commandes"]
+offset_left = 24.0
+offset_top = 30.0
+offset_right = 82.0
+offset_bottom = 88.0
+mouse_filter = 2
+visible = false
+texture = ExtResource("pass")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlateauQuitte" type="Panel" parent="Surface/Cartouche/Commandes"]
+offset_left = 0.0
+offset_top = 176.0
+offset_right = 210.0
+offset_bottom = 356.0
+mouse_filter = 2
+visible = false
+theme_override_styles/panel = SubResource("leger")
+
+[node name="Legende" type="Label" parent="Surface/Cartouche/Commandes/PlateauQuitte"]
+offset_left = 8.0
+offset_top = 2.0
+offset_right = 202.0
+offset_bottom = 26.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 10
+text = "PLATEAU QUITTÉ"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Demo" type="Control" parent="Surface/Cartouche"]
-offset_right = 428.0
-offset_bottom = 430.0
+
+[node name="NouveauPlateau" type="Panel" parent="Surface/Cartouche/Commandes"]
+offset_left = 0.0
+offset_top = 176.0
+offset_right = 210.0
+offset_bottom = 356.0
 mouse_filter = 2
+visible = false
+theme_override_styles/panel = SubResource("leger")
 
-[node name="ColonneGauche" type="Panel" parent="Surface/Cartouche/Demo"]
-offset_left = 91.0
-offset_top = 180.0
-offset_right = 150.0
-offset_bottom = 357.0
+[node name="Legende" type="Label" parent="Surface/Cartouche/Commandes/NouveauPlateau"]
+offset_left = 8.0
+offset_top = 2.0
+offset_right = 202.0
+offset_bottom = 26.0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("colonne")
-
-[node name="ColonneDroite" type="Panel" parent="Surface/Cartouche/Demo"]
-offset_left = 249.0
-offset_top = 180.0
-offset_right = 308.0
-offset_bottom = 357.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("colonne")
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 10
+text = "NOUVEAU PLATEAU"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
 
 
-[node name="B1" type="Control" parent="Surface/Cartouche/Demo"]
-offset_left = 100.0
+[node name="PlateauUn" parent="Surface/Cartouche/Commandes" instance=ExtResource("plateau")]
+offset_left = 0.0
 offset_top = 190.0
-offset_right = 152.0
-offset_bottom = 242.0
-scale = Vector2(1.55, 1.55)
-mouse_filter = 2
+offset_right = 192.0
+offset_bottom = 315.0
 
-[node name="Jeton" parent="Surface/Cartouche/Demo/B1" instance=ExtResource("2_jeton")]
 
-[node name="B2" type="Control" parent="Surface/Cartouche/Demo"]
-offset_left = 100.0
-offset_top = 248.0
-offset_right = 152.0
-offset_bottom = 300.0
-scale = Vector2(1.55, 1.55)
-mouse_filter = 2
-
-[node name="Jeton" parent="Surface/Cartouche/Demo/B2" instance=ExtResource("2_jeton")]
-
-[node name="C" type="Control" parent="Surface/Cartouche/Demo"]
-offset_left = 100.0
-offset_top = 306.0
-offset_right = 152.0
-offset_bottom = 358.0
-scale = Vector2(1.55, 1.55)
-mouse_filter = 2
-
-[node name="Jeton" parent="Surface/Cartouche/Demo/C" instance=ExtResource("2_jeton")]
-
-[node name="B3" type="Control" parent="Surface/Cartouche/Demo"]
-offset_left = 258.0
-offset_top = 306.0
-offset_right = 310.0
-offset_bottom = 358.0
-scale = Vector2(1.55, 1.55)
-mouse_filter = 2
-
-[node name="Jeton" parent="Surface/Cartouche/Demo/B3" instance=ExtResource("2_jeton")]
-
-[node name="Commandes" type="Control" parent="Surface/Cartouche"]
-visible = false
-offset_right = 428.0
-offset_bottom = 417.0
-mouse_filter = 2
-
-[node name="Jouer" type="TextureRect" parent="Surface/Cartouche/Commandes"]
-offset_left = 171.0
-offset_top = 136.0
-offset_right = 259.0
-offset_bottom = 224.0
-texture = ExtResource("6_play")
-expand_mode = 1
-stretch_mode = 5
-mouse_filter = 2
-
-[node name="Recommencer" type="TextureRect" parent="Surface/Cartouche/Commandes"]
-visible = false
-offset_left = 171.0
-offset_top = 136.0
-offset_right = 259.0
-offset_bottom = 224.0
-texture = ExtResource("7_restart")
-expand_mode = 1
-stretch_mode = 5
-mouse_filter = 2
-
-[node name="Passer" type="TextureRect" parent="Surface/Cartouche/Commandes"]
-visible = false
-offset_left = 171.0
-offset_top = 136.0
-offset_right = 259.0
-offset_bottom = 224.0
-texture = ExtResource("8_pass")
-expand_mode = 1
-stretch_mode = 5
-mouse_filter = 2
-
-[node name="ChronoExemple" type="Label" parent="Surface/Cartouche/Commandes"]
-visible = false
-offset_left = 275.0
-offset_top = 159.0
-offset_right = 409.0
-offset_bottom = 196.0
-theme_override_colors/font_color = Color(0.03, 0.23, 0.49, 1)
-theme_override_fonts/font = ExtResource("4_bold")
-theme_override_font_sizes/font_size = 19
-text = "00:00.0"
-
-[node name="PlateauUn" parent="Surface/Cartouche/Commandes" instance=ExtResource("3_plateau")]
-offset_left = 115.0
-offset_top = 234.0
-offset_right = 307.0
-offset_bottom = 359.0
-
-[node name="PlateauDeux" parent="Surface/Cartouche/Commandes" instance=ExtResource("3_plateau")]
-visible = false
+[node name="PlateauDeux" parent="Surface/Cartouche/Commandes" instance=ExtResource("plateau")]
 offset_left = 220.0
-offset_top = 247.0
+offset_top = 190.0
 offset_right = 412.0
-offset_bottom = 372.0
+offset_bottom = 315.0
+visible = false
 
 [node name="Fleche" type="Label" parent="Surface/Cartouche/Commandes"]
-visible = false
 offset_left = 190.0
-offset_top = 272.0
+offset_top = 245.0
 offset_right = 230.0
-offset_bottom = 330.0
-theme_override_colors/font_color = Color(0.95, 0.5, 0.18, 1)
-theme_override_fonts/font = ExtResource("4_bold")
-theme_override_font_sizes/font_size = 30
+offset_bottom = 300.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 28
 text = "→"
 horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+visible = false
+theme_override_colors/font_color = Color(0.94, 0.43, 0.16, 1)
 
 [node name="Actions" type="Control" parent="Surface/Cartouche"]
-visible = false
-offset_right = 428.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 416.0
 offset_bottom = 507.0
+mouse_filter = 2
+visible = false
 
 [node name="PasserIntro" type="Button" parent="Surface/Cartouche/Actions"]
-offset_left = 23.0
-offset_top = 429.0
-offset_right = 205.0
-offset_bottom = 477.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("5_regular")
-theme_override_font_sizes/font_size = 17
-theme_override_styles/normal = SubResource("bouton_bleu")
+offset_left = 0.0
+offset_top = 456.0
+offset_right = 180.0
+offset_bottom = 500.0
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_colors/font_hover_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_colors/font_pressed_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_colors/font_focus_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("navigation")
+theme_override_styles/hover = SubResource("verre")
+theme_override_styles/pressed = SubResource("leger")
+theme_override_styles/focus = SubResource("focus")
 text = "Terminer l'aide"
 
 [node name="Suivant" type="Button" parent="Surface/Cartouche/Actions"]
-offset_left = 225.0
-offset_top = 429.0
-offset_right = 407.0
-offset_bottom = 477.0
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("4_bold")
-theme_override_font_sizes/font_size = 18
-theme_override_styles/normal = SubResource("bouton")
+offset_left = 236.0
+offset_top = 456.0
+offset_right = 416.0
+offset_bottom = 500.0
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_colors/font_hover_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_colors/font_pressed_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_colors/font_focus_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("navigation")
+theme_override_styles/hover = SubResource("verre")
+theme_override_styles/pressed = SubResource("leger")
+theme_override_styles/focus = SubResource("focus")
 text = "Suivant"
 
 [node name="Final" type="Control" parent="Surface/Cartouche"]
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 416.0
+offset_bottom = 383.0
+mouse_filter = 2
 visible = false
-offset_right = 428.0
-offset_bottom = 507.0
 
 [node name="TitreFinal" type="Label" parent="Surface/Cartouche/Final"]
-offset_left = 20.0
-offset_top = 95.0
-offset_right = 408.0
-offset_bottom = 171.0
-theme_override_colors/font_color = Color(0.03, 0.22, 0.47, 1)
-theme_override_fonts/font = ExtResource("4_bold")
+offset_left = 15.0
+offset_top = 34.0
+offset_right = 401.0
+offset_bottom = 88.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = SubResource("final_font")
 theme_override_font_sizes/font_size = 36
 text = "À toi de jouer !"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
+
+
+[node name="Soulignement" type="Panel" parent="Surface/Cartouche/Final"]
+offset_left = 125.0
+offset_top = 83.0
+offset_right = 303.0
+offset_bottom = 85.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("leger")
 
 [node name="TexteFinal" type="Label" parent="Surface/Cartouche/Final"]
-offset_left = 25.0
-offset_top = 173.0
-offset_right = 403.0
-offset_bottom = 259.0
-theme_override_colors/font_color = Color(0.03, 0.22, 0.47, 1)
-theme_override_fonts/font = ExtResource("5_regular")
-theme_override_font_sizes/font_size = 20
+offset_left = 34.0
+offset_top = 102.0
+offset_right = 382.0
+offset_bottom = 151.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 18
 text = "C'est parti ! Lance la partie\net range les couleurs !"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
+
 [node name="NePlusAfficher" type="CheckBox" parent="Surface/Cartouche/Final"]
-offset_left = 48.0
-offset_top = 283.0
-offset_right = 400.0
-offset_bottom = 336.0
-theme_override_colors/font_color = Color(0.03, 0.22, 0.47, 1)
-theme_override_fonts/font = ExtResource("5_regular")
+offset_left = 34.0
+offset_top = 174.0
+offset_right = 404.0
+offset_bottom = 210.0
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("regular")
 theme_override_font_sizes/font_size = 17
+theme_override_styles/normal = SubResource("empty")
+theme_override_styles/hover = SubResource("empty")
+theme_override_styles/pressed = SubResource("empty")
+theme_override_styles/focus = SubResource("focus")
+theme_override_icons/checked = SubResource("case_reserve")
+theme_override_icons/unchecked = SubResource("case_reserve")
+theme_override_icons/checked_disabled = SubResource("case_reserve")
+theme_override_icons/unchecked_disabled = SubResource("case_reserve")
+theme_override_constants/h_separation = 30
 text = "Ne plus afficher cette introduction"
 button_pressed = false
 
+[node name="CaseVide" type="Panel" parent="Surface/Cartouche/Final"]
+offset_left = 34.0
+offset_top = 179.0
+offset_right = 64.0
+offset_bottom = 209.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("case")
+
+[node name="Coche" type="Label" parent="Surface/Cartouche/Final"]
+offset_left = 34.0
+offset_top = 177.0
+offset_right = 64.0
+offset_bottom = 210.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 24
+text = "✓"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+visible = false
+
 [node name="Compris" type="Button" parent="Surface/Cartouche/Final"]
-offset_left = 103.0
-offset_top = 379.0
-offset_right = 325.0
-offset_bottom = 448.0
+offset_left = 98.0
+offset_top = 290.0
+offset_right = 318.0
+offset_bottom = 350.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("4_bold")
-theme_override_font_sizes/font_size = 28
+theme_override_fonts/font = ExtResource("bold")
+theme_override_font_sizes/font_size = 23
 theme_override_styles/normal = SubResource("bouton")
+theme_override_styles/hover = SubResource("bouton_hover")
+theme_override_styles/pressed = SubResource("bouton_pressed")
+theme_override_styles/focus = SubResource("focus")
 text = "Compris"
+
+[node name="Mention" type="Panel" parent="Surface"]
+offset_left = 50.0
+offset_top = 653.0
+offset_right = 430.0
+offset_bottom = 691.0
+mouse_filter = 2
+visible = false
+theme_override_styles/panel = SubResource("navigation")
+
+[node name="Texte" type="Label" parent="Surface/Mention"]
+offset_left = 8.0
+offset_top = 0.0
+offset_right = 372.0
+offset_bottom = 38.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
+theme_override_fonts/font = ExtResource("regular")
+theme_override_font_sizes/font_size = 14
+text = "Démonstration • aucune action réelle"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
