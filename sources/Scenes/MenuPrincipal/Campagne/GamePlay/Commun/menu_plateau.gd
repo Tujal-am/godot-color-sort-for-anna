@@ -11,6 +11,44 @@ signal deselection_pile
 # Notifie la scene `campagne` que le bouton est pressé
 signal commencer_plateau
 
+@export var scene_aide: PackedScene
+@export var mode_aide := ""
+
+var _aide: CanvasLayer
+var _aides_vues := {}
+
+
+func _ready() -> void:
+	if scene_aide == null:
+		return
+	_aide = scene_aide.instantiate()
+	add_child(_aide)
+	_aide.fermee.connect(_fermer_aide)
+	$BandeauMenu/BoutonAide.pressed.connect(_ouvrir_aide)
+
+
+func _ouvrir_aide() -> void:
+	_aide.ouvrir(SauvegardeBddJoueursService.lire_preference_aide(mode_aide))
+	$BandeauMenu.hide()
+
+
+func _fermer_aide() -> void:
+	var choix: String = _aide.choix()
+	SauvegardeBddJoueursService.enregistrer_preference_aide(mode_aide, choix)
+	_aides_vues[SauvegardeBddJoueursService.fichier_sauvegarde] = true
+	_aide.hide()
+	$BandeauMenu.show()
+	$BandeauMenu/BoutonAide.grab_focus()
+
+
+func _afficher_aide_si_necessaire() -> void:
+	if _aide == null:
+		return
+	var joueur = SauvegardeBddJoueursService.fichier_sauvegarde
+	var preference := SauvegardeBddJoueursService.lire_preference_aide(mode_aide)
+	if preference == "chaque_entree" or (preference.is_empty() and not _aides_vues.has(joueur)):
+		_ouvrir_aide()
+
 func _process(_delta: float) -> void:
 	# Afficher le temps
 	_maj_chrono()
@@ -59,6 +97,7 @@ func show_menu():
 	$Fond.show()
 	show_bandeau_menu()
 	hide_bandeau_en_jeu()
+	_afficher_aide_si_necessaire()
 
 func show_jeu():
 	$Fond.show()
@@ -101,6 +140,8 @@ func hide_bandeau_en_jeu():
 	$BandeauEnJeu/BoutonPasser.hide()
 
 func hide_bandeau_menu():
+	if _aide != null:
+		_aide.hide()
 	$BandeauMenu.hide()
 	$BandeauMenu/Fond.hide()
 	$BandeauMenu/Joueur.hide()

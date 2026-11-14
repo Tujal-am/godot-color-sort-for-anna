@@ -12,8 +12,12 @@
 [ext_resource type="Texture2D" uid="uid://ct45vk1sy7j4j" path="res://Art/UI/Gameplay/QuiPerdGagne/button_play.svg" id="8_m5lak"]
 [ext_resource type="Texture2D" uid="uid://b6bel5tao173w" path="res://Art/UI/Gameplay/QuiPerdGagne/button_stats.svg" id="9_uo1c6"]
 
+[ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/Aides/aide_qpg.tscn" id="aide"]
+
 [node name="MenuPlateauQuiPerdGagne" type="Node" unique_id=561806520]
 script = ExtResource("1_aq6n0")
+scene_aide = ExtResource("aide")
+mode_aide = "qpg"
 
 [node name="Fond" type="TextureRect" parent="." unique_id=882050815]
 offset_right = 480.0
@@ -209,6 +213,16 @@ offset_bottom = 93.0
 texture_normal = ExtResource("9_uo1c6")
 ignore_texture_size = true
 stretch_mode = 5
+
+[node name="BoutonAide" type="Button" parent="BandeauMenu"]
+layout_mode = 0
+offset_left = 421.0
+offset_top = 105.0
+offset_right = 466.0
+offset_bottom = 150.0
+tooltip_text = "Afficher l’aide"
+theme_override_font_sizes/font_size = 22
+text = "?"
 
 [connection signal="gui_input" from="Fond" to="." method="_on_fond_gui_input"]
 [connection signal="pressed" from="BandeauEnJeu/BoutonRecommencer" to="." method="_on_bouton_recommencer_pressed"]

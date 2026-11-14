@@ -234,6 +234,22 @@ func lire_sauvegarde() -> Dictionary:
 # "nom": "nom joueur"
 ###############################################
 
+func lire_preference_aide(mode: String) -> String:
+	var preferences: Dictionary = lire_sauvegarde().get("preferences_aide", {})
+	return preferences.get(mode, "")
+
+
+func enregistrer_preference_aide(mode: String, choix: String) -> void:
+	if not le_joueur_existe() or (choix != "chaque_entree" and choix != "premiere_fois"):
+		return
+	if lire_preference_aide(mode) == choix:
+		return
+	var preferences: Dictionary = _sauvegarde_joueur.get("preferences_aide", {})
+	preferences[mode] = choix
+	_sauvegarde_joueur["preferences_aide"] = preferences
+	_enregistrer_sauvegarde_joueur()
+
+
 func lire_nom_joueur() -> String:
 	if le_joueur_existe():
 		return lire_sauvegarde().get('nom','')
