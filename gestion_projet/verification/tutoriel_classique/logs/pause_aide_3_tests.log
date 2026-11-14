@@ -6,16 +6,16 @@ SCRIPT ERROR: Trying to assign value of type 'Nil' to a variable of type 'bool'.
               [0] _static_init (res://addons/gut/gut_loader.gd:35)
               [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
               [2] _init (res://addons/gut/gut_cmdln.gd:23)
-[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas
 [DEBUG] Liste des joueurs sauvegardée
 [DEBUG] Création du fichier de la liste des joueurs initial
 [DEBUG] Progression sauvegardée
-[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas
 [DEBUG] Scores sauvegardés
 [DEBUG] Création du fichier de score initial
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
 [DEBUG] configuration.gd : _enregistrer_la_configuration
 [DEBUG] Configuration sauvegardée
 [DEBUG] configuration.gd : _enregistrer_la_configuration
@@ -85,4 +85,3 @@ Time              0.619s
 
 Ran Tests matching "aide"
 ---- All tests passed! ----
-

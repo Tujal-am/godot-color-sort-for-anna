@@ -24,10 +24,10 @@ ERROR: Couldn't find the given section "preset.1" and key "runnable", and no def
 ERROR: Couldn't find the given section "preset.2" and key "runnable", and no default was given.
    at: get_value (core/io/config_file.cpp:59)
 [   0% ] update_scripts_classes | Started Registering global classes... (4 steps)
-[   0% ] update_scripts_classes | 
-[  20% ] update_scripts_classes | 
-[  40% ] update_scripts_classes | 
-[  60% ] update_scripts_classes | 
+[   0% ] update_scripts_classes |
+[  20% ] update_scripts_classes |
+[  40% ] update_scripts_classes |
+[  60% ] update_scripts_classes |
 [ DONE ] update_scripts_classes
 
 [   0% ] _update_scan_actions | Started Scanning actions... (6 steps)

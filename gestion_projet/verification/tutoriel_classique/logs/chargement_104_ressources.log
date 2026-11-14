@@ -1,15 +1,15 @@
 Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
 
-[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas
 [DEBUG] Liste des joueurs sauvegardée
 [DEBUG] Création du fichier de la liste des joueurs initial
 [DEBUG] Progression sauvegardée
-[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas
 [DEBUG] Scores sauvegardés
 [DEBUG] Création du fichier de score initial
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
 [DEBUG] configuration.gd : _enregistrer_la_configuration
 [DEBUG] Configuration sauvegardée
 [DEBUG] configuration.gd : _enregistrer_la_configuration

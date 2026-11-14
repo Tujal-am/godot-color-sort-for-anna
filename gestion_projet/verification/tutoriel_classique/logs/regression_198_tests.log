@@ -6,16 +6,16 @@ SCRIPT ERROR: Trying to assign value of type 'Nil' to a variable of type 'bool'.
               [0] _static_init (res://addons/gut/gut_loader.gd:35)
               [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
               [2] _init (res://addons/gut/gut_cmdln.gd:23)
-[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas
 [DEBUG] Liste des joueurs sauvegardée
 [DEBUG] Création du fichier de la liste des joueurs initial
 [DEBUG] Progression sauvegardée
-[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas
 [DEBUG] Scores sauvegardés
 [DEBUG] Création du fichier de score initial
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
-[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas 
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
 [DEBUG] configuration.gd : _enregistrer_la_configuration
 [DEBUG] Configuration sauvegardée
 [DEBUG] configuration.gd : _enregistrer_la_configuration
@@ -79,7 +79,7 @@ res://tests/test_classique.gd
 * test_gameplay_to_enum_valeurs_enum_distinctes
 * test_gameplay_to_enum_inconnu_retourne_classique
 [ERROR] Gameplay inconnu : INCONNU
-[ERROR] Gameplay inconnu : 
+[ERROR] Gameplay inconnu :
 * test_gameplay_to_enum_est_sensible_a_la_casse
 [ERROR] Gameplay inconnu : qui_perd_gagne
 21/21 passed.
@@ -494,7 +494,7 @@ res://tests/test_bdd_joueurs_enregistrement_campagne.gd
 [DEBUG] 	nombre_de_parties={  }
 [DEBUG] 	len(enregistrement_campagne)=1
 [DEBUG] Progression sauvegardée
-    [Failed]:  [1794615043.08912] expected to equal [1794615043.08912]:  
+    [Failed]:  [1794615043.08912] expected to equal [1794615043.08912]:
       at line 529
 * test_terminer_campagne_ne_touche_que_la_derniere_campagne
 [DEBUG] Progression sauvegardée
@@ -695,8 +695,8 @@ res://tests/test_bdd_joueurs_enregistrement_campagne.gd
 [DEBUG] 	len(enregistrement_campagne)=1
 [ERROR] Bdd joueurs : campagne inconnue - Aucune insertion enregistrement du niveau niveau_2
 [ERROR] Bdd joueurs : campagne  - Aucune insertion enregistrement du niveau niveau_2
-[ERROR] Bdd joueurs : campagne campagne_a - Aucune insertion enregistrement du niveau 
-[ERROR] Bdd joueurs : campagne campagne_a - Aucune insertion enregistrement du niveau 
+[ERROR] Bdd joueurs : campagne campagne_a - Aucune insertion enregistrement du niveau
+[ERROR] Bdd joueurs : campagne campagne_a - Aucune insertion enregistrement du niveau
 * test_inserer_niveau_sans_joueur_retourne_false
 [DEBUG] Progression sauvegardée
 [ERROR] Bdd joueurs : campagne campagne_a - Aucune insertion enregistrement du niveau niveau_1
@@ -1076,7 +1076,7 @@ res://tests/test_bdd_joueurs_enregistrement_campagne.gd
 [DEBUG] 	nombre_de_parties={  }
 [DEBUG] 	len(enregistrement_campagne)=1
 [DEBUG] Progression sauvegardée
-    [Failed]:  [true] expected to equal [false]:  
+    [Failed]:  [true] expected to equal [false]:
       at line 1196
 * test_scenario_campagne_complete_du_premier_au_dernier_niveau
 [DEBUG] Progression sauvegardée
@@ -1366,10 +1366,10 @@ res://tests/test_campagne.gd
 
 res://tests/test_bdd_joueurs_enregistrement_campagne.gd
 - test_terminer_campagne_renseigne_la_date_de_fin_une_seule_fois
-    [Failed]:  [1794615043.08912] expected to equal [1794615043.08912]:  
+    [Failed]:  [1794615043.08912] expected to equal [1794615043.08912]:
           at line 529
 - test_coups_joues_sur_un_plateau_sans_cle_coups_joues_conserve_le_coup
-    [Failed]:  [true] expected to equal [false]:  
+    [Failed]:  [true] expected to equal [false]:
           at line 1196
 
 Totals
@@ -1383,4 +1383,3 @@ Time              2.162s
 
 
 ---- 2 failing tests ----
-
