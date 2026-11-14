@@ -1,3 +1,5 @@
+> **STOP VALIDATION GRAPHIQUE — LOT NON APPROUVÉ.** Ces captures documentent le premier passage fonctionnel, pas une conformité aux masters. Consulter le [contrat canonique](../../../../CONTRACT_MASTER_VERS_GODOT.md) et la [matrice FAIL](../../../../MATRICE_CONFORMITE_CLASSIQUE.md). Aucune nouvelle planche ne doit être publiée avant la porte de contrôle.
+
 # Tutoriel Classique RC20 — exécution et contrôle du 14 novembre 2026
 
 [Planche des quatre captures](PLANCHE_GODOT.png) · [ZIP des captures et de la vidéo](RTC_CLASSIQUE_CAPTURES_ET_VIDEO.zip) · [Vidéo Godot, 22 secondes](CLASSIQUE_GODOT.mp4)
