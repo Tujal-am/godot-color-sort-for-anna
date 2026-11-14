@@ -18,6 +18,33 @@
 
 [ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/menu_plateau_classique.tscn" id="menu"]
 
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/DejaVu/DejaVuSans-BoldOblique.ttf" id="final_oblique"]
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/DejaVu/DejaVuSans.ttf" id="final_regular"]
+[ext_resource type="FontFile" path="res://Art/UI/Fonts/DejaVu/DejaVuSans-Bold.ttf" id="final_bold"]
+[ext_resource type="Shader" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/forme_reference.gdshader" id="forme_final"]
+
+
+[sub_resource type="StyleBoxFlat" id="focus_reference"]
+bg_color = Color(1,1,1,0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.95,0.98,1,0.9)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_left = 18
+corner_radius_bottom_right = 18
+shadow_color = Color(0.2,0.55,0.75,0.22)
+shadow_size = 4
+
+[sub_resource type="ShaderMaterial" id="gradient_compris"]
+shader = ExtResource("forme_final")
+shader_parameter/dimensions = Vector2(220, 62)
+shader_parameter/rayon = 30.0
+shader_parameter/haut = Color(0.937255, 0.396078, 0.219608, 1)
+shader_parameter/bas = Color(0.733333, 0.247059, 0.141176, 1)
+
 [sub_resource type="StyleBoxFlat" id="verre"]
 bg_color = Color(1, 0.965, 0.91, 0.7)
 border_color = Color(0.89, 0.48, 0.28, 0.85)
@@ -109,8 +136,8 @@ variation_transform = Transform2D(1, 0, -0.16, 1, 0, 0)
 [sub_resource type="StyleBoxEmpty" id="empty"]
 
 [sub_resource type="StyleBoxFlat" id="case"]
-bg_color = Color(0.97, 0.83, 0.65, 0.85)
-border_color = Color(0.03, 0.28, 0.48, 1)
+bg_color = Color(1, 1, 1, 0.215686)
+border_color = Color(0.125490, 0.337255, 0.529412, 0.941176)
 border_width_left = 2
 border_width_top = 2
 border_width_right = 2
@@ -141,6 +168,14 @@ mouse_filter = 0
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="AccentCommande" type="Panel" parent="Surface"]
+offset_left = 303.0
+offset_top = 42.0
+offset_right = 377.0
+offset_bottom = 115.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("focus_reference")
 
 [node name="Cartouche" type="Panel" parent="Surface"]
 offset_left = 32.0
@@ -366,48 +401,6 @@ autowrap_mode = 3
 visible = false
 theme_override_colors/font_color = Color(0.94, 0.43, 0.16, 1)
 
-[node name="Actions" type="Control" parent="Surface/Cartouche"]
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 416.0
-offset_bottom = 507.0
-mouse_filter = 2
-visible = false
-
-[node name="PasserIntro" type="Button" parent="Surface/Cartouche/Actions"]
-offset_left = 0.0
-offset_top = 456.0
-offset_right = 180.0
-offset_bottom = 500.0
-theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_colors/font_hover_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_colors/font_pressed_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_colors/font_focus_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_fonts/font = ExtResource("regular")
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("navigation")
-theme_override_styles/hover = SubResource("verre")
-theme_override_styles/pressed = SubResource("leger")
-theme_override_styles/focus = SubResource("focus")
-text = "Terminer l'aide"
-
-[node name="Suivant" type="Button" parent="Surface/Cartouche/Actions"]
-offset_left = 236.0
-offset_top = 456.0
-offset_right = 416.0
-offset_bottom = 500.0
-theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_colors/font_hover_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_colors/font_pressed_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_colors/font_focus_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_fonts/font = ExtResource("regular")
-theme_override_font_sizes/font_size = 16
-theme_override_styles/normal = SubResource("navigation")
-theme_override_styles/hover = SubResource("verre")
-theme_override_styles/pressed = SubResource("leger")
-theme_override_styles/focus = SubResource("focus")
-text = "Suivant"
-
 [node name="Final" type="Control" parent="Surface/Cartouche"]
 offset_left = 0.0
 offset_top = 0.0
@@ -423,7 +416,7 @@ offset_right = 401.0
 offset_bottom = 88.0
 mouse_filter = 2
 theme_override_colors/font_color = Color(0.03, 0.25, 0.46, 1)
-theme_override_fonts/font = SubResource("final_font")
+theme_override_fonts/font = ExtResource("final_oblique")
 theme_override_font_sizes/font_size = 36
 text = "À toi de jouer !"
 horizontal_alignment = 1
@@ -431,13 +424,11 @@ vertical_alignment = 1
 autowrap_mode = 3
 
 
-[node name="Soulignement" type="Panel" parent="Surface/Cartouche/Final"]
-offset_left = 125.0
-offset_top = 83.0
-offset_right = 303.0
-offset_bottom = 85.0
-mouse_filter = 2
-theme_override_styles/panel = SubResource("leger")
+[node name="Soulignement" type="Line2D" parent="Surface/Cartouche/Final"]
+points = PackedVector2Array(129, 88, 150, 83, 185, 80.5, 225, 80.5, 265, 83, 303, 88)
+width = 1.5
+default_color = Color(0.882353, 0.588235, 0.188235, 0.529412)
+antialiased = true
 
 [node name="TexteFinal" type="Label" parent="Surface/Cartouche/Final"]
 offset_left = 34.0
@@ -497,6 +488,15 @@ vertical_alignment = 1
 autowrap_mode = 3
 visible = false
 
+[node name="FondCompris" type="Panel" parent="Surface/Cartouche/Final"]
+offset_left = 100.0
+offset_top = 291.0
+offset_right = 320.0
+offset_bottom = 353.0
+mouse_filter = 2
+material = SubResource("gradient_compris")
+theme_override_styles/panel = SubResource("bouton")
+
 [node name="Compris" type="Button" parent="Surface/Cartouche/Final"]
 offset_left = 98.0
 offset_top = 290.0
@@ -505,9 +505,9 @@ offset_bottom = 350.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("bold")
 theme_override_font_sizes/font_size = 23
-theme_override_styles/normal = SubResource("bouton")
-theme_override_styles/hover = SubResource("bouton_hover")
-theme_override_styles/pressed = SubResource("bouton_pressed")
+theme_override_styles/normal = SubResource("empty")
+theme_override_styles/hover = SubResource("empty")
+theme_override_styles/pressed = SubResource("empty")
 theme_override_styles/focus = SubResource("focus")
 text = "Compris"
 

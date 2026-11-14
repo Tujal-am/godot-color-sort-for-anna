@@ -40,7 +40,7 @@ Référence de méthode : [commentaire #6868365324](https://github.com/Tujal-am/
 ## Séparation des validations
 
 - **Technique antérieure** : Godot réellement exécuté, chargement de 104 ressources, tests d'indépendance, préférences par joueur et chrono. Ces preuves restent valables pour ce qu'elles testent, pas comme approbation des captures.
-- **Contrôle actuel** : contrat et matrice établis directement depuis les fichiers d'étalon, cotes et RGBA documentés ; gros boutons rejetés à retirer. Aucun nouveau lot d'images présenté comme conforme.
+- **Contrôle actuel** : contrat et matrice établis directement depuis les fichiers d'étalon, cotes et RGBA documentés ; suppression des gros boutons rejetés dans la correction locale. Aucun nouveau lot d'images présenté comme conforme.
 - **Cycle de correction à effectuer** : une passe fondée sur ce contrat, QA interne jumelée, mise à jour de chaque cellule par preuve. Les polices, styles de jetons et dégradés ne doivent pas être déclarés identiques par simple proximité de rectangle.
 - **Publication finale bloquée** tant qu'une cellule est KO. Ne pas annoncer une nouvelle planche « à valider » pour transférer ces vérifications à l'utilisatrice.
 
@@ -51,3 +51,30 @@ Le contrat canonique `CONTRACT_MASTER_VERS_GODOT.md` et cette matrice sont publi
 Les libellés rejetés n’ont aucun remplacement autorisé. Le bouton final Compris reste le seul bouton graphique validé. La présence d’un passage automatique local n’est pas une validation d’ergonomie.
 
 Aucun nouveau PNG de rendu, aucune nouvelle planche et aucun ZIP d’images ne sont publiés avec ce contrat initial. Les anciens fichiers accessibles sur GitHub sont des **archives techniques non approuvées**.
+
+## État de la reconstruction après publication du contrat
+
+Les correctifs locaux portent sur les cotes mesurées, les vrais enfants instanciés de `jeton.tscn`, les positions des bandeaux natifs, l’alpha du calque final, les grilles et les interlignes. Les gros boutons sont supprimés sans libellé de remplacement. Une correction de l’ordre de calcul `texte → style → rectangle` empêche Godot de conserver la hauteur minimale du titre précédent.
+
+La divergence RECOMMENCER impose désormais les cotes du master : encart y151–267, titre y176–193. Les essais calculés antérieurement depuis son aperçu mobile ne sont **pas** des preuves de conformité au master. Les captures de reconstruction restent locales ; aucune nouvelle planche n’est publiée dans cet état.
+
+L’extraction expérimentale d’un médaillon depuis le master a été écartée : la dernière consigne n’autorise que les découpages d’effets non reconstructibles. Aucun avatar ou HUD aplati n’est intégré à cette reprise.
+
+**Le statut graphique demeure FAIL, pas “validé sous réserve”.** La prochaine matrice après correction doit fermer chaque écart sur une comparaison réelle au master, y compris traits/reflets, polices et états des icônes. Les durées automatiques 4/4/6 s restent une proposition de fonctionnement explicitement non validée.
+
+## Checkpoint numérique après reconstruction — lot toujours bloqué
+
+Les [mesures du checkpoint](gestion_projet/verification/tutoriel_classique/mesures/checkpoint_apres_contrat.json) proviennent de Godot 4.6.3 réellement exécuté en 480×720 et de comparaisons internes côte à côte aux **masters normalisés**, après publication du contrat initial. Les boîtes d’encre atteignent : titres 1/1/2/3 px d’écart maximal et corps 6/1/4/5 px pour JOUER/RECOMMENCER/PASSER/FINAL. La case et l’encre de Compris sont à 2 px. Cela ferme certains écarts de position, **pas la conformité des formes, reflets ou polices**.
+
+| Écran | Géométrie des blocs/encre mesurés | Header | Icônes / états | Texte / typo | Transparence / reflets | Jetons | Contrôles | Décision |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| JOUER | PASS sur mesures listées ; pas un PASS de tous les détails | FAIL, détails/states non fermés | FAIL, correspondance complète non démontrée | Copie PASS ; typo FAIL | Alpha effectif ; reflets FAIL | PASS, absents | PASS suppression ; durée proposée non validée | **FAIL** |
+| RECOMMENCER | Encart/titre/corps recadrés sur le master ; séparateur corrigé ensuite, à revérifier | FAIL | FAIL | Copie PASS ; typo FAIL | FAIL reflets/traits | Instance réelle PASS ; style fin FAIL | PASS suppression ; durée proposée non validée | **FAIL** |
+| PASSER | PASS sur titres/corps/grilles mesurés ; flèche corrigée ensuite, à revérifier | FAIL | FAIL | Copie PASS ; typo FAIL | FAIL reflets/traits | Instance réelle PASS ; style fin FAIL | PASS suppression ; durée proposée non validée | **FAIL** |
+| FINAL | PASS sur boîtes listées, case et Compris | FAIL | FAIL détails du bouton | Copie PASS ; identité/forme de police FAIL | Fond alpha exact 128/255 PASS ; reflets FAIL | PASS, absents | Compris/case fonctionnels PASS | **FAIL** |
+
+Les captures restent dans l’espace de QA ; **aucun nouveau fichier de rendu ou planche comparative n’est publié**. Aucun master n’est intégré comme interface aplatie. Les essais de médaillon extrait ont été écartés.
+
+Contrôles réellement exécutés sur ce checkpoint : [44 contrôles fonctionnels réussis](gestion_projet/verification/tutoriel_classique/mesures/logs/fonctionnel_44_controles.log) et [62 tests Classique/MenuPlateau/Campagne réussis](gestion_projet/verification/tutoriel_classique/mesures/logs/gut_62_tests.log). GUT signale aussi une ressource encore utilisée à l’arrêt : le journal conserve ce message, sans le masquer. Ces résultats ne rendent aucune cellule graphique PASS.
+
+La mise au propre s’arrête à cette porte de contrôle : pas de nouveau lot esthétique présenté à l’utilisatrice tant que les FAIL restants ne sont pas résolus par preuve.

@@ -1,56 +1,7 @@
-[gd_scene format=3]
+[gd_scene load_steps=2 format=3]
 
-; Graphismes et script du jeton RC20 inchangés ; racine Control locale pour transmettre
-; position, échelle et visibilité dans le tutoriel sans modifier la scène du vrai jeu.
-
-[ext_resource type="Script" uid="uid://cvqaotky807ri" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Plateau/Pile/Jeton/jeton.gd" id="1_lccag"]
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Classique/Tutoriel/jeton_illustratif.gd" id="script"]
 
 [node name="Jeton" type="Control"]
 mouse_filter = 2
-script = ExtResource("1_lccag")
-
-[node name="Selection" type="ColorRect" parent="."]
-mouse_filter = 2
-editor_description = "CRIMSON"
-visible = false
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 36.0
-offset_bottom = 36.0
-color = Color(0.862745, 0.0784314, 0.235294, 1)
-
-[node name="SoudureHaute" type="ColorRect" parent="."]
-mouse_filter = 2
-editor_description = "CRIMSON"
-visible = false
-offset_top = -2.0
-offset_right = 32.0
-offset_bottom = 2.0
-color = Color(0.862745, 0.0784314, 0.235294, 1)
-
-[node name="Carre" type="ColorRect" parent="."]
-mouse_filter = 2
-editor_description = "CRIMSON"
-offset_right = 32.0
-offset_bottom = 32.0
-color = Color(0.862745, 0.0784314, 0.235294, 1)
-
-[node name="SoudureBasse" type="ColorRect" parent="."]
-mouse_filter = 2
-editor_description = "CRIMSON"
-visible = false
-offset_top = 32.0
-offset_right = 32.0
-offset_bottom = 36.0
-color = Color(0.862745, 0.0784314, 0.235294, 1)
-
-[node name="Nom" type="Label" parent="."]
-mouse_filter = 2
-offset_top = -16.0
-offset_right = 32.0
-offset_bottom = 48.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 30
-text = "A"
-horizontal_alignment = 1
-vertical_alignment = 1
+script = ExtResource("script")

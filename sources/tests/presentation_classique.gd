@@ -32,10 +32,8 @@ func filmer() -> void:
 		quit(1)
 		return
 	print("PARCOURS : accueil → joueur → campagne → introduction Classique")
-	await attendre(9.0)
-	for phase in [4, 5, 6]:
-		await cliquer(intro.get_node("Surface/Cartouche/Actions/Suivant"))
-		await attendre(3.0 if phase != 6 else 4.0)
+	# 6,1 s démonstration puis pages automatiques 4 + 4 + 6 s.
+	await attendre(23.0)
 	await cliquer(intro.get_node("Surface/Cartouche/Final/Compris"))
 	await attendre(1.0)
 	if intro.visible or not campagne.get_node("Classique/MenuPlateau/BandeauMenu").visible:

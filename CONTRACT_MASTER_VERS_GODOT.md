@@ -41,7 +41,7 @@ Préfixe de nœud `T = Classique/TutorielClassique`. `C = T/Surface/Cartouche`. 
 | RECOMMENCER / icône | `[58,181,114,237)` | `C/Commandes/Recommencer`, PNG natif | Même ressource que le vrai jeu, sans redessin |
 | RECOMMENCER / titre, encre | `[158,176,339,194)` | `C/Titre` | « RECOMMENCER » ; masque de couleur du master normalisé, sans le confondre avec le corps |
 | RECOMMENCER / corps, encre | ≈`[157,214,379,254)` | `C/Description` | « Le plateau recommence à » / « son point de départ. » ; l'écart avec le titre doit suivre le master, pas leur quasi-chevauchement dans l'aperçu divergent |
-| RECOMMENCER / séparation | `[135,178,136,243)` | `C/Separateur` | Pas d'extrapolation à partir de JOUER |
+| RECOMMENCER / séparation | `[135,165,136,253)` | `C/Separateur` | Pas d'extrapolation à partir de JOUER |
 | RECOMMENCER / plateau complet | ≈`[40,277,441,453)` | `C/Commandes/PlateauUn`, cellules natives séparées | Trois rangées ; cinq colonnes ; col. 3 vide ; pas d'étirement non uniforme des lettres |
 | PASSER / bandeau | y40–116 | `T/ApercuMenu/BandeauEnJeu` natif | Chrono illustratif 00:02.2 ; aucun chrono réel lancé par cette page |
 | PASSER / encart | `[32,153,449,288)` | `C` | Traits forts x32/448, y153/287 ; aucun texte au-delà du panneau |
@@ -52,7 +52,7 @@ Préfixe de nœud `T = Classique/TutorielClassique`. `C = T/Surface/Cartouche`. 
 | PASSER / cadre gauche | ≈`[18,330,230,510)` | `C/Commandes/PlateauQuitte` | Titre exact « PLATEAU QUITTÉ » ; fond alpha ; aucune donnée réelle de partie |
 | PASSER / cadre droit | ≈`[251,330,462,510)` | `C/Commandes/NouveauPlateau` | Titre exact « NOUVEAU PLATEAU » ; tableau distinct |
 | PASSER / grilles | gauche ≈x29–211/y364–474 ; droite ≈x263–445/y364–474 | `PlateauUn`, `PlateauDeux` | Mesurer première et dernière colonnes, pas seulement l'emprise du parent ; pas de dérive cumulée de l'espacement |
-| PASSER / flèche | ≈`[228,402,254,427)` | `C/Commandes/Fleche`, `Label` ou objet vectoriel natif | Position et couleur issues de l'étalon ; pas une nouvelle icône |
+| PASSER / flèche | ≈`[231,409,254,421)` | `C/Commandes/Fleche`, `Label` ou objet vectoriel natif | Position et couleur issues de l'étalon ; pas une nouvelle icône |
 | Trois commandes / badge | ≈`[49,653,431,691)` | `T/Surface/Mention` + `Texte` | Texte exact « Démonstration • aucune action réelle » ; pas de badge au FINAL |
 | FINAL / panneau | ≈`[31,192,451,576)` | `C`, `Panel` alpha | Support alpha exact du calque projeté : `[30.9375,191.25,450.9375,575.625)` ; le master RGB normalisé reste l'étalon visible |
 | FINAL / titre, encre | ≈`[113,233,382,272)` | `C/Final/TitreFinal`, `Label` | « À toi de jouer ! » ; gras incliné ; pas une police de remplacement déclarée conforme sans preuve |
@@ -81,7 +81,7 @@ Un master RGB aplati ne permet pas de retrouver de façon unique la couleur **et
 
 ### Polices et jetons : preuves exigées, pas de substitution silencieuse
 
-Le ZIP ne contient ni fichier de police, ni fichier de scène jeton approuvé. Le dépôt RC20 contient TeXGyreAdventor regular/bold et le jeton carré `jeton.tscn`. Le titre final actuellement en TeX bold avec inclinaison synthétique **n'est pas démontré identique** à l'étalon. Sa largeur d'encre mesurée est 251 px dans Godot contre ≈269 px dans la référence. Un ajustement de taille ou un étirement ne vaut pas identification de police.
+Le ZIP ne contient ni fichier de police, ni fichier de scène jeton approuvé. Le dépôt RC20 de référence contient TeXGyreAdventor regular/bold et le jeton carré `jeton.tscn`. Le titre final du premier passage (`ad67b62`), en TeX bold avec inclinaison synthétique **n'est pas démontré identique** à l'étalon. Sa largeur d'encre mesurée est 251 px dans Godot contre ≈269 px dans la référence. Un ajustement de taille ou un étirement ne vaut pas identification de police.
 
 Les jetons de la maquette sont arrondis et dégradés. Exemple B de RECOMMENCER : pixels RGB `(146,73,242)` en haut et `(99,37,208)` en bas ; le `Carre` RC20 est uniformément `(138,43,226)`. Les instances doivent rester séparées et indépendantes du vrai plateau. **Le maintien du jeton natif et la fidélité graphique à la maquette sont deux contrôles distincts** ; ne pas déclarer le second OK au seul motif que le premier est respecté. Aucun nouveau style de jeton n'est réputé approuvé par ce document. Tout override local doit être comparé au master ; le jeton du vrai jeu reste intact.
 
@@ -107,3 +107,9 @@ Les jetons de la maquette sont arrondis et dégradés. Exemple B de RECOMMENCER 
 Les contrôles sont des objets natifs distincts. Les seuls découpages éventuellement autorisés concernent les effets non reconstructibles nativement, après nécessité documentée et provenance exacte. **Pas de découpage automatique d'un avatar, d'un bandeau ou d'un bouton dans un master RGB pour masquer une correspondance manquante.** Les essais locaux non approuvés ne sont pas intégrés à un lot de validation. Aucun master aplati en interface jouable.
 
 Le fichier historique `CONTRAT_MAQUETTE_VERS_GODOT.md` renvoie à ce contrat canonique. Il n'existe pas deux contrats graphiques concurrents.
+
+## 7. Checkpoint d’implémentation — aucune approbation graphique
+
+La correction locale instancie effectivement `jeton.tscn` puis réutilise ses enfants dans une racine Control, pour transmettre transformations/visibilité sans modifier le vrai jeu. Les dégradés, formes et polices de l’illustration sont des overrides locaux à comparer aux masters. Les fichiers DejaVu ajoutés avec leur licence sont des ressources candidates mesurées, pas une preuve d’identité avec les polices d’auteur.
+
+Les deux gros boutons sont retirés. L’enchaînement 4/4/6 secondes est automatique ; il ne crée aucun nouveau libellé intermédiaire. Les captures du checkpoint restent internes tant que les FAIL de reflets/halos, typographie et styles de jetons ne sont pas fermés.
