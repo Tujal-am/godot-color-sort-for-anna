@@ -113,3 +113,42 @@ Le fichier historique `CONTRAT_MAQUETTE_VERS_GODOT.md` renvoie à ce contrat can
 La correction locale instancie effectivement `jeton.tscn` puis réutilise ses enfants dans une racine Control, pour transmettre transformations/visibilité sans modifier le vrai jeu. Les dégradés, formes et polices de l’illustration sont des overrides locaux à comparer aux masters. Les fichiers DejaVu ajoutés avec leur licence sont des ressources candidates mesurées, pas une preuve d’identité avec les polices d’auteur.
 
 Les deux gros boutons sont retirés. L’enchaînement 4/4/6 secondes est automatique ; il ne crée aucun nouveau libellé intermédiaire. Les captures du checkpoint restent internes tant que les FAIL de reflets/halos, typographie et styles de jetons ne sont pas fermés.
+
+## 8. Registre des paramètres appliqués au checkpoint (tous candidats tant que FAIL)
+
+Ces valeurs permettent de relire le code sans les confondre avec une validation du rendu. Les coordonnées sont **locales au parent cité**, contrairement aux boîtes d’encre globales des tableaux précédents. Les paramètres non établis depuis une source RGBA unique restent des modèles estimés, à contrôler contre les masters.
+
+| Objet | Paramètres appliqués |
+| --- | --- |
+| Canvas / entrée | Viewport 480×720, CanvasLayer 10, surface ancrée aux quatre bords ; filtre de souris STOP=0 ; illustrations IGNORE=2 ; aperçu du menu désactivé (process_mode 4) |
+| Panneau JOUER | `C.position=(32,195)`, `size=(416,119)` ; fond `(255,248,235)` alpha 0,545 ; modèle ajusté dans une zone vide du master |
+| Panneau RECOMMENCER | `C.position=(32,151)`, `size=(416,117)` ; fond `(253,244,231)` alpha 0,624, modèle estimé ; titre local `(124,20)` ; corps `(124,55)`, taille `(276,56)` |
+| Panneau PASSER | `C.position=(32,153)`, `size=(416,135)` ; fond `(255,245,231)` alpha 0,585, modèle estimé |
+| Panneau FINAL | `C.position=(31,192)`, `size=(420,383)` ; fond exact du calque `(253,244,228,128)` ; rayon 31 |
+| Contours des panneaux | RGBA `(227,133,79,215)`, épaisseur 1 ; rayons 24 sur commandes, 31 au FINAL. Les reflets blancs ne sont pas considérés reproduits par cette seule bordure |
+| Titres des commandes | TeXGyreAdventor bold ; corps 26 / 24 / 26 ; RGB `(20,107,151)` ; boîtes `(276,34)`, positions locales JOUER `(124,29)`, RECOMMENCER `(124,20)`, PASSER `(125,31)` |
+| Corps des commandes | TeXGyreAdventor regular ; corps 17 / 17 / 16 ; interligne supplémentaire 5 / 12 / 6 ; RGB `(21,70,117)` ; JOUER `(125,47)` taille `(276,58)` ; RECOMMENCER `(124,55)` taille `(276,56)` ; PASSER `(124,54)` taille `(276,68)` |
+| Séparateurs | JOUER `(103,24)` taille `(1,75)` ; RECOMMENCER `(103,14)` taille `(1,88)` ; PASSER `(104,27)` taille `(1,77)` |
+| Icônes de l’encart | Ressources RC20 existantes, taille 58×58, ratio conservé ; positions locales `(25,29)` jouer, `(24,29)` recommencer, `(24,41)` passer |
+| Bandeaux de l’aperçu | Translation verticale +26 px, z_index 1 ; aucune modification du vrai menu du jeu ; nœuds et textures natifs réutilisés |
+| Données du bandeau | Joueur/niveau/pourcentage liés aux services ; aucune valeur 04 ou 62 % forcée pour ressembler à la référence |
+| Typo du bandeau local | Candidat DejaVuSans bold : joueur/niveau/% 14 ; joueur `(145,15)` ; Gameplay 18 à `(30,22)` ; sous-titre 15 à `(31,51)` ; chrono 19 à `(294,32)` |
+| Boutons du bandeau local | Jouer `(305,17)` taille 68×68 ; recommencer `(198,24)` taille 62×62 ; passer `(408,26)` taille 55×55 ; textures du dépôt inchangées |
+| Accent de commande | Panel natif derrière les boutons, boîtes globales `(303,42,74,73)`, `(194,45,70,70)`, `(402,45,70,70)` ; contour 2, rayon 18, couleur `(0.95,0.98,1,0.9)` ; ombre `(0.2,0.55,0.75,0.22)` taille 4 ; **correspondance de l’effet non validée** |
+| Grille RECOMMENCER | Racine locale `(8,126)` ; colonnes `[0,87,169,252,339]`, lignes `[0,60,120]` ; cellules 61×57 ; lettres DejaVuSans bold 32 |
+| Grilles PASSER | Racines locales `(-3,211)` et `(231,211)` ; colonnes `[0,39,76,116,154]`, lignes `[0,42,82]` ; cellules 28×28 ; lettres DejaVuSans bold 16 |
+| Cadres PASSER | Positions `(-14,177)` et `(219,177)` ; tailles 212×180 / 211×180 ; fond `(255,245,231)` alpha 0,58 ; contour `(227,133,79,195)` ; légendes bold 10 |
+| Flèche | Position locale `(191,234)` ; corps 28, couleur RGB `(221,132,49)` mesurée sur le master ; dernier ajustement à revérifier avant PASS |
+| Badge | Position globale `(49,653)` taille 382×38 ; fond `(255,245,231)` alpha 0,55 ; rayon courant 16, correspondance de forme/reflet à contrôler ; texte regular 14 RGB `(21,70,117)` |
+| Titre FINAL | Candidat DejaVuSans BoldOblique 32 ; position locale `(23,34)` ; couleur exacte du calque `(15,58,104)` |
+| Corps FINAL | Candidat DejaVuSans regular 17 ; position `(35,102)`, taille 348×49 ; couleur `(9,63,112)` |
+| Case FINAL | Contrôle local `(34,172)` ; corps 16 DejaVuSans regular, séparation 33, icône réservée transparente 30×30 ; panneau vide `(34,177)` taille 32×31 ; remplissage blanc alpha 55/255, contour `(32,86,135,240)` ; case décochée ; coche visible seulement après action |
+| Compris | Bouton local `(100,291)` taille 220×62 ; fond séparé, dégradé RGB haut `(239,101,56)` / bas `(187,63,36)` ; rayon 30 ; texte DejaVuSans bold 23, marge basse du style 10 pour caler l’encre |
+| Soulignement FINAL | Line2D local : `(129,88),(150,83),(185,80.5),(225,80.5),(265,83),(303,88)` ; largeur 1,5 ; RGBA `(225,150,48,135)` ; comparaison de forme encore requise |
+| Faces illustratives A/B/C/D | Dégradés haut→bas RGB : A `(235,81,58)`→`(213,61,42)` ; B `(155,80,248)`→`(98,35,207)` ; C `(133,188,76)`→`(79,137,42)` ; D `(97,199,230)`→`(69,157,199)` ; alpha 1, rayon 0,18×hauteur ; uniquement sur les enfants réellement instanciés du jeton RC20 |
+| Cellules vides | Contour candidat `(215,173,143)` alpha 0,85 ; rayons 6 grand / 4 petit ; pointillés grands seulement, période 12 px et transition 6–7 px ; style fin **FAIL** tant que non équivalent au master |
+| Shader de forme | Antialias du bord `smoothstep(-0.65,0.65,d)` ; contour seul `smoothstep(-2,-1,d)` ; aucun master raster en fond de contrôle |
+| Démonstration B/B | Échelle 1,9375 ; départs `(126,166)/(126,228)` → arrivées `(224,166)/(224,228)` ; C et B fixe y290 ; lecture 2,1 s, transfert parallèle 1,4 s, résultat 2,6 s ; tween Cubic EaseInOut ; aucune mutation du vrai plateau |
+| Pages automatiques | 4 s JOUER, 4 s RECOMMENCER, 6 s PASSER puis attente de Compris ; valeurs de fonctionnement proposées, non réputées validées ergonomiquement |
+
+Le vrai jeton, le vrai HUD, le fond PNG et les règles du plateau ne sont pas redessinés ou modifiés. Les overrides du tutoriel et les effets non équivalents restent visibles dans la matrice FAIL ; aucun changement de police n’est présenté comme une approbation de l’utilisatrice.
