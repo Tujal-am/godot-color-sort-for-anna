@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d4a216xirmr5m"
-path="res://.godot/imported/scores_decor_overlay_sans_classement_480x720.png-5d47392c0b319aa203047d5ea3ff90a7.ctex"
+path="res://.godot/imported/scores_decor_overlay_sans_classement_480x720.png-84d4c34ae27a638ce146a65e5936dbc3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/UI/Scores/scores_decor_overlay_sans_classement_480x720.png"
-dest_files=["res://.godot/imported/scores_decor_overlay_sans_classement_480x720.png-5d47392c0b319aa203047d5ea3ff90a7.ctex"]
+source_file="res://Art/UI/scores/scores_decor_overlay_sans_classement_480x720.png"
+dest_files=["res://.godot/imported/scores_decor_overlay_sans_classement_480x720.png-84d4c34ae27a638ce146a65e5936dbc3.ctex"]
 
 [params]
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://o3taplaye0da"
-path="res://.godot/imported/medaille_rang_5_58x58.png-f6098940280ff4ada36299ec51062aff.ctex"
+path="res://.godot/imported/medaille_rang_5_58x58.png-6f7182b5811842fa155db8c9dbf3aeeb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Art/UI/Scores/medaille_rang_5_58x58.png"
-dest_files=["res://.godot/imported/medaille_rang_5_58x58.png-f6098940280ff4ada36299ec51062aff.ctex"]
+source_file="res://Art/UI/scores/medaille_rang_5_58x58.png"
+dest_files=["res://.godot/imported/medaille_rang_5_58x58.png-6f7182b5811842fa155db8c9dbf3aeeb.ctex"]
 
 [params]
 
