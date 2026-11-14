@@ -12,6 +12,18 @@
 [ext_resource type="Texture2D" uid="uid://fnc6uki83sei" path="res://Art/UI/Gameplay/Classique/button_play.svg" id="8_tolx0"]
 [ext_resource type="Texture2D" uid="uid://y0x0sbnscxy4" path="res://Art/UI/Gameplay/Classique/button_stats.svg" id="9_440yi"]
 
+[sub_resource type="StyleBoxFlat" id="aide_bleu"]
+bg_color = Color(0.035, 0.31, 0.54, 0.88)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
 [node name="MenuPlateauClassique" type="Node" unique_id=561806520]
 script = ExtResource("1_cfw72")
 
@@ -206,6 +218,20 @@ texture_normal = ExtResource("9_440yi")
 ignore_texture_size = true
 stretch_mode = 5
 
+
+[node name="BoutonAide" type="Button" parent="."]
+visible = false
+offset_left = 420.0
+offset_top = 644.0
+offset_right = 464.0
+offset_bottom = 689.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_q8ekg")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("aide_bleu")
+text = "?"
+
+[connection signal="pressed" from="BoutonAide" to="." method="_on_bouton_aide_pressed"]
 [connection signal="gui_input" from="Fond" to="." method="_on_fond_gui_input"]
 [connection signal="pressed" from="BandeauEnJeu/BoutonRecommencer" to="." method="_on_bouton_recommencer_pressed"]
 [connection signal="pressed" from="BandeauEnJeu/BoutonPasser" to="." method="_on_bouton_passer_pressed"]

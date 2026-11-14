@@ -1,0 +1,130 @@
+{
+  "created_utc": "2026-11-13T23:57:31.951253+00:00",
+  "kit": "RTC RC20 Classique HD",
+  "items": [
+    {
+      "path": "01_REFERENCES_VALIDEES/01_JOUER_HD.png",
+      "source": "RTC_Commandes_Classique_Corrige_01_JOUER_HD.png",
+      "width": 960,
+      "height": 1440,
+      "mode": "RGB",
+      "sha256": "74ba1176665526f1a0503ff139ce91a6bd73b1d6b25fd1e84117cc17712d22ad"
+    },
+    {
+      "path": "01_REFERENCES_VALIDEES/02_RECOMMENCER_HD.png",
+      "source": "RTC_Commandes_Classique_Corrige_02_RECOMMENCER_HD.png",
+      "width": 960,
+      "height": 1440,
+      "mode": "RGB",
+      "sha256": "8cab48333ef3ee68004fbd1df89e26afb23e40ab132866650ad17847b214ef98"
+    },
+    {
+      "path": "01_REFERENCES_VALIDEES/03_PASSER_HD.png",
+      "source": "RTC_Commandes_Classique_Corrige_03_PASSER_HD.png",
+      "width": 960,
+      "height": 1440,
+      "mode": "RGB",
+      "sha256": "ad7cb71d432b3353798fc9e1ff246e644d2f05dcacb2305a64ec3244b752a100"
+    },
+    {
+      "path": "01_REFERENCES_VALIDEES/04_A_TOI_DE_JOUER_HD.png",
+      "source": "RTC_Classique_AtoiJouer_Preview_Corrige_HD.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGB",
+      "sha256": "264d629cfd717b84c843fb98452ecfca13ea9fb5bdc6432ba3a1bcc813950ae3"
+    },
+    {
+      "path": "02_RESSOURCES_NATIVES/Calque_A_Toi_De_Jouer_RGBA_1024x1536.png",
+      "source": "RTC_Classique_AtoiJouer_Calque_Translucide_RGBA_HD.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "sha256": "0d6a3374746dfa02251e5410c4ac4d9ebf11a65e4c6574d2d035ad351d7c53e3",
+      "alpha": {
+        "min": 0,
+        "max": 255,
+        "bbox_non_transparent": [
+          66,
+          408,
+          962,
+          1228
+        ],
+        "has_transparent_pixels": true,
+        "has_opaque_pixels": true
+      }
+    },
+    {
+      "path": "03_APERCUS_MOBILE/01_JOUER_480x720.png",
+      "source": "RTC_Commandes_Classique_Corrige_01_JOUER_Mobile.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "46906764105d51ca10fae52acf833956c7ecf82e437990abdee779cccea83c82"
+    },
+    {
+      "path": "03_APERCUS_MOBILE/02_RECOMMENCER_480x720.png",
+      "source": "RTC_Commandes_Classique_Corrige_02_RECOMMENCER_Mobile.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "139c8bee489048cf2a4a883caf13ceb7f0d24d1ae534371c7a1dcc850898b4a4"
+    },
+    {
+      "path": "03_APERCUS_MOBILE/03_PASSER_480x720.png",
+      "source": "RTC_Commandes_Classique_Corrige_03_PASSER_Mobile.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "a120871baa7152f5cfd2c165ee92d22fefce1557838cc22adc8f79e0c885ba65"
+    },
+    {
+      "path": "03_APERCUS_MOBILE/04_A_TOI_DE_JOUER_480x720.png",
+      "source": "RTC_Classique_AtoiJouer_Preview_Mobile_480x720.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "5cd8bf503443611eb845ebb763bb023dbb068d239badf9b4ff70f5ec02fb0e8c"
+    },
+    {
+      "path": "04_REFERENCES_DEMONSTRATION_A_TESTER/01_Meme_couleur_480x720.png",
+      "source": "RTC_Cinematique_Classique_Ecrans_Transparence_Corrigee/01_Meme_couleur_480x720.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "7998cb83da2cb2392a72f46c2e7973c227140325db50f7fa7826399164631f87"
+    },
+    {
+      "path": "04_REFERENCES_DEMONSTRATION_A_TESTER/02_Deplacement_480x720.png",
+      "source": "RTC_Cinematique_Classique_Ecrans_Transparence_Corrigee/02_Deplacement_480x720.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "006cd81093dce01120be2bcb209953abd4ed9da5c41c2bebe67bdf10d4fb9968"
+    },
+    {
+      "path": "04_REFERENCES_DEMONSTRATION_A_TESTER/03_Resultat_480x720.png",
+      "source": "RTC_Cinematique_Classique_Ecrans_Transparence_Corrigee/03_Resultat_480x720.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "0022bcbd63f26f18093d7d94423bc29ac9d1d1a0010562457ceaaaafe4615723"
+    },
+    {
+      "path": "05_REFERENCES_JEU_RC20/classic_true_background_480x720.png",
+      "source": "storyboard_source/classic_true_background.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "a428d747578ae4176744086cdffffe9fb1b19a7d10ff5aa79f7c9648b536d0f7"
+    },
+    {
+      "path": "05_REFERENCES_JEU_RC20/classic_active_reference_480x720.png",
+      "source": "storyboard_source/classic_active_reference.png",
+      "width": 480,
+      "height": 720,
+      "mode": "RGB",
+      "sha256": "301022c2143d3b9f4661d349363784abd8d1fceb7c539755068bffad1d4a52a2"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas
+[DEBUG] Liste des joueurs sauvegardée
+[DEBUG] Création du fichier de la liste des joueurs initial
+[DEBUG] Progression sauvegardée
+[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas
+[DEBUG] Scores sauvegardés
+[DEBUG] Création du fichier de score initial
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Conversion de la Campagne 1 (V0.4.X) pour le joueur :Alain Konu
+[DEBUG] Remise à zéro du score de { "nom": "Alain Konu", "rang": 1, "score": 0, "score_txt": "0" }
+[DEBUG] Scores sauvegardés
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Remplacement de campagne pour le joueur : Alain Konu
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] configuration_du_jeu = { "version": "V1.0.0-rc20", "date_debut_campagne": "2026-10-26 00:00:00", "musiques": true, "effets sonores": true, "vibrations": true }
+[DEBUG] Import JSON : écoute du signal SHARE activée.
+[DEBUG] Progression sauvegardée
+OK : première visite : ouverture automatique
+OK : surface 480×720
+OK : menu derrière l'aide désactivé
+OK : jeton natif ancré dans la colonne
+OK : échelle du jeton natif transmise
+OK : capture 01_depart
+OK : clic derrière le panneau sans lancement du plateau
+OK : B1 transféré
+OK : B2 transféré avec B1
+OK : C reste immobile
+OK : liaison native des trois B après transfert
+OK : capture 02_transfert
+OK : animation aboutit à JOUER
+OK : texte contenu dans le panneau phase 3
+OK : capture 03_jouer
+OK : clic Suivant vers RECOMMENCER
+OK : texte contenu dans le panneau phase 4
+OK : capture 04_recommencer
+OK : clic Suivant vers PASSER
+OK : texte contenu dans le panneau phase 5
+OK : capture 05_passer
+OK : clic Suivant vers conclusion
+OK : case finale décochée
+OK : capture 06_final
+OK : Compris ferme le CanvasLayer
+OK : menu restauré
+OK : pas de répétition automatique dans la session
+OK : bouton ? rouvre le début
+OK : B1 réinitialisé à la réouverture
+OK : fermeture en plein transfert
+OK : B2 réinitialisé après interruption
+OK : Terminer l’aide interrompt la démonstration par clic
+OK : case Ne plus afficher cliquable
+OK : préférence enregistrée pour A
+OK : préférence A relue par une nouvelle instance
+[DEBUG] Progression sauvegardée
+OK : première visite du joueur B indépendante
+OK : case de B décochée
+[DEBUG] sauvegarde *Anna (test)* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+OK : aide manuelle disponible même si masquée automatiquement
+OK : case décochée à chaque conclusion
+OK : décocher réactive les prochaines sessions
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+OK : ? fonctionne pendant une vraie partie
+OK : chrono gelé pendant l'aide
+OK : sauvegarde et progression inchangées pendant le transfert
+OK : mêmes piles réelles après transfert démonstratif
+OK : aucun coup réel ajouté
+OK : chrono reprend sans compter la lecture de l'aide
+OK : capture 07_plateau_repris
+OK : hide du gameplay ferme aussi le CanvasLayer et la pause
+[DEBUG] joueur:Anna (test) niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Anna (test) niveau=niveau_1 lg_realisee=0 lg_restante=1 completion=0.0
+[DEBUG] joueur:Anna (test) niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Anna (test) niveau=niveau_1 lg_realisee=0 lg_restante=1 completion=0.0
+OK : visite mémorisée après recréation de la scène
+OK : destruction libère la pause
+RESULTAT : 50 contrôles, 0 échecs

@@ -1251,3 +1251,38 @@ func test_scenario_deux_campagnes_successives_sont_independantes():
 	assert_eq(singleton.enregistrement_campagne_lire_valeur_niveau_joueur(), 0)
 	assert_true(singleton.enregistrement_campagne_initialiser_un_nouveau_niveau())
 	assert_eq(singleton.enregistrement_campagne_lire_nom_dernier_niveau(), "niveau_1")
+
+# Pause de lecture de l'aide Classique (aucune dépendance à l'UI).
+func test_pause_aide_fige_la_duree_sans_modifier_les_dates_ni_les_coups():
+	_charger_plateau_en_cours(Time.get_unix_time_from_system() - 10.0)
+	singleton.commencer_pause_aide_classique()
+	var avant = singleton.lire_sauvegarde().duplicate(true)
+	var duree = singleton.enregistrement_campagne_lire_duree_plateau()
+	await wait_seconds(0.08)
+	assert_eq(singleton.enregistrement_campagne_lire_duree_plateau(), duree)
+	assert_eq(singleton.lire_sauvegarde(), avant)
+	singleton.commencer_pause_aide_classique() # Idempotent : ne réinitialise pas la pause.
+	singleton.terminer_pause_aide_classique()
+	var plateau = singleton.enregistrement_campagne_lire_dernier_plateau()
+	assert_gt(plateau.get("duree_aide_classique", 0.0), 0.05)
+	assert_eq(plateau["date_debut"], avant["enregistrement_campagne"][0]["niveaux"][0]["plateaux"][0]["date_debut"])
+	assert_eq(plateau["coups joués"], [])
+	assert_almost_eq(singleton.enregistrement_campagne_lire_duree_plateau(), duree, 0.05)
+
+func test_fin_plateau_exclut_le_temps_de_lecture_aide_et_conserve_les_dates_reelles():
+	_charger_plateau_en_cours(Time.get_unix_time_from_system() - 20.0)
+	var plateau = singleton.enregistrement_campagne_lire_dernier_plateau()
+	plateau["duree_aide_classique"] = 5.0
+	plateau["statut"] = "reussi"
+	singleton.enregistrement_campagne_terminer_plateau()
+	assert_almost_eq(plateau["duree"], 15.0, 1.0)
+	assert_almost_eq(plateau["date_fin"] - plateau["date_debut"], 20.0, 1.0)
+
+func test_pause_aide_sans_plateau_et_double_fermeture_sont_sans_effet():
+	_charger()
+	var avant = singleton.lire_sauvegarde().duplicate(true)
+	singleton.commencer_pause_aide_classique()
+	singleton.terminer_pause_aide_classique()
+	singleton.terminer_pause_aide_classique()
+	assert_eq(singleton.lire_sauvegarde(), avant)
+	assert_true(singleton._plateau_en_aide.is_empty())

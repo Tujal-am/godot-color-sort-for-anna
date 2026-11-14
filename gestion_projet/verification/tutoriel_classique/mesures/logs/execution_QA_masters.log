@@ -1,0 +1,46 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas
+[DEBUG] Liste des joueurs sauvegardée
+[DEBUG] Création du fichier de la liste des joueurs initial
+[DEBUG] Progression sauvegardée
+[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas
+[DEBUG] Scores sauvegardés
+[DEBUG] Création du fichier de score initial
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Conversion de la Campagne 1 (V0.4.X) pour le joueur :Alain Konu
+[DEBUG] Remise à zéro du score de { "nom": "Alain Konu", "rang": 1, "score": 0, "score_txt": "0" }
+[DEBUG] Scores sauvegardés
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Remplacement de campagne pour le joueur : Alain Konu
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] configuration_du_jeu = { "version": "V1.0.0-rc20", "date_debut_campagne": "2026-10-26 00:00:00", "musiques": true, "effets sonores": true, "vibrations": true }
+[DEBUG] Import JSON : écoute du signal SHARE activée.
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=1
+QA interne capturée : JOUER
+QA interne capturée : RECOMMENCER
+QA interne capturée : PASSER
+QA interne capturée : FINAL

@@ -1,0 +1,7 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+[DEBUG] liste_des_joueurs = [{ "fichier_sauvegarde": "sauvegarde_joueur_00.json", "indice": 0.0, "nom": "Alain Konu" }]
+[DEBUG] liste_des_scores = [{ "nom": "Alain Konu", "rang": 1.0, "score": 0.0, "score_txt": "0" }]
+[DEBUG] configuration_du_jeu = { "version": "V1.0.0-rc20", "date_debut_campagne": "2026-10-26 00:00:00", "musiques": true, "effets sonores": true, "vibrations": true }
+[DEBUG] Import JSON : écoute du signal SHARE activée.
+RESSOURCES : 105 scripts/scènes chargés ; 0 échecs

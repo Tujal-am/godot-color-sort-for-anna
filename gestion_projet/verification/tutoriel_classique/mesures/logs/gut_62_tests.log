@@ -1,0 +1,391 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+SCRIPT ERROR: Trying to assign value of type 'Nil' to a variable of type 'bool'.
+          at: _static_init (res://addons/gut/gut_loader.gd:35)
+          GDScript backtrace (most recent call first):
+              [0] _static_init (res://addons/gut/gut_loader.gd:35)
+              [1] @static_initializer (res://addons/gut/gut_loader.gd:1)
+              [2] _init (res://addons/gut/gut_cmdln.gd:23)
+[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas
+[DEBUG] Liste des joueurs sauvegardée
+[DEBUG] Création du fichier de la liste des joueurs initial
+[DEBUG] Progression sauvegardée
+[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas
+[DEBUG] Scores sauvegardés
+[DEBUG] Création du fichier de score initial
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Conversion de la Campagne 1 (V0.4.X) pour le joueur :Alain Konu
+[DEBUG] Remise à zéro du score de { "nom": "Alain Konu", "rang": 1, "score": 0, "score_txt": "0" }
+[DEBUG] Scores sauvegardés
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Remplacement de campagne pour le joueur : Alain Konu
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] configuration_du_jeu = { "version": "V1.0.0-rc20", "date_debut_campagne": "2026-10-26 00:00:00", "musiques": true, "effets sonores": true, "vibrations": true }
+[DEBUG] Import JSON : écoute du signal SHARE activée.
+---  GUT  ---
+[INFO]:  using [/workspace/work/gut-checkpoint-methode/godot/app_userdata/Range les couleurs pour Anna mon amour - V1.0.x - Next Release] for temporary output.
+Godot version:  4.6.3
+GUT version:  9.5.0
+
+
+res://tests/test_classique.gd
+* test_le_gameplay_enregistre_sa_callback_aupres_du_plateau
+* test_est_valide_delegue_au_plateau
+* test_commencer_un_nouveau_plateau_cree_les_piles
+* test_hide_efface_les_piles_du_plateau
+* test_commencer_un_nouveau_gameplay_affiche_le_menu
+* test_plateau_invalide_est_relaye
+[DEBUG] [plateau] emission signal : plateau_invalide
+[DEBUG] [base_classique_qpg] emission signal : plateau_invalide
+* test_plateau_valide_n_emet_pas_plateau_invalide
+* test_abandon_du_menu_est_relaye
+[DEBUG] [base_classique_qpg] emission signal : abandon
+* test_passe_du_menu_est_relaye
+[DEBUG] [base_classique_qpg] emission signal : passe
+* test_commencer_plateau_du_menu_est_relaye
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+* test_est_termine_faux_quand_une_pile_est_en_desordre
+* test_est_termine_vrai_quand_toutes_les_piles_non_vides_sont_terminees
+[DEBUG] [classique] emission signal : victoire
+* test_est_termine_faux_si_une_pile_est_homogene_mais_incomplete
+* test_est_termine_ignore_les_piles_vides
+[DEBUG] [classique] emission signal : victoire
+* test_est_termine_sans_pile_est_vrai
+[DEBUG] [classique] emission signal : victoire
+* test_victoire_en_jouant_une_partie_complete
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] [classique] emission signal : victoire
+* test_la_classe_de_base_n_est_jamais_terminee
+* test_gameplay_to_enum_toutes_les_valeurs
+* test_gameplay_to_enum_valeurs_enum_distinctes
+* test_gameplay_to_enum_inconnu_retourne_classique
+[ERROR] Gameplay inconnu : INCONNU
+[ERROR] Gameplay inconnu :
+* test_gameplay_to_enum_est_sensible_a_la_casse
+[ERROR] Gameplay inconnu : qui_perd_gagne
+21/21 passed.
+
+
+res://tests/test_menu_plateau.gd
+* test_enregistrer_gameplay_ecrit_le_texte_et_la_taille_de_police
+* test_enregistrer_sous_titre_gameplay_ecrit_le_texte_et_la_taille_de_police
+* test_enregistrer_chrono_formate_minutes_secondes_decisecondes
+* test_enregistrer_coups_ecrit_le_texte
+* test_le_bandeau_menu_memorise_joueur_niveau_et_pourcentage
+* test_show_menu_affiche_tous_les_elements_du_bandeau_menu
+* test_show_jeu_affiche_tous_les_elements_du_bandeau_en_jeu
+* test_hide_cache_le_fond_et_les_deux_bandeaux
+* test_show_fond_ne_laisse_que_le_fond_visible
+* test_hide_bandeau_en_jeu_puis_show_bandeau_en_jeu_sont_symetriques
+* test_hide_bandeau_menu_puis_show_bandeau_menu_sont_symetriques
+* test_le_chrono_affiche_zero_sans_plateau
+* test_le_chrono_formate_la_duree_d_un_plateau_termine
+* test_le_chrono_reporte_l_arrondi_des_decisecondes_sur_les_secondes_et_les_minutes
+* test_le_chrono_d_un_plateau_en_cours_suit_l_horloge
+* test_les_coups_sont_comptes_avec_pluriel
+* test_process_met_a_jour_chrono_et_coups_a_chaque_frame
+* test_recommencer_emet_abandon_et_ne_montre_que_le_fond
+[DEBUG] [menu_plateau] emission signal : abandon
+* test_passer_emet_passe_et_ne_montre_que_le_fond
+[DEBUG] [menu_plateau] emission signal : passe
+* test_commencer_emet_le_signal_quand_la_campagne_a_commence
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+* test_commencer_ne_fait_rien_avant_la_date_de_debut_de_campagne
+* test_clic_gauche_sur_le_fond_deselectionne_la_pile
+* test_les_autres_evenements_sur_le_fond_sont_ignores
+* test_le_bouton_menu_principal_charge_le_menu_principal
+* test_le_bouton_statistiques_charge_la_scene_statistiques
+[DEBUG] joueur:Joueuse test nb_plateaux_inacheves=1
+[DEBUG] joueur:Joueuse test nb_plateaux_acheves=0
+[DEBUG] joueur:Joueuse test nb_plateaux_acheves=0
+[DEBUG] joueur:Joueuse test nb_plateaux_inacheves=1
+[DEBUG] joueur:Joueuse test nb_plateaux_acheves=0
+[DEBUG] joueur:Joueuse test campagne_taux_completion=0.0
+[DEBUG] joueur:Joueuse test nb_plateaux_inacheves=1
+[DEBUG] joueur:Joueuse test nb_plateaux_acheves=0
+[DEBUG] joueur:Joueuse test nb_plateaux_acheves=0
+[DEBUG] joueur:Joueuse test nb_plateaux_inacheves=1
+[DEBUG] joueur:Joueuse test nb_plateaux_acheves=0
+[DEBUG] joueur:Joueuse test duree_totale_plateaux_tous_les_niveaux=0.0 duree_totale_plateaux_tous_les_niveaux_termines=0.0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test serie_de_victoire_maximum=0
+[DEBUG] joueur:Joueuse test completion=0.0
+[DEBUG] joueur:Joueuse test taux_min=0.0 taux_min_lg=0 taux_min_niveau=0 taux_max=0.0 taux_max_lg=0 taux_max_niveau=0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test temps_moyen=0.0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test plus_rapide_temps=0.0 plus_rapide_niveau=0 plus_rapide_difficulte=0
+[DEBUG] joueur:Joueuse test plus_lent_temps=0.0 plus_lent_niveau=0 plus_lent_difficulte=0
+[DEBUG] joueur:Joueuse test plus_galere_nom= plus_galere_essais=0 plus_galere_niveau=0 plus_galere_difficulte=0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse testgameplay:CLASSIQUE temps_moyen=0.0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse testgameplay:CLASSIQUE plus_rapide_temps=0.0 plus_rapide_niveau=0 plus_rapide_difficulte=0
+[DEBUG] joueur:Joueuse testgameplay:CLASSIQUE plus_lent_temps=0.0 plus_lent_niveau=0 plus_lent_difficulte=0
+[DEBUG] joueur:Joueuse testgameplay:CLASSIQUE plus_galere_nom= plus_galere_essais=0 plus_galere_niveau=0 plus_galere_difficulte=0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse testgameplay:QUI_PERD_GAGNE temps_moyen=0.0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse testgameplay:QUI_PERD_GAGNE plus_rapide_temps=0.0 plus_rapide_niveau=0 plus_rapide_difficulte=0
+[DEBUG] joueur:Joueuse testgameplay:QUI_PERD_GAGNE plus_lent_temps=0.0 plus_lent_niveau=0 plus_lent_difficulte=0
+[DEBUG] joueur:Joueuse testgameplay:QUI_PERD_GAGNE plus_galere_nom= plus_galere_essais=0 plus_galere_niveau=0 plus_galere_difficulte=0
+25/25 passed.
+
+
+res://tests/test_campagne.gd
+* test_gameplay_to_ui_associe_chaque_gameplay_a_son_noeud
+* test_instance_gameplay_ne_connait_que_classique_et_qui_perd_gagne
+[ERROR] Gameplay inconnu : 2
+* test_au_demarrage_le_premier_gameplay_est_classique_avec_son_menu
+* test_au_demarrage_un_premier_plateau_qui_perd_gagne_masque_classique
+* test_cacher_les_gameplays_masque_classique_et_qui_perd_gagne
+* test_commencer_un_plateau_initialise_l_enregistrement_et_lance_le_jeu
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=2 completion=0.0
+* test_abandon_affiche_le_panneau_de_defaite_et_conserve_le_plateau
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=2 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+* test_passe_affiche_le_fond_sans_panneau_et_enchaine_le_plateau_suivant
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=2 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[ERROR] Erreur : Gameplay inattendu pour le score !
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Scores sauvegardés
+[DEBUG] [Campagne] Niveau = 1 - Plateau = 'DDA.CCB.AAB.---.DBC' - Pourcentage niveau = 0%
+* test_victoire_affiche_le_detail_du_score_du_plateau
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=2 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[ERROR] Erreur : Gameplay inattendu pour le score !
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] [Campagne] Niveau = 1 - Plateau = 'DDA.CCB.AAB.---.DBC' - Pourcentage niveau = 50%
+* test_victoire_du_dernier_plateau_affiche_le_score_de_fin_de_campagne
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=1 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] [progression_campagne_service] emission signal : fin_niveau
+[DEBUG] Progression sauvegardée
+[DEBUG] [progression_campagne_service] emission signal : fin_campagne
+[DEBUG] Progression sauvegardée
+[ERROR] Erreur : Gameplay inattendu pour le score !
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=1 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=1 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] [Campagne] Niveau = 1 - Plateau = 'DDA.CCB.AAB.---.DBC' - Pourcentage niveau = 0%
+* test_victoire_qui_perd_gagne_suit_le_meme_parcours_que_classique
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=2 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[ERROR] Erreur : Gameplay inattendu pour le score !
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] [Campagne] Niveau = 1 - Plateau = 'AC.BD.CD.EA.FB.FE.--' - Pourcentage niveau = 50%
+* test_abandon_qui_perd_gagne_suit_le_meme_parcours_que_classique
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=2 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+* test_passe_qui_perd_gagne_suit_le_meme_parcours_que_classique
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=2 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[ERROR] Erreur : Gameplay inattendu pour le score !
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Scores sauvegardés
+[DEBUG] [Campagne] Niveau = 1 - Plateau = 'AC.BD.CD.EA.FB.FE.--' - Pourcentage niveau = 0%
+* test_continuer_apres_le_score_affiche_le_gameplay_suivant
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=2 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[ERROR] Erreur : Gameplay inattendu pour le score !
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] [Campagne] Niveau = 1 - Plateau = 'DDA.CCB.AAB.---.DBC' - Pourcentage niveau = 50%
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=1 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=1 lg_restante=1 completion=0.5
+* test_continuer_une_fois_la_campagne_terminee_ne_change_pas_de_gameplay
+[DEBUG] [menu_plateau] emission signal : commencer_plateau
+[DEBUG] [base_classique_qpg] emission signal : commencer_plateau
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Nombre de parties = 0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 nb_plateaux_reussis=0 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test niveau=niveau_1 lg_realisee=0 lg_restante=1 completion=0.0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] [progression_campagne_service] emission signal : fin_niveau
+[DEBUG] Progression sauvegardée
+[DEBUG] [progression_campagne_service] emission signal : fin_campagne
+[DEBUG] Progression sauvegardée
+[ERROR] Erreur : Gameplay inattendu pour le score !
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=1 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] joueur:Joueuse test nb_plateaux_reussis=1 nb_plateaux_abandonnes=0 nb_plateaux_passes=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] [Campagne] Niveau = 1 - Plateau = 'DDA.CCB.AAB.---.DBC' - Pourcentage niveau = 0%
+* test_les_plateaux_invalides_ne_modifient_pas_l_etat_de_la_campagne
+[ERROR] _on_classique_plateau_invalide pour la campagne IMPOSSIBLE ! WTF !
+[ERROR] _on_qui_perd_gagne_plateau_invalide pour la campagne IMPOSSIBLE ! WTF !
+16/16 passed.
+
+
+
+
+==============================================
+= Run Summary
+==============================================
+
+Totals
+------
+Scripts               3
+Tests                62
+Passing Tests        62
+Asserts             196
+Time              1.228s
+
+
+---- All tests passed! ----
+
+WARNING: ObjectDB instances leaked at exit (run with --verbose for details).
+   at: cleanup (core/object/object.cpp:2663)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:810)

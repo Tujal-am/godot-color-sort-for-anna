@@ -909,7 +909,7 @@ func enregistrement_campagne_terminer_plateau() -> void:
 		else:
 			# Fin du plateau courant
 			plateau['date_fin'] = Time.get_unix_time_from_system() # Timestamp
-			plateau['duree'] = plateau.get('date_fin') - plateau.get('date_debut')
+			plateau['duree'] = plateau.get('date_fin') - plateau.get('date_debut') - plateau.get('duree_aide_classique', 0.0)
 		_enregistrer_sauvegarde_joueur()
 
 func enregistrement_campagne_lire_nombre_plateaux_acheves() -> int:
@@ -968,13 +968,36 @@ func enregistrement_campagne_lire_gameplay_plateau() -> String:
 		return plateau.get('gameplay')
 	return ""
 
+# Pause explicite de lecture de l'aide Classique : dates et coups inchangés.
+var _plateau_en_aide: Dictionary = {}
+var _debut_aide_usec: int = 0
+var _duree_avant_aide: float = 0.0
+
+func commencer_pause_aide_classique() -> void:
+	if not _plateau_en_aide.is_empty():
+		return
+	var plateau := enregistrement_campagne_lire_dernier_plateau()
+	if plateau and not plateau.get("date_fin", 0.0):
+		_duree_avant_aide = enregistrement_campagne_lire_duree_plateau()
+		_plateau_en_aide = plateau
+		_debut_aide_usec = Time.get_ticks_usec()
+
+func terminer_pause_aide_classique() -> void:
+	if _plateau_en_aide.is_empty():
+		return
+	var secondes := (Time.get_ticks_usec() - _debut_aide_usec) / 1000000.0
+	_plateau_en_aide["duree_aide_classique"] = _plateau_en_aide.get("duree_aide_classique", 0.0) + secondes
+	_plateau_en_aide = {}
+
 func enregistrement_campagne_lire_duree_plateau() -> float:
 	var plateau = enregistrement_campagne_lire_dernier_plateau()
 	if plateau:
 		if not plateau.get('date_fin'):
 			# Plateau en cours
 			var now = Time.get_unix_time_from_system() # Timestamp
-			plateau['duree'] = now - plateau.get('date_debut')
+			if is_same(plateau, _plateau_en_aide):
+				return _duree_avant_aide
+			plateau['duree'] = now - plateau.get('date_debut') - plateau.get('duree_aide_classique', 0.0)
 		return plateau.get('duree')
 	return 0.
 	

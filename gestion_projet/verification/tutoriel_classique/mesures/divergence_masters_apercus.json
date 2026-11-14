@@ -1,0 +1,42 @@
+{
+  "01_JOUER": {
+    "master_dimensions": [
+      960,
+      1440
+    ],
+    "facteur_x": 0.5,
+    "facteur_y": 0.5,
+    "master_vers_mobile_MAE_RGB": 0.0,
+    "pixels_identiques_proportion": 1.0
+  },
+  "02_RECOMMENCER": {
+    "master_dimensions": [
+      960,
+      1440
+    ],
+    "facteur_x": 0.5,
+    "facteur_y": 0.5,
+    "master_vers_mobile_MAE_RGB": 2.7573553240740742,
+    "pixels_identiques_proportion": 0.9173929398148148
+  },
+  "03_PASSER": {
+    "master_dimensions": [
+      960,
+      1440
+    ],
+    "facteur_x": 0.5,
+    "facteur_y": 0.5,
+    "master_vers_mobile_MAE_RGB": 0.0,
+    "pixels_identiques_proportion": 1.0
+  },
+  "04_A_TOI_DE_JOUER": {
+    "master_dimensions": [
+      1024,
+      1536
+    ],
+    "facteur_x": 0.46875,
+    "facteur_y": 0.46875,
+    "master_vers_mobile_MAE_RGB": 0.0,
+    "pixels_identiques_proportion": 1.0
+  }
+}

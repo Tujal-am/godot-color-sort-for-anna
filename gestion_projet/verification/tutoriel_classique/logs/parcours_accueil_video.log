@@ -1,0 +1,62 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Movie Maker mode enabled, recording movie in 480×720 @ 30 FPS...
+WARNING: Current available space on disk is low (7.21 GiB). MovieWriter will fail during movie recording if the disk runs out of available space.
+     at: begin (servers/movie_writer/movie_writer.cpp:113)
+[ERROR] read_json_file : ERREUR, le fichier *user://liste_des_joueurs.json* n'existe pas
+[DEBUG] Liste des joueurs sauvegardée
+[DEBUG] Création du fichier de la liste des joueurs initial
+[DEBUG] Progression sauvegardée
+[ERROR] read_json_file : ERREUR, le fichier *user://scores.json* n'existe pas
+[DEBUG] Scores sauvegardés
+[DEBUG] Création du fichier de score initial
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[ERROR] read_json_file : ERREUR, le fichier *user://configuration_du_jeu.json* n'existe pas
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Conversion de la Campagne 1 (V0.4.X) pour le joueur :Alain Konu
+[DEBUG] Remise à zéro du score de { "nom": "Alain Konu", "rang": 1, "score": 0, "score_txt": "0" }
+[DEBUG] Scores sauvegardés
+[DEBUG] sauvegarde *Alain Konu* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] Progression sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Remplacement de campagne pour le joueur : Alain Konu
+[DEBUG] configuration.gd : _enregistrer_la_configuration
+[DEBUG] Configuration sauvegardée
+[DEBUG] configuration_du_jeu = { "version": "V1.0.0-rc20", "date_debut_campagne": "2026-10-26 00:00:00", "musiques": true, "effets sonores": true, "vibrations": true }
+[DEBUG] Import JSON : écoute du signal SHARE activée.
+[DEBUG] Liste des joueurs sauvegardée
+[DEBUG] Progression sauvegardée
+[DEBUG] Scores sauvegardés
+[DEBUG] Campagne avec le joueur : Anna (démo)
+[DEBUG] sauvegarde *Anna (démo)* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+[DEBUG] sauvegarde *Anna (démo)* :
+[DEBUG] 	plateau=
+[DEBUG] 	nombre_de_parties={  }
+[DEBUG] 	len(enregistrement_campagne)=0
+PARCOURS : accueil → joueur → campagne → introduction Classique
+PARCOURS OK : Compris → menu avant plateau, sans lancer le chrono
+--------------------------------------------------------------------------------
+Done recording movie at path: /workspace/work/classique-verifie.avi
+647 frames at 30 FPS (movie length: 00:00:21:17), recorded in 00:00:10 (209% of real-time speed).
+CPU render time: 2.05 seconds (average: 3.17 ms/frame)
+GPU render time: 3.93 seconds (average: 6.07 ms/frame)
+Encoding time: 3.29 seconds (average: 5.08 ms/frame)
+--------------------------------------------------------------------------------

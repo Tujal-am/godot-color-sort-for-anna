@@ -1,0 +1,283 @@
+{
+  "unite": "px sur étalon 480×720",
+  "convention": "bbox semi-ouverte [x0,y0,x1,y1)",
+  "captures_auditees_commit": "fd171cf29c773b9d4dcc0a1f7b8fca8294deee1e",
+  "aucune_image_generee": true,
+  "references": {
+    "JOUER": {
+      "master_dimensions": [
+        960,
+        1440
+      ],
+      "facteur_master_vers_mobile": 0.5,
+      "geometrie_etalon": "03_APERCUS_MOBILE/01_JOUER_480x720.png",
+      "bords_forts_encart_inclusifs": [
+        32,
+        195,
+        448,
+        313
+      ],
+      "incertitude_bords_px": 1,
+      "titre_encre_reference": [
+        157,
+        229,
+        235,
+        248
+      ],
+      "titre_encre_godot_audite": [
+        157,
+        222,
+        234,
+        241
+      ],
+      "titre_ecart_max_bord_px": 7,
+      "corps_encre_reference": [
+        158,
+        255,
+        312,
+        287
+      ],
+      "corps_encre_godot_audite": [
+        157,
+        262,
+        317,
+        292
+      ],
+      "methode_encre": "distance RGB dans ROI déclarée ; incertitude ±1–2 px ; ce ne sont pas des boîtes Label"
+    },
+    "RECOMMENCER": {
+      "master_dimensions": [
+        960,
+        1440
+      ],
+      "facteur_master_vers_mobile": 0.5,
+      "geometrie_etalon": "03_APERCUS_MOBILE/02_RECOMMENCER_480x720.png",
+      "bords_forts_encart_inclusifs": [
+        32,
+        160,
+        448,
+        260
+      ],
+      "incertitude_bords_px": 1,
+      "titre_encre_reference": [
+        158,
+        197,
+        339,
+        214
+      ],
+      "titre_encre_godot_audite": [
+        158,
+        187,
+        354,
+        206
+      ],
+      "titre_ecart_max_bord_px": 15,
+      "corps_encre_reference": [
+        157,
+        214,
+        378,
+        250
+      ],
+      "corps_encre_godot_audite": [
+        157,
+        217,
+        377,
+        247
+      ],
+      "methode_encre": "distance RGB dans ROI déclarée ; incertitude ±1–2 px ; ce ne sont pas des boîtes Label"
+    },
+    "PASSER": {
+      "master_dimensions": [
+        960,
+        1440
+      ],
+      "facteur_master_vers_mobile": 0.5,
+      "geometrie_etalon": "03_APERCUS_MOBILE/03_PASSER_480x720.png",
+      "bords_forts_encart_inclusifs": [
+        32,
+        153,
+        448,
+        287
+      ],
+      "incertitude_bords_px": 1,
+      "titre_encre_reference": [
+        159,
+        189,
+        246,
+        208
+      ],
+      "titre_encre_godot_audite": [
+        158,
+        181,
+        243,
+        200
+      ],
+      "titre_ecart_max_bord_px": 8,
+      "corps_encre_reference": [
+        158,
+        213,
+        397,
+        268
+      ],
+      "corps_encre_godot_audite": [
+        157,
+        215,
+        401,
+        262
+      ],
+      "methode_encre": "distance RGB dans ROI déclarée ; incertitude ±1–2 px ; ce ne sont pas des boîtes Label"
+    },
+    "FINAL": {
+      "master_dimensions": [
+        1024,
+        1536
+      ],
+      "facteur_master_vers_mobile": 0.46875,
+      "geometrie_etalon": "03_APERCUS_MOBILE/04_A_TOI_DE_JOUER_480x720.png",
+      "titre_encre_reference_mobile": [
+        113,
+        233,
+        382,
+        272
+      ],
+      "titre_encre_godot_audite": [
+        113,
+        229,
+        364,
+        269
+      ]
+    }
+  },
+  "calque_final": {
+    "fond": {
+      "rgba_exact": [
+        253,
+        244,
+        228,
+        128
+      ],
+      "pixels_exacts": 612760,
+      "bbox_hd_couleur": [
+        70,
+        412,
+        958,
+        1224
+      ],
+      "bbox_mobile_couleur": [
+        32.8125,
+        193.125,
+        449.0625,
+        573.75
+      ]
+    },
+    "titre": {
+      "rgba_exact": [
+        15,
+        58,
+        104,
+        255
+      ],
+      "pixels_exacts": 9726,
+      "bbox_hd_couleur": [
+        242,
+        497,
+        813,
+        579
+      ],
+      "bbox_mobile_couleur": [
+        113.4375,
+        232.96875,
+        381.09375,
+        271.40625
+      ]
+    },
+    "texte": {
+      "rgba_exact": [
+        9,
+        63,
+        112,
+        255
+      ],
+      "pixels_exacts": 7279,
+      "bbox_hd_couleur": [
+        275,
+        645,
+        852,
+        832
+      ],
+      "bbox_mobile_couleur": [
+        128.90625,
+        302.34375,
+        399.375,
+        390.0
+      ]
+    },
+    "bordure": {
+      "rgba_exact": [
+        227,
+        133,
+        79,
+        215
+      ],
+      "pixels_exacts": 13080,
+      "bbox_hd_couleur": [
+        66,
+        408,
+        962,
+        1228
+      ],
+      "bbox_mobile_couleur": [
+        30.9375,
+        191.25,
+        450.9375,
+        575.625
+      ]
+    },
+    "case_contour": {
+      "rgba_exact": [
+        32,
+        86,
+        135,
+        240
+      ],
+      "pixels_exacts": 1174,
+      "bbox_hd_couleur": [
+        139,
+        788,
+        207,
+        853
+      ],
+      "bbox_mobile_couleur": [
+        65.15625,
+        369.375,
+        97.03125,
+        399.84375
+      ]
+    },
+    "support_alpha_mobile": [
+      30.9375,
+      191.25,
+      450.9375,
+      575.625
+    ],
+    "alpha_fond": 0.5019607843137255,
+    "alpha_fond_godot_audite": 0.7,
+    "limite": "Le calque prouve ces RGBA, pas une décomposition unique des masters RGB."
+  },
+  "sha256_manifest": {
+    "01_REFERENCES_VALIDEES/01_JOUER_HD.png": true,
+    "01_REFERENCES_VALIDEES/02_RECOMMENCER_HD.png": true,
+    "01_REFERENCES_VALIDEES/03_PASSER_HD.png": true,
+    "01_REFERENCES_VALIDEES/04_A_TOI_DE_JOUER_HD.png": true,
+    "02_RESSOURCES_NATIVES/Calque_A_Toi_De_Jouer_RGBA_1024x1536.png": true,
+    "03_APERCUS_MOBILE/01_JOUER_480x720.png": true,
+    "03_APERCUS_MOBILE/02_RECOMMENCER_480x720.png": true,
+    "03_APERCUS_MOBILE/03_PASSER_480x720.png": true,
+    "03_APERCUS_MOBILE/04_A_TOI_DE_JOUER_480x720.png": true,
+    "04_REFERENCES_DEMONSTRATION_A_TESTER/01_Meme_couleur_480x720.png": true,
+    "04_REFERENCES_DEMONSTRATION_A_TESTER/02_Deplacement_480x720.png": true,
+    "04_REFERENCES_DEMONSTRATION_A_TESTER/03_Resultat_480x720.png": true,
+    "05_REFERENCES_JEU_RC20/classic_true_background_480x720.png": true,
+    "05_REFERENCES_JEU_RC20/classic_active_reference_480x720.png": true
+  }
+}

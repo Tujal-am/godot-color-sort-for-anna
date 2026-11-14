@@ -1,0 +1,57 @@
+{
+  "statut_global": "FAIL — publication des images bloquée",
+  "autorite": "01_REFERENCES_VALIDEES/*.png, normalisés séparément",
+  "mesure": "boîtes d’encre par masque RGB, incertitude ±1–2 px",
+  "titres_ecart_max_bord_px": {
+    "JOUER": 1,
+    "RECOMMENCER": 1,
+    "PASSER": 2,
+    "FINAL": 3
+  },
+  "corps_ecart_max_bord_px": {
+    "JOUER": 6,
+    "RECOMMENCER": 1,
+    "PASSER": 4,
+    "FINAL": 5
+  },
+  "final_case": {
+    "master": [
+      130,
+      375,
+      399,
+      390
+    ],
+    "checkpoint": [
+      130,
+      376,
+      400,
+      388
+    ],
+    "ecart_max_px": 2
+  },
+  "final_compris_encre": {
+    "master": [
+      189,
+      499,
+      291,
+      520
+    ],
+    "checkpoint": [
+      190,
+      499,
+      292,
+      522
+    ],
+    "ecart_max_px": 2
+  },
+  "alpha_fond_final": 0.5019607843137255,
+  "controles_rejetes": "absents, aucun libellé substitué",
+  "navigation": "automatique 4/4/6 s ; proposition de fonctionnement non validée",
+  "fail_restants": [
+    "Reflets et traits des panneaux : correspondance complète non obtenue.",
+    "États et détails du HUD : pas de conformité graphique complète démontrée.",
+    "Identité/forme typographique et styles fins des jetons : les seules boîtes alignées ne suffisent pas."
+  ],
+  "captures": "internes uniquement, non publiées",
+  "code_apres_mesure": "Séparateur RECOMMENCER et flèche ajustés ensuite aux cotes mesurées ; nouvelle vérification visuelle requise avant PASS."
+}
