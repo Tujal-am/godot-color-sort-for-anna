@@ -16,8 +16,6 @@
 
 [node name="MenuPlateauQuiPerdGagne" type="Node" unique_id=561806520]
 script = ExtResource("1_aq6n0")
-scene_aide = ExtResource("aide")
-mode_aide = "qpg"
 
 [node name="Fond" type="TextureRect" parent="." unique_id=882050815]
 offset_right = 480.0
@@ -224,9 +222,14 @@ tooltip_text = "Afficher l’aide"
 theme_override_font_sizes/font_size = 22
 text = "?"
 
+[node name="AideFixee" parent="." instance=ExtResource("aide")]
+visible = false
+
 [connection signal="gui_input" from="Fond" to="." method="_on_fond_gui_input"]
 [connection signal="pressed" from="BandeauEnJeu/BoutonRecommencer" to="." method="_on_bouton_recommencer_pressed"]
 [connection signal="pressed" from="BandeauEnJeu/BoutonPasser" to="." method="_on_bouton_passer_pressed"]
 [connection signal="pressed" from="BandeauMenu/BoutonMenuPrincipal" to="." method="_on_bouton_menu_principal_pressed"]
 [connection signal="pressed" from="BandeauMenu/BoutonCommencer" to="." method="_on_bouton_commencer_pressed"]
 [connection signal="pressed" from="BandeauMenu/BoutonStatistiques" to="." method="_on_bouton_statistiques_pressed"]
+[connection signal="pressed" from="BandeauMenu/BoutonAide" to="." method="_ouvrir_aide"]
+[connection signal="fermee" from="AideFixee" to="." method="_fermer_aide"]
