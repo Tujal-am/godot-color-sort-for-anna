@@ -14,6 +14,37 @@
 
 [ext_resource type="PackedScene" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/Aides/aide_classique.tscn" id="aide"]
 
+[ext_resource type="Script" path="res://Scenes/MenuPrincipal/Campagne/GamePlay/Commun/Animation/animation_avant_plateau.gd" id="animation"]
+
+[ext_resource type="Texture2D" path="res://Art/UI/Gameplay/Classique/button_help.svg" id="help_face"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxHelp"]
+texture = ExtResource("help_face")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxHelpHover"]
+texture = ExtResource("help_face")
+modulate_color = Color(1.08, 1.08, 1.08, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxHelpPressed"]
+texture = ExtResource("help_face")
+modulate_color = Color(0.83, 0.83, 0.83, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxHelpFocus"]
+draw_center = false
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 0.85)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_left = 12
+corner_radius_bottom_right = 12
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+
 [node name="MenuPlateauClassique" type="Node" unique_id=561806520]
 script = ExtResource("1_cfw72")
 
@@ -210,13 +241,28 @@ stretch_mode = 5
 
 [node name="BoutonAide" type="Button" parent="BandeauMenu"]
 layout_mode = 0
-offset_left = 421.0
+offset_left = 407.5
 offset_top = 105.0
-offset_right = 466.0
+offset_right = 452.5
 offset_bottom = 150.0
 tooltip_text = "Afficher l’aide"
-theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("4_q8ekg")
+theme_override_font_sizes/font_size = 26
+theme_override_styles/normal = SubResource("StyleBoxHelp")
+theme_override_styles/hover = SubResource("StyleBoxHelpHover")
+theme_override_styles/pressed = SubResource("StyleBoxHelpPressed")
+theme_override_styles/focus = SubResource("StyleBoxHelpFocus")
 text = "?"
+
+[node name="AnimationAvantPlateau" type="Control" parent="BandeauMenu"]
+visible = false
+layout_mode = 0
+mouse_filter = 2
+script = ExtResource("animation")
 
 [node name="AideFixee" parent="." instance=ExtResource("aide")]
 visible = false
